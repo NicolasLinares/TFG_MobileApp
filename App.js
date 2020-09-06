@@ -54,7 +54,7 @@ const App: () => React$Node = () => {
         />
         
         <Stack.Screen
-          name="Notas de voz"       
+          name="Mis notas de voz"       
           component={Recorder}
           options={{headerBackTitle: " " }}
         />

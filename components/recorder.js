@@ -5,8 +5,7 @@ import {
     View,
     Platform,
     TouchableOpacity,
-    FlatList,
-    Alert,
+    Animated,
     StyleSheet,
 } from 'react-native';
 
@@ -19,11 +18,8 @@ import AudioRecorderPlayer, {
 
 import IconII from "react-native-vector-icons/Ionicons";
 
-import { ListItem, SearchBar } from 'react-native-elements'
-
 import moment from 'moment';
 
-import RNFS from 'react-native-fs';
 import AudioList from './audiolist';
 
 
@@ -36,6 +32,8 @@ class Recorder extends Component {
         buttomType: 'mic',
         isRecording: false,
         recordTime: '00:00',
+        heightAnimated: new Animated.Value(135),
+        showTimeRecording: false
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -107,15 +105,6 @@ class Recorder extends Component {
     this.refs.refAudioList.addAudio(current_audio);
   };
 
-  manageRecorder = async () => {
-      if (!this.state.isRecording) {
-        this.onStartRecord();
-
-      } else {
-        this.onStopRecord();
-      }
-  }
-
   onStartPlay = async (path, e) => {
       
     const msg = await this.audioRecorderPlayer.startPlayer(path);
@@ -135,7 +124,55 @@ class Recorder extends Component {
     });
   };
 
+  manageRecorder = async () => {
+      if (!this.state.isRecording) {
+        this.recorderOpenAnimatedView();
+        this.onStartRecord();
+      } else {
+        this.onStopRecord();
+        this.recorderCloseAnimatedView();
+      }
+  }
+
+  recorderOpenAnimatedView() {
+    Animated.timing(this.state.heightAnimated, {
+      toValue: 230,
+      duration: 250,
+      useNativeDriver: false,
+    }).start(() => 
+    this.setState({
+      showTimeRecording: true
+    })
+  );
+  }
+
+  recorderCloseAnimatedView() {
+    this.setState({
+      showTimeRecording: false
+    });
+
+    Animated.timing(this.state.heightAnimated, {
+      toValue: 135,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }
+
+
   render() {
+
+    const TimeRecording = (props) => {
+      // Enseñamos el tiempo cuando la animación se ha completado
+      if (props.show) {
+        return (
+          <Text style={ComponentStyles.time_record}>
+            {props.time}
+          </Text>
+        );
+      } else
+        return null;
+    }
+
     return (
       <View style={LayersStyles.container}>
 
@@ -144,11 +181,8 @@ class Recorder extends Component {
 
         <View style={LayersStyles.divider} />
 
-        <View style={LayersStyles.recorder}>
-          <Text style={ComponentStyles.time_record}>
-            {this.state.recordTime.substring(0, 5)}
-          </Text>
-
+        <Animated.View style={[LayersStyles.recorder, {height: this.state.heightAnimated}]}>
+          <TimeRecording show={this.state.showTimeRecording} time={this.state.recordTime.substring(0, 5)}/>
           <View>
             <TouchableOpacity 
                 style={ComponentStyles.button_record}
@@ -157,7 +191,7 @@ class Recorder extends Component {
               <IconII name={this.state.buttomType} size={35} color='rgb(255,70,70)'/>
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.View>
 
       </View>            
     )
@@ -189,7 +223,6 @@ const LayersStyles = StyleSheet.create({
   },
   recorder: {
     justifyContent: 'flex-end',
-    height:230,
     width:"100%",
     alignItems:'center',
     backgroundColor:'white',
