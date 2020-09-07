@@ -23,7 +23,7 @@ class HomeScreen extends Component {
 
           <TouchableOpacity 
             style={{alignItems:'center', justifyContent: 'center'}} 
-            onPress={() => this.props.navigation.navigate('Scanner')} 
+            onPress={() => this.props.navigation.navigate('Mis notas de voz')} 
           >
             <IconII style={{marginLeft: 3}} name={"scan-outline"} size={60} color='black'/>
             <IconII style={{position: 'absolute'}} name={"qr-code-outline"} size={29} color='black'/>

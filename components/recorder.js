@@ -22,6 +22,8 @@ import moment from 'moment';
 
 import AudioList from './audiolist';
 
+import RNFS from 'react-native-fs';
+
 
 class Recorder extends Component {
 
@@ -42,11 +44,11 @@ class Recorder extends Component {
 
   setAudioPath = () => {
 
-    filename = 'audio_' + moment().format('DDMMYYYY_HHmmss') + ".mp4";
+    filename = 'audio_' + moment().format('DDMMYYYY_HHmmss') + '.mp4';
 
     path = Platform.select({
         ios: filename, // .m4a
-        android: 'sdcard/' + filename, // .mp4
+        android:  RNFS.CachesDirectoryPath + '/'+ filename, // .mp4
     });
 
     return [filename, path];
@@ -66,6 +68,7 @@ class Recorder extends Component {
 
     name = audiofile[0];
     path = audiofile[1];
+    console.log(path)
 
     const absolute_path = await this.audioRecorderPlayer.startRecorder(path, true, audioSet);
 
@@ -90,7 +93,7 @@ class Recorder extends Component {
 
   onStopRecord = async () => {
     const result_path = await this.audioRecorderPlayer.stopRecorder();
-    console.log(result_path);
+    console.log("On stop record: " + result_path)
     this.audioRecorderPlayer.removeRecordBackListener();
 
     current_audio.creation_time = moment().format('HH:mm');

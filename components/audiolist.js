@@ -46,6 +46,7 @@ class AudioList extends Component {
 
         RNFS.readDir(`${RNFS.CachesDirectoryPath}`).then(res => {
             res.forEach(item => {
+                console.log( item.path);
                 if (item.name.includes(".mp4")) {
                     current_audio = {
                         name: item.name,
