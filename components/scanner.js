@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import {
     View,
-    Alert
+    Alert,
+    StyleSheet,
+    Dimensions
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import { Button } from 'react-native-paper';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+
 
 
 class QRScanner extends Component {
@@ -40,16 +45,15 @@ class QRScanner extends Component {
     render() {
 
       return (
-
           <QRCodeScanner
             onRead={this.onScanSuccess}
+            reactivate={false}
             showMarker
-            reactivate={true}
           />
-
       )
     };
   
   }
+
 
   export default QRScanner;

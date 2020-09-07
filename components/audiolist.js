@@ -179,7 +179,7 @@ class AudioList extends Component {
         );  
     };
 
-    renderLoadingIndicator=()=>{
+    renderLoadingIndicator = () => {
 
         if (this.state.isLoading)
             return (
