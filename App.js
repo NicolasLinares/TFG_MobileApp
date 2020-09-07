@@ -23,15 +23,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 
+import IconII from "react-native-vector-icons/Ionicons";
 
 import Scanner from './components/scanner.js';
 import Recorder from './components/recorder.js';
 
 const Stack = createStackNavigator();
-
-import IconII from "react-native-vector-icons/Ionicons";
-
-
 
 
 const App: () => React$Node = () => {

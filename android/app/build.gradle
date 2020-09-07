@@ -199,7 +199,7 @@ dependencies {
 
     implementation project(':react-native-vector-icons')
 
-    compile project(':react-native-fs')
+    implementation project(':react-native-fs')
 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

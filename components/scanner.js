@@ -28,7 +28,7 @@ class QRScanner extends Component {
             onPress: () => this.props.navigation.goBack()
           },
           { text: "OK", 
-            onPress: () => this.props.navigation.replace('Notas de voz') 
+            onPress: () => this.props.navigation.replace('Mis notas de voz') 
           }
         ],
         { cancelable: false }
