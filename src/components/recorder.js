@@ -93,7 +93,6 @@ class Recorder extends Component {
 
   onStopRecord = async () => {
     const result_path = await this.audioRecorderPlayer.stopRecorder();
-    console.log("On stop record: " + result_path)
     this.audioRecorderPlayer.removeRecordBackListener();
 
     current_audio.creation_time = moment().format('HH:mm');

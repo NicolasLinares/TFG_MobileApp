@@ -12,7 +12,7 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <>
+      
         <View style={{flex:1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
           <View style={{ marginBottom: 50}}>
             <Text style={{ fontSize: 20}}>
@@ -23,13 +23,13 @@ class HomeScreen extends Component {
 
           <TouchableOpacity 
             style={{alignItems:'center', justifyContent: 'center'}} 
-            onPress={() => this.props.navigation.navigate('Mis notas de voz')} 
+            onPress={() => this.props.navigation.navigate('Recorder')} 
           >
             <IconII style={{marginLeft: 3}} name={"scan-outline"} size={60} color='black'/>
             <IconII style={{position: 'absolute'}} name={"qr-code-outline"} size={29} color='black'/>
           </TouchableOpacity>
         </View>
-      </>
+      
     );
   }
 }

@@ -120,6 +120,9 @@ class AudioList extends Component {
 
     addAudio = (newAudio) => {
         list.unshift(newAudio);
+        this.setState({
+            searchItems: list,
+        });
     }
 
     searchFilterFunction = text => {   

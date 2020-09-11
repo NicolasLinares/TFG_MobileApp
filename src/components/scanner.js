@@ -7,12 +7,9 @@ import {
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { Button } from 'react-native-paper';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 
 
-
-class QRScanner extends Component {
+class Scanner extends Component {
 
     constructor(props) {
       super(props);
@@ -55,5 +52,4 @@ class QRScanner extends Component {
   
   }
 
-
-  export default QRScanner;
+  export default Scanner;
