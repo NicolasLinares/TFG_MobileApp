@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {QRScanner} from '_components';
+import {Scanner} from '_organisms';
 
 class ScannerScreen extends Component {
 
   render() {
     return (
-        <QRScanner/>
+        <Scanner/>
     );
   }
 }

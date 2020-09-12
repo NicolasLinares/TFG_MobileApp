@@ -14,12 +14,21 @@ class LoginScreen extends Component {
         <View style={{flex:1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
 
             <TouchableOpacity
-              onPress={() => this.props.navigation.replace('Home')} 
+              onPress={() => this.props.navigation.navigate('Register')} 
             >
               <Text style={{ fontSize: 20}}>
                   Login
               </Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+              onPress={() => this.props.navigation.replace('Home')} 
+            >
+              <Text style={{ fontSize: 20, marginTop: 100}}>
+                  go Home
+              </Text>
+          </TouchableOpacity>
+
         </View>
       
     );

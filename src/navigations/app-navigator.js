@@ -1,8 +1,12 @@
+import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 
+import LoginScreen from '_scenes/login';
 import HomeScreen from '_scenes/home';
 import ScannerScreen from '_scenes/scanner';
 import RecorderScreen from '_scenes/myAudioList';
+
+import { ButtonMenu } from '_molecules';
 
 
 const TabNavigatorConfig = {
@@ -10,10 +14,13 @@ const TabNavigatorConfig = {
 };
 
 const RouteConfigs = {
-  Home:{
-    screen: HomeScreen,
+  Login: {
+    screen: LoginScreen,
     navigationOptions: {headerShown: false}
-
+  },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {headerShown: true, title: "", headerLeft: () => ( <ButtonMenu/>)}
   },
   Scanner:{
     screen: ScannerScreen,
@@ -21,7 +28,7 @@ const RouteConfigs = {
   },
   Recorder: {
     screen: RecorderScreen,
-    navigationOptions: {headerBackTitle: " "}
+    navigationOptions: {headerBackTitle: "", title: "Mis notas de voz"}
   }
 };
 

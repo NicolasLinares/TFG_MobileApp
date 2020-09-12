@@ -20,7 +20,7 @@ import IconII from "react-native-vector-icons/Ionicons";
 
 import moment from 'moment';
 
-import AudioList from './audiolist';
+import {AudioList} from '_organisms';
 
 import RNFS from 'react-native-fs';
 

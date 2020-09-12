@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Recorder} from '_components';
+import {Recorder} from '_organisms';
 
 class RecorderScreen extends Component {
 
