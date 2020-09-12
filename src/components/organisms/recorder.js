@@ -16,14 +16,13 @@ import AudioRecorderPlayer, {
     AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
 
-import IconII from "react-native-vector-icons/Ionicons";
-
 import moment from 'moment';
 
 import {AudioList} from '_organisms';
 
 import RNFS from 'react-native-fs';
 
+import { ButtonRecord } from '_molecules';
 
 class Recorder extends Component {
 
@@ -31,7 +30,6 @@ class Recorder extends Component {
     super(props);
     this.state = {
         audiopath: '',
-        buttomType: 'mic',
         isRecording: false,
         recordTime: '00:00',
         heightAnimated: new Animated.Value(135),
@@ -99,7 +97,6 @@ class Recorder extends Component {
         
     this.setState({
       audiopath: result_path,
-      buttomType: 'mic',
       isRecording: false,
       recordTime: '00:00',
     });
@@ -185,14 +182,9 @@ class Recorder extends Component {
 
         <Animated.View style={[LayersStyles.recorder, {height: this.state.heightAnimated}]}>
           <TimeRecording show={this.state.showTimeRecording} time={this.state.recordTime.substring(0, 5)}/>
-          <View>
-            <TouchableOpacity 
-                style={ComponentStyles.button_record}
-                onPress={() => this.manageRecorder()}
-            >
-              <IconII name={this.state.buttomType} size={35} color='rgb(255,70,70)'/>
-            </TouchableOpacity>
-          </View>
+          
+          <ButtonRecord onPress={() => this.manageRecorder()}/>
+
         </Animated.View>
 
       </View>            

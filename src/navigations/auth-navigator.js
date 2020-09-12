@@ -19,14 +19,13 @@ const RouteConfigs = {
   },
   Register:{
     screen: RegisterScreen,
-    navigationOptions: {headerShown: true, title: ""}
+    navigationOptions: {title: ""}
   },
   Home: {
     screen: HomeScreen,
-    navigationOptions: {headerShown: true, title: "", headerLeft: () => (<ButtonMenu/>)}
-  },
+    navigationOptions: {title: "", 
+                        headerLeft: () => (<ButtonMenu/>)},},
 };
-
 
 const AuthNavigator = createStackNavigator(RouteConfigs, AuthNavigatorConfig);
 
