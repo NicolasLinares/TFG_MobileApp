@@ -6,15 +6,23 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { Component, useEffect} from 'react';
 import 'react-native-gesture-handler';
 import Navigator from '_navigations';
 
-const App = () => {
+import SplashScreen from 'react-native-splash-screen'
 
-  return (
-    <Navigator />
-  );
+class App extends Component {
+  
+  componentDidMount() {
+    SplashScreen.hide();
+  }
+
+  render() {
+    return (
+      <Navigator />
+    );
+  }
 };
 
 export default App;
