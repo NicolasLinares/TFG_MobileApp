@@ -6,7 +6,7 @@ import LoginScreen from '_scenes/login';
 import RegisterScreen from '_scenes/register';
 import HomeScreen from '_scenes/home';
 
-import { ButtonMenu } from '_molecules';
+import { ButtonMenu } from '_atoms';
 
 const AuthNavigatorConfig = {
   initialRouteName: 'Login',

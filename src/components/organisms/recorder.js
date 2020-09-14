@@ -18,11 +18,11 @@ import AudioRecorderPlayer, {
 
 import moment from 'moment';
 
-import {AudioList} from '_organisms';
+import {AudioList} from '_molecules';
 
 import RNFS from 'react-native-fs';
 
-import { ButtonRecord } from '_molecules';
+import { ButtonRecord } from '_atoms';
 
 class Recorder extends Component {
 
@@ -175,16 +175,13 @@ class Recorder extends Component {
     return (
       <View style={LayersStyles.container}>
 
-
         <AudioList ref="refAudioList"/>
 
-        <View style={LayersStyles.divider} />
+        <View style={LayersStyles.divider}/>
 
         <Animated.View style={[LayersStyles.recorder, {height: this.state.heightAnimated}]}>
           <TimeRecording show={this.state.showTimeRecording} time={this.state.recordTime.substring(0, 5)}/>
-          
           <ButtonRecord onPress={() => this.manageRecorder()}/>
-
         </Animated.View>
 
       </View>            

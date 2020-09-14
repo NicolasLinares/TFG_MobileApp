@@ -6,7 +6,7 @@ import HomeScreen from '_scenes/home';
 import ScannerScreen from '_scenes/scanner';
 import RecorderScreen from '_scenes/myAudioList';
 
-import { ButtonMenu } from '_molecules';
+import { ButtonMenu } from '_atoms';
 
 
 const TabNavigatorConfig = {
