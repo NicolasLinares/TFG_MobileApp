@@ -1,6 +1,8 @@
 package com.recorder_cli;
-
 import com.facebook.react.ReactActivity;
+
+import android.os.Bundle;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +13,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "recorder_cli";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    setTheme(R.style.SplashTheme);
+    super.onCreate(savedInstanceState);
   }
 }
