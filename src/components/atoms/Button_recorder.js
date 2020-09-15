@@ -34,7 +34,7 @@ class Button_recorder extends Component {
     render() {
         return (
             <TouchableOpacity 
-                style={ComponentStyles.button_record}
+                style={styles.button_record}
                 onPress={() => this.handleClick()}
             >
                 <IconII name={this.state.icon} size={35} color='rgb(255,70,70)'/>
@@ -43,7 +43,7 @@ class Button_recorder extends Component {
     }
 }
 
-const ComponentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
     button_record: {
       borderWidth:3,
       borderColor:'black',
