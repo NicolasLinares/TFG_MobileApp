@@ -3,13 +3,14 @@ import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 
 import LoginScreen from '_scenes/login';
-import RegisterScreen from '_scenes/register';
+import SignInScreen from '_scenes/signin';
 import HomeScreen from '_scenes/home';
 
 import { ButtonMenu } from '_atoms';
 
 const AuthNavigatorConfig = {
   initialRouteName: 'Login',
+  
 };
 
 const RouteConfigs = {
@@ -17,14 +18,15 @@ const RouteConfigs = {
     screen: LoginScreen,
     navigationOptions: {headerShown: false}
   },
-  Register:{
-    screen: RegisterScreen,
-    navigationOptions: {title: ""}
+  SignIn:{
+    screen: SignInScreen,
+    navigationOptions: {headerShown: false}
   },
   Home: {
     screen: HomeScreen,
-    navigationOptions: {title: "", 
-                        headerLeft: () => (<ButtonMenu/>)},},
+    navigationOptions: {title: '', 
+                        headerLeft: () => (<ButtonMenu/>)}
+                      }
 };
 
 const AuthNavigator = createStackNavigator(RouteConfigs, AuthNavigatorConfig);

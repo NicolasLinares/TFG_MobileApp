@@ -6,10 +6,7 @@ import {
 
 import { Card } from '_atoms';
 
-import { COLORS } from '_styles';
-
-
-class Button_login extends Component {
+class Button_auth extends Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +19,11 @@ class Button_login extends Component {
     render() {
         return (
             <TouchableOpacity 
-                style={{width: "100%", alignItems:'center', marginTop: 50}}
+                style={{width: "100%", 
+                        alignItems:'center', 
+                        marginTop: this.props.marginTop, 
+                        marginBottom: this.props.marginBottom
+                    }}
                 onPress={() => this.handleClick()}>
 
                 <Card
@@ -43,4 +44,4 @@ class Button_login extends Component {
 }
 
 
-export default Button_login;
+export default Button_auth;

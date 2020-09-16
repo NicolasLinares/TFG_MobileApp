@@ -19,7 +19,8 @@ class myTextInput extends Component {
         return (
             <Card
                 height={50}
-                marginBottom={15}
+                marginTop={this.props.marginTop}
+                marginBottom={this.props.marginBottom}
                 borderWidth={0.5}
                 borderColor='grey'
                 alignItems="center"
@@ -28,12 +29,14 @@ class myTextInput extends Component {
             >
                 <View style={{flexDirection: "row", alignItems: 'center'}}>
                     <IconII name={this.props.icon} size={20} color={COLORS.grey}/>
-                    <TextInput
-                        style={{marginLeft:15}} 
-                        width="80%" 
-                        placeholder={this.props.placeholder}
-                        placeholderTextColor={COLORS.grey}
-                    />
+                    
+                        <TextInput
+                            style={{marginLeft:15}} 
+                            width="80%" 
+                            placeholder={this.props.placeholder}
+                            placeholderTextColor={COLORS.grey}
+                            color='black'
+                        />
                 </View>
             </Card>
         )
