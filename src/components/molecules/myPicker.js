@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
-import { Text, Platform, View, StyleSheet } from 'react-native'
-
-import DropDownPicker from 'react-native-dropdown-picker';
-import RNPickerSelect from 'react-native-picker-select';
-
+import { View } from 'react-native'
 import { Card } from '_atoms';
-
 import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS } from '_styles';
 
+import RNPickerSelect from 'react-native-picker-select';
 
-class Picker extends Component {
+
+class myPicker extends Component {
 
     constructor(props) {
         super(props);
@@ -18,29 +15,7 @@ class Picker extends Component {
         this.state = {
             country: null,
             colorText: COLORS.grey,
-            list: [
-                {label: 'Argentina', value: 'Argentina', color: 'black'},
-                {label: 'Bolivia', value: 'Bolivia', color: 'black'},
-                {label: 'Chile', value: 'Chile', color: 'black'},
-                {label: 'Colombia', value: 'Colombia', color: 'black'},
-                {label: 'Costa Rica', value: 'Costa Rica', color: 'black'},
-                {label: 'Cuba', value: 'Cuba'},
-                {label: 'Ecuador', value: 'Ecuador', color: 'black'},
-                {label: 'El Salvador', value: 'El Salvador', color: 'black'},
-                {label: 'España', value: 'España', color: 'black'},
-                {label: 'Estados Unidos', value: 'Estados Unidos', color: 'black'},
-                {label: 'Guatemala', value: 'Guatemala', color: 'black'},
-                {label: 'Honduras', value: 'Honduras', color: 'black'},
-                {label: 'México', value: 'México', color: 'black'},
-                {label: 'Nicaragua', value: 'Nicaragua', color: 'black'},
-                {label: 'Panamá', value: 'Panamá', color: 'black'},
-                {label: 'Paraguay', value: 'Paraguay', color: 'black'},
-                {label: 'Perú', value: 'Perú', color: 'black'},
-                {label: 'Puerto Rico', value: 'Puerto Rico', color: 'black'},
-                {label: 'República Dominicana', value: 'República Dominicana', color: 'black'},
-                {label: 'Uruguay', value: 'Uruguay', color: 'black'},
-                {label: 'Venezuela', value: 'Venezuela', color: 'black'},
-            ]
+            list: this.props.data
         }
     }
 
@@ -90,7 +65,7 @@ class Picker extends Component {
                             placeholder={{
                                 label: this.props.placeholder,
                                 value: null,
-                                color: this.state.colorText,
+                                color: COLORS.grey,
                             }}
                             
                             textInputProps={{height:"100%", width: "100%", marginLeft:15, color: this.state.colorText}}
@@ -115,4 +90,4 @@ class Picker extends Component {
     }
 }
 
-export default Picker;
+export default myPicker;

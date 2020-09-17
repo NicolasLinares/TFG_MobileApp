@@ -7,14 +7,15 @@ import {
   TouchableOpacity,
   Switch,
   Linking,
+  Dimensions,
   StyleSheet
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 import { ButtonAuth } from '_atoms';
-import { MyTextInput } from '_molecules';
+import { TextInput } from '_molecules';
 import { COLORS } from '_styles';
 
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
 class LoginScreen extends Component {
 
@@ -34,6 +35,11 @@ class LoginScreen extends Component {
   render() {
     return (
 
+      <KeyboardAwareScrollView        
+        style={styles.scrollview}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled
+      >
       <View style={styles.container}>
 
             <Image
@@ -43,12 +49,11 @@ class LoginScreen extends Component {
             
             <View width="80%">
 
-              <MyTextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
-              <MyTextInput marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
+              <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
+              <TextInput marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
 
               <View style={{flexDirection: "row", alignSelf: 'flex-start', marginTop:20}}>
                 <Switch
-                  
                   onValueChange={(value) => this.handlerPasswordManager(value)}
                   value={this.state.save}
                 />
@@ -90,23 +95,31 @@ class LoginScreen extends Component {
               </TouchableOpacity>
             </View>
 
-      </View>
+        </View>
       
+      </KeyboardAwareScrollView>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1, 
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
     backgroundColor: 'white', 
     alignItems:'center', 
     justifyContent: 'center'
   },
+  scrollview : {
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    backgroundColor: 'white', 
+  },
   logo: {
     width: 170, 
     height: 120, 
-    marginBottom: 70
+    marginBottom: 40
   },
   link_text: {
     fontSize: 15, 
@@ -124,9 +137,4 @@ const styles = StyleSheet.create({
 
 
 export default LoginScreen;
-
-
-// this.props.navigation.navigate('Register')
-// this.props.navigation.replace('Home')
-
 

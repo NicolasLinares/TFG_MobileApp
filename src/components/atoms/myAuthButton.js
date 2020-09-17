@@ -3,10 +3,11 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-
 import { Card } from '_atoms';
+import { COLORS } from '_styles';
 
-class Button_auth extends Component {
+
+class myAuthButton extends Component {
 
     constructor(props) {
         super(props);
@@ -29,8 +30,8 @@ class Button_auth extends Component {
                 <Card
                     height={70}
                     width="100%"
-                    borderColor={this.props.color}
-                    borderWidth={3}
+                    borderColor={COLORS.grey}
+                    borderWidth={1}
                     backgroundColor={this.props.color}
                     alignItems="center"
                     justifyContent="center"
@@ -44,4 +45,4 @@ class Button_auth extends Component {
 }
 
 
-export default Button_auth;
+export default myAuthButton;

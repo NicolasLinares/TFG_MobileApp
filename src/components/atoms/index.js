@@ -1,6 +1,5 @@
-export {default as ButtonAuth} from './Button_auth';
-export {default as ButtonMenu} from './Button_menu';
-export {default as ButtonRecord} from './Button_recorder';
-export {default as Picker} from './Picker';
-export {default as Card} from './Card';
+export {default as ButtonAuth} from './myAuthButton';
+export {default as ButtonMenu} from './myMenuButton';
+export {default as ButtonRecord} from './myRecorderButton';
+export {default as Card} from './myCard';
 

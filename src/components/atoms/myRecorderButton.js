@@ -3,10 +3,9 @@ import {
     TouchableOpacity,
     StyleSheet,
 } from 'react-native';
-
 import IconII from "react-native-vector-icons/Ionicons";
 
-class Button_recorder extends Component {
+class myRecorderButton extends Component {
 
     constructor(props) {
         super(props);
@@ -56,4 +55,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Button_recorder;
+export default myRecorderButton;

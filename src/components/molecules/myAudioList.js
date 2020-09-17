@@ -18,7 +18,7 @@ import RNFS from 'react-native-fs';
 list = [];
 current_audio = null;
 
-class AudioList extends Component {
+class myAudioList extends Component {
 
     constructor(props) {
         super(props);
@@ -223,4 +223,4 @@ const LayersStyles = StyleSheet.create({
     },
   });
 
-export default AudioList;
+export default myAudioList;

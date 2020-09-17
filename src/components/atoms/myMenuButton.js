@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import {
-    Text, 
-    View, 
-    TouchableOpacity 
-  } from 'react-native';
-  
+import { TouchableOpacity } from 'react-native';
 import IconII from "react-native-vector-icons/Ionicons";
 
-class Button_menu extends Component {
+class myMenuButton extends Component {
 
     handleClick() {
         alert("go Login");
-        //this.props.onPress();
+        this.props.onPress();
     }
 
     render() {
@@ -26,4 +21,4 @@ class Button_menu extends Component {
     }
 }
 
-export default Button_menu;
+export default myMenuButton;

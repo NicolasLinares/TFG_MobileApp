@@ -3,10 +3,8 @@ import {
     TextInput, 
     View,
 } from 'react-native';
-
 import { Card } from '_atoms';
 import IconII from "react-native-vector-icons/Ionicons";
-
 import { COLORS } from '_styles';
 
 class myTextInput extends Component {
@@ -27,16 +25,17 @@ class myTextInput extends Component {
                 justifyContent="center"
                 shadow={false}
             >
-                <View style={{flexDirection: "row", alignItems: 'center'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <IconII name={this.props.icon} size={20} color={COLORS.grey}/>
                     
-                        <TextInput
-                            style={{marginLeft:15}} 
-                            width="80%" 
-                            placeholder={this.props.placeholder}
-                            placeholderTextColor={COLORS.grey}
-                            color='black'
-                        />
+                    <TextInput
+                        style={{marginLeft:15, backgroundColor:'transparent'}}
+                        height={50}                         
+                        width='80%'
+                        placeholder={this.props.placeholder}
+                        placeholderTextColor={COLORS.grey}
+                        color='black'
+                    />
                 </View>
             </Card>
         )
