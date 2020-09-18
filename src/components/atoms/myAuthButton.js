@@ -20,7 +20,7 @@ class myAuthButton extends Component {
     render() {
         return (
             <TouchableOpacity 
-                style={{width: "100%", 
+                style={{width: "100%",
                         alignItems:'center', 
                         marginTop: this.props.marginTop, 
                         marginBottom: this.props.marginBottom

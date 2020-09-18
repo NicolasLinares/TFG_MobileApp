@@ -50,7 +50,7 @@ class SignInScreen extends Component {
 
               <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
 
-              <TextInput marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
+              <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
 
               <View style={{flexDirection: "column", alignItems:'center', marginTop: 30}}>
                 <Text style={{fontSize: 15}}>Al hacer click en "Registrarse" acepta</Text>

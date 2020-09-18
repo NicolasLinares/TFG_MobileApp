@@ -5,7 +5,7 @@ class ScannerScreen extends Component {
 
   render() {
     return (
-        <Scanner/>
+      <Scanner/>
     );
   }
 }

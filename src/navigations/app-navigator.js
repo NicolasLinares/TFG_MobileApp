@@ -20,7 +20,7 @@ const RouteConfigs = {
   },
   Home: {
     screen: HomeScreen,
-    navigationOptions: {headerShown: true, title: "", headerLeft: () => ( <ButtonMenu/>)}
+    navigationOptions: {headerShown: true, title: "Notas de voz", headerLeft: () => ( <ButtonMenu/>)}
   },
   Scanner:{
     screen: ScannerScreen,

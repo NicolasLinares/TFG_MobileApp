@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     TextInput, 
-    View,
+    View
 } from 'react-native';
 import { Card } from '_atoms';
 import IconII from "react-native-vector-icons/Ionicons";
@@ -29,12 +29,13 @@ class myTextInput extends Component {
                     <IconII name={this.props.icon} size={20} color={COLORS.grey}/>
                     
                     <TextInput
-                        style={{marginLeft:15, backgroundColor:'transparent'}}
+                        style={{marginLeft:15, backgroundColor:'transparent', fontSize: 15}}
                         height={50}                         
                         width='80%'
                         placeholder={this.props.placeholder}
                         placeholderTextColor={COLORS.grey}
                         color='black'
+                        secureTextEntry={this.props.secureTextEntry}
                     />
                 </View>
             </Card>

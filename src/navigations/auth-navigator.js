@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 
 import {createStackNavigator} from 'react-navigation-stack';
 
@@ -24,9 +25,17 @@ const RouteConfigs = {
   },
   Home: {
     screen: HomeScreen,
-    navigationOptions: {title: '', 
-                        headerLeft: () => (<ButtonMenu/>)}
-                      }
+    navigationOptions: {title: 'Notas de voz',
+                        headerLeft: () => (<ButtonMenu/>),
+                        headerRight: () => (<View/>), // Android -  alinear título 
+                        headerStyle: { // para esconder la línea inferior en el header
+                            shadowOpacity: 0, // iOS
+                            elevation: 0, // Android
+                        },
+                        headerTitleStyle: {
+                            textAlign: 'center', // Android -  alinear título 
+                        }
+                      }}
 };
 
 const AuthNavigator = createStackNavigator(RouteConfigs, AuthNavigatorConfig);

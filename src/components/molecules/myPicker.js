@@ -58,7 +58,7 @@ class myPicker extends Component {
                     
                     {/* Este view con width:"80%" es necesario para poder hacer click en cualquier 
                         parte del componente y que lo detecte sino solo detecta encima del texto */}
-                    <View style={{width:"80%"}}>
+                    <View style={{width:"85%"}}>
 
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
@@ -67,16 +67,21 @@ class myPicker extends Component {
                                 value: null,
                                 color: COLORS.grey,
                             }}
-                            
-                            textInputProps={{height:"100%", width: "100%", marginLeft:15, color: this.state.colorText}}
+                            textInputProps={{height:"100%", 
+                                            width: "100%", 
+                                            marginLeft:15, 
+                                            color: this.state.colorText}}
                             onValueChange={value => this.handleValue(value)}
                             items={this.state.list}
                             style={{
                                 inputAndroid: {
                                     backgroundColor: 'transparent',
+                                    color: 'black',
+                                    fontSize: 15
                                 },
                                 inputIOS: {
                                     backgroundColor: 'transparent',
+                                    fontSize: 15
                                 },
                             }}
                         />

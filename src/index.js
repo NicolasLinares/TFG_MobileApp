@@ -11,6 +11,10 @@ import 'react-native-gesture-handler';
 import Navigator from '_navigations';
 
 import SplashScreen from 'react-native-splash-screen'
+import { StatusBar, StyleSheet, Dimensions } from 'react-native';
+
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+
 
 class App extends Component {
   
@@ -20,7 +24,10 @@ class App extends Component {
 
   render() {
     return (
-      <Navigator />
+      <>
+        <StatusBar barStyle="dark-content"/>
+        <Navigator/>
+      </>
     );
   }
 };

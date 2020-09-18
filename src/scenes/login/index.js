@@ -50,7 +50,7 @@ class LoginScreen extends Component {
             <View width="80%">
 
               <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
-              <TextInput marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
+              <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
 
               <View style={{flexDirection: "row", alignSelf: 'flex-start', marginTop:20}}>
                 <Switch
@@ -59,7 +59,7 @@ class LoginScreen extends Component {
                 />
                 <Text style={{
                   fontSize: 15, 
-                  marginLeft: Platform.OS === 'ios' ? 10 : 8, // Para centrar el texto
+                  marginLeft: Platform.OS === 'ios' ? 10 : 8, // Tienen distinto desplazamiento y es necesario ajustarlos por separado
                   marginTop: Platform.OS === 'ios' ? 5 : 3}}
                 > 
                   Recordar contraseña

@@ -1,40 +1,52 @@
 import React, { Component } from 'react';
 import {
-  Text, 
   View, 
-  TouchableOpacity 
+  StyleSheet
 } from 'react-native';
 
-import IconII from "react-native-vector-icons/Ionicons";
-
+import { Switch } from '_atoms';
+import { COLORS } from '_styles';
 
 class HomeScreen extends Component {
 
+  constructor(props) {
+    super(props);
+  }
+
+
   render() {
+
     return (
-      
-        <View style={{flex:1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
-
-          <View style={{flex:1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
-            
-            <View style={{ marginBottom: 50 }}>
-              <Text style={{ fontSize: 20 }}>
-                Escanear código QR
-              </Text>
-            </View>
-
-            <TouchableOpacity 
-              style={{alignItems:'center', justifyContent: 'center'}} 
-              onPress={() => this.props.navigation.navigate('Recorder')} 
-            >
-              <IconII style={{marginLeft: 3}} name={"scan-outline"} size={60} color='black'/>
-              <IconII style={{position: 'absolute'}} name={"qr-code-outline"} size={29} color='black'/>
-            </TouchableOpacity>
-          </View>
+      <>
+        <View style={styles.switchContainer}>
+          <Switch/>
         </View>
-      
+
+        <View style={styles.audiolistContainer}>
+        
+        </View>
+      </>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  switchContainer:{
+    height: 80, 
+    backgroundColor: 'white', 
+    alignItems:'center', 
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.grey
+  },
+  audiolistContainer: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'white', 
+    alignItems:'center', 
+    justifyContent: 'center'
+  },
+
+});
 
 export default HomeScreen;

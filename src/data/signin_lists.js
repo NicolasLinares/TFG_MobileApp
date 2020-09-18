@@ -43,5 +43,4 @@ export const speciality_list = [
     {label: 'Radiodiagnóstico', value: 'Radiodiagnóstico', color: textColor},
     {label: 'Reumatología', value: 'Reumatología', color: textColor},
     {label: 'Urgencias', value: 'Urgencias', color: textColor},
-
 ]
