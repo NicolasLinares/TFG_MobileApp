@@ -1,30 +1,46 @@
 import React, { Component } from 'react'
 import {
-    View,
-    TouchableOpacity,
+    Animated,
     StyleSheet,
 } from 'react-native';
-import IconII from "react-native-vector-icons/Ionicons";
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 class myRecorderButton extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            color: 'red',
-            pressed: false
+            pressed: false,
+            heightAnimated: new Animated.Value(58),
+            radiusAnimated: new Animated.Value(30),
         };
     }
 
-    handleClick() {
-        var co = '';
-        if (!this.state.pressed)
-            co  = 'white';
-        else
-            co  = 'red';
 
+    animation(height, radius, duration) {
+        Animated.parallel([
+            Animated.timing(this.state.heightAnimated, {
+                toValue: height,
+                duration: duration,
+                useNativeDriver: false,
+            }).start(),
+
+            Animated.timing(this.state.radiusAnimated, {
+                toValue: radius,
+                duration: duration,
+                useNativeDriver: false,
+            }).start()
+        ]).start();
+    }
+
+    handleClick() {
+        // Animación del botón
+        if (!this.state.pressed)
+            this.animation(30, 5, 300);
+        else
+            this.animation(58, 30, 300);
+        
         this.setState({
-            color: co,
             pressed: !this.state.pressed
         });
 
@@ -33,30 +49,35 @@ class myRecorderButton extends Component {
 
     render() {
         return (
-            <TouchableOpacity 
+            <TouchableWithoutFeedback
                 style={styles.button}
                 onPress={() => this.handleClick()}
             >
-                <View
-                    style={{
-                        position: 'absolute',
-                        height: 58,
-                        width: 58,
-                        borderRadius: 30,
-                        backgroundColor: this.state.color
-                    }}
+                <Animated.View 
+                    style={[
+                        styles.recorderContainer, 
+                        {
+                            height: this.state.heightAnimated,
+                            width: this.state.heightAnimated,
+                            borderRadius: this.state.radiusAnimated
+                        }
+                    ]}
                 />
-
-                <IconII name={'square'} size={35} color='red'/>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         )
     }
 }
 
+
 const styles = StyleSheet.create({
+    recorderContainer: {
+        position: 'absolute',
+        borderRadius: 30,
+        backgroundColor: 'red'
+    },
     button: {
       borderWidth:3,
-      borderColor:'black',
+      borderColor:'grey',
       alignItems:'center',
       justifyContent:'center',
       width:70,

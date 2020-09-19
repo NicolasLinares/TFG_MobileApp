@@ -105,7 +105,6 @@ class Recorder extends Component {
     this.props.updateAudioList(current_audio);
   };
 
-
   onStartPlay = async (path, e) => {
       
     const msg = await this.audioRecorderPlayer.startPlayer(path);
@@ -125,38 +124,40 @@ class Recorder extends Component {
     });
   };
 
-  manageRecorder = async () => {
-      if (!this.state.isRecording) {
-        this.recorderOpenAnimatedView();
-        this.onStartRecord();
-      } else {
-        this.onStopRecord();
-        this.recorderCloseAnimatedView();
-      }
-  }
 
-  recorderOpenAnimatedView() {
-    Animated.timing(this.state.heightAnimated, {
-      toValue: 230,
+  animation(height) {
+    return Animated.timing(this.state.heightAnimated, {
+      toValue: height,
       duration: 250,
       useNativeDriver: false,
-    }).start(() => 
-    this.setState({
-      showTimeRecording: true
-    })
-  );
+    });
   }
 
-  recorderCloseAnimatedView() {
-    this.setState({
-      showTimeRecording: false
-    });
+  manageRecorder = async () => {
+      if (!this.state.isRecording) {
+        // Animación para mostrar el resto de componentes de la grabación
+        this.animation(230).start();
+      
+        // El tiempo aparece cuando termina la animación
+        this.setState({
+          showTimeRecording: true
+        })
+        
+        // Inicia la grabación
+        this.onStartRecord();
 
-    Animated.timing(this.state.heightAnimated, {
-      toValue: 135,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
+      } else {
+        // Para la grabación
+        this.onStopRecord();
+
+        // El tiempo desaparece antes de empezar la animación
+        this.setState({
+          showTimeRecording: false
+        });
+        
+        // Animación para esconder el resto de componentes de la grabación
+        this.animation(135).start();
+      }
   }
 
 
@@ -181,7 +182,6 @@ class Recorder extends Component {
           <ButtonRecord onPress={() => this.manageRecorder()}/>
         </Animated.View>
 
-              
     )
   };
 
