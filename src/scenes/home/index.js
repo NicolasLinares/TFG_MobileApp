@@ -22,7 +22,7 @@ class HomeScreen extends Component {
     return (
       <View style={styles.container}>
 
-<View style={styles.switchContainer}>
+        <View style={styles.switchContainer}>
           <Switch/>
         </View>
 
@@ -36,8 +36,6 @@ class HomeScreen extends Component {
     );
   }
 }
-
-
 
 
 

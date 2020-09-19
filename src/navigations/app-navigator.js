@@ -40,7 +40,13 @@ const RouteConfigs = {
   },
   Recorder: {
     screen: RecorderScreen,
-    navigationOptions: {headerBackTitle: "", title: "Mis notas de voz"}
+    navigationOptions: {headerBackTitle: "", 
+                        title: "Mis notas de voz",
+                        headerStyle: { // para esconder la línea inferior en el header
+                          shadowOpacity: 0, // iOS
+                          elevation: 0, // Android
+                      },
+                      }
   }
 };
 

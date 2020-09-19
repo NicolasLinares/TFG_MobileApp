@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { 
+    Text,
     StyleSheet, 
     TouchableOpacity,
     FlatList,
@@ -8,11 +9,12 @@ import {
     View
 } from 'react-native'
 
-import { ListItem, SearchBar } from 'react-native-elements'
+import { AudioContainer } from '_molecules';
 
-import IconII from "react-native-vector-icons/Ionicons";
+import { SearchBar } from 'react-native-elements'
 
 import RNFS from 'react-native-fs';
+
 
 
 list = [];
@@ -28,7 +30,6 @@ class myAudioList extends Component {
             isLoading: false,
         };
     }
-
 
     getTime(item) {
         m = item.mtime.getMinutes();
@@ -124,6 +125,13 @@ class myAudioList extends Component {
         });
     }
 
+
+    keyExtractor = (item, index) => index.toString();
+
+    renderItem = ({ item }) => (
+        <AudioContainer item={item}/>
+    )
+
     searchFilterFunction = text => {   
         this.setState({
             searchValue: text
@@ -139,28 +147,8 @@ class myAudioList extends Component {
         this.setState({searchItems: newData});
     };
 
-    keyExtractor = (item, index) => index.toString();
-
-    renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => this.onStartPlay(item.path)} >
-            <ListItem   
-                bottomDivider
-            >   
-            <ListItem.Content>
-                <ListItem.Title>{item.name}</ListItem.Title>
-                <ListItem.Subtitle style={{marginTop: 10}}>{item.creation_time}</ListItem.Subtitle>
-            </ListItem.Content>
-                <IconII name={"chevron-forward"} size={30} color='rgb(255,70,70)'/>
-                <TouchableOpacity onPress={() => this.deleteFile(item)}>
-                        <IconII name={"trash-outline"} size={27} color='rgb(255,70,70)'/>
-                </TouchableOpacity>
-            </ListItem>
-        </TouchableOpacity>
-    )
-
     renderSearchBar = () => {    
         return (
-            
             /*
             Se trabaja con dos listas, una que mantiene siempre la lista de audios (list) y otra
             que contiene los items que coinciden con la búsqueda (data).
@@ -168,8 +156,9 @@ class myAudioList extends Component {
 
             <SearchBar
                 searchIcon={{ size: 24 }}
-                containerStyle={{width:"100%", backgroundColor: 'white'}}
-                inputContainerStyle={LayersStyles.searchbar}
+                containerStyle={{width:"100%", backgroundColor: 'white', borderTopColor: 'white'}}
+                inputContainerStyle={styles.searchbar}
+                con
                 placeholder="Buscar..."        
                 lightTheme        
                 round
@@ -179,7 +168,7 @@ class myAudioList extends Component {
                 onCancel={this.state.searchItems = list}
                 showCancel
             />  
-        );  
+        );
     };
 
     renderLoadingIndicator = () => {
@@ -197,21 +186,21 @@ class myAudioList extends Component {
     render() {
         return (
             <FlatList
-                style={LayersStyles.audiolist}
+                style={styles.audiolist}
                 keyExtractor={this.keyExtractor}
                 data={this.state.searchItems}  
                 extraData={this.state}
                 renderItem={this.renderItem}
                 ListHeaderComponent={this.renderSearchBar}
-                stickyHeaderIndices={[0]}
                 ListFooterComponent = {this.renderLoadingIndicator}
+                contentOffset={{ y: 55 }} // Esconde el Searchbar
             />
         )
     }
 }
 
 
-const LayersStyles = StyleSheet.create({
+const styles = StyleSheet.create({
     searchbar:{
       alignSelf: 'center', 
       width: '95%',
@@ -220,7 +209,8 @@ const LayersStyles = StyleSheet.create({
     },
     audiolist:{
       width:"100%",
-    },
-  });
+      backgroundColor: 'white'
+    }
+});
 
 export default myAudioList;
