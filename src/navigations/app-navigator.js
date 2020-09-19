@@ -1,10 +1,12 @@
 import React from 'react';
+import { View } from 'react-native';
+
 import {createStackNavigator} from 'react-navigation-stack';
 
 import LoginScreen from '_scenes/login';
 import HomeScreen from '_scenes/home';
 import ScannerScreen from '_scenes/scanner';
-import RecorderScreen from '_scenes/myAudioList';
+import RecorderScreen from '_scenes/recorder';
 
 import { ButtonMenu } from '_atoms';
 
@@ -20,7 +22,17 @@ const RouteConfigs = {
   },
   Home: {
     screen: HomeScreen,
-    navigationOptions: {headerShown: true, title: "Notas de voz", headerLeft: () => ( <ButtonMenu/>)}
+    navigationOptions: {title: 'Notas de voz',
+                        headerLeft: () => (<ButtonMenu/>),
+                        headerRight: () => (<View/>), // Android -  alinear título 
+                        headerStyle: { // para esconder la línea inferior en el header
+                            shadowOpacity: 0, // iOS
+                            elevation: 0, // Android
+                        },
+                        headerTitleStyle: {
+                            textAlign: 'center', // Android -  alinear título 
+                        }
+                      }
   },
   Scanner:{
     screen: ScannerScreen,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+    View,
     TouchableOpacity,
     StyleSheet,
 } from 'react-native';
@@ -10,20 +11,20 @@ class myRecorderButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            icon: 'mic',
+            color: 'red',
             pressed: false
         };
     }
 
     handleClick() {
-        var ic = '';
+        var co = '';
         if (!this.state.pressed)
-            ic  = 'square';
+            co  = 'white';
         else
-            ic  = 'mic';
+            co  = 'red';
 
         this.setState({
-            icon: ic,
+            color: co,
             pressed: !this.state.pressed
         });
 
@@ -33,17 +34,27 @@ class myRecorderButton extends Component {
     render() {
         return (
             <TouchableOpacity 
-                style={styles.button_record}
+                style={styles.button}
                 onPress={() => this.handleClick()}
             >
-                <IconII name={this.state.icon} size={35} color='rgb(255,70,70)'/>
+                <View
+                    style={{
+                        position: 'absolute',
+                        height: 58,
+                        width: 58,
+                        borderRadius: 30,
+                        backgroundColor: this.state.color
+                    }}
+                />
+
+                <IconII name={'square'} size={35} color='red'/>
             </TouchableOpacity>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    button_record: {
+    button: {
       borderWidth:3,
       borderColor:'black',
       alignItems:'center',

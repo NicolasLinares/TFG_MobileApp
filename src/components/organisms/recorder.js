@@ -18,11 +18,10 @@ import AudioRecorderPlayer, {
 
 import moment from 'moment';
 
-import {AudioList} from '_molecules';
-
 import RNFS from 'react-native-fs';
 
 import { ButtonRecord } from '_atoms';
+
 
 class Recorder extends Component {
 
@@ -33,7 +32,7 @@ class Recorder extends Component {
         isRecording: false,
         recordTime: '00:00',
         heightAnimated: new Animated.Value(135),
-        showTimeRecording: false
+        showTimeRecording: false,
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -89,6 +88,7 @@ class Recorder extends Component {
     
   };
 
+
   onStopRecord = async () => {
     const result_path = await this.audioRecorderPlayer.stopRecorder();
     this.audioRecorderPlayer.removeRecordBackListener();
@@ -101,8 +101,10 @@ class Recorder extends Component {
       recordTime: '00:00',
     });
 
-    this.refs.refAudioList.addAudio(current_audio);
+    // Pasa al padre el audio grabado para que lo añada a la lista
+    this.props.updateAudioList(current_audio);
   };
+
 
   onStartPlay = async (path, e) => {
       
@@ -173,18 +175,13 @@ class Recorder extends Component {
     }
 
     return (
-      <View style={LayersStyles.container}>
 
-        <AudioList ref="refAudioList"/>
-
-        <View style={LayersStyles.divider}/>
-
-        <Animated.View style={[LayersStyles.recorder, {height: this.state.heightAnimated}]}>
+        <Animated.View style={[LayersStyles.recorderContainer, {height: this.state.heightAnimated}]}>
           <TimeRecording show={this.state.showTimeRecording} time={this.state.recordTime.substring(0, 5)}/>
           <ButtonRecord onPress={() => this.manageRecorder()}/>
         </Animated.View>
 
-      </View>            
+              
     )
   };
 
@@ -193,11 +190,9 @@ class Recorder extends Component {
 
 const LayersStyles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(0,0,0, 0)',
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
     alignItems:'center',
-    justifyContent: 'flex-end',
-    height:"100%",
-    width:"100%",
   },
   header: {
     fontSize: 24,
@@ -207,12 +202,9 @@ const LayersStyles = StyleSheet.create({
     marginBottom: 20,
     color: "black",
   },
-  divider:{
+  recorderContainer: {
     borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0, 0.1)',
-    width:"100%"
-  },
-  recorder: {
+    borderColor: 'rgba(0,0,0, 0.2)',
     justifyContent: 'flex-end',
     width:"100%",
     alignItems:'center',
