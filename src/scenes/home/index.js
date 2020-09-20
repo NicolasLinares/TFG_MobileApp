@@ -28,7 +28,7 @@ class HomeScreen extends Component {
         </View>
 
         <View style={styles.scannerContainer}>
-          <ButtonScanner onPress={() => this.props.navigation.navigate('Scanner')}/>
+          <ButtonScanner onPress={() => this.props.navigation.navigate('Recorder')}/>
         </View>
         
       </View>

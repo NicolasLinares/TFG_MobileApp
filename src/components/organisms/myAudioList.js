@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { 
-    Text,
     StyleSheet, 
-    TouchableOpacity,
     FlatList,
     Alert, 
     ActivityIndicator,

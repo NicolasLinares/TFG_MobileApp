@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import IconII from "react-native-vector-icons/Ionicons";
+import { COLORS } from '_styles';
 
 class myMenuButton extends Component {
-
-    handleClick() {
-        alert("go Login");
-        this.props.onPress();
-    }
 
     render() {
         return (
             <TouchableOpacity
                 style={{ alignSelf: "flex-start" }}
-                onPress={() => this.handleClick()} 
+                onPress={this.props.onPress} 
             >
-                <IconII style={{marginLeft: 10}} name={"menu-outline"} size={35} color='black'/>
+                <IconII style={{marginLeft: 10}} name={"menu-outline"} size={35} color={COLORS.electric_blue}/>
             </TouchableOpacity>
         )
     }

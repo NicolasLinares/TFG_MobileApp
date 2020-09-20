@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-class myRecorderButton extends Component {
+class myRecordButton extends Component {
 
     constructor(props) {
         super(props);
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default myRecorderButton;
+export default myRecordButton;

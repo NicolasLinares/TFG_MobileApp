@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+    Text,
+    TouchableOpacity,
+    View,
+    StyleSheet
+} from 'react-native';
+
 import IconII from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '_styles';
 
-import { Card } from '_atoms';
 
 
 class myBackButton extends Component {
@@ -11,23 +16,13 @@ class myBackButton extends Component {
     render() {
         return (
             <TouchableOpacity
-                style={styles.button_back}
+                style={styles.button}
                 onPress={this.props.onPress} 
             >
-
-                <Card
-                    flexDirection='row'
-                    height={40}
-                    width={130}
-                    marginLeft={15}
-                    backgroundColor='rgba(100,100,100,0.7)'
-                    alignItems='center'
-                    justifyContent='space-around'
-                    shadow={false}
-                >
+                <View style={styles.card}>
                     <IconII  name={"chevron-back"} size={30} color={COLORS.electric_blue}/>
-                    <Text style={{fontSize: 20, marginRight: 15, color: COLORS.electric_blue}}>Cancelar</Text>
-                </Card>
+                    <Text style={styles.text}>Cancelar</Text>
+                </View>
 
             </TouchableOpacity>
         )
@@ -35,12 +30,35 @@ class myBackButton extends Component {
 }
 
 const styles = StyleSheet.create({
-    button_back: { 
+    button: { 
         position: "absolute",
         left: 30,
         bottom: 90,
         borderRadius: 35,
     },
+    card: {
+        flexDirection:'row',
+        height: 40,
+        width: 130,
+        borderRadius: 30,
+        marginLeft: 15,
+        backgroundColor:'rgba(100,100,100,0.7)',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        shadowRadius: 5,
+        shadowColor: "grey",
+        shadowOpacity: 0.5,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        elevation: 5, // Android solo funciona con elevation
+    },
+    text: {
+        fontSize: 20, 
+        marginRight: 15, 
+        color: COLORS.electric_blue
+    }
 });
 
 export default myBackButton;

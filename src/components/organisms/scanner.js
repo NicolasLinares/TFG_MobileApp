@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View,
     Alert,
-    StyleSheet,
-    Dimensions
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';

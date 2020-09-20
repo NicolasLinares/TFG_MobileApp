@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 import {
     Text,
-    View,
     Platform,
-    TouchableOpacity,
     Animated,
     StyleSheet,
 } from 'react-native';

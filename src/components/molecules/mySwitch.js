@@ -6,8 +6,6 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { ButtonSwitch } from '_atoms';
-
 import { COLORS } from '_styles';
 
 

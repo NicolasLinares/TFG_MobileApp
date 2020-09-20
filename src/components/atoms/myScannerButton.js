@@ -9,20 +9,12 @@ import { COLORS } from '_styles';
 
 class myRecorderButton extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-    handleClick() {
-        this.props.onPress();
-    }
-
     render() {
         return (
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.handleClick()} 
+                onPress={this.props.onPress} 
             >
                 <IconII name={"scan"} size={30} color={COLORS.electric_blue}/>
                 <Text style={styles.text}>   Escanear código</Text>
