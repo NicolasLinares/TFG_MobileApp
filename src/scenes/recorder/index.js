@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Recorder, AudioList} from '_organisms';
+import { Switch } from '_molecules';
 
 import {
   View,
@@ -16,6 +17,7 @@ class RecorderScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Switch textLeft='Nuevas' textRight='Todos'/>
         <AudioList ref='refAudioList' />
         <Recorder updateAudioList={this.sendNewAudio.bind(this)}/>
       </View>

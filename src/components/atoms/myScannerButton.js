@@ -24,7 +24,8 @@ class myRecorderButton extends Component {
                 style={styles.button}
                 onPress={() => this.handleClick()} 
             >
-                <IconII name={"barcode-outline"} size={40} color='black'/>
+                <IconII name={"scan"} size={30} color={COLORS.electric_blue}/>
+                <Text style={styles.text}>   Escanear código</Text>
             </TouchableOpacity>
         )
     }
@@ -32,13 +33,16 @@ class myRecorderButton extends Component {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: 'rgba(210,210,210, 0.6)',
-        alignItems:'center',
-        justifyContent:'center',
-        width:120,
-        height:70,
-        borderRadius:45,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        marginTop: 30
     },
+    text: {
+        fontSize: 18, 
+        fontWeight: 'bold', 
+        color: COLORS.electric_blue
+    }
 });
 
 export default myRecorderButton;

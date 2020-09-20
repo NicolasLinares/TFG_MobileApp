@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { 
+    View, 
+    StyleSheet 
+} from 'react-native';
 
 class myCard extends Component {
     constructor(props) {
@@ -21,10 +24,12 @@ class myCard extends Component {
     render() {
         return (
             <View style={[{
+                flexDirection: this.props.flexDirection,
                 height: this.props.height,
                 width: this.props.width, 
                 marginTop: this.props.marginTop,
                 marginBottom: this.props.marginBottom,
+                marginLeft: this.props.marginLeft,
                 backgroundColor: this.props.backgroundColor,
                 alignItems: this.props.alignItems,
                 justifyContent: this.props.justifyContent,
@@ -33,8 +38,9 @@ class myCard extends Component {
                 borderColor: this.props.borderColor,
             },
                 this.state.styleShadow
+            ,
+                this.props.style
             ]}>
-
                 {this.props.children}
             </View>
 

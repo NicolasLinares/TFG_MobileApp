@@ -22,7 +22,6 @@ import RNFS from 'react-native-fs';
 
 import { ButtonRecord } from '_atoms';
 
-
 class Recorder extends Component {
 
   constructor(props) {
@@ -101,7 +100,6 @@ class Recorder extends Component {
       recordTime: '00:00',
     });
 
-    // Pasa al padre el audio grabado para que lo añada a la lista
     this.props.updateAudioList(current_audio);
   };
 
@@ -124,40 +122,38 @@ class Recorder extends Component {
     });
   };
 
-
-  animation(height) {
-    return Animated.timing(this.state.heightAnimated, {
-      toValue: height,
-      duration: 250,
-      useNativeDriver: false,
-    });
-  }
-
   manageRecorder = async () => {
       if (!this.state.isRecording) {
-        // Animación para mostrar el resto de componentes de la grabación
-        this.animation(230).start();
-      
-        // El tiempo aparece cuando termina la animación
-        this.setState({
-          showTimeRecording: true
-        })
-        
-        // Inicia la grabación
+        this.recorderOpenAnimatedView();
         this.onStartRecord();
-
       } else {
-        // Para la grabación
         this.onStopRecord();
-
-        // El tiempo desaparece antes de empezar la animación
-        this.setState({
-          showTimeRecording: false
-        });
-        
-        // Animación para esconder el resto de componentes de la grabación
-        this.animation(135).start();
+        this.recorderCloseAnimatedView();
       }
+  }
+
+  recorderOpenAnimatedView() {
+    Animated.timing(this.state.heightAnimated, {
+      toValue: 230,
+      duration: 250,
+      useNativeDriver: false,
+    }).start(() => 
+    this.setState({
+      showTimeRecording: true
+    })
+  );
+  }
+
+  recorderCloseAnimatedView() {
+    this.setState({
+      showTimeRecording: false
+    });
+
+    Animated.timing(this.state.heightAnimated, {
+      toValue: 135,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
   }
 
 
@@ -182,6 +178,7 @@ class Recorder extends Component {
           <ButtonRecord onPress={() => this.manageRecorder()}/>
         </Animated.View>
 
+              
     )
   };
 

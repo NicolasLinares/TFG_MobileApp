@@ -22,7 +22,7 @@ const RouteConfigs = {
   },
   Home: {
     screen: HomeScreen,
-    navigationOptions: {title: 'Notas de voz',
+    navigationOptions: {title: ' ',
                         headerLeft: () => (<ButtonMenu/>),
                         headerRight: () => (<View/>), // Android -  alinear título 
                         headerStyle: { // para esconder la línea inferior en el header
@@ -36,16 +36,18 @@ const RouteConfigs = {
   },
   Scanner:{
     screen: ScannerScreen,
-    navigationOptions: {headerShown: false}
+    navigationOptions: ({ navigation }) => ({headerShown: false,
+                        title: ' ',
+                      })
   },
   Recorder: {
     screen: RecorderScreen,
-    navigationOptions: {headerBackTitle: "", 
-                        title: "Mis notas de voz",
+    navigationOptions: {headerBackTitle: ' ', 
+                        title: 'Notas de voz',
                         headerStyle: { // para esconder la línea inferior en el header
                           shadowOpacity: 0, // iOS
                           elevation: 0, // Android
-                      },
+                        },
                       }
   }
 };
