@@ -11,8 +11,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { ButtonAuth } from '_atoms';
-import { TextInput } from '_molecules';
+import { ButtonAuth, TextInput} from '_atoms';
 import { COLORS } from '_styles';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';

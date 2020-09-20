@@ -8,8 +8,7 @@ import {
   StyleSheet, 
   Dimensions
 } from 'react-native';
-import { ButtonAuth } from '_atoms';
-import { Picker, TextInput } from '_molecules';
+import { ButtonAuth, Picker, TextInput } from '_atoms';
 import { COLORS } from '_styles';
 import * as DATA from '_data';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Recorder, AudioList} from '_organisms';
-import { Switch } from '_molecules';
+import { Switch } from '_atoms';
 
 import {
   View,
