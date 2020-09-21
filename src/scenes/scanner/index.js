@@ -15,7 +15,7 @@ class ScannerScreen extends Component {
     return (
       <>
 
-        <Scanner/>
+        <Scanner nav={this.props.navigation}/>
 
         <View style={styles.card}>
           <Text style={{color: 'white', fontSize: 16, marginLeft: 20, marginRight: 20,}}>

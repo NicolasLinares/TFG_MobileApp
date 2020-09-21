@@ -5,6 +5,7 @@ import {
     Platform,
     Animated,
     StyleSheet,
+    View
 } from 'react-native';
 
 import AudioRecorderPlayer, {
@@ -120,7 +121,7 @@ class Recorder extends Component {
     });
   };
 
-  manageRecorder = async () => {
+  manageRecorder() {
       if (!this.state.isRecording) {
         this.recorderOpenAnimatedView();
         this.onStartRecord();
@@ -169,41 +170,61 @@ class Recorder extends Component {
         return null;
     }
 
-    return (
 
-        <Animated.View style={[LayersStyles.recorderContainer, {height: this.state.heightAnimated}]}>
+    const heightAnimatedValue = this.state.heightAnimated.interpolate({
+      inputRange: [135, 230],
+      outputRange: [1, 2.5]
+    });
+
+    
+    return (
+      <>
+
+        {
+          // La vista animada que parece contener los componentes (se mantiene visible).
+          // Se mantienen separadas porque la animación escalaría también los compoenentes.
+        }     
+        <Animated.View style={[containersStyles.animatedContainer, 
+                              {
+                                transform: [
+                                  {  
+                                      scaleY: heightAnimatedValue
+                                  },                            
+                              ],
+                              }
+                            ]}
+        />
+        
+        {
+          // La vista real que contiene los componentes (se mantiene invisible)
+        }
+        <View style={containersStyles.staticContainer}>
           <TimeRecording show={this.state.showTimeRecording} time={this.state.recordTime.substring(0, 5)}/>
           <ButtonRecord onPress={() => this.manageRecorder()}/>
-        </Animated.View>
-
-              
+        </View>
+      </>  
     )
   };
 
 }
 
 
-const LayersStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0)',
-    alignItems:'center',
-  },
-  header: {
-    fontSize: 24,
-    textAlign: 'center',
-    fontWeight: '600',
-    marginTop: 20,
-    marginBottom: 20,
-    color: "black",
-  },
-  recorderContainer: {
+const containersStyles = StyleSheet.create({
+  animatedContainer: {
     borderWidth: 0.5,
     borderColor: 'rgba(0,0,0, 0.2)',
     justifyContent: 'flex-end',
     width:"100%",
+    height: 135,
     alignItems:'center',
     backgroundColor:'white',
+  },
+  staticContainer: {
+    position: 'absolute', 
+    width: '100%', 
+    bottom: 10, 
+    alignItems: 'center', 
+    justifyContent: 'center' 
   }
 });
 

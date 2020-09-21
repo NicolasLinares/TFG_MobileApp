@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
     Animated,
     StyleSheet,
+    InteractionManager
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
@@ -29,14 +30,15 @@ class myRecordButton extends Component {
                 toValue: radius,
                 duration: duration,
                 useNativeDriver: false,
-            }).start()
+            }).start(),
         ]).start();
     }
 
     handleClick() {
         // Animación del botón
+
         if (!this.state.pressed)
-            this.animation(30, 5, 300);
+            this.animation(30, 10, 300);
         else
             this.animation(58, 30, 300);
         
@@ -44,21 +46,41 @@ class myRecordButton extends Component {
             pressed: !this.state.pressed
         });
 
-        this.props.onPress();
+        //setTimeout(this.props.onPress, 300);
+        InteractionManager.runAfterInteractions(() => {
+            this.props.onPress();
+        });
     }
 
     render() {
+
+        const heightAnimatedValue = this.state.heightAnimated.interpolate({
+            inputRange: [30, 58],
+            outputRange: [0.5, 1],
+            perspective: 1000
+        });
+
         return (
+            
             <TouchableWithoutFeedback
                 style={styles.button}
                 onPress={() => this.handleClick()}
             >
                 <Animated.View 
                     style={[
-                        styles.recorderContainer, 
+                        styles.recorderContainer,
                         {
-                            height: this.state.heightAnimated,
-                            width: this.state.heightAnimated,
+                            // No está soportada la animación de la altura y anchura de un View
+                            // por lo que se debe hacer con interpolación
+                            transform: [
+                                {  
+                                    scaleX: heightAnimatedValue
+                                },
+                                {  
+                                    scaleY: heightAnimatedValue
+                                },                            
+                            ],
+                                
                             borderRadius: this.state.radiusAnimated
                         }
                     ]}
@@ -72,6 +94,8 @@ class myRecordButton extends Component {
 const styles = StyleSheet.create({
     recorderContainer: {
         position: 'absolute',
+        height: 58,
+        width: 58,
         borderRadius: 30,
         backgroundColor: 'red'
     },

@@ -24,10 +24,10 @@ class Scanner extends Component {
           {
             text: "Cancelar",
             style: "cancel",
-            onPress: () => this.props.navigation.goBack()
+            onPress: () => this.props.nav.goBack()
           },
           { text: "OK", 
-            onPress: () => this.props.navigation.replace('Mis notas de voz') 
+            onPress: () => this.props.nav.replace('Recorder') 
           }
         ],
         { cancelable: false }
