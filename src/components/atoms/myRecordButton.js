@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import {
-    Animated,
+    View,
+    Text,
     StyleSheet,
-    InteractionManager
+    Animated,
+    Easing,
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+import { COLORS }  from '_styles';
 
 class myRecordButton extends Component {
 
@@ -12,103 +16,189 @@ class myRecordButton extends Component {
         super(props);
         this.state = {
             pressed: false,
-            heightAnimated: new Animated.Value(58),
-            radiusAnimated: new Animated.Value(30),
+            sizeButtonAnimated: new Animated.Value(58),
+            radiusButtonAnimated: new Animated.Value(30),
+            heightAnimated: new Animated.Value(0),
+            fadeAnim: new Animated.Value(0),
         };
     }
 
 
-    animation(height, radius, duration) {
+    multipleAnimation(size, radius, duration, position, fadeDuration, fade) {
         Animated.parallel([
-            Animated.timing(this.state.heightAnimated, {
-                toValue: height,
+            Animated.timing(this.state.sizeButtonAnimated, {
+                toValue: size,
                 duration: duration,
                 useNativeDriver: false,
             }).start(),
 
-            Animated.timing(this.state.radiusAnimated, {
+            Animated.timing(this.state.radiusButtonAnimated, {
                 toValue: radius,
                 duration: duration,
                 useNativeDriver: false,
             }).start(),
-        ]).start();
+
+            Animated.timing(this.state.heightAnimated, {
+                toValue: position,
+                duration: duration,
+                useNativeDriver: false,
+            }).start(),
+
+            Animated.timing(this.state.fadeAnim, {
+                toValue: fade,
+                duration: fadeDuration,
+                easing: Easing.cubic,
+                useNativeDriver: false,
+            }).start(),
+        ]);
     }
 
     handleClick() {
-        // Animación del botón
+        // Animación 'Close recorder'
+        var duration = 200;
+        var sizeButton = 58;
+        var radiusButton = 30;
+        var positionContainer = 0;
+        // Los componentes se esconderán primero
+        var fadeDuration = 100;
+        var fade = 0;
 
-        if (!this.state.pressed)
-            this.animation(30, 10, 300);
-        else
-            this.animation(58, 30, 300);
+        // Animación 'Open recorder'
+        if (!this.state.pressed) {
+            sizeButton = 30;
+            radiusButton = 10;
+            positionContainer = -130;
+            // Los componentes aparecen después
+            fadeDuration = 300;
+            fade = 1;
+        }
         
         this.setState({
             pressed: !this.state.pressed
         });
 
-        //setTimeout(this.props.onPress, 300);
-        InteractionManager.runAfterInteractions(() => {
-            this.props.onPress();
-        });
+        this.multipleAnimation(sizeButton, radiusButton, duration, positionContainer,fadeDuration, fade);
+
+        // Espera 300 ms antes de ejecutar la grabadora
+        setTimeout(this.props.onPress, 300);
+
     }
 
-    render() {
-
-        const heightAnimatedValue = this.state.heightAnimated.interpolate({
-            inputRange: [30, 58],
-            outputRange: [0.5, 1],
-            perspective: 1000
-        });
+    _renderHiddenInfo() {
 
         return (
-            
+            <Animated.View style={[containersStyles.animatedContainer, 
+                {transform: [{translateY: this.state.heightAnimated}]}]} >
+
+                <Animated.View style={{opacity: this.state.fadeAnim}}>
+                    <Text style={styles.text}>Nueva grabación</Text>
+                    <Text style={styles.time_record}> {this.props.time} </Text>
+                </Animated.View>
+            </Animated.View>
+        );
+    }
+
+    _renderButton() {
+        const sizeButtonValue = this.state.sizeButtonAnimated.interpolate({
+            inputRange: [30, 58],
+            outputRange: [0.5, 1],
+        });
+        return (
             <TouchableWithoutFeedback
                 style={styles.button}
                 onPress={() => this.handleClick()}
             >
                 <Animated.View 
                     style={[
-                        styles.recorderContainer,
+                        styles.animatedIcon,
                         {
                             // No está soportada la animación de la altura y anchura de un View
                             // por lo que se debe hacer con interpolación
                             transform: [
                                 {  
-                                    scaleX: heightAnimatedValue
+                                    scaleX: sizeButtonValue
                                 },
                                 {  
-                                    scaleY: heightAnimatedValue
+                                    scaleY: sizeButtonValue
                                 },                            
                             ],
                                 
-                            borderRadius: this.state.radiusAnimated
+                            borderRadius: this.state.radiusButtonAnimated
                         }
                     ]}
                 />
             </TouchableWithoutFeedback>
+        );
+    }
+
+
+    render() {
+        
+        return (
+
+                <View style={containersStyles.staticContainer}>
+                    {this._renderHiddenInfo()}
+                    {this._renderButton()}
+                </View>
         )
     }
 }
 
 
-const styles = StyleSheet.create({
-    recorderContainer: {
+const containersStyles = StyleSheet.create({
+    animatedContainer: {
         position: 'absolute',
-        height: 58,
-        width: 58,
-        borderRadius: 30,
-        backgroundColor: 'red'
+        borderTopWidth:2,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderTopColor: COLORS.grey,
+        borderLeftWidth:2,
+        borderLeftColor: COLORS.grey,
+        borderRightWidth:2,
+        borderRightColor: COLORS.grey,
+        width:'100%',
+        height: 130,
+        bottom: 0, 
+        alignItems: 'center',
+        backgroundColor: 'white',
     },
+    staticContainer: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        width: '100%',
+        height: 130,
+        bottom: 0, 
+        alignItems: 'center', 
+    }
+  });
+
+const styles = StyleSheet.create({
     button: {
       borderWidth:3,
-      borderColor:'grey',
+      borderColor: COLORS.dark_grey,
       alignItems:'center',
       justifyContent:'center',
       width:70,
       height:70,
       borderRadius:35,
-      marginBottom: 40 
+      marginTop: 20
     },
+    animatedIcon: {
+        height: 58,
+        width: 58,
+        borderRadius: 30,
+        backgroundColor: 'red'
+    },
+    text: {
+        fontSize: 25,
+        marginTop: 30,
+        marginBottom: 20
+    },
+    time_record: {
+        fontFamily: "FontAwesome",
+        fontSize: 20,
+        textAlign: 'center',
+      },
 });
 
 export default myRecordButton;
