@@ -18,7 +18,7 @@ class mySwitch extends Component {
     }
   }
 
-  handleClick = (id) => {
+  handleClick(id) {
     // Cada botón llama a la función pasándole su identificador
     // así se evita que un mismo botón se presione varias veces
     this.setState({
@@ -26,27 +26,23 @@ class mySwitch extends Component {
     });
   }
 
+  _renderButton(type) {
+    return (
+      <TouchableWithoutFeedback onPress={() => this.handleClick(type) }>
+      <View style={[styles.button, this.state.selected === type ? styles.active : styles.inactive]}>
+        <Text style={[styles.text, this.state.selected === type ? styles.text_active : styles.text_inactive]}> 
+          {this.props.textLeft}
+        </Text>       
+      </View>
+    </TouchableWithoutFeedback>
+    );
+  }
+
   render() {
     return (
         <View style={styles.container}>
-
-          <TouchableWithoutFeedback onPress={() => this.handleClick('left') }>
-            <View style={[styles.button, this.state.selected === 'left' ? styles.active : styles.inactive]}>
-              <Text style={[styles.text, this.state.selected === 'left' ? styles.text_active : styles.text_inactive]}> 
-                {this.props.textLeft}
-              </Text>       
-            </View>
-
-          </TouchableWithoutFeedback>
-
-          <TouchableWithoutFeedback onPress={() => this.handleClick('right')}>
-            <View style={[styles.button, this.state.selected === 'right' ? styles.active : styles.inactive]}>
-              <Text style={[styles.text, this.state.selected === 'right' ? styles.text_active : styles.text_inactive]}> 
-                {this.props.textRight}
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-
+          {this._renderButton('left')}
+          {this._renderButton('right')}
         </View>
     );
   }

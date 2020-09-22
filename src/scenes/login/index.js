@@ -31,6 +31,61 @@ class LoginScreen extends Component {
     });
   }
 
+  _renderInputs() {
+    return (
+      <>
+        <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
+        <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
+
+        <View style={{flexDirection: "row", alignSelf: 'flex-start', marginTop:20}}>
+          <Switch
+            onValueChange={(value) => this.handlerPasswordManager(value)}
+            value={this.state.save}
+          />
+          <Text style={{
+            fontSize: 15, 
+            marginLeft: Platform.OS === 'ios' ? 10 : 8, // Tienen distinto desplazamiento y es necesario ajustarlos por separado
+            marginTop: Platform.OS === 'ios' ? 5 : 3}}
+          > 
+            Recordar contraseña
+          </Text>
+        </View>
+      </>
+    );
+  }
+
+  _renderButtons(){
+    return (
+      <>
+        <TouchableOpacity 
+          style={{marginTop: 30, marginBottom:40}}
+          onPress={() => Linking.openURL("https://invoxmedical.com/rememberpassword/")}>
+          <Text style={[styles.link_text, {textAlign: 'center'}]}>
+            ¿Ha olvidado el nombre de usuario {'\n'}o la contraseña?
+          </Text>
+        </TouchableOpacity>
+
+        <ButtonAuth 
+          onPress={() => this.props.navigation.replace('Home')}
+          text='Iniciar sesión'
+          color={COLORS.blue}
+        />
+        
+
+        <View style={{flexDirection: "row", justifyContent:'center', marginTop: 20, alignItems: 'center'}}>
+          <Text style={{fontSize: 15}}>¿No tiene cuenta?</Text>
+          <TouchableOpacity
+            style={{height: 40, justifyContent: 'center'}}
+            onPress={() => this.props.navigation.navigate('SignIn')}>
+              <Text style={[styles.link_text, {marginLeft: 6}]}>
+                Regístrese
+              </Text>
+          </TouchableOpacity>
+        </View>
+      </>
+    );
+  }
+
   render() {
     return (
 
@@ -39,63 +94,17 @@ class LoginScreen extends Component {
         resetScrollToCoords={{ x: 0, y: 0 }}
         scrollEnabled
       >
-      <View style={styles.container}>
-
+        <View style={styles.container}>
             <Image
               style={styles.logo}
               source={require('_assets/logo_invox_medical.jpg')}
             />
             
             <View width="80%">
-
-              <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
-              <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
-
-              <View style={{flexDirection: "row", alignSelf: 'flex-start', marginTop:20}}>
-                <Switch
-                  onValueChange={(value) => this.handlerPasswordManager(value)}
-                  value={this.state.save}
-                />
-                <Text style={{
-                  fontSize: 15, 
-                  marginLeft: Platform.OS === 'ios' ? 10 : 8, // Tienen distinto desplazamiento y es necesario ajustarlos por separado
-                  marginTop: Platform.OS === 'ios' ? 5 : 3}}
-                > 
-                  Recordar contraseña
-                </Text>
-              </View>
-
-
-              <TouchableOpacity 
-                style={{marginTop: 30, marginBottom:40}}
-                onPress={() => Linking.openURL("https://invoxmedical.com/rememberpassword/")}>
-                <Text style={[styles.link_text, {textAlign: 'center'}]}>
-                  ¿Ha olvidado el nombre de usuario {'\n'}o la contraseña?
-                </Text>
-              </TouchableOpacity>
-
-              <ButtonAuth 
-                onPress={() => this.props.navigation.replace('Home')}
-                text='Iniciar sesión'
-                color={COLORS.blue}
-              />
-              
+              {this._renderInputs()}
+              {this._renderButtons()}
             </View>
-
-
-            <View style={{flexDirection: "row", marginTop: 20, alignItems: 'center'}}>
-              <Text style={{fontSize: 15}}>¿No tiene cuenta?</Text>
-              <TouchableOpacity
-                style={{height: 40, justifyContent: 'center'}}
-                onPress={() => this.props.navigation.navigate('SignIn')}>
-                <Text style={[styles.link_text, {marginLeft: 6}]}>
-                  Regístrese
-                </Text>
-              </TouchableOpacity>
-            </View>
-
         </View>
-      
       </KeyboardAwareScrollView>
 
     );

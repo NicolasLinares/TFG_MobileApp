@@ -9,10 +9,6 @@ import { COLORS } from '_styles';
 
 class myTextInput extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-    
     render() {
         return (
             <View style={[styles.card,{marginTop: this.props.marginTop, marginBottom: this.props.marginBottom}]} >

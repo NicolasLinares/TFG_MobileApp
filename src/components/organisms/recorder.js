@@ -19,7 +19,7 @@ import moment from 'moment';
 
 import RNFS from 'react-native-fs';
 
-import { ButtonRecord } from '_atoms';
+import { ModuleRecord } from '_atoms';
 
 class Recorder extends Component {
 
@@ -114,8 +114,8 @@ class Recorder extends Component {
 
     return (
       
-        <ButtonRecord 
-          onPress={() => this.manageRecorder()} 
+        <ModuleRecord 
+          onPress={this.manageRecorder} 
           time={this.state.recordTime.substring(0, 5)}
         />
     )

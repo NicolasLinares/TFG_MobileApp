@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
     View,
     Text,
+    Platform,
     StyleSheet,
     Animated,
     Easing,
@@ -23,7 +24,9 @@ class myRecordButton extends Component {
         };
     }
 
-
+    /*
+        Animaciones del botón y la vista.
+    */
     multipleAnimation(size, radius, duration, position, fadeDuration, fade) {
         Animated.parallel([
             Animated.timing(this.state.sizeButtonAnimated, {
@@ -53,6 +56,11 @@ class myRecordButton extends Component {
         ]);
     }
 
+
+    /*
+        Acciones del botón grabar. El componente padre ha pasado la función
+        del manejo de grabación y se accede a ella mediante this.props.onPress.
+    */
     handleClick() {
         // Animación 'Close recorder'
         var duration = 200;
@@ -67,7 +75,7 @@ class myRecordButton extends Component {
         if (!this.state.pressed) {
             sizeButton = 30;
             radiusButton = 10;
-            positionContainer = -130;
+            positionContainer = -heightContainer;
             // Los componentes aparecen después
             fadeDuration = 300;
             fade = 1;
@@ -84,6 +92,11 @@ class myRecordButton extends Component {
 
     }
 
+    /*
+        Contiene la información de la grabación actual, como el tiempo que lleva
+        grabando. Esta vista se desbloquea cuando pulsamos el botón y se esconde
+        cuando terminamos de grabar.
+    */
     _renderHiddenInfo() {
 
         return (
@@ -91,13 +104,18 @@ class myRecordButton extends Component {
                 {transform: [{translateY: this.state.heightAnimated}]}]} >
 
                 <Animated.View style={{opacity: this.state.fadeAnim}}>
-                    <Text style={styles.text}>Nueva grabación</Text>
-                    <Text style={styles.time_record}> {this.props.time} </Text>
+                    <Text style={componentStyles.text}>Nueva grabación</Text>
+                    <Text style={componentStyles.time_record}> {this.props.time} </Text>
                 </Animated.View>
             </Animated.View>
         );
     }
 
+
+    /*
+        Contiene el botón de grabación que permite iniciar la grabación del audio.
+        Al pulsarlo se llama a handleClick que inicia las animaciones y comienza a grabar.
+    */
     _renderButton() {
         const sizeButtonValue = this.state.sizeButtonAnimated.interpolate({
             inputRange: [30, 58],
@@ -105,12 +123,12 @@ class myRecordButton extends Component {
         });
         return (
             <TouchableWithoutFeedback
-                style={styles.button}
+                style={componentStyles.button}
                 onPress={() => this.handleClick()}
             >
                 <Animated.View 
                     style={[
-                        styles.animatedIcon,
+                        componentStyles.animatedIcon,
                         {
                             // No está soportada la animación de la altura y anchura de un View
                             // por lo que se debe hacer con interpolación
@@ -133,9 +151,7 @@ class myRecordButton extends Component {
 
 
     render() {
-        
         return (
-
                 <View style={containersStyles.staticContainer}>
                     {this._renderHiddenInfo()}
                     {this._renderButton()}
@@ -145,19 +161,15 @@ class myRecordButton extends Component {
 }
 
 
+const heightContainer = Platform.OS === 'android' ? 110 : 130;
+
 const containersStyles = StyleSheet.create({
     animatedContainer: {
         position: 'absolute',
         borderTopWidth:2,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
         borderTopColor: COLORS.grey,
-        borderLeftWidth:2,
-        borderLeftColor: COLORS.grey,
-        borderRightWidth:2,
-        borderRightColor: COLORS.grey,
         width:'100%',
-        height: 130,
+        height: heightContainer,
         bottom: 0, 
         alignItems: 'center',
         backgroundColor: 'white',
@@ -166,13 +178,13 @@ const containersStyles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'white',
         width: '100%',
-        height: 130,
+        height: heightContainer,
         bottom: 0, 
         alignItems: 'center', 
     }
   });
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
     button: {
       borderWidth:3,
       borderColor: COLORS.dark_grey,

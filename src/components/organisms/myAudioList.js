@@ -126,7 +126,7 @@ class myAudioList extends Component {
 
     keyExtractor = (item, index) => index.toString();
 
-    renderItem = ({ item }) => (
+    _renderItem = ({ item }) => (
         <AudioContainer item={item}/>
     )
 
@@ -145,7 +145,7 @@ class myAudioList extends Component {
         this.setState({searchItems: newData});
     };
 
-    renderSearchBar = () => {    
+    _renderSearchBar = () => {    
         return (
             /*
             Se trabaja con dos listas, una que mantiene siempre la lista de audios (list) y otra
@@ -169,7 +169,7 @@ class myAudioList extends Component {
         );
     };
 
-    renderLoadingIndicator = () => {
+    _renderLoadingIndicator = () => {
 
         if (this.state.isLoading)
             return (
@@ -188,8 +188,8 @@ class myAudioList extends Component {
                 keyExtractor={this.keyExtractor}
                 data={this.state.searchItems}  
                 extraData={this.state}
-                renderItem={this.renderItem}
-                ListHeaderComponent={this.renderSearchBar}
+                renderItem={this._renderItem}
+                ListHeaderComponent={this._renderSearchBar}
                 ListFooterComponent = {this.renderLoadingIndicator}
                 contentOffset={{ y: 55 }} // Esconde el Searchbar
             />

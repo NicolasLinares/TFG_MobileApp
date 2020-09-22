@@ -16,6 +16,53 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
 class SignInScreen extends Component {
 
+  _renderInputs() {
+    return (
+      <>
+        <TextInput icon='person' placeholder='Nombre y apellidos'/>
+
+        {/* zIndex (altura) para superponer un Picker sobre otro y sobre los demás componentes*/}
+        <View style={{...(Platform.OS !== 'android' && {zIndex: 2})}}>  
+          <Picker data={DATA.speciality_list} marginTop={10} icon='md-medkit' placeholder='Especialidad médica'/>
+        </View>
+
+        {/* se pone a una altura menor que el picker de arriba pero por encima del resto de componentes*/}
+        <View style={{...(Platform.OS !== 'android' && {zIndex: 1})}}>  
+          <Picker data={DATA.country_list} marginTop={10} icon='location-sharp' placeholder='País en el que trabaja'/>
+        </View>
+
+        <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
+
+        <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
+
+      </>
+    );
+  }
+
+  _renderButtons() {
+    return (
+      <>
+        <View style={{flexDirection: "column", alignItems:'center', marginTop: 30}}>
+          <Text style={{fontSize: 15}}>Al hacer click en "Registrarse" acepta</Text>
+          <TouchableOpacity 
+            style={{flexDirection: "row"}}
+            onPress={() => Linking.openURL("https://invoxmedical.com/terms-of-use/")}
+            >
+            <Text>las </Text>
+            <Text style={styles.link_text}>condiciones de uso y la {'\n'}política de privacidad</Text>
+          </TouchableOpacity>
+        </View>
+
+
+        <ButtonAuth
+                onPress={() => this.props.navigation.goBack()}
+                text='Registrarse'
+                color={COLORS.green}
+                marginTop={30}
+        />
+      </>
+    );
+  }
 
   render() {
     return (
@@ -35,39 +82,9 @@ class SignInScreen extends Component {
 
             <View width="80%">
 
-              <TextInput icon='person' placeholder='Nombre y apellidos'/>
+              {this._renderInputs()}
 
-              {/* zIndex (altura) para superponer un Picker sobre otro y sobre los demás componentes*/}
-              <View style={{...(Platform.OS !== 'android' && {zIndex: 2})}}>  
-                <Picker data={DATA.speciality_list} marginTop={10} icon='md-medkit' placeholder='Especialidad médica'/>
-              </View>
-
-              {/* se pone a una altura menor que el picker de arriba pero por encima del resto de componentes*/}
-              <View style={{...(Platform.OS !== 'android' && {zIndex: 1})}}>  
-                <Picker data={DATA.country_list} marginTop={10} icon='location-sharp' placeholder='País en el que trabaja'/>
-              </View>
-
-              <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
-
-              <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
-
-              <View style={{flexDirection: "column", alignItems:'center', marginTop: 30}}>
-                <Text style={{fontSize: 15}}>Al hacer click en "Registrarse" acepta</Text>
-                <TouchableOpacity 
-                  style={{flexDirection: "row"}}
-                  onPress={() => Linking.openURL("https://invoxmedical.com/terms-of-use/")}
-                  >
-                  <Text>las </Text>
-                  <Text style={styles.link_text}>condiciones de uso y la {'\n'}política de privacidad</Text>
-                </TouchableOpacity>
-              </View>
-
-              <ButtonAuth
-                onPress={() => this.props.navigation.goBack()}
-                text='Registrarse'
-                color={COLORS.green}
-                marginTop={30}
-              />
+              {this._renderButtons()}
 
             </View>
 
