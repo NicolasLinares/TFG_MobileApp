@@ -11,7 +11,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { COLORS }  from '_styles';
 
-class myRecordButton extends Component {
+class recorderView extends Component {
 
     constructor(props) {
         super(props);
@@ -214,4 +214,4 @@ const componentStyles = StyleSheet.create({
       },
 });
 
-export default myRecordButton;
+export default recorderView;

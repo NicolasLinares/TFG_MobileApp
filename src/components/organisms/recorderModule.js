@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import { ModuleRecord } from '_molecules';
+import { RecorderView } from '_molecules';
 import {recorderService as RecorderService} from '_services';
 
-class Recorder extends Component {
+class recorderModule extends Component {
 
   constructor(props) {
     super(props);
@@ -88,7 +88,7 @@ class Recorder extends Component {
 
     return (
       
-        <ModuleRecord
+        <RecorderView
           onPress={() => this.handleRecorder()} 
           time={this.state.minutes_Counter + ' : '+ this.state.seconds_Counter}
         />
@@ -97,4 +97,4 @@ class Recorder extends Component {
 
 }
 
-export default Recorder;
+export default recorderModule;
