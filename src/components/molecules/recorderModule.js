@@ -24,6 +24,7 @@ class myRecordButton extends Component {
         };
     }
 
+
     /*
         Animaciones del botón y la vista.
     */

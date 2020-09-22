@@ -1,111 +1,85 @@
 import React, { Component } from 'react';
 
-import {
-    Text,
-    Platform,
-    Animated,
-    StyleSheet,
-    View
-} from 'react-native';
-
-import AudioRecorderPlayer, {
-    AVEncoderAudioQualityIOSType,
-    AVEncodingOption,
-    AudioEncoderAndroidType,
-    AudioSourceAndroidType,
-} from 'react-native-audio-recorder-player';
-
-import moment from 'moment';
-
-import RNFS from 'react-native-fs';
-
-import { ModuleRecord } from '_atoms';
+import { ModuleRecord } from '_molecules';
+import {recorderService as RecorderService} from '_services';
 
 class Recorder extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        audiopath: '',
+        audio: {},
         isRecording: false,
-        recordTime: '00:00',
-    };
 
-    this.audioRecorderPlayer = new AudioRecorderPlayer();
-    this.audioRecorderPlayer.setSubscriptionDuration(0.1);
+        timer: null,
+        minutes_Counter: '00',
+        seconds_Counter: '00',
+    };
   }
 
-  setAudioPath = () => {
-
-    filename = 'audio_' + moment().format('DDMMYYYY_HHmmss') + '.mp4';
-
-    path = Platform.select({
-        ios: filename, // .m4a
-        android:  RNFS.CachesDirectoryPath + '/'+ filename, // .mp4
-    });
-
-    return [filename, path];
+  componentDidMount() {
+    RecorderService.configure();
   }
 
-  onStartRecord = async () => {
-    const audioSet = {
-      AudioEncoderAndroid: AudioEncoderAndroidType.ACC,
-      AudioSourceAndroid: AudioSourceAndroidType.MIC,
+  componentWillUnmount() {
+    clearInterval(this.state.timer);
+  }
 
-      AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-      AVNumberOfChannelsKeyIOS: 2,
-      AVFormatIDKeyIOS: AVEncodingOption.aac,
-    };
+  startTimer() {
 
-    audiofile = this.setAudioPath();
+    let timer = setInterval(() => {
 
-    name = audiofile[0];
-    path = audiofile[1];
-    console.log(path)
+      var num = (Number(this.state.seconds_Counter) + 1).toString(),
+        count = this.state.minutes_Counter;
 
-    const absolute_path = await this.audioRecorderPlayer.startRecorder(path, true, audioSet);
+      if (Number(this.state.seconds_Counter) == 59) {
+        count = (Number(this.state.minutes_Counter) + 1).toString();
+        num = '00';
+      }
 
-    current_audio = {
-      name: name,
-      path: absolute_path,
-      creation_time: null,
-      creation_date: null
-    };
-
-    this.audioRecorderPlayer.addRecordBackListener((e) => {
       this.setState({
-        buttomType: 'stop',
-        isRecording: true,
-        recordTime: this.audioRecorderPlayer.mmssss(
-          Math.floor(e.current_position)
-        )
+        minutes_Counter: count.length == 1 ? '0' + count : count,
+        seconds_Counter: num.length == 1 ? '0' + num : num
       });
-    });
-    
-  };
+    }, 1000);
+
+    this.setState({ timer });
+  }
+
+  stopTimer() {
+      clearInterval(this.state.timer);
+      this.setState({
+        timer: null,
+        minutes_Counter: '00',
+        seconds_Counter: '00',
+      });
+  }
 
 
-  onStopRecord = async () => {
-    const result_path = await this.audioRecorderPlayer.stopRecorder();
-    this.audioRecorderPlayer.removeRecordBackListener();
 
-    current_audio.creation_time = moment().format('HH:mm');
-        
-    this.setState({
-      audiopath: result_path,
-      isRecording: false,
-      recordTime: '00:00',
-    });
+   async handleRecorder () {
 
-    this.props.updateAudioList(current_audio);
-  };
-
-
-  manageRecorder = () => {
       if (!this.state.isRecording) {
-        this.onStartRecord();
+        newAudio = await RecorderService.start();
+
+        this.startTimer();
+
+        this.setState({
+          audio: newAudio,
+          isRecording: !this.state.isRecording
+        });
+        
       } else {
-        this.onStopRecord();
+        await RecorderService.stop();
+
+        this.stopTimer();
+
+        this.setState({
+          isRecording: !this.state.isRecording
+        });
+
+        this.props.updateAudioList(this.state.audio);
+        RecorderService.play(this.state.audio.path);
       }
   }
 
@@ -114,9 +88,9 @@ class Recorder extends Component {
 
     return (
       
-        <ModuleRecord 
-          onPress={this.manageRecorder} 
-          time={this.state.recordTime.substring(0, 5)}
+        <ModuleRecord
+          onPress={() => this.handleRecorder()} 
+          time={this.state.minutes_Counter + ' : '+ this.state.seconds_Counter}
         />
     )
   };
@@ -124,49 +98,3 @@ class Recorder extends Component {
 }
 
 export default Recorder;
-
-      /*
-      onPauseRecord = async () => {
-        const result = await this.audioRecorderPlayer.pauseRecorder();
-        console.log(result);
-      };      
-      
-      onResumeRecord = async () => {
-        const result = await this.audioRecorderPlayer.resumeRecorder();
-        console.log(result);
-      };
-      
-
-      onStartPlay = async (e) => {
-        console.log('onStartPlay');
-          
-        const msg = await this.audioRecorderPlayer.startPlayer(this.path);
-        this.audioRecorderPlayer.setVolume(1.0);
-        console.log(msg);
-        this.audioRecorderPlayer.addPlayBackListener((e) => {
-          if (e.current_position === e.duration) {
-            console.log('finished');
-            this.audioRecorderPlayer.stopPlayer().catch(err => console.log(err.message));
-          }
-          this.setState({
-            currentPositionSec: e.current_position,
-            currentDurationSec: e.duration,
-            playTime: this.audioRecorderPlayer.mmssss(
-              Math.floor(e.current_position),
-            ),
-            duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
-          });
-        });
-      };
-
-      onPausePlay = async (e) => {
-        await this.audioRecorderPlayer.pausePlayer();
-       };
-
-       onStopPlay = async (e) => {
-        console.log('onStopPlay');
-        this.audioRecorderPlayer.stopPlayer().catch(err => console.log(err.message));
-        this.audioRecorderPlayer.removePlayBackListener();
-        };
-
-        */

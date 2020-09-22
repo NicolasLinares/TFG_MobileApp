@@ -2,7 +2,6 @@ export {default as ButtonMenu} from './myMenuButton';
 export {default as ButtonBack} from './myBackButton';
 
 export {default as ButtonAuth} from './myAuthButton';
-export {default as ModuleRecord} from './recorderModule';
 export {default as ButtonScanner} from './myScannerButton';
 
 export {default as Picker} from './myPicker';
