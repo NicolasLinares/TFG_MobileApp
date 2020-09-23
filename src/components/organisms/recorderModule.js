@@ -78,8 +78,8 @@ class recorderModule extends Component {
           isRecording: !this.state.isRecording
         });
 
-        this.props.updateAudioList(this.state.audio);
-        RecorderService.play(this.state.audio.path);
+        //this.props.updateAudioList(this.state.audio);
+        //RecorderService.play(this.state.audio.path);
       }
   }
 
