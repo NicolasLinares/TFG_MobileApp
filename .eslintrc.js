@@ -17,6 +17,10 @@ module.exports = {
           _services: './src/services',
           _styles: './src/styles',
           _data: './src/data',
+          _redux_actions: './src/redux/actions',
+          _redux_reducers: './src/redux/reducers',
+          _redux_store: './src/redux/store',
+          _redux_types: './src/redux/types'
         },
       },
     },

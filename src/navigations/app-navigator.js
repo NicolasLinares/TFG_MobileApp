@@ -23,7 +23,7 @@ const RouteConfigs = {
   Home: {
     screen: HomeScreen,
     navigationOptions: {title: ' ',
-                        headerLeft: () => (<ButtonMenu/>),
+                        headerLeft: () => (<ButtonMenu />),
                         headerRight: () => (<View/>), // Android -  alinear título 
                         headerStyle: { // para esconder la línea inferior en el header
                             shadowOpacity: 0, // iOS

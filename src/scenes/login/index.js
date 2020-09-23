@@ -16,31 +16,55 @@ import { COLORS } from '_styles';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
+import {connect} from 'react-redux';
+
+import { authUser } from '_redux_actions';
+
+
 class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        save: false
+      savePssw: false,
+      email: null,
+      password: null
     };
   }
 
   handlerPasswordManager(value) {
     this.setState({
-      save: value
+      savePssw: value,
     });
+  }
+
+  handleLogin = () => {
+    this.props.setUser(this.state.email, this.state.password);
+    this.props.navigation.replace('Home');
   }
 
   _renderInputs() {
     return (
       <>
-        <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
-        <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
+        <TextInput
+          onChangeText={(value) => this.setState({email: value})}
+          marginTop={10} 
+          icon='mail' 
+          placeholder='Correo electrónico'
+        />
+        
+        <TextInput
+          onChangeText={(value) => this.setState({password: value})}
+          secureTextEntry={true} 
+          marginTop={10} 
+          icon='lock-closed' 
+          placeholder='Contraseña'
+        />
 
         <View style={{flexDirection: "row", alignSelf: 'flex-start', marginTop:20}}>
           <Switch
             onValueChange={(value) => this.handlerPasswordManager(value)}
-            value={this.state.save}
+            value={this.state.savePssw}
           />
           <Text style={{
             fontSize: 15, 
@@ -66,7 +90,7 @@ class LoginScreen extends Component {
         </TouchableOpacity>
 
         <ButtonAuth 
-          onPress={() => this.props.navigation.replace('Home')}
+          onPress={() => this.handleLogin()}
           text='Iniciar sesión'
           color={COLORS.blue}
         />
@@ -144,5 +168,13 @@ const styles = StyleSheet.create({
 });
 
 
-export default LoginScreen;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (email, password) => dispatch(authUser(email, password))
+  }
+}
+
+
+export default connect(null, mapDispatchToProps) (LoginScreen);
 

@@ -7,8 +7,6 @@ import {
 import { AudioList } from '_organisms';
 import { ButtonScanner } from '_atoms';
 
-import { COLORS } from '_styles';
-
 class HomeScreen extends Component {
 
   constructor(props) {
@@ -20,6 +18,7 @@ class HomeScreen extends Component {
 
     return (
       <View style={styles.container}>
+
 
         <View  style={styles.container}>
         {
