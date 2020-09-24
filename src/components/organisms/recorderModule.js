@@ -3,12 +3,17 @@ import React, { Component } from 'react';
 import { RecorderView } from '_molecules';
 import {recorderService as RecorderService} from '_services';
 
+
+import { connect } from 'react-redux';
+import { addAudio } from '_redux_actions';
+
+
 class recorderModule extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        audio: {},
+        audio: null,
         isRecording: false,
 
         timer: null,
@@ -26,11 +31,9 @@ class recorderModule extends Component {
   }
 
   startTimer() {
-
     let timer = setInterval(() => {
-
       var num = (Number(this.state.seconds_Counter) + 1).toString(),
-        count = this.state.minutes_Counter;
+      count = this.state.minutes_Counter;
 
       if (Number(this.state.seconds_Counter) == 59) {
         count = (Number(this.state.minutes_Counter) + 1).toString();
@@ -73,13 +76,13 @@ class recorderModule extends Component {
         await RecorderService.stop();
 
         this.stopTimer();
-
+        
+        this.props.addNewAudio(this.state.audio);
+        
         this.setState({
+          audio: null,
           isRecording: !this.state.isRecording
         });
-
-        //this.props.updateAudioList(this.state.audio);
-        //RecorderService.play(this.state.audio.path);
       }
   }
 
@@ -97,4 +100,12 @@ class recorderModule extends Component {
 
 }
 
-export default recorderModule;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewAudio: (audio) => dispatch(addAudio(audio))
+  }
+}
+
+
+export default connect(null, mapDispatchToProps) (recorderModule);

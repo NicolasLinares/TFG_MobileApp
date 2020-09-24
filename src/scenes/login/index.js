@@ -16,8 +16,8 @@ import { COLORS } from '_styles';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
-import {connect} from 'react-redux';
 
+import {connect} from 'react-redux';
 import { authUser } from '_redux_actions';
 
 

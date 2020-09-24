@@ -2,37 +2,59 @@ import React, { Component } from 'react'
 import { 
     StyleSheet, 
     FlatList,
-    Alert, 
+    Text, 
     ActivityIndicator,
-    View
-} from 'react-native'
+    View,
+    TouchableOpacity
+} from 'react-native';
 
 import { AudioContainer } from '_molecules';
 
+import SwipeableFlatList from 'react-native-swipeable-list';
+import IconII from "react-native-vector-icons/Ionicons";
+
+
+import {connect} from 'react-redux';
+import { deleteAudio } from '_redux_actions';
 
 class myAudioList extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            list: []
-        };
-    }
-
-    keyExtractor = (item, index) => index.toString();
-
     _renderItem = ({ item }) => (
-        <AudioContainer item={item}/>
+        <AudioContainer
+            item={item}
+            onPress={() => this.props.delete(item.key)}
+        />
     )
+
+    _renderItemSeparator = () => (
+        <View style={{height: 7}} />
+    )
+
+    _renderQuickActions = ({ item }) => {
+        return (
+          <View style={styles.actionsContainer}>
+            <TouchableOpacity 
+                style={styles.button}
+                onPress={() => this.props.delete(item.key)}
+            >
+                <IconII style={{marginRight: 30}} name={"trash"} size={25} color='white'/>
+            </TouchableOpacity>
+          </View>
+        );
+      }
 
     render() {
         return (
-            <FlatList
+            <SwipeableFlatList
                 style={styles.audiolist}
-                keyExtractor={this.keyExtractor}
-                data={this.state.list}  
-                extraData={this.state}
+                keyExtractor={(item) => item.key.toString()}
+                data={this.props.list}  
+                maxSwipeDistance={80}
                 renderItem={this._renderItem}
+                renderQuickActions={this._renderQuickActions}
+                ItemSeparatorComponent={this._renderItemSeparator}
+                contentContainerStyle={{flexGrow: 1}}
+                shouldBounceOnMount={true}
             />
         )
     }
@@ -49,7 +71,36 @@ const styles = StyleSheet.create({
     audiolist:{
       width:"100%",
       backgroundColor: 'white'
-    }
+    },
+    actionsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginRight: 5
+    },
+    button: {
+        width: '85%',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: 'red',
+        borderRadius: 10,
+    },
 });
 
-export default myAudioList;
+
+
+const mapStateToProps = (state) => {
+
+    return {
+        list: state.audioListReducer.audiolist,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      delete: (key) => dispatch(deleteAudio(key))
+    }
+  }
+  
+
+export default connect(mapStateToProps, mapDispatchToProps)(myAudioList);

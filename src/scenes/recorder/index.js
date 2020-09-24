@@ -9,17 +9,11 @@ import {
 
 class RecorderScreen extends Component {
 
-  // Función para comunicar el Recorder con el AudioList
-  sendNewAudio = (audio) => {
-    this.refs.refAudioList.addAudio(audio);
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <Switch textLeft='Nuevas' textRight='Todos'/>
-        <AudioList ref='refAudioList' />
-        <Recorder updateAudioList={this.sendNewAudio.bind(this)}/>
+        <AudioList />
+        <Recorder />
       </View>
     );
   }

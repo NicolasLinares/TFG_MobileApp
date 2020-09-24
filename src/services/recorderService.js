@@ -6,6 +6,8 @@ import AudioRecorderPlayer, {
 } from 'react-native-audio-recorder-player';
 
 import moment from 'moment';
+import 'moment/locale/es';
+
 import RNFS from 'react-native-fs';
 
 
@@ -42,6 +44,7 @@ export async function start() {
     path = audiofile[1];
 
     absolute_path = await audioRecorderPlayer.startRecorder(path, true, audioSet);
+
 
     audio = {
       name: name,
