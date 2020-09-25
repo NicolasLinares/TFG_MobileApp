@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-import { COLORS }  from '_styles';
+import { COLORS, CONSTANTS }  from '_styles';
 
 class recorderView extends Component {
 
@@ -76,7 +76,7 @@ class recorderView extends Component {
         if (!this.state.pressed) {
             sizeButton = 30;
             radiusButton = 10;
-            positionContainer = -heightContainer;
+            positionContainer = -CONSTANTS.heightRecorderModule;
             // Los componentes aparecen después
             fadeDuration = 300;
             fade = 1;
@@ -162,24 +162,22 @@ class recorderView extends Component {
 }
 
 
-const heightContainer = Platform.OS === 'android' ? 110 : 130;
 
 const containersStyles = StyleSheet.create({
     animatedContainer: {
         position: 'absolute',
-        borderTopWidth:2,
+        borderTopWidth:0.5,
         borderTopColor: COLORS.grey,
         width:'100%',
-        height: heightContainer,
+        height: CONSTANTS.heightRecorderModule,
         bottom: 0, 
         alignItems: 'center',
         backgroundColor: 'white',
     },
     staticContainer: {
-        position: 'absolute',
         backgroundColor: 'white',
         width: '100%',
-        height: heightContainer,
+        height: CONSTANTS.heightRecorderModule,
         bottom: 0, 
         alignItems: 'center', 
     }

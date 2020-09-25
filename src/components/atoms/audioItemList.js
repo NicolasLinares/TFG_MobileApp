@@ -4,15 +4,14 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 
-import { ListItem } from 'react-native-elements';
 import IconII from "react-native-vector-icons/Ionicons";
+import {CONSTANTS} from '_styles';
 
 
-
-class myItemList extends Component {
+class audioItemList extends Component {
     render() {
         return (
 
@@ -26,7 +25,6 @@ class myItemList extends Component {
 
                 <TouchableOpacity
                     style={styles.buttonRight}
-                    onPress={this.props.onPress}
                 >
                     <IconII name={"chevron-forward"} size={30} color='rgb(255,70,70)'/>
                 </TouchableOpacity>
@@ -36,7 +34,6 @@ class myItemList extends Component {
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     item: {
@@ -54,7 +51,8 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         borderRadius: 10,
-        marginHorizontal: 5,
+        marginHorizontal: CONSTANTS.marginHorizontalItemList,
+        marginVertical: CONSTANTS.marginVerticalItemList,
         paddingVertical: 20,
   },
   info: {
@@ -69,9 +67,13 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   buttonRight: {
-      marginRight: 15
+      width: 50,
+      height: 50,
+      marginRight: 15,
+      justifyContent: 'center',
+      alignItems: 'flex-end',
   }
 });
 
   
-export default myItemList;
+export default audioItemList;

@@ -59,8 +59,7 @@ class recorderModule extends Component {
   }
 
 
-
-   async handleRecorder () {
+  async handleRecorder () {
 
       if (!this.state.isRecording) {
         newAudio = await RecorderService.start();
@@ -88,13 +87,11 @@ class recorderModule extends Component {
 
 
   render() {
-
     return (
-      
-        <RecorderView
-          onPress={() => this.handleRecorder()} 
-          time={this.state.minutes_Counter + ' : '+ this.state.seconds_Counter}
-        />
+      <RecorderView
+        onPress={() => this.handleRecorder()} 
+        time={this.state.minutes_Counter + ' : '+ this.state.seconds_Counter}
+      />
     )
   };
 
