@@ -30,7 +30,6 @@ class audioItemList extends Component {
                 </TouchableOpacity>
             </View>
 
-
         )
     }
 }
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        shadowColor: '#000',
+        shadowColor: 'black',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -54,25 +53,25 @@ const styles = StyleSheet.create({
         marginHorizontal: CONSTANTS.marginHorizontalItemList,
         marginVertical: CONSTANTS.marginVerticalItemList,
         paddingVertical: 20,
-  },
-  info: {
-    flex: 1,
-    marginLeft: 30
-  },
-  name: {
-    marginBottom:10,
-    fontSize: 18
-  }, 
-  date: {
-    fontSize: 14
-  },
-  buttonRight: {
-      width: 50,
-      height: 50,
-      marginRight: 15,
-      justifyContent: 'center',
-      alignItems: 'flex-end',
-  }
+    },
+    info: {
+        flex: 1,
+        marginLeft: 30
+    },
+    name: {
+        marginBottom:10,
+        fontSize: 18
+    }, 
+    date: {
+        fontSize: 14
+    },
+    buttonRight: {
+        width: 50,
+        height: 50,
+        marginRight: 15,
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+    }
 });
 
   

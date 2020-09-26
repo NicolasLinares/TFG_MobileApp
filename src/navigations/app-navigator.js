@@ -7,6 +7,7 @@ import LoginScreen from '_scenes/login';
 import HomeScreen from '_scenes/home';
 import ScannerScreen from '_scenes/scanner';
 import RecorderScreen from '_scenes/recorder';
+import AudioScreen from '_scenes/audio';
 
 import { ButtonMenu } from '_atoms';
 
@@ -36,14 +37,24 @@ const RouteConfigs = {
   },
   Scanner:{
     screen: ScannerScreen,
-    navigationOptions: ({ navigation }) => ({headerShown: false,
+    navigationOptions: {headerShown: false,
                         title: ' ',
-                      })
+                      }
   },
   Recorder: {
     screen: RecorderScreen,
     navigationOptions: {headerBackTitle: ' ', 
                         title: 'Notas de voz',
+                        headerStyle: { // para esconder la línea inferior en el header
+                          shadowOpacity: 0, // iOS
+                          elevation: 0, // Android
+                        },
+                      }
+  },
+  Audio: {
+    screen: AudioScreen,
+    navigationOptions: {headerBackTitle: ' ', 
+                        title: ' ',
                         headerStyle: { // para esconder la línea inferior en el header
                           shadowOpacity: 0, // iOS
                           elevation: 0, // Android

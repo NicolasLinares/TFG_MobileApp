@@ -19,7 +19,7 @@ class Scanner extends Component {
     onScanSuccess = e => {
       Alert.alert(
         "Paciente",
-        e.data,
+        e.data, // lo que ha leido el escáner
         [
           {
             text: "Cancelar",

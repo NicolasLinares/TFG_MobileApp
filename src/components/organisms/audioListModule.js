@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import {
+    Alert,
+} from 'react-native';
 
 import { AudioListView } from '_molecules';
 
@@ -7,9 +10,22 @@ import { deleteAudio } from '_redux_actions';
 
 class audioListModule extends Component {
 
+    deleteItem = (item) => {
 
-    deleteItem = (key) => {
-        this.props.delete(key);
+        Alert.alert(
+            'Eliminar nota de voz',
+            'La nota de voz "' + item.name + '" se va a eliminar de forma permanente',
+            [
+              {
+                text: 'Cancelar',
+                style: 'cancel',
+              },
+              { text: 'Eliminar', 
+                onPress: () => this.props.delete(item.key) 
+              }
+            ],
+            { cancelable: false }
+          );
     }
 
     render() {

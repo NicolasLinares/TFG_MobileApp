@@ -22,7 +22,7 @@ class audioListView extends Component {
           <View style={styles.actionsContainer}>
             <TouchableOpacity 
                 style={styles.deleteButton}
-                onPress={() => this.props.onPress(item.key)}
+                onPress={() => this.props.onPress(item)}
             >
                 <IconII style={{marginRight: 30}} name={"trash"} size={25} color='white'/>
             </TouchableOpacity>
