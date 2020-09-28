@@ -4,6 +4,7 @@ import {
   StyleSheet
 } from 'react-native';
 
+
 import { AudioList } from '_organisms';
 import { ButtonScanner } from '_atoms';
 
@@ -20,14 +21,14 @@ class HomeScreen extends Component {
       <View style={styles.container}>
 
 
+
         <View  style={styles.container}>
         {
-          // <AudioList/>
         } 
         </View>
 
         <View style={styles.scannerContainer}>
-          <ButtonScanner onPress={() => this.props.navigation.navigate('Recorder')}/>
+          <ButtonScanner onPress={() => this.props.navigation.navigate('Scanner')}/>
         </View>
         
       </View>

@@ -11,6 +11,7 @@ target 'recorder_cli' do
 
 
 
+
   target 'recorder_cliTests' do
     inherit! :complete
     # Pods for testing
@@ -21,7 +22,6 @@ target 'recorder_cli' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
   # Storage
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   # Enables Flipper.
   #

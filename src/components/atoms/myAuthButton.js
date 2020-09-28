@@ -11,9 +11,6 @@ import { COLORS } from '_styles';
 
 class myAuthButton extends Component {
 
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
