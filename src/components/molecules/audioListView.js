@@ -5,7 +5,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { AudioItem } from '_atoms';
+import { AudioItem } from '_organisms';
 import SwipeableFlatList from 'react-native-swipeable-list';
 import IconII from "react-native-vector-icons/Ionicons";
 import {CONSTANTS} from '_styles';

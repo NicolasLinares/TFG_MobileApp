@@ -7,5 +7,9 @@ export const ADD_AUDIO = 'ADD_AUDIO';
 export const DELETE_AUDIO = 'DELETE_AUDIO';
 
 
-// CURRENT AUDIO ACTIONS
+// PLAYER ACTIONS
+export const SET_PLAYER_STATE = 'SET_PLAYER_STATE';
+
+
+
 // ...

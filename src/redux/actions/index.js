@@ -26,4 +26,16 @@ export const deleteAudio = (key) => {
     }
 }
 
+// PLAYER ACTIONS
+
+export const setPlayerState = (playerState) => {
+    return {
+        type: 'SET_PLAYER_STATE',
+        playerState: playerState,
+    }
+}
+ 
+ 
+
+
 export default {authUser};

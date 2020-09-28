@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 
 import { RecorderView } from '_molecules';
-import {recorderService as RecorderService} from '_services';
 
+import AudioRecorderPlayer, {
+  AVEncoderAudioQualityIOSType,
+  AVEncodingOption,
+  AudioEncoderAndroidType,
+  AudioSourceAndroidType,
+} from 'react-native-audio-recorder-player';
+
+import moment from 'moment';
+import 'moment/locale/es';
+import RNFS from 'react-native-fs';
 
 import { connect } from 'react-redux';
 import { addAudio } from '_redux_actions';
@@ -13,6 +22,7 @@ class recorderModule extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        recorder: new AudioRecorderPlayer(),
         audio: null,
         isRecording: false,
 
@@ -20,10 +30,6 @@ class recorderModule extends Component {
         minutes_Counter: '00',
         seconds_Counter: '00',
     };
-  }
-
-  componentDidMount() {
-    RecorderService.configure();
   }
 
   componentWillUnmount() {
@@ -58,11 +64,57 @@ class recorderModule extends Component {
       });
   }
 
+  setAudioPath() {
+
+    filename = 'audio_' + moment().format('DDMMYYYY_HHmmss') + '.mp4';
+
+    path = Platform.select({
+        ios: filename, // .m4a
+        android:  RNFS.CachesDirectoryPath + '/'+ filename, // .mp4
+    });
+
+    return [filename, path];
+  }
+
+  async startRecorder() {
+    
+    const audioSet = {
+        AudioEncoderAndroid: AudioEncoderAndroidType.ACC,
+        AudioSourceAndroid: AudioSourceAndroidType.MIC,
+  
+        AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+        AVNumberOfChannelsKeyIOS: 2,
+        AVFormatIDKeyIOS: AVEncodingOption.aac,
+      };
+  
+      audiofile = this.setAudioPath();
+      name = audiofile[0];
+      path = audiofile[1];
+  
+      absolute_path = await this.state.recorder.startRecorder(path, true, audioSet);
+  
+      audio = {
+        name: name,
+        path: absolute_path,
+        creation_time: moment().format('HH:mm'),
+        creation_date: moment().format('LL')
+      };
+      
+      this.state.recorder.addRecordBackListener();
+      return audio;
+  };
+  
+  
+  async stopRecorder() {
+      const path = await this.state.recorder.stopRecorder();
+      this.state.recorder.removeRecordBackListener();
+  };
+
 
   async handleRecorder () {
 
       if (!this.state.isRecording) {
-        newAudio = await RecorderService.start();
+        newAudio = await this.startRecorder();
 
         this.startTimer();
 
@@ -72,7 +124,7 @@ class recorderModule extends Component {
         });
         
       } else {
-        await RecorderService.stop();
+        await this.stopRecorder();
 
         this.stopTimer();
         

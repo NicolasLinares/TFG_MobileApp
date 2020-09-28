@@ -10,6 +10,9 @@ const initialState = {
     },
 
     audiolist: [],
+
+    playerState: 'stop',
+
 }
 
 
@@ -54,4 +57,16 @@ export function audioListReducer(state = initialState, action) {
     }
 }
 
- 
+
+export function playerReducer(state = initialState, action) {
+    switch (action.type) {
+
+        case types.SET_PLAYER_STATE:
+            return {
+                ...state,
+                playerState: action.playerState,
+            };
+        default:
+            return state;
+    }
+}

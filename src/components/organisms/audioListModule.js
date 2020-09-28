@@ -39,16 +39,16 @@ class audioListModule extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        list: state.audioListReducer.audiolist,
-    }
+  return {
+      list: state.audioListReducer.audiolist,
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-      delete: (key) => dispatch(deleteAudio(key))
-    }
+  return {
+    delete: (key) => dispatch(deleteAudio(key))
   }
+}
   
 
 export default connect(mapStateToProps, mapDispatchToProps)(audioListModule);

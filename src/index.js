@@ -13,11 +13,10 @@ import { StatusBar } from 'react-native';
 import Navigator from '_navigations';
 
 import { Provider } from 'react-redux';
-import configureStore from '_redux_store';
+import store from '_redux_store';
 
 
 
-const store = configureStore();
 
 class App extends Component {
   

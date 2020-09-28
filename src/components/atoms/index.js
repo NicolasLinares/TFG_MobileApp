@@ -8,5 +8,3 @@ export {default as Picker} from './myPicker';
 export {default as TextInput} from './myTextInput';
 
 export {default as Switch} from './mySwitch';
-
-export {default as AudioItem} from './audioItemList';
