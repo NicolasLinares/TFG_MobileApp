@@ -10,6 +10,7 @@ import RecorderScreen from '_scenes/recorder';
 import AudioScreen from '_scenes/audio';
 
 import { ButtonMenu } from '_atoms';
+import { COLORS } from '_styles';
 
 
 const TabNavigatorConfig = {
@@ -44,10 +45,11 @@ const RouteConfigs = {
   Recorder: {
     screen: RecorderScreen,
     navigationOptions: {headerBackTitle: ' ', 
-                        title: 'Notas de voz',
+                        title: 'ID: 12345678910',
                         headerStyle: { // para esconder la línea inferior en el header
                           shadowOpacity: 0, // iOS
                           elevation: 0, // Android
+                          backgroundColor: COLORS.green
                         },
                       }
   },

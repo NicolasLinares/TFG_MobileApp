@@ -5,13 +5,13 @@ import {
     Text,
     StyleSheet,
     Platform,
-    TouchableOpacity,
+    TouchableOpacity
 } from 'react-native';
 
 import {default as Slider} from 'react-native-scrubber';
 
-import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS, CONSTANTS } from '_styles';
+import IconII from "react-native-vector-icons/Ionicons";
 
 
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
@@ -30,6 +30,8 @@ class audioItemModule extends Component {
             audio: this.props.item,
             sliderValue: 0,
             duration: 0,
+            icon: 'play',
+            state: 'stop',
         };
     }
 
@@ -61,6 +63,7 @@ class audioItemModule extends Component {
 
                 // Inicializa el player
                 this.props.setState('play');
+                this.setState({state: 'play'});
                 var msg = await this.state.player.startPlayer(this.state.audio.path);
                 
                 // Si antes de darle al botón se ha movido el slider, entonces
@@ -88,11 +91,14 @@ class audioItemModule extends Component {
             }
             case 'play': {
                 this.props.setState('pause');
+                this.setState({state: 'pause'});
+
                 return;
             }
             case 'pause': {
                 this.state.player.resumePlayer();
                 this.props.setState('play');
+                this.setState({state: 'play'});
                 return;
             }
         }
@@ -105,11 +111,12 @@ class audioItemModule extends Component {
         this.props.setState('stop');
         this.setState({ 
             sliderValue: 0,
+            state: 'stop'
         });
     }
 
     slideValueChange(value) {
-
+        
         if (value === 0) {
             // Necesario para poder iniciar otros audios
             this.resetPlayer();
@@ -154,7 +161,7 @@ class audioItemModule extends Component {
                         style={styles.buttonRight}
                         onPress={() => this.handlePlayer()}
                     >
-                        <IconII name={"play"} size={25} color={COLORS.grey}/>
+                        <IconII name={this.state.state !== 'play' ? 'play' : 'pause'} size={25} color={COLORS.grey}/>
                     </TouchableOpacity>
 
                 </View>
@@ -209,17 +216,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: 'white'
     },
+    slider: {
+        width: '80%',
+        marginTop: 3,
+        marginLeft: 25,
+        backgroundColor: 'white'
+    },
     buttonRight: {
         marginLeft: 10,
         width: 40,
         height: 45,
         alignItems: 'center',
-        backgroundColor: 'white'
-    },
-    slider: {
-        width: '80%',
-        marginTop: 3,
-        marginLeft: 25,
         backgroundColor: 'white'
     }
 });

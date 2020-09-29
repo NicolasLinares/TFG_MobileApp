@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {Recorder, AudioList} from '_organisms';
-import { Switch } from '_atoms';
+import {Recorder, AudioList, PatientInfo} from '_organisms';
 
 import {
   View,
@@ -12,6 +11,7 @@ class RecorderScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <PatientInfo />
         <AudioList />
         <Recorder />
       </View>
@@ -22,7 +22,7 @@ class RecorderScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'white',
     alignItems:'center',
   },
 });

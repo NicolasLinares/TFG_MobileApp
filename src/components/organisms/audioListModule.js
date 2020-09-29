@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import {
     Alert,
+    View,
+    Text,
+    StyleSheet
 } from 'react-native';
 
 import { AudioListView } from '_molecules';
 
 import { connect } from 'react-redux';
 import { deleteAudio } from '_redux_actions';
+import { COLORS } from '_styles';
 
 class audioListModule extends Component {
 
@@ -30,13 +34,32 @@ class audioListModule extends Component {
 
     render() {
         return (
+          <>
+          
+            <Text style={styles.text}>
+                Nuevas notas de voz
+            </Text>
+
             <AudioListView
                 list={this.props.list}
                 onPress={this.deleteItem}
             />
+          </>
         )
     }
 }
+
+
+const styles = StyleSheet.create({
+  text: {
+      fontWeight: 'bold',
+      marginTop: 20,
+      marginBottom: 20,
+      fontSize: 18
+  },
+
+});
+
 
 const mapStateToProps = (state) => {
   return {
