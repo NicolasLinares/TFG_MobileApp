@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
     Alert,
-    View,
     Text,
     StyleSheet
 } from 'react-native';
@@ -10,7 +9,9 @@ import { AudioListView } from '_molecules';
 
 import { connect } from 'react-redux';
 import { deleteAudio } from '_redux_actions';
-import { COLORS } from '_styles';
+
+import RNFS from 'react-native-fs';
+
 
 class audioListModule extends Component {
 
@@ -25,7 +26,17 @@ class audioListModule extends Component {
                 style: 'cancel',
               },
               { text: 'Eliminar', 
-                onPress: () => this.props.delete(item.key) 
+                onPress: () => {
+                  
+                  // Se borra en el filesystem porque el recorder
+                  // crea un fichero por cada grabación
+                  RNFS.unlink(`${item.path}`).then(res => {
+                      // Se actualiza el estado
+                      this.props.delete(item.key);
+                  }).catch(err => {
+                      alert("Error al borrar el audio");
+                  });
+                }
               }
             ],
             { cancelable: false }

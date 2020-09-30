@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-import {Recorder, AudioList, PatientInfo} from '_organisms';
-
 import {
   View,
   StyleSheet,
 } from 'react-native';
 
-class RecorderScreen extends Component {
 
-  constructor(props) {
-    super(props);
-  }
+class HistoryScreen extends Component {
 
   render() {
     return (
       <View style={styles.container}>
-        <PatientInfo nav={this.props.navigation} />
-        <AudioList />
-        <Recorder />
+        
       </View>
     );
   }
@@ -26,9 +19,11 @@ class RecorderScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     backgroundColor: 'white',
     alignItems:'center',
-  },
+  }
+
 });
 
-export default RecorderScreen;
+export default HistoryScreen;

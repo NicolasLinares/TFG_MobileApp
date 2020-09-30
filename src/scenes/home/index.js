@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import {
   View, 
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
 
-import { AudioList } from '_organisms';
 import { ButtonScanner } from '_atoms';
+import {UserInfo} from '_organisms';
 
 class HomeScreen extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
 
   render() {
@@ -20,15 +16,12 @@ class HomeScreen extends Component {
     return (
       <View style={styles.container}>
 
-
-
         <View  style={styles.container}>
-        {
-        } 
+          <UserInfo />
         </View>
 
         <View style={styles.scannerContainer}>
-          <ButtonScanner onPress={() => this.props.navigation.navigate('Recorder')}/>
+          <ButtonScanner onPress={() => this.props.navigation.navigate('Scanner')}/>
         </View>
         
       </View>
@@ -42,15 +35,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'white',
     alignItems:'center',
-  },
-  audiolistContainer: {
-    flex: 1,
-    width: '100%',
-    backgroundColor: 'white', 
-    alignItems:'center', 
-    justifyContent: 'center'
   },
   scannerContainer: {
     height: 120,
@@ -60,7 +46,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems:'center',
     backgroundColor:'white',
-  }
+  },
 
 });
 

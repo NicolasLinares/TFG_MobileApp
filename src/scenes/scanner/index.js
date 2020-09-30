@@ -23,7 +23,7 @@ class ScannerScreen extends Component {
           </Text>
         </View>
 
-        <ButtonBack onPress={ () => { this.props.navigation.goBack() }}/>
+        <ButtonBack onPress={ () => { this.props.navigation.replace('Recorder') }}/>
       </>
     );
   }

@@ -8,6 +8,7 @@ import SignInScreen from '_scenes/signin';
 import HomeScreen from '_scenes/home';
 
 import { ButtonMenu } from '_atoms';
+import { COLORS } from '_styles';
 
 const AuthNavigatorConfig = {
   initialRouteName: 'Login',
@@ -25,7 +26,7 @@ const RouteConfigs = {
   },
   Home: {
     screen: HomeScreen,
-    navigationOptions: {title: 'Notas de voz',
+    navigationOptions: {title: ' ',
                         headerLeft: () => (<ButtonMenu/>),
                         headerRight: () => (<View/>), // Android -  alinear título 
                         headerStyle: { // para esconder la línea inferior en el header

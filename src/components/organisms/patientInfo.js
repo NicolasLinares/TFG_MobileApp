@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 
 import { COLORS } from '_styles';
-import IconII from "react-native-vector-icons/Ionicons";
 
 import { ButtonHistory } from '_atoms';
 
@@ -21,7 +20,7 @@ class patientInfo extends Component {
                     style={{marginTop: 25}}
                     icon={'list'}
                     text={'Ver historial del paciente'}
-                    onPress={() => {}}
+                    onPress={() => this.props.nav.navigate('History')}
                 />
 
                 <View style={styles.line} />

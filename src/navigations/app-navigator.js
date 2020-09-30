@@ -7,6 +7,7 @@ import LoginScreen from '_scenes/login';
 import HomeScreen from '_scenes/home';
 import ScannerScreen from '_scenes/scanner';
 import RecorderScreen from '_scenes/recorder';
+import HistoryScreen from '_scenes/history';
 import AudioScreen from '_scenes/audio';
 
 import { ButtonMenu } from '_atoms';
@@ -50,6 +51,16 @@ const RouteConfigs = {
                           shadowOpacity: 0, // iOS
                           elevation: 0, // Android
                           backgroundColor: COLORS.green
+                        },
+                      }
+  },
+  History: {
+    screen: HistoryScreen,
+    navigationOptions: {headerBackTitle: ' ', 
+                        title: 'Historial del paciente',
+                        headerStyle: { // para esconder la línea inferior en el header
+                          shadowOpacity: 0, // iOS
+                          elevation: 0, // Android
                         },
                       }
   },

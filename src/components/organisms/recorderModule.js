@@ -92,7 +92,7 @@ class recorderModule extends Component {
       path = audiofile[1];
   
       absolute_path = await this.state.recorder.startRecorder(path, true, audioSet);
-  
+
       audio = {
         name: name,
         path: absolute_path,
