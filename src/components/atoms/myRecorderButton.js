@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {
     View,
     Text,
-    Platform,
     StyleSheet,
     Animated,
     Easing,
@@ -11,7 +10,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { COLORS, CONSTANTS }  from '_styles';
 
-class recorderView extends Component {
+class recorderButton extends Component {
 
     constructor(props) {
         super(props);
@@ -56,7 +55,6 @@ class recorderView extends Component {
             }).start(),
         ]);
     }
-
 
     /*
         Acciones del botón grabar. El componente padre ha pasado la función
@@ -212,4 +210,4 @@ const componentStyles = StyleSheet.create({
       },
 });
 
-export default recorderView;
+export default recorderButton;

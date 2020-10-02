@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { AudioListView } from '_molecules';
+import { SwipeableAudioList } from '_molecules';
 
 import { connect } from 'react-redux';
 import { deleteAudio } from '_redux_actions';
@@ -51,7 +51,7 @@ class audioListModule extends Component {
                 Nuevas notas de voz
             </Text>
 
-            <AudioListView
+            <SwipeableAudioList
                 list={this.props.list}
                 onPress={this.deleteItem}
             />

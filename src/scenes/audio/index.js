@@ -10,7 +10,6 @@ import {COLORS} from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
 
-
 class AudioScreen extends Component {
 
     constructor(props) {
@@ -18,8 +17,7 @@ class AudioScreen extends Component {
     }
 
     render() {
-
-
+      
         return (
 
         <View style={styles.container}>

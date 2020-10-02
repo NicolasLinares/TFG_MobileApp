@@ -46,22 +46,30 @@ const RouteConfigs = {
   Recorder: {
     screen: RecorderScreen,
     navigationOptions: {headerBackTitle: ' ', 
+                        headerRight: () => (<View/>),
                         title: 'ID: 12345678910',
                         headerStyle: { // para esconder la línea inferior en el header
                           shadowOpacity: 0, // iOS
                           elevation: 0, // Android
                           backgroundColor: COLORS.green
                         },
+                        headerTitleStyle: {
+                            textAlign: 'center', // Android -  alinear título 
+                        }
                       }
   },
   History: {
     screen: HistoryScreen,
-    navigationOptions: {headerBackTitle: ' ', 
+    navigationOptions: {headerBackTitle: ' ',
+                        headerRight: () => (<View/>),
                         title: 'Historial del paciente',
                         headerStyle: { // para esconder la línea inferior en el header
                           shadowOpacity: 0, // iOS
                           elevation: 0, // Android
                         },
+                        headerTitleStyle: {
+                            textAlign: 'center', // Android -  alinear título 
+                        }
                       }
   },
   Audio: {

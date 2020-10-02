@@ -21,7 +21,7 @@ import Sound from 'react-native-sound';
 import { connect } from 'react-redux';
 import { setPlayerState } from '_redux_actions';
 
-class audioItemModule extends Component {
+class myPlayerItemList extends Component {
 
     constructor(props) {
         super(props);
@@ -245,7 +245,7 @@ const mapStateToProps = (state) => {
   }
     
   
-  export default connect(mapStateToProps, mapDispatchToProps)(audioItemModule);
+  export default connect(mapStateToProps, mapDispatchToProps)(myPlayerItemList);
   
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { RecorderView } from '_molecules';
+import { RecorderButton } from '_atoms';
 
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -140,7 +140,7 @@ class recorderModule extends Component {
 
   render() {
     return (
-      <RecorderView
+      <RecorderButton
         onPress={() => this.handleRecorder()} 
         time={this.state.minutes_Counter + ' : '+ this.state.seconds_Counter}
       />

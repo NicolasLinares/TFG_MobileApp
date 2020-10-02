@@ -5,16 +5,16 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { AudioItem } from '_organisms';
+import { PlayerItem } from '_atoms';
 import SwipeableFlatList from 'react-native-swipeable-list';
 import IconII from "react-native-vector-icons/Ionicons";
 import {CONSTANTS} from '_styles';
 
 
-class audioListView extends Component {
+class swipeableList extends Component {
 
     _renderItem = ({ item }) => (
-        <AudioItem item={item}/>
+        <PlayerItem item={item}/>
     )
 
     _renderQuickActions = ({ item }) => {
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default audioListView;
+export default swipeableList;
