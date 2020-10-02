@@ -51,7 +51,7 @@ const RouteConfigs = {
                         headerStyle: { // para esconder la línea inferior en el header
                           shadowOpacity: 0, // iOS
                           elevation: 0, // Android
-                          backgroundColor: COLORS.green
+                          backgroundColor: 'white'
                         },
                         headerTitleStyle: {
                             textAlign: 'center', // Android -  alinear título 
@@ -62,10 +62,9 @@ const RouteConfigs = {
     screen: HistoryScreen,
     navigationOptions: {headerBackTitle: ' ',
                         headerRight: () => (<View/>),
-                        title: 'Historial del paciente',
+                        title: 'Historial',
                         headerStyle: { // para esconder la línea inferior en el header
-                          shadowOpacity: 0, // iOS
-                          elevation: 0, // Android
+                          backgroundColor: 'white'
                         },
                         headerTitleStyle: {
                             textAlign: 'center', // Android -  alinear título 

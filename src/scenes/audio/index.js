@@ -14,52 +14,68 @@ class AudioScreen extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+          audioName: this.props.navigation.state.params.name,
+          date: this.props.navigation.state.params.date,
+        }
+    }
+
+
+    _renderPlayer() { 
+      return (
+        <View style={styles.audio}>
+          <Text style={styles.title}> {this.state.audioName}</Text>
+          <Text style={styles.date}> {this.state.date}</Text>
+        </View>
+      );
+    }
+
+    _renderTranscription() {
+      return (
+        <View style={styles.transcriptionContainer}>
+              
+          <View style={styles.transcriptionHeader}>
+              <Text style={styles.title}>Transcripción</Text>
+              <View style={styles.actions}>
+                <IconII name={'create-outline'} size={27} color={COLORS.electric_blue}/>
+              </View>
+          </View>
+
+          <View style={styles.line}></View>
+
+          <ScrollView style={styles.transcription}>
+            <Text style={styles.text}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Vivamus consequat elit et urna posuere, non posuere leo 
+              varius. Phasellus rhoncus turpis non sem gravida tempus. 
+              Curabitur in mollis tellus. Nunc mi magna, facilisis id 
+              vehicula id, aliquam id neque. Nam vitae dolor id mi tempus 
+              faucibus. Duis euismod eu augue non congue. Quisque erat 
+              dolor, pretium a est non, finibus elementum risus. Ut et 
+              enim rhoncus, bibendum lacus eget, porttitor ante. 
+              Suspendisse vitae nisl ultricies, ultricies nibh quis,
+              sollicitudin nibh. Cras placerat erat ac quam vulputate, 
+              quis eleifend metus molestie. Sed ac neque dignissim, 
+              pharetra ex vel, placerat leo. Sed semper non urna in posuere. 
+              Praesent sed est tristique, pulvinar lacus et, viverra 
+              sapien. Proin risus sem, semper ut augue a, consequat 
+              ornare diam. Curabitur porttitor sem eget leo ullamcorper, 
+              sed sagittis ante imperdiet. Donec pharetra massa elit.
+            </Text>
+          </ScrollView>
+        </View>
+      );
     }
 
     render() {
-      
         return (
 
         <View style={styles.container}>
-          <View style={styles.audio}>
 
-            <Text style={styles.title}>audio_25092020_230012.mp4</Text>
-            <Text style={styles.date}>25 de Septiembre, 23:00</Text>
+          {this._renderPlayer()}
 
-          </View>
+          {this._renderTranscription()}
 
-          <View style={styles.transcriptionContainer}>
-            
-            <View style={styles.transcriptionHeader}>
-                <Text style={styles.title}>Transcripción</Text>
-                <View style={styles.actions}>
-                  <IconII name={'create-outline'} size={27} color={COLORS.electric_blue}/>
-                </View>
-            </View>
-
-            <View style={styles.line}></View>
-
-            <ScrollView style={styles.transcription}>
-              <Text style={styles.text}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Vivamus consequat elit et urna posuere, non posuere leo 
-                varius. Phasellus rhoncus turpis non sem gravida tempus. 
-                Curabitur in mollis tellus. Nunc mi magna, facilisis id 
-                vehicula id, aliquam id neque. Nam vitae dolor id mi tempus 
-                faucibus. Duis euismod eu augue non congue. Quisque erat 
-                dolor, pretium a est non, finibus elementum risus. Ut et 
-                enim rhoncus, bibendum lacus eget, porttitor ante. 
-                Suspendisse vitae nisl ultricies, ultricies nibh quis,
-                 sollicitudin nibh. Cras placerat erat ac quam vulputate, 
-                 quis eleifend metus molestie. Sed ac neque dignissim, 
-                 pharetra ex vel, placerat leo. Sed semper non urna in posuere. 
-                 Praesent sed est tristique, pulvinar lacus et, viverra 
-                 sapien. Proin risus sem, semper ut augue a, consequat 
-                 ornare diam. Curabitur porttitor sem eget leo ullamcorper, 
-                 sed sagittis ante imperdiet. Donec pharetra massa elit.
-              </Text>
-            </ScrollView>
-          </View>
         </View>
         );
     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
     Alert,
     Text,
+    View,
     StyleSheet
 } from 'react-native';
 
@@ -46,7 +47,6 @@ class audioListModule extends Component {
     render() {
         return (
           <>
-          
             <Text style={styles.text}>
                 Nuevas notas de voz
             </Text>
@@ -64,7 +64,6 @@ class audioListModule extends Component {
 const styles = StyleSheet.create({
   text: {
       fontWeight: 'bold',
-      marginTop: 20,
       marginBottom: 20,
       fontSize: 18
   },

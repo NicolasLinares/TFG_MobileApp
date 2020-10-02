@@ -6,6 +6,9 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import { COLORS } from '_styles';
+
+
 class RecorderScreen extends Component {
 
   constructor(props) {

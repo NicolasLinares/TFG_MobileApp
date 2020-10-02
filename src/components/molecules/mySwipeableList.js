@@ -34,6 +34,7 @@ class swipeableList extends Component {
         return (
 
             <SwipeableFlatList
+                contentContainerStyle={{ paddingBottom: 20}}
                 style={styles.audiolist}
                 keyExtractor={(item) => item.key.toString()}
                 data={this.props.list}  
@@ -47,15 +48,10 @@ class swipeableList extends Component {
 
 
 const styles = StyleSheet.create({
-    searchbar:{
-      alignSelf: 'center', 
-      width: '95%',
-      height: 40,
-      backgroundColor: 'rgba(0,0,0, 0.06)'
-    },
     audiolist:{
       width:"100%",
-      backgroundColor: 'white'
+      backgroundColor: 'transparent',
+      paddingTop: 10,
     },
     actionsContainer: {
         flex: 1,

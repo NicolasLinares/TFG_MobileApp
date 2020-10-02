@@ -22,8 +22,6 @@ class patientInfo extends Component {
                     text={'Ver historial del paciente'}
                     onPress={() => this.props.nav.navigate('History')}
                 />
-
-                <View style={styles.line} />
             </View>
         )
     }
@@ -32,8 +30,8 @@ class patientInfo extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: COLORS.green,
-        height: 120,
+        backgroundColor: 'white',
+        height: 85,
         width: '100%',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -45,10 +43,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20,
         fontSize: 18
-    },
-    line: {
-        borderWidth: 1,
-        borderColor: COLORS.light_grey
     }
 
 });
