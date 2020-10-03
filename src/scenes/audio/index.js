@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { Player } from '_atoms';
 import {COLORS} from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
@@ -26,6 +27,7 @@ class AudioScreen extends Component {
         <View style={styles.audio}>
           <Text style={styles.title}> {this.state.audioName}</Text>
           <Text style={styles.date}> {this.state.date}</Text>
+          <Player item={this.props.navigation.state.params} stream={true} complexStyle={true}/>
         </View>
       );
     }
@@ -73,7 +75,6 @@ class AudioScreen extends Component {
         <View style={styles.container}>
 
           {this._renderPlayer()}
-
           {this._renderTranscription()}
 
         </View>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start'
   },
   audio: {
-      height: 200,
+      height: 220,
       width: '100%',
       backgroundColor: 'white',
       alignItems:'center',
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
   },
   title: {
       marginTop:20,
-      marginBottom:20,
+      marginBottom:10,
       fontSize: 20
   }, 
   date: {

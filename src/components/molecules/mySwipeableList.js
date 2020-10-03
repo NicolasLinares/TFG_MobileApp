@@ -1,20 +1,31 @@
 import React, { Component } from 'react'
 import { 
-    StyleSheet, 
+    Text,
+    StyleSheet,
     View,
     TouchableOpacity
 } from 'react-native';
 
-import { PlayerItem } from '_atoms';
+import { Player } from '_atoms';
 import SwipeableFlatList from 'react-native-swipeable-list';
 import IconII from "react-native-vector-icons/Ionicons";
-import {CONSTANTS} from '_styles';
+import {COLORS, CONSTANTS} from '_styles';
 
 
 class swipeableList extends Component {
 
     _renderItem = ({ item }) => (
-        <PlayerItem item={item}/>
+        <View style={styles.item}>
+            <View style={styles.info}>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.date}>
+                    {item.creation_time}
+                </Text>
+            </View>
+
+            <Player item={item} stream={false}/>
+
+        </View>
     )
 
     _renderQuickActions = ({ item }) => {
@@ -66,6 +77,40 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'red',
         borderRadius: 10,
+    },
+    item: {
+        backgroundColor: 'white',
+        height: 85,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderRadius: 10,
+        marginHorizontal: CONSTANTS.marginHorizontalItemList,
+        marginVertical: CONSTANTS.marginVerticalItemList,
+    },
+    info: {
+        flexDirection: 'row',
+        height: 30,
+        width: '90%',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        backgroundColor: 'white',
+        marginBottom: 5,
+        marginHorizontal: 20,
+    },
+    name: {
+        fontSize: 14
+    },
+    date: {
+        fontSize: 14
     },
 });
 

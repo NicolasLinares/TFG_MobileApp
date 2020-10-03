@@ -11,5 +11,5 @@ export {default as TextInput} from './myTextInput';
 
 export {default as Switch} from './mySwitch';
 
-export {default as PlayerItem} from './myPlayerItemList';
+export {default as Player} from './myPlayer';
 export {default as HistoryItem} from './myHistoryItemList';

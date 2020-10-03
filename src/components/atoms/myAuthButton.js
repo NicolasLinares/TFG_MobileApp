@@ -11,7 +11,6 @@ import { COLORS } from '_styles';
 
 class myAuthButton extends Component {
 
-
     render() {
         return (
             <TouchableOpacity
