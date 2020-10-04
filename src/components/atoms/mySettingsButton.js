@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
-import IconII from "react-native-vector-icons/Ionicons";
+import IconMI from "react-native-vector-icons/MaterialIcons";
 import { COLORS } from '_styles';
 
 class myMenuButton extends Component {
@@ -11,7 +11,7 @@ class myMenuButton extends Component {
                 style={{ alignSelf: "flex-start" }}
                 onPress={this.props.onPress} 
             >
-                <IconII style={{marginLeft: 10}} name={"menu-outline"} size={35} color={COLORS.electric_blue}/>
+                <IconMI style={{marginRight: 10}} name={"settings"} size={25} color={COLORS.electric_blue}/>
             </TouchableOpacity>
         )
     }

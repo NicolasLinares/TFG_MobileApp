@@ -40,7 +40,7 @@ class LoginScreen extends Component {
 
   handleLogin = () => {
     this.props.setUser(this.state.email, this.state.password);
-    this.props.navigation.replace('Home');
+    this.props.navigation.navigate('App');
   }
 
   _renderInputs() {

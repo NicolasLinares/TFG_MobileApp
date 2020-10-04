@@ -72,12 +72,10 @@ class AudioScreen extends Component {
     render() {
         return (
 
-        <View style={styles.container}>
-
-          {this._renderPlayer()}
-          {this._renderTranscription()}
-
-        </View>
+          <View style={styles.container}>
+            {this._renderPlayer()}
+            {this._renderTranscription()}
+          </View>
         );
     }
 }

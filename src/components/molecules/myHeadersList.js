@@ -64,7 +64,7 @@ class myHeadersList extends Component {
 const styles = StyleSheet.create({
     audiolist:{
         width:"100%",
-        backgroundColor: COLORS.light_green,
+        backgroundColor: 'white',
         paddingTop: 10,
     },
     dateContainer: {
