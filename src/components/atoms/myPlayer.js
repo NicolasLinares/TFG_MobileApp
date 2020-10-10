@@ -27,8 +27,8 @@ class myPlayer extends Component {
         super(props);
 
         this.state = {
-            //path: this.props.item.path,
-            path: 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3',
+            path: this.props.item.path,
+            //path: 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3',
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 
             player: new AudioRecorderPlayer(),
@@ -48,10 +48,10 @@ class myPlayer extends Component {
     }
 
     setAudioDuration() {
-        //path = this.props.stream ? this.props.item.path : this.props.item.name ;
-        //directory = this.props.stream ? null : RNFS.CachesDirectoryPath;
-        path = this.state.path;        
-        directory = null;
+        path = this.props.stream ? this.props.item.path : this.props.item.name ;
+        directory = this.props.stream ? null : RNFS.CachesDirectoryPath;
+        //path = this.state.path;        
+        //directory = null;
 
         var audio = new Sound(path , directory,  (error) => {
           if (error) {
@@ -267,7 +267,8 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginHorizontal: 20
     },
     skipTextValue: {
         position: 'absolute',

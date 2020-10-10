@@ -66,11 +66,16 @@ class recorderModule extends Component {
 
   setAudioPath() {
 
-    filename = 'audio_' + moment().format('DDMMYYYY_HHmmss') + '.mp4';
+    name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
+
+    filename = Platform.select({
+        ios: name + '.m4a',
+        android: name  + '.mp3',
+    });
 
     path = Platform.select({
-        ios: filename, // .m4a
-        android:  RNFS.CachesDirectoryPath + '/'+ filename, // .mp4
+        ios: filename,
+        android:  RNFS.CachesDirectoryPath + '/'+ filename,
     });
 
     return [filename, path];
@@ -79,7 +84,7 @@ class recorderModule extends Component {
   async startRecorder() {
     
     const audioSet = {
-        AudioEncoderAndroid: AudioEncoderAndroidType.ACC,
+        AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
         AudioSourceAndroid: AudioSourceAndroidType.MIC,
   
         AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,

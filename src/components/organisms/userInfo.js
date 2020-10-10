@@ -20,8 +20,8 @@ class userInfo extends Component {
             <View style={styles.item}>
                 <IconII style={styles.icon} name={"person-circle"} size={50} color={COLORS.grey}/>
                 <View style={styles.infoContainer}>
-                    <Text style={styles.name}>Dr. Antonio Rodriguez</Text>
-                    <Text style={styles.spec}>Cirugía general y del aparato digestivo</Text>
+                    <Text style={styles.name}>Dr. Nicolás Linares</Text>
+                    <Text style={styles.spec}>Medicina física y rehabilitación</Text>
                 </View>
             </View>
         )

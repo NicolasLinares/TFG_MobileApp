@@ -49,43 +49,43 @@ export const historial_list = [
     {
         date: '2 de octubre de 2020',
         data: [
-            {key: '0005', name: 'audio_02102020_130000.mp4', date: '2 de octubre de 2020', time: '13:00'},
-            {key: '0004', name: 'audio_02102020_120000.mp4', date: '2 de octubre de 2020', time: '12:00'}
+            {key: '0005', name: 'audio_02102020_130000.m4a', date: '2 de octubre de 2020', time: '13:00'},
+            {key: '0004', name: 'audio_02102020_120000.m4a', date: '2 de octubre de 2020', time: '12:00'}
         ]
     },
     {
         date: '29 de septiembre de 2020',
         data: [
-            {key: '0003', name: 'audio_29092020_150100.mp4', date: '29 de septiembre de 2020', time: '15:01'},
-            {key: '0002', name: 'audio_29092020_150000.mp4', date: '29 de septiembre de 2020', time: '15:00'},
-            {key: '0001', name: 'audio_29092020_130000.mp4', date: '29 de septiembre de 2020', time: '13:00'},
+            {key: '0003', name: 'audio_29092020_150100.m4a', date: '29 de septiembre de 2020', time: '15:01'},
+            {key: '0002', name: 'audio_29092020_150000.m4a', date: '29 de septiembre de 2020', time: '15:00'},
+            {key: '0001', name: 'audio_29092020_130000.m4a', date: '29 de septiembre de 2020', time: '13:00'},
         ]
     },
     {
         date: '28 de septiembre de 2020',
         data: [
-            {key: '0000', name: 'audio_28092020_100000.mp4', date: '28 de septiembre de 2020', time: '10:00'},
-            {key: '001032', name: 'audio_28092020_090000.mp4', date: '28 de septiembre de 2020', time: '09:00'},
-            {key: '001023', name: 'audio_28092020_083400.mp4', date: '28 de septiembre de 2020', time: '08:34'},
-            {key: '0010322', name: 'audio_28092020_075600.mp4', date: '28 de septiembre de 2020', time: '07:56'},
+            {key: '0000', name: 'audio_28092020_100000.m4a', date: '28 de septiembre de 2020', time: '10:00'},
+            {key: '001032', name: 'audio_28092020_090000.m4a', date: '28 de septiembre de 2020', time: '09:00'},
+            {key: '001023', name: 'audio_28092020_083400.m4a', date: '28 de septiembre de 2020', time: '08:34'},
+            {key: '0010322', name: 'audio_28092020_075600.m4a', date: '28 de septiembre de 2020', time: '07:56'},
         ]
     },
     {
         date: '25 de septiembre de 2020',
         data: [
-            {key: '123342', name: 'audio_25092020_100000.mp4', date: '28 de septiembre de 2020', time: '10:00'},
-            {key: '12312', name: 'audio_25092020_090000.mp4', date: '28 de septiembre de 2020', time: '09:00'},
-            {key: '123443', name: 'audio_25092020_083400.mp4', date: '28 de septiembre de 2020', time: '08:34'},
-            {key: '233444', name: 'audio_25092020_075600.mp4', date: '28 de septiembre de 2020', time: '07:56'},
+            {key: '123342', name: 'audio_25092020_100000.m4a', date: '28 de septiembre de 2020', time: '10:00'},
+            {key: '12312', name: 'audio_25092020_090000.m4a', date: '28 de septiembre de 2020', time: '09:00'},
+            {key: '123443', name: 'audio_25092020_083400.m4a', date: '28 de septiembre de 2020', time: '08:34'},
+            {key: '233444', name: 'audio_25092020_075600.m4a', date: '28 de septiembre de 2020', time: '07:56'},
         ]
     },
     {
         date: '22 de septiembre de 2020',
         data: [
-            {key: '65467', name: 'audio_22092020_100000.mp4', date: '28 de septiembre de 2020', time: '10:00'},
-            {key: '7564', name: 'audio_22092020_090000.mp4', date: '28 de septiembre de 2020', time: '09:00'},
-            {key: '4566', name: 'audio_22092020_083400.mp4', date: '28 de septiembre de 2020', time: '08:34'},
-            {key: '5646', name: 'audio_22092020_075600.mp4', date: '28 de septiembre de 2020', time: '07:56'},
+            {key: '65467', name: 'audio_22092020_100000.m4a', date: '28 de septiembre de 2020', time: '10:00'},
+            {key: '7564', name: 'audio_22092020_090000.m4a', date: '28 de septiembre de 2020', time: '09:00'},
+            {key: '4566', name: 'audio_22092020_083400.m4a', date: '28 de septiembre de 2020', time: '08:34'},
+            {key: '5646', name: 'audio_22092020_075600.m4a', date: '28 de septiembre de 2020', time: '07:56'},
         ]
     },
 ];
