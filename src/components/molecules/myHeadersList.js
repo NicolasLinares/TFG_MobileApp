@@ -65,15 +65,15 @@ const styles = StyleSheet.create({
     audiolist:{
         width:"100%",
         backgroundColor: 'white',
-        paddingTop: 10,
     },
     dateContainer: {
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
         textAlign: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(210,210,210, 0.6)',
         borderRadius: 10,
         marginVertical: 10,
+        marginLeft: 40
     },
     dateText: {
         color: 'black',

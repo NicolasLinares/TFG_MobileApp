@@ -7,7 +7,7 @@ import {
 
 
 import { ButtonScanner } from '_atoms';
-import {UserInfo} from '_organisms';
+import {UserInfo, HistoryList} from '_organisms';
 
 class HomeScreen extends Component {
 
@@ -18,6 +18,7 @@ class HomeScreen extends Component {
 
         <View  style={styles.container}>
           <UserInfo />
+          <HistoryList nav={this.props.navigation}/>
         </View>
 
         <View style={styles.scannerContainer}>
