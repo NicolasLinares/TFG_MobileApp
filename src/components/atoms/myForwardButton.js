@@ -11,33 +11,39 @@ import { COLORS } from '_styles';
 
 
 
-class myHistoryButton extends Component {
+class myForwardButton extends Component {
 
     render() {
         return (
             <TouchableOpacity
-                style={this.props.style}
+                style={styles.button}
                 onPress={this.props.onPress} 
             >
                 <View style={styles.card}>
-                    <IconII  style={styles.icon} name={this.props.icon} color={'white'}/>
-                    <Text style={styles.text}>{this.props.text}</Text>
+                    <Text style={styles.text}>
+                        Introducir manualmente
+                    </Text>
+                    <IconII style={styles.icon} name={'chevron-forward'}/>
                 </View>
-
             </TouchableOpacity>
         )
     }
 }
 
 const styles = StyleSheet.create({
-
+    button: { 
+        position: "absolute",
+        alignSelf: 'center',
+        bottom: 180,
+        borderRadius: 35,
+    },
     card: {
         flexDirection:'row',
         height: 40,
         borderRadius: 30,
-        backgroundColor: COLORS.electric_blue,
+        backgroundColor:'rgba(100,100,100,0.7)',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         shadowRadius: 5,
         shadowColor: "grey",
         shadowOpacity: 0.5,
@@ -49,14 +55,16 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20, 
-        marginRight: 20, 
-        color: 'white'
+        marginLeft: 20,
+        marginRight: 10, 
+        color: COLORS.electric_blue
     },
     icon: {
-        marginLeft: 20,
-        marginRight: 20, 
-        fontSize: 20
+        fontSize: 20,
+        marginRight: 5,
+        color: COLORS.electric_blue
+
     }
 });
 
-export default myHistoryButton;
+export default myForwardButton;

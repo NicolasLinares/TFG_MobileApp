@@ -1,10 +1,11 @@
 import {createStore, combineReducers} from 'redux';
-import {userReducer, audioListReducer, playerReducer } from '_redux_reducers';  
+import {userReducer, audioListReducer, playerReducer, patientCodeReducer } from '_redux_reducers';  
 
 const rootReducer = combineReducers({
     userReducer: userReducer,
     audioListReducer: audioListReducer,
-    playerReducer: playerReducer
+    playerReducer: playerReducer,
+    patientCodeReducer: patientCodeReducer
 });
 
 const store = createStore(rootReducer);

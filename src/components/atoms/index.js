@@ -2,7 +2,7 @@
 export {default as ButtonSettings} from './mySettingsButton';
 export {default as ButtonLogout} from './myLogoutButton';
 export {default as ButtonBack} from './myBackButton';
-export {default as ButtonHistory} from './myHistoryButton';
+export {default as ButtonForward} from './myForwardButton';
 
 // Botones de inicio de sesión y registro
 export {default as ButtonAuth} from './myAuthButton';

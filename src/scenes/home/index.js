@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View, 
   StyleSheet,
+  Alert
 } from 'react-native';
 
 
@@ -9,7 +10,6 @@ import { ButtonScanner } from '_atoms';
 import {UserInfo} from '_organisms';
 
 class HomeScreen extends Component {
-
 
   render() {
 
@@ -21,7 +21,7 @@ class HomeScreen extends Component {
         </View>
 
         <View style={styles.scannerContainer}>
-          <ButtonScanner onPress={() => this.props.navigation.navigate('Scanner')}/>
+          <ButtonScanner onPress={() => this.props.navigation.navigate('Recorder')}/>
         </View>
         
       </View>

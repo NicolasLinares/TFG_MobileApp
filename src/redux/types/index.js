@@ -11,5 +11,11 @@ export const DELETE_AUDIO = 'DELETE_AUDIO';
 export const SET_PLAYER_STATE = 'SET_PLAYER_STATE';
 
 
+// PATIENT CODE ACTIONS
+export const SET_PATIENT_CODE = 'SET_PATIENT_CODE';
+
+export const OPEN_EDITOR = 'OPEN_EDITOR';
+
+export const CLOSE_EDITOR = 'CLOSE_EDITOR';
 
 // ...

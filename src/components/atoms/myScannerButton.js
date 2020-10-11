@@ -16,8 +16,8 @@ class myRecorderButton extends Component {
                 style={styles.button}
                 onPress={this.props.onPress} 
             >
-                <IconII name={"scan"} size={30} color={COLORS.electric_blue}/>
-                <Text style={styles.text}>   Escanear código</Text>
+                <IconII name={"mic"} size={30} color={'red'}/>
+                <Text style={styles.text}> Nueva nota de voz</Text>
             </TouchableOpacity>
         )
     }
@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
     text: {
-        fontSize: 18, 
-        fontWeight: 'bold', 
-        color: COLORS.electric_blue
+        fontSize: 22, 
+        color: 'black',
+        marginLeft: 10
     }
 });
 

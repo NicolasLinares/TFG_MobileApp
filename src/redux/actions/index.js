@@ -35,6 +35,27 @@ export const setPlayerState = (playerState) => {
     }
 }
  
+
+// PATIENT CODE ACTIONS
+
+export const setPatientCode = (code) => {
+    return {
+        type: 'SET_PATIENT_CODE',
+        code: code,
+    }
+}
+ 
+export const openCodeEditor = () => {
+    return {
+        type: 'OPEN_EDITOR'
+    }
+}
+ 
+export const closeCodeEditor = () => {
+    return {
+        type: 'CLOSE_EDITOR'
+    }
+}
  
 
 

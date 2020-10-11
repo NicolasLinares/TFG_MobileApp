@@ -13,6 +13,11 @@ const initialState = {
 
     playerState: 'stop',
 
+    patientCode: {
+        code: '',
+        isEditorVisible: false,
+    }
+
 }
 
 
@@ -65,6 +70,29 @@ export function playerReducer(state = initialState, action) {
             return {
                 ...state,
                 playerState: action.playerState,
+            };
+        default:
+            return state;
+    }
+}
+
+export function patientCodeReducer(state = initialState.patientCode, action) {
+    switch (action.type) {
+
+        case types.SET_PATIENT_CODE:
+            return {
+                ...state,
+                code: action.code,
+            };
+        case types.OPEN_EDITOR:
+            return {
+                ...state,
+                isEditorVisible: true,
+            };
+        case types.CLOSE_EDITOR:
+            return {
+                ...state,
+                isEditorVisible: false,
             };
         default:
             return state;

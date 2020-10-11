@@ -10,6 +10,9 @@ import { ButtonBack } from '_atoms';
 import { COLORS } from '_styles';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
+import { connect } from 'react-redux';
+import { setPatientCode, openCodeEditor } from '_redux_actions';
+
 
 class Scanner extends Component {
 
@@ -22,22 +25,8 @@ class Scanner extends Component {
 
 
     onScanSuccess = e => {
-      Alert.alert(
-        "Paciente",
-        e.data, // lo que ha leido el escáner
-        [
-          {
-            text: "Cancelar",
-            style: "cancel",
-            onPress: () => this.props.nav.goBack()
-          },
-          { text: "OK", 
-            onPress: () => this.props.nav.replace('Recorder') 
-          }
-        ],
-        { cancelable: false }
-      );
-    
+      this.props.setCode(e.data);
+      this.props.nav.replace('Recorder');     
     };
 
 
@@ -51,8 +40,8 @@ class Scanner extends Component {
           />
 
           {this._renderMessage()}
-
-          <ButtonBack onPress={ () => { this.props.nav.replace('Recorder') }}/>
+          
+          <ButtonBack onPress={ () => { this.props.nav.replace('Recorder')}}/>
         </>
       )
     };
@@ -61,7 +50,7 @@ class Scanner extends Component {
     _renderMessage() {
       return (
         <View style={styles.card}>
-          <Text style={{color: 'white', fontSize: 16, marginLeft: 20, marginRight: 20,}}>
+          <Text style={styles.message}>
             Encuentra un código para escanearlo
           </Text>
         </View>
@@ -80,8 +69,23 @@ class Scanner extends Component {
         height: 40,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 30
+        borderRadius: 12
+    },
+    message: {
+      textAlign: 'center', 
+      color: 'white', 
+      fontSize: 14, 
+      marginLeft: 20, 
+      marginRight: 20
     }
   });
 
-  export default Scanner;
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      setCode: (code) => dispatch(setPatientCode(code)),
+      openCodeEditor: () => dispatch(openCodeEditor()),
+    }
+  }
+  
+  export default connect(null, mapDispatchToProps) (Scanner);
+  

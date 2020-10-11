@@ -12,16 +12,18 @@ import SettingsScreen from '_scenes/settings';
 
 import {ButtonSettings} from '_atoms';
 import {ButtonLogout} from '_atoms';
+import moment from 'moment';
 
 const TabNavigatorConfig = {
   initialRouteName: 'Home',
+  mode: 'modal'
 };
 
 const RouteConfigs = {
   Home: {
     screen: HomeScreen,
     navigationOptions: ({navigation}) => ({
-      title: ' ',
+      title: moment().format('LL'),
       headerLeft: () => <ButtonLogout onPress={() => navigation.navigate('Auth')}/>,
       headerRight: () => <ButtonSettings onPress={() => navigation.navigate('Settings')}/>,
       headerStyle: {
@@ -31,6 +33,8 @@ const RouteConfigs = {
       },
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
+        fontWeight: '300',
+        fontSize: 15
       },
     }),
   },
@@ -43,7 +47,7 @@ const RouteConfigs = {
     navigationOptions: {
       headerBackTitle: ' ',
       headerRight: () => <View />,
-      title: 'ID: 12345678910',
+      title: moment().format('LL'),
       headerStyle: {
         // para esconder la línea inferior en el header
         shadowOpacity: 0, // iOS
@@ -52,6 +56,8 @@ const RouteConfigs = {
       },
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
+        fontWeight: '300',
+        fontSize: 15
       },
     },
   },

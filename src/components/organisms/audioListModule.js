@@ -46,16 +46,10 @@ class audioListModule extends Component {
 
     render() {
         return (
-          <>
-            <Text style={styles.text}>
-                Nuevas notas de voz
-            </Text>
-
             <SwipeableAudioList
                 list={this.props.list}
                 onPress={this.deleteItem}
             />
-          </>
         )
     }
 }

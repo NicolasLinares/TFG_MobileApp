@@ -20,7 +20,7 @@ class myBackButton extends Component {
                 onPress={this.props.onPress} 
             >
                 <View style={styles.card}>
-                    <IconII  name={"chevron-back"} size={30} color={COLORS.electric_blue}/>
+                    <IconII style={styles.icon} name={"chevron-back"}/>
                     <Text style={styles.text}>Cancelar</Text>
                 </View>
 
@@ -32,19 +32,17 @@ class myBackButton extends Component {
 const styles = StyleSheet.create({
     button: { 
         position: "absolute",
-        left: 30,
+        left: 60,
         bottom: 90,
         borderRadius: 35,
     },
     card: {
         flexDirection:'row',
         height: 40,
-        width: 130,
         borderRadius: 30,
-        marginLeft: 15,
         backgroundColor:'rgba(100,100,100,0.7)',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         shadowRadius: 5,
         shadowColor: "grey",
         shadowOpacity: 0.5,
@@ -55,8 +53,14 @@ const styles = StyleSheet.create({
         elevation: 5, // Android solo funciona con elevation
     },
     text: {
-        fontSize: 20, 
+        fontSize: 20,
+        marginLeft: 5, 
         marginRight: 15, 
+        color: COLORS.electric_blue
+    },
+    icon: {
+        fontSize: 20,
+        marginLeft: 5, 
         color: COLORS.electric_blue
     }
 });
