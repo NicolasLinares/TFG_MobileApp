@@ -7,7 +7,7 @@ import {
 import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS } from '_styles';
 
-class myRecorderButton extends Component {
+class myNewRecordButton extends Component {
 
     render() {
         return (
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default myRecorderButton;
+export default myNewRecordButton;

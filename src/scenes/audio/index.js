@@ -39,7 +39,8 @@ class AudioScreen extends Component {
           <View style={styles.transcriptionHeader}>
               <Text style={styles.title}>Transcripción</Text>
               <View style={styles.actions}>
-                <IconII name={'create-outline'} size={27} color={COLORS.electric_blue}/>
+                <IconII style={styles.iconButtons} name={'share-social-outline'}/>
+                <IconII style={styles.iconButtons} name={'create-outline'}/>
               </View>
           </View>
 
@@ -148,7 +149,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingHorizontal: 20,
     textAlign:'justify'
-  }
+  },
+  iconButtons: {
+    fontSize: 27,
+    color: COLORS.electric_blue,
+    marginHorizontal: 10
+  },
 });
 
 export default AudioScreen;

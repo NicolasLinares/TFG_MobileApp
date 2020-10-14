@@ -1,6 +1,5 @@
 // Botones de cabecera
 export {default as ButtonSettings} from './mySettingsButton';
-export {default as ButtonLogout} from './myLogoutButton';
 export {default as ButtonBack} from './myBackButton';
 export {default as ButtonForward} from './myForwardButton';
 
@@ -10,15 +9,12 @@ export {default as Picker} from './myPicker';
 export {default as TextInput} from './myTextInput';
 
 // Botones que inician una función importante
-export {default as ButtonScanner} from './myScannerButton';
+export {default as ButtonNewRecord} from './myNewRecordButton';
 export {default as RecorderButton } from './myRecorderButton';
 
 // Componentes del historial de audios
 export {default as Player} from './myPlayer';
 export {default as HistoryItem} from './myHistoryItemList';
-
-
-
 
 
 // No usados

@@ -14,7 +14,7 @@ import {COLORS, CONSTANTS} from '_styles';
 
 class swipeableList extends Component {
 
-    _renderItem = ({ item }) => (
+    _renderItem =  ({ item }) => (
         <View style={styles.item}>
             <View style={styles.info}>
                 <Text style={styles.name}>{item.name}</Text>

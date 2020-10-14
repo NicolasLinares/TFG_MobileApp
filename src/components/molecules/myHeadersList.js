@@ -49,6 +49,7 @@ class myHeadersList extends Component {
         return (
             <SectionList
                 contentContainerStyle={{ paddingBottom: 50}}
+                showsVerticalScrollIndicator={false}
                 style={styles.audiolist}
                 sections={this.state.list}
                 inverted={false}

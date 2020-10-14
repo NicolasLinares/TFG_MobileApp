@@ -3,7 +3,9 @@ export const COLORS = {
     dark_blue: "#8ba0e0",
     blue: "#9db2eb",
     light_blue: "#dae0f2",
+
     electric_blue: '#2381fc',
+    light_electric_blue: '#5ea4ff',
 
     green: '#9bd4c9',
     light_green: '#dcf5f0',

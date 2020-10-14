@@ -81,6 +81,16 @@ class recorderModule extends Component {
     return [filename, path];
   }
 
+  async getCreateTime(path) {
+    dateObj = (await RNFS.stat(path)).ctime;
+    h=dateObj.getHours();
+    hh= h < 10 ? '0'+h : h;
+    m=dateObj.getMinutes();
+    mm= m < 10 ? '0'+m : m;
+
+    return hh + ":" + mm ;
+  }
+
   async startRecorder() {
     
     const audioSet = {
@@ -97,14 +107,16 @@ class recorderModule extends Component {
       path = audiofile[1];
   
       absolute_path = await this.state.recorder.startRecorder(path, true, audioSet);
+      ctime = await this.getCreateTime(absolute_path);
 
       audio = {
         name: name,
         path: absolute_path,
-        creation_time: moment().format('HH:mm'),
-        creation_date: moment().format('LL')
+        creation_time: ctime,
+        patientTag: this.props.code,
+        //idDoctor: this.props.Doctor
       };
-      
+
       this.state.recorder.addRecordBackListener();
       return audio;
   };
@@ -155,6 +167,12 @@ class recorderModule extends Component {
 }
 
 
+const mapStateToProps = (state) => {
+  return {
+      code: state.patientCodeReducer.code,
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addNewAudio: (audio) => dispatch(addAudio(audio))
@@ -162,4 +180,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(null, mapDispatchToProps) (recorderModule);
+export default connect(mapStateToProps, mapDispatchToProps) (recorderModule);

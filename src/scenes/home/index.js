@@ -2,27 +2,28 @@ import React, { Component } from 'react';
 import {
   View, 
   StyleSheet,
-  Alert
 } from 'react-native';
 
 
-import { ButtonScanner } from '_atoms';
+import { ButtonNewRecord, ButtonSettings } from '_atoms';
 import {UserInfo, HistoryList} from '_organisms';
 
 class HomeScreen extends Component {
 
   render() {
-
     return (
       <View style={styles.container}>
 
-        <View  style={styles.container}>
-          <UserInfo />
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <UserInfo />
+            <ButtonSettings onPress={() => this.props.navigation.navigate('Settings')}/>
+          </View>
           <HistoryList nav={this.props.navigation}/>
         </View>
 
-        <View style={styles.scannerContainer}>
-          <ButtonScanner onPress={() => this.props.navigation.navigate('Recorder')}/>
+        <View style={styles.newRecordContainer}>
+          <ButtonNewRecord onPress={() => this.props.navigation.navigate('Recorder')}/>
         </View>
         
       </View>
@@ -30,6 +31,8 @@ class HomeScreen extends Component {
   }
 }
 
+//        headerLeft: () => <ButtonLogout onPress={() => navigation.navigate('Auth')}/>,
+//        headerRight: () => <ButtonSettings onPress={() => navigation.navigate('Settings')}/>,
 
 
 const styles = StyleSheet.create({
@@ -37,9 +40,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     backgroundColor: 'white',
-    alignItems:'center',
   },
-  scannerContainer: {
+  header: {
+    marginTop: 40,
+    flexDirection: 'row',
+    width: '100%',
+  },
+  newRecordContainer: {
     height: 120,
     width:"100%",
     borderWidth: 0.5,

@@ -30,7 +30,7 @@ class myHistoryItemList extends Component {
                         </Text>
                     </View>
 
-                    <IconII name={'chevron-forward'} size={30} color={'red'}/>
+                    <IconII style={styles.icon} name={'chevron-forward'}/>
                 </View>
             </TouchableOpacity>
 
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 60,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center',
         shadowColor: 'black',
         shadowOffset: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     info: {
         flexDirection: 'column',
         width: '80%',
-        backgroundColor: 'white',
+        marginLeft: 20
     },
     name: {
         fontSize: 16
@@ -71,6 +71,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontSize: 12
     },
+    icon: {
+        fontSize: 25,
+        color: 'red',
+    }
 });
 
 

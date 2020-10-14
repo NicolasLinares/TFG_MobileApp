@@ -8,7 +8,7 @@ class myMenuButton extends Component {
     render() {
         return (
             <TouchableOpacity
-                style={{ alignSelf: "flex-start" }}
+                style={{ alignSelf: "flex-start", marginTop: 15 }}
                 onPress={this.props.onPress} 
             >
                 <IconMI style={{marginRight: 10}} name={"settings"} size={25} color={COLORS.electric_blue}/>

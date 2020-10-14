@@ -10,8 +10,6 @@ import HistoryScreen from '_scenes/history';
 import AudioScreen from '_scenes/audio';
 import SettingsScreen from '_scenes/settings';
 
-import {ButtonSettings} from '_atoms';
-import {ButtonLogout} from '_atoms';
 import moment from 'moment';
 
 const TabNavigatorConfig = {
@@ -22,21 +20,7 @@ const TabNavigatorConfig = {
 const RouteConfigs = {
   Home: {
     screen: HomeScreen,
-    navigationOptions: ({navigation}) => ({
-      title: moment().format('LL'),
-      headerLeft: () => <ButtonLogout onPress={() => navigation.navigate('Auth')}/>,
-      headerRight: () => <ButtonSettings onPress={() => navigation.navigate('Settings')}/>,
-      headerStyle: {
-        // para esconder la línea inferior en el header
-        shadowOpacity: 0, // iOS
-        elevation: 0, // Android
-      },
-      headerTitleStyle: {
-        textAlign: 'center', // Android -  alinear título
-        fontWeight: '300',
-        fontSize: 15
-      },
-    }),
+    navigationOptions: {headerShown: false, title: ' '},
   },
   Scanner: {
     screen: ScannerScreen,

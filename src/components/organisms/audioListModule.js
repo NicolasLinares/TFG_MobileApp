@@ -3,6 +3,7 @@ import {
     Alert,
     Text,
     View,
+    TouchableOpacity,
     StyleSheet
 } from 'react-native';
 
@@ -13,6 +14,8 @@ import { deleteAudio } from '_redux_actions';
 
 import RNFS from 'react-native-fs';
 
+import IconII from "react-native-vector-icons/Ionicons";
+import { COLORS, CONSTANTS }  from '_styles';
 
 class audioListModule extends Component {
 
@@ -44,23 +47,68 @@ class audioListModule extends Component {
           );
     }
 
+    _renderSendButton() {
+      return (
+          <TouchableOpacity style={styles.sendButton}>
+              <Text style={{fontSize:17, marginRight: 4, color: COLORS.electric_blue}}>
+                  Transcribir
+              </Text>
+              <IconII style={{fontSize:20, marginLeft: 4, color: COLORS.electric_blue}} name={'md-cloud-upload-outline'}/>
+          </TouchableOpacity>
+      );
+    }
+
     render() {
         return (
+          <>
+            <View style={styles.header}>
+                <Text style={styles.title}>
+                    Notas de voz
+                </Text>
+                {this.props.list.length > 0 ? this._renderSendButton() : null}
+            </View>
+            
             <SwipeableAudioList
                 list={this.props.list}
                 onPress={this.deleteItem}
             />
+          </>
         )
     }
 }
 
 
 const styles = StyleSheet.create({
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center', 
+
+  },
+  title: {
+    fontSize: 25,
+    marginVertical: 20,
+    marginLeft: 40,
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
+  },
+
   text: {
       fontWeight: 'bold',
       marginBottom: 20,
       fontSize: 18
   },
+  sendButton: {
+    height: 30,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    borderRadius: 20,
+    marginRight: 20,
+    flexDirection: 'row',
+    backgroundColor: COLORS.light_grey,
+    paddingHorizontal: 10
+},
 
 });
 
@@ -76,6 +124,5 @@ const mapDispatchToProps = (dispatch) => {
     delete: (key) => dispatch(deleteAudio(key))
   }
 }
-  
 
 export default connect(mapStateToProps, mapDispatchToProps)(audioListModule);

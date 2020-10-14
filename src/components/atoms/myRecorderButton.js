@@ -6,9 +6,11 @@ import {
     Animated,
     Easing,
 } from 'react-native';
+
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { COLORS, CONSTANTS }  from '_styles';
+
 
 class recorderButton extends Component {
 
@@ -101,8 +103,8 @@ class recorderButton extends Component {
         return (
             <Animated.View style={[containersStyles.animatedContainer, 
                 {transform: [{translateY: this.state.heightAnimated}]}]} >
-
                 <Animated.View style={{opacity: this.state.fadeAnim}}>
+
                     <Text style={componentStyles.text}>Nueva grabación</Text>
                     <Text style={componentStyles.time_record}> {this.props.time} </Text>
                 </Animated.View>
@@ -115,7 +117,7 @@ class recorderButton extends Component {
         Contiene el botón de grabación que permite iniciar la grabación del audio.
         Al pulsarlo se llama a handleClick que inicia las animaciones y comienza a grabar.
     */
-    _renderButton() {
+   _renderRecordButton() {
         const sizeButtonValue = this.state.sizeButtonAnimated.interpolate({
             inputRange: [30, 58],
             outputRange: [0.5, 1],
@@ -148,12 +150,11 @@ class recorderButton extends Component {
         );
     }
 
-
     render() {
         return (
                 <View style={containersStyles.staticContainer}>
                     {this._renderHiddenInfo()}
-                    {this._renderButton()}
+                    {this._renderRecordButton()}
                 </View>
         )
     }
@@ -190,7 +191,7 @@ const componentStyles = StyleSheet.create({
       width:70,
       height:70,
       borderRadius:35,
-      marginTop: 20
+      marginTop: 25
     },
     animatedIcon: {
         height: 58,
@@ -208,6 +209,12 @@ const componentStyles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
       },
-});
 
+});
+  
 export default recorderButton;
+
+
+
+
+
