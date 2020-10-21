@@ -27,8 +27,8 @@ class LoginScreen extends Component {
     super(props);
     this.state = {
       savePssw: false,
-      email: null,
-      password: null
+      email: '',
+      password: '',
     };
   }
 
@@ -38,9 +38,44 @@ class LoginScreen extends Component {
     });
   }
 
-  handleLogin = () => {
-    this.props.setUser(this.state.email, this.state.password);
-    this.props.navigation.navigate('App');
+
+  handleLogin = async () => {
+
+    // Comprobación de campos escritos
+    if (this.state.email === '' || this.state.password === '') {
+      alert('Introduce un email y una contraseña para iniciar sesión.');
+      return;
+    }
+
+    // Envío de datos al servidor.
+    // Se prepara el cuerpo del mensaje y se envía
+    json = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    data = JSON.stringify(json);
+
+    const rawResponse = await fetch('http://localhost/API_Medcorder/public/login',
+                                    {
+                                      headers: {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      method : "POST",
+                                      body: data,
+                                    });
+
+    const status = await rawResponse.status;
+
+    if (status === 200){ // OK
+      response = rawResponse.json();
+      //TODO guardar la response en estado global y almacenar token
+      this.props.navigation.navigate('App');
+      
+    } else if (status === 400){ // BAD REQUEST
+      alert('Email o contraseña inválidos.');
+    } else {
+      alert('Se ha producido un error al iniciar sesión. Inténtelo de nuevo más tarde.');
+    }
   }
 
   _renderInputs() {

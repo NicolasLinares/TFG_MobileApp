@@ -24,6 +24,7 @@ class myPicker extends Component {
                 colorText: COLORS.grey
             });
         } else {
+            this.props.onValueChange(value);
             this.setState({
                 colorText: 'black'
             });

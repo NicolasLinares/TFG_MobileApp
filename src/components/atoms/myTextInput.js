@@ -20,6 +20,7 @@ class myTextInput extends Component {
                     placeholder={this.props.placeholder}
                     placeholderTextColor={COLORS.grey}
                     secureTextEntry={this.props.secureTextEntry}
+                    autoCapitalize="none"
                 />
             </View>
         )

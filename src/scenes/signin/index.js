@@ -16,24 +16,114 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
 class SignInScreen extends Component {
 
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      surnames: '',
+      email: '',
+      password: '',
+      country: '',
+      speciality: '',
+    };
+  }
+
+  handleRegister = async () => {
+
+    // Comprobación de campos escritos
+    if (this.state.name === '' ||
+        this.state.surnames === '' || 
+        this.state.email === '' || 
+        this.state.password === '' || 
+        this.state.speciality === '' || 
+        this.state.country === ''
+      ) {
+      alert('Rellena todos los campos para registrarte.');
+      return;
+    }
+
+    // Envío de datos al servidor.
+    // Se prepara el cuerpo del mensaje y se envía
+    data = JSON.stringify(this.state);
+
+    const rawResponse = await fetch('http://localhost/API_Medcorder/public/register',
+                                    {
+                                      headers: {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      method : "POST",
+                                      body: data,
+                                    });
+
+    const status = await rawResponse.status;
+
+    if (status === 201){ // OK - Resource Created
+      response = rawResponse.json();
+
+      //TODO guardar la response en estado global y almacenar token
+      this.props.navigation.goBack();
+      alert('El usuario se ha registrado correctamente.');
+    } else if (status === 400){ // BAD REQUEST
+      alert('El usuario con email ' + this.state.email + ' ya se encuentra registrado.');
+    } else {
+      alert('Se ha producido un error al iniciar sesión. Inténtelo de nuevo más tarde.');
+    }
+    
+  }
+
   _renderInputs() {
     return (
       <>
-        <TextInput icon='person' placeholder='Nombre y apellidos'/>
+        <TextInput 
+          onChangeText={(value) => this.setState({name: value})}
+          icon='person' 
+          placeholder='Nombre'
+        />
+
+        <TextInput 
+          onChangeText={(value) => this.setState({surnames: value})}
+          marginTop={10} 
+          icon='person' 
+          placeholder='Apellidos'
+        />
 
         {/* zIndex (altura) para superponer un Picker sobre otro y sobre los demás componentes*/}
         <View style={{...(Platform.OS !== 'android' && {zIndex: 2})}}>  
-          <Picker data={DATA.speciality_list} marginTop={10} icon='md-medkit' placeholder='Especialidad médica'/>
+          <Picker 
+            onValueChange={(value) => this.setState({speciality: value})}
+            data={DATA.speciality_list} 
+            marginTop={10} 
+            icon='md-medkit' 
+            placeholder='Especialidad médica'
+          />
         </View>
 
         {/* se pone a una altura menor que el picker de arriba pero por encima del resto de componentes*/}
         <View style={{...(Platform.OS !== 'android' && {zIndex: 1})}}>  
-          <Picker data={DATA.country_list} marginTop={10} icon='location-sharp' placeholder='País en el que trabaja'/>
+          <Picker 
+            onValueChange={(value) => this.setState({country: value})}
+            data={DATA.country_list} 
+            marginTop={10} 
+            icon='location-sharp' 
+            placeholder='País en el que trabaja'
+          />
         </View>
 
-        <TextInput marginTop={10} icon='mail' placeholder='Correo electrónico'/>
+        <TextInput 
+          onChangeText={(value) => this.setState({email: value})}
+          marginTop={10} 
+          icon='mail' 
+          placeholder='Correo electrónico'
+        />
 
-        <TextInput secureTextEntry={true} marginTop={10} icon='lock-closed' placeholder='Contraseña'/>
+        <TextInput 
+          onChangeText={(value) => this.setState({password: value})}
+          secureTextEntry={true} 
+          marginTop={10} 
+          icon='lock-closed' 
+          placeholder='Contraseña'
+        />
 
       </>
     );
@@ -55,7 +145,7 @@ class SignInScreen extends Component {
 
 
         <ButtonAuth
-                onPress={() => this.props.navigation.goBack()}
+                onPress={() => this.handleRegister()}
                 text='Registrarse'
                 color={COLORS.green}
                 marginTop={30}
