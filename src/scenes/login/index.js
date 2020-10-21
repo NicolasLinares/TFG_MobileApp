@@ -35,7 +35,7 @@ class LoginScreen extends Component {
   handlerPasswordManager(value) {
     this.setState({
       savePssw: value,
-    });
+    }); 
   }
 
 
