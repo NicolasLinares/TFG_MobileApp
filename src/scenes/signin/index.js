@@ -47,7 +47,7 @@ class SignInScreen extends Component {
     // Se prepara el cuerpo del mensaje y se envía
     data = JSON.stringify(this.state);
 
-    const rawResponse = await fetch('http://localhost/API_Medcorder/public/register',
+    const rawResponse = await fetch('https://pln.inf.um.es/TFG_MobileApp_API/public/register',
                                     {
                                       headers: {
                                         'Content-Type': 'application/json'

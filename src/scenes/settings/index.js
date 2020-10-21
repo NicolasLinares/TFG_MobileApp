@@ -13,10 +13,37 @@ import { ButtonLogout } from '_atoms';
 
 class SettingScreen extends Component {
 
-    _renderItem(name, icon) {
+
+    handleLogout = async () => {
+        // Se prepara el cuerpo del mensaje y se envía
+        json = {
+            email: 'manuel@gmail.com'
+        }
+        data = JSON.stringify(json);
+    
+        const rawResponse = await fetch('https://pln.inf.um.es/TFG_MobileApp_API/public/users/logout',
+                                        {
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Api-Token': 'OQybIF1jqfjdqSwzVDevjBfoEUMT4Zwy5Z0O2lRBQnQIUEETMpcODNPKDjYI'
+                                            },
+                                            method : "POST",
+                                            body: data,
+                                        });
+    
+        const status = await rawResponse.status;
+    
+        if (status === 200){ // OK
+            //TODO limpiar datos de redux
+            this.props.navigation.navigate('Auth');
+        }
+    }
+
+    _renderItem(name, icon, onPress) {
         return (
             <View style={styles.itemContainer}>
               <TouchableOpacity
+                    onPress={() => onPress()}
                     style={styles.item}
                 >
                     <IconII style={styles.icon} name={icon}/>
@@ -33,7 +60,7 @@ class SettingScreen extends Component {
                 {this._renderItem('Perfil', 'person-circle-outline')}
                 {this._renderItem('Ayuda', 'help-circle-outline')}
                 {this._renderItem('Información', 'information-circle-outline')}
-                {this._renderItem('Cerrar sesión', 'log-out-outline')}
+                {this._renderItem('Cerrar sesión', 'log-out-outline', () => this.handleLogout() )}
             </ScrollView>
         )
     }

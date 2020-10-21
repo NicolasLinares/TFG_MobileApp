@@ -55,7 +55,7 @@ class LoginScreen extends Component {
     }
     data = JSON.stringify(json);
 
-    const rawResponse = await fetch('http://localhost/API_Medcorder/public/login',
+    const rawResponse = await fetch('https://pln.inf.um.es/TFG_MobileApp_API/public/login',
                                     {
                                       headers: {
                                         'Content-Type': 'application/json'
