@@ -3,10 +3,12 @@ import * as types from '_redux_types';
 const initialState = {
     user: {
         name: null,
-        spec_medic: null,
-        country: null,
+        surname: null,
         email: null,
         password: null,
+        speciality: null,
+        country: null,
+        token: null
     },
 
     audiolist: [],
@@ -24,11 +26,15 @@ const initialState = {
 export function userReducer(state = initialState.user, action) {
     switch (action.type) {
 
-        case types.AUTH_USER:
+        case types.SET_USER_DATA:
             return {
                 ...state,
+                name: action.name,
+                surname: action.surname,
                 email: action.email,
-                password: action.password
+                speciality: action.speciality,
+                country: action.country,
+                token: action.token
             };
         default:
             return state;

@@ -10,6 +10,7 @@ import {
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 import { ButtonLogout } from '_atoms';
+import { URL } from '_data';
 
 class SettingScreen extends Component {
 
@@ -21,13 +22,13 @@ class SettingScreen extends Component {
         }
         data = JSON.stringify(json);
     
-        const rawResponse = await fetch('https://pln.inf.um.es/TFG_MobileApp_API/public/users/logout',
+        const rawResponse = await fetch(URL.logout,
                                         {
                                             headers: {
                                                 'Content-Type': 'application/json',
                                                 'Api-Token': 'OQybIF1jqfjdqSwzVDevjBfoEUMT4Zwy5Z0O2lRBQnQIUEETMpcODNPKDjYI'
                                             },
-                                            method : "POST",
+                                            method : "PUT",
                                             body: data,
                                         });
     

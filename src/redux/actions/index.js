@@ -1,11 +1,15 @@
 
 // USER ACTIONS
 
-export const authUser = (email, password) => {
+export const authUser = (name, surname, email, speciality, country, token) => {
     return {
-        type: 'AUTH_USER',
+        type: 'SET_USER_DATA',
+        name: name,
+        surname: surname,
         email: email,
-        password: password
+        speciality: speciality,
+        country: country,
+        token: token
     }
 }
  

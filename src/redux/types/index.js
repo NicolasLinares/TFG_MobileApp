@@ -1,6 +1,6 @@
 
 // USER ACTIONS
-export const AUTH_USER = 'AUTH_USER';
+export const SET_USER_DATA = 'SET_USER_DATA';
 
 // AUDIO LIST ACTIONS
 export const ADD_AUDIO = 'ADD_AUDIO';

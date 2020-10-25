@@ -8,11 +8,15 @@ import {
   StyleSheet, 
   Dimensions
 } from 'react-native';
+
 import { ButtonAuth, Picker, TextInput } from '_atoms';
 import { COLORS } from '_styles';
 import * as DATA from '_data';
+import { URL } from '_data';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import { showMessage } from "react-native-flash-message";
+
 
 class SignInScreen extends Component {
 
@@ -20,12 +24,12 @@ class SignInScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      surnames: '',
-      email: '',
-      password: '',
-      country: '',
-      speciality: '',
+      name: 'Nico',
+      surnames: 'Linares La Barba',
+      email: 'nlbarba@gmail.com',
+      password: '1234',
+      country: 'España',
+      speciality: 'Anatomía patológica',
     };
   }
 
@@ -47,28 +51,56 @@ class SignInScreen extends Component {
     // Se prepara el cuerpo del mensaje y se envía
     data = JSON.stringify(this.state);
 
-    const rawResponse = await fetch('https://pln.inf.um.es/TFG_MobileApp_API/public/register',
-                                    {
-                                      headers: {
-                                        'Content-Type': 'application/json'
-                                      },
-                                      method : "POST",
-                                      body: data,
-                                    });
+    fetch(URL.register, 
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method : "POST",
+        body: data,
+      })
+      .then((response) => {
+        if (response.status === 201){ // OK - Resource Created
+          return response.json();
+        } else if (response.status === 400){ // BAD REQUEST
+          showMessage({
+            message: 'Se ha producido un error',
+            description: 'El email ' + this.state.email + ' ya se encuentra registrado',
+            type: "danger",
+            duration: 5000,
+            titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
+            textStyle: styles.topMessage,
+          });
+          return null;
+        }
+      })
+      .then((data) => {
+        if (data != null) {
+          
+          setTimeout(() => this.props.navigation.state.params.onGoBack(this.state.email), 500);
 
-    const status = await rawResponse.status;
+          showMessage({
+            message: 'Usuario registrado correctamente',
+            type: "success",
+            duration: 2000,
+            titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
+          });
 
-    if (status === 201){ // OK - Resource Created
-      response = rawResponse.json();
+          setTimeout(() => this.props.navigation.goBack(), 500);
+          
+        }
+      })
+      .catch((error) => {
+        showMessage({
+          message: 'Se ha producido un error en el servidor',
+          description: 'Inténtelo de nuevo más tarde',
+          type: "danger",
+          duration: 5000,
+          titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
+          textStyle: styles.topMessage,
+        });
 
-      //TODO guardar la response en estado global y almacenar token
-      this.props.navigation.goBack();
-      alert('El usuario se ha registrado correctamente.');
-    } else if (status === 400){ // BAD REQUEST
-      alert('El usuario con email ' + this.state.email + ' ya se encuentra registrado.');
-    } else {
-      alert('Se ha producido un error al iniciar sesión. Inténtelo de nuevo más tarde.');
-    }
+      });
     
   }
 
@@ -83,7 +115,7 @@ class SignInScreen extends Component {
 
         <TextInput 
           onChangeText={(value) => this.setState({surnames: value})}
-          marginTop={10} 
+          marginTop={5} 
           icon='person' 
           placeholder='Apellidos'
         />
@@ -93,7 +125,7 @@ class SignInScreen extends Component {
           <Picker 
             onValueChange={(value) => this.setState({speciality: value})}
             data={DATA.speciality_list} 
-            marginTop={10} 
+            marginTop={5} 
             icon='md-medkit' 
             placeholder='Especialidad médica'
           />
@@ -104,7 +136,7 @@ class SignInScreen extends Component {
           <Picker 
             onValueChange={(value) => this.setState({country: value})}
             data={DATA.country_list} 
-            marginTop={10} 
+            marginTop={5} 
             icon='location-sharp' 
             placeholder='País en el que trabaja'
           />
@@ -112,7 +144,7 @@ class SignInScreen extends Component {
 
         <TextInput 
           onChangeText={(value) => this.setState({email: value})}
-          marginTop={10} 
+          marginTop={5} 
           icon='mail' 
           placeholder='Correo electrónico'
         />
@@ -120,7 +152,7 @@ class SignInScreen extends Component {
         <TextInput 
           onChangeText={(value) => this.setState({password: value})}
           secureTextEntry={true} 
-          marginTop={10} 
+          marginTop={5} 
           icon='lock-closed' 
           placeholder='Contraseña'
         />
@@ -156,32 +188,33 @@ class SignInScreen extends Component {
 
   render() {
     return (
-      
-      <KeyboardAwareScrollView
-        style={styles.scrollview}
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        scrollEnabled
-      >
+      <>
 
-        <View style={styles.container}>
-            
-            <Image
-              style={styles.logo}
-              source={require('_assets/logo_invox_medical.jpg')}
-            />
+        <KeyboardAwareScrollView
+          style={styles.scrollview}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          scrollEnabled
+        >
 
-            <View width="80%">
+          <View style={styles.container}>
+              
+              <Image
+                style={styles.logo}
+                source={require('_assets/logo_invox_medical.jpg')}
+              />
 
-              {this._renderInputs()}
+              <View width="80%">
 
-              {this._renderButtons()}
+                {this._renderInputs()}
 
-            </View>
+                {this._renderButtons()}
 
-        </View>
+              </View>
 
-      </KeyboardAwareScrollView>
+          </View>
 
+        </KeyboardAwareScrollView>
+      </>
       
     );
   }
@@ -201,9 +234,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white', 
   },
   logo: {
-    width: 170, 
-    height: 120, 
-    marginBottom: 20,
+    width: 130, 
+    height: 90, 
+    marginBottom: 30,
   },
   link_text: {
     fontSize: 15, 
@@ -216,7 +249,12 @@ const styles = StyleSheet.create({
         height: 1,
     },
     elevation: 5, // Android solo funciona con elevation
+  },
+  topMessage: {
+    textAlign: 'center',
   }
 });
 
+
 export default SignInScreen;
+

@@ -15,6 +15,7 @@ class myTextInput extends Component {
                 <IconII style={{marginLeft:15}} name={this.props.icon} size={20} color={COLORS.grey}/>
                 
                 <TextInput
+                    value={this.props.value}
                     onChangeText={this.props.onChangeText}
                     style={styles.text}
                     placeholder={this.props.placeholder}

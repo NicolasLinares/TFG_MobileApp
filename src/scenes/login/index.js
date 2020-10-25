@@ -13,12 +13,13 @@ import {
 
 import { ButtonAuth, TextInput} from '_atoms';
 import { COLORS } from '_styles';
+import { URL } from '_data';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
-
 import {connect} from 'react-redux';
 import { authUser } from '_redux_actions';
+import { showMessage } from "react-native-flash-message";
 
 
 class LoginScreen extends Component {
@@ -35,15 +36,25 @@ class LoginScreen extends Component {
   handlerPasswordManager(value) {
     this.setState({
       savePssw: value,
-    }); 
+    });
   }
 
+  refresh = (email) => {
+    this.setState({
+      email: email
+    });
+  }
 
-  handleLogin = async () => {
+  handleLogin = () => {
 
     // Comprobación de campos escritos
     if (this.state.email === '' || this.state.password === '') {
-      alert('Introduce un email y una contraseña para iniciar sesión.');
+      showMessage({
+        message: 'Introduce un email y una contraseña para iniciar sesión',
+        type: "danger",
+        duration: 3000,
+        titleStyle: styles.topMessage,
+      });
       return;
     }
 
@@ -55,33 +66,60 @@ class LoginScreen extends Component {
     }
     data = JSON.stringify(json);
 
-    const rawResponse = await fetch('https://pln.inf.um.es/TFG_MobileApp_API/public/login',
-                                    {
-                                      headers: {
-                                        'Content-Type': 'application/json'
-                                      },
-                                      method : "POST",
-                                      body: data,
-                                    });
+    fetch(URL.login, 
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            method : "POST",
+            body: data,
+          })
+          .then((response) => {
+            if (response.status === 200){ // OK
+              return response.json();
+            } else if (response.status === 400){ // BAD REQUEST
+              showMessage({
+                message: 'Email o contraseña inválidos',
+                type: "danger",
+                duration: 3000,
+                titleStyle: styles.topMessage,
+              });
+              return null;
+            }
+          })
+          .then((data) => {
 
-    const status = await rawResponse.status;
+            if (data != null) {
+              this.props.setUser(
+                data.user.name,
+                data.user.surnames,
+                data.user.email,
+                data.user.speciality,
+                data.user.country,
+                data.access_token
+              );
+              this.props.navigation.navigate('App');
+            }
 
-    if (status === 200){ // OK
-      response = rawResponse.json();
-      //TODO guardar la response en estado global y almacenar token
-      this.props.navigation.navigate('App');
-      
-    } else if (status === 400){ // BAD REQUEST
-      alert('Email o contraseña inválidos.');
-    } else {
-      alert('Se ha producido un error al iniciar sesión. Inténtelo de nuevo más tarde.');
-    }
+          })
+          .catch((error) => {
+            showMessage({
+              message: 'Se ha producido un error en el servidor',
+              description: 'Inténtelo de nuevo más tarde',
+              type: "danger",
+              duration: 5000,
+              titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
+              textStyle: styles.topMessage,
+            });
+          });
+
   }
 
   _renderInputs() {
     return (
       <>
         <TextInput
+          value={this.state.email}
           onChangeText={(value) => this.setState({email: value})}
           marginTop={10} 
           icon='mail' 
@@ -135,7 +173,7 @@ class LoginScreen extends Component {
           <Text style={{fontSize: 15}}>¿No tiene cuenta?</Text>
           <TouchableOpacity
             style={{height: 40, justifyContent: 'center'}}
-            onPress={() => this.props.navigation.navigate('SignIn')}>
+            onPress={() => this.props.navigation.navigate('SignIn',{onGoBack: (email) => this.refresh(email)})}>
               <Text style={[styles.link_text, {marginLeft: 6}]}>
                 Regístrese
               </Text>
@@ -199,17 +237,24 @@ const styles = StyleSheet.create({
         height: 1,
     },
     elevation: 5, // Android solo funciona con elevation
+  },
+  topMessage: {
+    textAlign: 'center',
   }
 });
 
 
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    setUser: (email, password) => dispatch(authUser(email, password))
+      email: state.userReducer.email,
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (name, surname, email, speciality, country, token) => dispatch(authUser(name, surname, email, speciality, country, token))
+  }
+}
 
-export default connect(null, mapDispatchToProps) (LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps) (LoginScreen);
 

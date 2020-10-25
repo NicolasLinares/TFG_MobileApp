@@ -15,6 +15,7 @@ import Navigator from '_navigations';
 import { Provider } from 'react-redux';
 import store from '_redux_store';
 
+import FlashMessage from "react-native-flash-message";
 
 
 
@@ -31,6 +32,8 @@ class App extends Component {
       <Provider store={store}>
 
         <StatusBar barStyle="dark-content"/>
+        
+        <FlashMessage position="top" />
         <Navigator/>
 
       </Provider>
