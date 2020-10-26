@@ -12,6 +12,18 @@ export const authUser = (name, surname, email, speciality, country, token) => {
         token: token
     }
 }
+
+export const logoutUser = () => {
+    return {
+        type: 'SET_USER_DATA',
+        name: null,
+        surname: null,
+        email: null,
+        speciality: null,
+        country: null,
+        token: null
+    }
+}
  
 
 // AUDIO LIST ACTIONS

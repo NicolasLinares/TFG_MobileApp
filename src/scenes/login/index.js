@@ -28,8 +28,8 @@ class LoginScreen extends Component {
     super(props);
     this.state = {
       savePssw: false,
-      email: '',
-      password: '',
+      email: 'nlbarba@gmail.com',
+      password: '1234',
     };
   }
 
@@ -92,7 +92,7 @@ class LoginScreen extends Component {
             if (data != null) {
               this.props.setUser(
                 data.user.name,
-                data.user.surnames,
+                data.user.surname,
                 data.user.email,
                 data.user.speciality,
                 data.user.country,

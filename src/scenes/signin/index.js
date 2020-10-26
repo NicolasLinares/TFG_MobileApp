@@ -90,7 +90,7 @@ class SignInScreen extends Component {
             titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
           });
 
-          setTimeout(() => this.props.navigation.goBack(), 500);
+          this.props.navigation.goBack();
           
         }
       })

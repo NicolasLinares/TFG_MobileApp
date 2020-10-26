@@ -4,11 +4,16 @@ import {View} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 
 import HomeScreen from '_scenes/home';
-import ScannerScreen from '_scenes/scanner';
+import AudioScreen from '_scenes/home/audio';
+
 import RecorderScreen from '_scenes/recorder';
-import HistoryScreen from '_scenes/history';
-import AudioScreen from '_scenes/audio';
-import SettingsScreen from '_scenes/settings';
+import ScannerScreen from '_scenes/recorder/scanner';
+
+import MenuScreen from '_scenes/menu';
+import ProfileScreen from '_scenes/menu/profile';
+import SettingsScreen from '_scenes/menu/settings';
+import PasswordSettingScreen from '_scenes/menu/settings/password';
+import ContactSettingScreen from '_scenes/menu/settings/contact';
 
 import moment from 'moment';
 
@@ -45,23 +50,6 @@ const RouteConfigs = {
       },
     },
   },
-  History: {
-    screen: HistoryScreen,
-    navigationOptions: {
-      headerBackTitle: ' ',
-      headerRight: () => <View />,
-      title: 'Historial',
-      headerStyle: {
-        // para esconder la línea inferior en el header
-        shadowOpacity: 0, // iOS
-        elevation: 0, // Android
-        backgroundColor: 'white',
-      },
-      headerTitleStyle: {
-        textAlign: 'center', // Android -  alinear título
-      },
-    },
-  },
   Audio: {
     screen: AudioScreen,
     navigationOptions: {
@@ -74,10 +62,51 @@ const RouteConfigs = {
       },
     },
   },
+  Menu: {
+    screen: MenuScreen,
+    navigationOptions: {
+      headerBackTitle: ' ',
+      title: 'Menu',
+      headerTitleStyle: {
+        textAlign: 'center', // Android -  alinear título
+      },
+    },
+  },
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      headerBackTitle: ' ',
+      title: 'Perfil',
+      headerTitleStyle: {
+        textAlign: 'center', // Android -  alinear título
+      },
+    },
+  },
   Settings: {
     screen: SettingsScreen,
     navigationOptions: {
+      headerBackTitle: ' ',
       title: 'Ajustes',
+      headerTitleStyle: {
+        textAlign: 'center', // Android -  alinear título
+      },
+    },
+  },
+  ChangePassword: {
+    screen: PasswordSettingScreen,
+    navigationOptions: {
+      headerBackTitle: ' ',
+      title: 'Cambiar contraseña',
+      headerTitleStyle: {
+        textAlign: 'center', // Android -  alinear título
+      },
+    },
+  },
+  ChangeData: {
+    screen: ContactSettingScreen,
+    navigationOptions: {
+      headerBackTitle: ' ',
+      title: 'Cambiar datos de contacto',
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
       },
