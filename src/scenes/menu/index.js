@@ -94,8 +94,10 @@ class MenuScreen extends Component {
         );
     }
 
+
     render() {
         return (
+          <View style={{flex:1, backgroundColor: 'white'}}>
             <ScrollView contentContainerStyle={styles.container}>
                 {this._renderItem('Perfil', 'person-circle-outline', () => this.props.navigation.navigate('Profile'))}
                 {this._renderItem('Ajustes', 'settings-outline', () => this.props.navigation.navigate('Settings'))}
@@ -104,6 +106,12 @@ class MenuScreen extends Component {
                 {this._renderItem('Cerrar sesión', 'log-out-outline', () => this.handleLogout() )}
 
             </ScrollView>
+            <View style={styles.copyright}>
+              <Text style={{fontSize: 15}}>
+                Invox Medcorder {'\u00A9'} 2020
+              </Text>
+            </View>
+          </View>
         )
     }
 }
@@ -134,7 +142,6 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 18,
         width: '65%',
-
     },
     divider: {
         alignSelf: 'flex-end',
@@ -144,6 +151,13 @@ const styles = StyleSheet.create({
     },
     topMessage: {
         textAlign: 'center',
+    },
+
+    copyright: {
+      backgroundColor: 'white', 
+      alignItems:'center', 
+      justifyContent: 'center',
+      paddingVertical: 50
     }
 });
 

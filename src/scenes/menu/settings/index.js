@@ -1,83 +1,16 @@
 import React, { Component } from 'react';
 import { 
     View,
-    Alert,
     ScrollView,
     Text,
     StyleSheet,
     TouchableOpacity,
-    Linking
 } from 'react-native';
 
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
-import { URL } from '_data';
-import {connect} from 'react-redux';
-import { logoutUser } from '_redux_actions';
-import { showMessage } from "react-native-flash-message";
 
 class SettingsScreen extends Component {
-
-    handleLogout = () => {
-        Alert.alert(
-            'Cerrar sesión',
-            '¿Seguro que desea cerrar la sesión?',
-            [
-              {
-                text: 'Cancelar',
-                style: 'cancel',
-              },
-              { text: 'Salir', 
-                onPress: () => this.logout()
-              }
-            ],
-            { cancelable: false }
-          );
-    }
-
-    logout = () => {
-
-        fetch(URL.logout, 
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.props.token
-              },
-              method : "POST",
-            })
-            .then((response) => {
-              if (response.status === 200){ // OK
-                return response.json();
-              }
-            })
-            .then((data) => {
-  
-              if (data != null) {
-                showMessage({
-                    message: data.message,
-                    type: "success",
-                    duration: 3000,
-                    titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
-                });
-                //Se limpian los datos del usuario en Redux
-                setTimeout(() => this.props.cleanUserInfo(), 500);
-                // TODO limpiar las listas de audio
-                this.props.navigation.navigate('Auth');
-              }
-  
-            })
-            .catch((error) => {
-              showMessage({
-                message: 'Se ha producido un error en el servidor',
-                description: 'Inténtelo de nuevo más tarde',
-                type: "danger",
-                duration: 5000,
-                titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
-                textStyle: styles.topMessage,
-              });
-            });
-
-    }
 
     _renderItem(name, icon, onPress) {
         return (
@@ -97,10 +30,8 @@ class SettingsScreen extends Component {
     render() {
         return (
             <ScrollView contentContainerStyle={styles.container}>
-
-                {this._renderItem('Cambiar contraseña', 'lock-closed-outline', () => Linking.openURL("https://invoxmedical.com/terms-of-use/"))}
-                {this._renderItem('Cambiar datos de contacto', 'person-outline', () => this.handleLogout() )}
-
+                {this._renderItem('Cambiar contraseña', 'lock-closed-outline', () => this.props.navigation.navigate('ChangePassword'))}
+                {this._renderItem('Cambiar datos de contacto', 'person-outline', () => this.props.navigation.navigate('ChangeData') )}
             </ScrollView>
         )
     }
@@ -138,9 +69,6 @@ const styles = StyleSheet.create({
         width: '95%',
         borderWidth: 0.5,
         borderColor: COLORS.light_grey
-    },
-    topMessage: {
-        textAlign: 'center',
     }
 });
 

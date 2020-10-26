@@ -46,7 +46,7 @@ class SignInScreen extends Component {
           message: 'Rellena todos los campos para registrarte',
           type: "danger",
           duration: 3000,
-          titleStyle: [styles.topMessage, { fontSize: 18}],
+          titleStyle: {textAlign: 'center', fontSize: 18},
         });
       return;
     }
@@ -72,8 +72,8 @@ class SignInScreen extends Component {
             description: 'El email ' + this.state.email + ' ya se encuentra registrado',
             type: "danger",
             duration: 5000,
-            titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
-            textStyle: styles.topMessage,
+            titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+            textStyle: {textAlign: 'center'},
           });
           return null;
         }
@@ -87,7 +87,7 @@ class SignInScreen extends Component {
             message: 'Usuario registrado correctamente',
             type: "success",
             duration: 2000,
-            titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
+            titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
           });
 
           this.props.navigation.goBack();
@@ -100,8 +100,8 @@ class SignInScreen extends Component {
           description: 'Inténtelo de nuevo más tarde',
           type: "danger",
           duration: 5000,
-          titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
-          textStyle: styles.topMessage,
+          titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+          textStyle: {textAlign: 'center'},
         });
 
       });
@@ -253,9 +253,6 @@ const styles = StyleSheet.create({
         height: 1,
     },
     elevation: 5, // Android solo funciona con elevation
-  },
-  topMessage: {
-    textAlign: 'center',
   }
 });
 

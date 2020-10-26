@@ -97,6 +97,11 @@ const RouteConfigs = {
     navigationOptions: {
       headerBackTitle: ' ',
       title: 'Cambiar contraseña',
+      headerStyle: {
+        // para esconder la línea inferior en el header
+        shadowOpacity: 0, // iOS
+        elevation: 0, // Android
+      },
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
       },
@@ -107,6 +112,11 @@ const RouteConfigs = {
     navigationOptions: {
       headerBackTitle: ' ',
       title: 'Cambiar datos de contacto',
+      headerStyle: {
+        // para esconder la línea inferior en el header
+        shadowOpacity: 0, // iOS
+        elevation: 0, // Android
+      },
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
       },
