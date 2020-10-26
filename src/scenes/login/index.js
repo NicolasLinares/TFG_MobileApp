@@ -53,7 +53,7 @@ class LoginScreen extends Component {
         message: 'Introduce un email y una contraseña para iniciar sesión',
         type: "danger",
         duration: 3000,
-        titleStyle: styles.topMessage,
+        titleStyle: [styles.topMessage, { fontSize: 18}],
       });
       return;
     }
@@ -82,7 +82,7 @@ class LoginScreen extends Component {
                 message: 'Email o contraseña inválidos',
                 type: "danger",
                 duration: 3000,
-                titleStyle: styles.topMessage,
+                titleStyle: [styles.topMessage, { fontSize: 18}],
               });
               return null;
             }

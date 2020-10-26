@@ -17,8 +17,8 @@ class userInfo extends Component {
             <View style={styles.container}>
                 <IconII style={styles.icon} name='person-circle' />
                 <View style={styles.infoContainer}>
-                    <Text style={styles.name}>Dr. Linares La Barba</Text>
-                    <Text style={styles.spec}>Medicina física y rehabilitación</Text>
+                    <Text style={styles.name}>Dr. {this.props.surname}</Text>
+                    <Text style={styles.spec}>{this.props.speciality}</Text>
                 </View>
             </View>
 
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
 
     return {
-        email: state.userReducer.email,
-        password: state.userReducer.password
+        surname: state.userReducer.surname,
+        speciality: state.userReducer.speciality
     }
 }
 

@@ -24,26 +24,30 @@ class SignInScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Nico',
-      surnames: 'Linares La Barba',
-      email: 'nlbarba@gmail.com',
-      password: '1234',
-      country: 'España',
-      speciality: 'Anatomía patológica',
+      name: '',
+      surname: '',
+      email: '',
+      password: '',
+      country: '',
+      speciality: '',
     };
   }
 
   handleRegister = async () => {
-
     // Comprobación de campos escritos
     if (this.state.name === '' ||
-        this.state.surnames === '' || 
+        this.state.surname === '' || 
         this.state.email === '' || 
         this.state.password === '' || 
         this.state.speciality === '' || 
         this.state.country === ''
       ) {
-      alert('Rellena todos los campos para registrarte.');
+        showMessage({
+          message: 'Rellena todos los campos para registrarte',
+          type: "danger",
+          duration: 3000,
+          titleStyle: [styles.topMessage, { fontSize: 18}],
+        });
       return;
     }
 
@@ -75,8 +79,8 @@ class SignInScreen extends Component {
         }
       })
       .then((data) => {
+
         if (data != null) {
-          
           setTimeout(() => this.props.navigation.state.params.onGoBack(this.state.email), 500);
 
           showMessage({
@@ -114,7 +118,7 @@ class SignInScreen extends Component {
         />
 
         <TextInput 
-          onChangeText={(value) => this.setState({surnames: value})}
+          onChangeText={(value) => this.setState({surname: value})}
           marginTop={5} 
           icon='person' 
           placeholder='Apellidos'
