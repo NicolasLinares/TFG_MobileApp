@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 
-import { ButtonNewRecord, ButtonMenu } from '_atoms';
+import { ButtonNewRecord, ButtonSettings } from '_atoms';
 import {UserInfo, HistoryList} from '_organisms';
 
 class HomeScreen extends Component {
@@ -17,7 +17,7 @@ class HomeScreen extends Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <UserInfo />
-            <ButtonMenu onPress={() => this.props.navigation.navigate('Menu')}/>
+            <ButtonSettings onPress={() => this.props.navigation.navigate('Settings')}/>
           </View>
           <HistoryList nav={this.props.navigation}/>
         </View>

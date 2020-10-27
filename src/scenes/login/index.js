@@ -75,41 +75,40 @@ class LoginScreen extends Component {
             body: data,
           })
           .then((response) => {
-            if (response.status === 200){ // OK
-              return response.json();
-            } else if (response.status === 400){ // BAD REQUEST
-              showMessage({
-                message: 'Email o contraseña inválidos',
-                type: "danger",
-                duration: 3000,
-                titleStyle: [styles.topMessage, { fontSize: 18}],
-              });
-              return null;
-            }
+            return Promise.all([response.json(), response.status]);
           })
-          .then((data) => {
-
-            if (data != null) {
+          .then(([body, status]) => {
+            
+            if (status == 200){ // OK
               this.props.setUser(
-                data.user.name,
-                data.user.surname,
-                data.user.email,
-                data.user.speciality,
-                data.user.country,
-                data.access_token
+                body.user.name,
+                body.user.surname,
+                body.user.email,
+                body.user.speciality,
+                body.user.country,
+                body.access_token
               );
               this.props.navigation.navigate('App');
+              
+            } else { // ERROR
+              showMessage({
+                message: 'Error',
+                description: body.error,
+                type: "danger",
+                duration: 3000,
+                titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+                textStyle: {textAlign: 'center'},
+              });
             }
-
           })
           .catch((error) => {
             showMessage({
-              message: 'Se ha producido un error en el servidor',
-              description: 'Inténtelo de nuevo más tarde',
+              message: 'Error',
+              description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
               type: "danger",
-              duration: 5000,
-              titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
-              textStyle: styles.topMessage,
+              duration: 3000,
+              titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+              textStyle: {textAlign: 'center'},
             });
           });
 

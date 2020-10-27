@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
-import IconII from "react-native-vector-icons/Ionicons";
+import IconMI from "react-native-vector-icons/MaterialIcons";
 import { COLORS } from '_styles';
 
-class myMenuButton extends Component {
+class mySettingsButton extends Component {
 
     render() {
         return (
@@ -11,10 +11,10 @@ class myMenuButton extends Component {
                 style={{ alignSelf: "flex-start", marginTop: 15 }}
                 onPress={this.props.onPress} 
             >
-                <IconII style={{marginRight: 10}} name={"menu"} size={30} color={COLORS.electric_blue}/>
+                <IconMI style={{marginRight: 10}} name={"settings"} size={30} color={COLORS.electric_blue}/>
             </TouchableOpacity>
         )
     }
 }
 
-export default myMenuButton;
+export default mySettingsButton;

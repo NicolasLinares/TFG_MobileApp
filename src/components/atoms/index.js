@@ -1,5 +1,5 @@
 // Botones de cabecera
-export {default as ButtonMenu} from './myMenuButton';
+export {default as ButtonSettings} from './mySettingsButton';
 export {default as ButtonBack} from './myBackButton';
 export {default as ButtonForward} from './myForwardButton';
 

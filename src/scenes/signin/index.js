@@ -64,46 +64,42 @@ class SignInScreen extends Component {
         body: data,
       })
       .then((response) => {
-        if (response.status === 201){ // OK - Resource Created
-          return response.json();
-        } else if (response.status === 400){ // BAD REQUEST
-          showMessage({
-            message: 'Se ha producido un error',
-            description: 'El email ' + this.state.email + ' ya se encuentra registrado',
-            type: "danger",
-            duration: 5000,
-            titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-            textStyle: {textAlign: 'center'},
-          });
-          return null;
-        }
+        return Promise.all([response.json(), response.status]);
       })
-      .then((data) => {
-
-        if (data != null) {
+      .then(([body, status]) => {
+        
+        if (status == 201){ // OK - Resource Created
           setTimeout(() => this.props.navigation.state.params.onGoBack(this.state.email), 500);
 
           showMessage({
-            message: 'Usuario registrado correctamente',
+            message: body.message,
             type: "success",
-            duration: 2000,
+            duration: 3000,
             titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
           });
 
           this.props.navigation.goBack();
           
+        } else { // ERROR
+          showMessage({
+            message: 'Error',
+            description: body.error,
+            type: "danger",
+            duration: 3000,
+            titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+            textStyle: {textAlign: 'center'},
+          });
         }
       })
       .catch((error) => {
         showMessage({
-          message: 'Se ha producido un error en el servidor',
-          description: 'Inténtelo de nuevo más tarde',
-          type: "danger",
-          duration: 5000,
-          titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-          textStyle: {textAlign: 'center'},
+            message: 'Error',
+            description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
+            type: "danger",
+            duration: 3000,
+            titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+            textStyle: {textAlign: 'center'},
         });
-
       });
     
   }

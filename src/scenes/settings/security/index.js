@@ -10,7 +10,7 @@ import {
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
-class SettingsScreen extends Component {
+class SecurityScreen extends Component {
 
     _renderItem(name, icon, onPress) {
         return (
@@ -29,10 +29,11 @@ class SettingsScreen extends Component {
 
     render() {
         return (
-            <ScrollView contentContainerStyle={styles.container}>
-                {this._renderItem('Cambiar contraseña', 'lock-closed-outline', () => this.props.navigation.navigate('ChangePassword'))}
-                {this._renderItem('Cambiar datos de contacto', 'person-outline', () => this.props.navigation.navigate('ChangeData') )}
-            </ScrollView>
+            <View style={{flex:1, backgroundColor: 'white'}}>
+                <ScrollView contentContainerStyle={styles.container}>
+                    {this._renderItem('Cambiar contraseña', 'lock-closed-outline', () => this.props.navigation.navigate('ChangePassword'))}
+                </ScrollView>
+            </View>
         )
     }
 }
@@ -73,4 +74,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default SettingsScreen;
+export default SecurityScreen;

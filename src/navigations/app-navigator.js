@@ -9,11 +9,10 @@ import AudioScreen from '_scenes/home/audio';
 import RecorderScreen from '_scenes/recorder';
 import ScannerScreen from '_scenes/recorder/scanner';
 
-import MenuScreen from '_scenes/menu';
-import ProfileScreen from '_scenes/menu/profile';
-import SettingsScreen from '_scenes/menu/settings';
-import PasswordSettingScreen from '_scenes/menu/settings/password';
-import ContactSettingScreen from '_scenes/menu/settings/contact';
+import SettingsScreen from '_scenes/settings';
+import ProfileScreen from '_scenes/settings/profile';
+import SecurityScreen from '_scenes/settings/security';
+import PasswordSettingScreen from '_scenes/settings/security/password';
 
 import moment from 'moment';
 
@@ -62,11 +61,11 @@ const RouteConfigs = {
       },
     },
   },
-  Menu: {
-    screen: MenuScreen,
+  Settings: {
+    screen: SettingsScreen,
     navigationOptions: {
       headerBackTitle: ' ',
-      title: 'Menu',
+      title: 'Configuración',
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
       },
@@ -82,11 +81,11 @@ const RouteConfigs = {
       },
     },
   },
-  Settings: {
-    screen: SettingsScreen,
+  Security: {
+    screen: SecurityScreen,
     navigationOptions: {
       headerBackTitle: ' ',
-      title: 'Ajustes',
+      title: 'Seguridad',
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
       },
@@ -106,22 +105,7 @@ const RouteConfigs = {
         textAlign: 'center', // Android -  alinear título
       },
     },
-  },
-  ChangeData: {
-    screen: ContactSettingScreen,
-    navigationOptions: {
-      headerBackTitle: ' ',
-      title: 'Cambiar datos de contacto',
-      headerStyle: {
-        // para esconder la línea inferior en el header
-        shadowOpacity: 0, // iOS
-        elevation: 0, // Android
-      },
-      headerTitleStyle: {
-        textAlign: 'center', // Android -  alinear título
-      },
-    },
-  },
+  }
 };
 
 const AppNavigator = createStackNavigator(RouteConfigs, TabNavigatorConfig);

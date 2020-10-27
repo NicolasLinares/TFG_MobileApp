@@ -16,7 +16,7 @@ import {connect} from 'react-redux';
 import { logoutUser } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
 
-class MenuScreen extends Component {
+class SettingsScreen extends Component {
 
     handleLogout = () => {
         Alert.alert(
@@ -46,15 +46,13 @@ class MenuScreen extends Component {
               method : "POST",
             })
             .then((response) => {
-              if (response.status === 200){ // OK
-                return response.json();
-              }
+              return Promise.all([response.json(), response.status]);
             })
-            .then((data) => {
+            .then(([body, status]) => {
   
-              if (data != null) {
+              if (status == 200) {
                 showMessage({
-                    message: data.message,
+                    message: body.message,
                     type: "success",
                     duration: 3000,
                     titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
@@ -63,17 +61,25 @@ class MenuScreen extends Component {
                 setTimeout(() => this.props.cleanUserInfo(), 500);
                 // TODO limpiar las listas de audio
                 this.props.navigation.navigate('Auth');
+
+              } else {
+                showMessage({
+                  message: 'Error',
+                  type: "danger",
+                  duration: 5000,
+                  titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
+                });
               }
   
             })
             .catch((error) => {
               showMessage({
-                message: 'Se ha producido un error en el servidor',
-                description: 'Inténtelo de nuevo más tarde',
+                message: 'Error',
+                description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
                 type: "danger",
-                duration: 5000,
-                titleStyle: [styles.topMessage, {fontWeight: 'bold', fontSize: 18}],
-                textStyle: styles.topMessage,
+                duration: 3000,
+                titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+                textStyle: {textAlign: 'center'},
               });
             });
 
@@ -100,9 +106,11 @@ class MenuScreen extends Component {
           <View style={{flex:1, backgroundColor: 'white'}}>
             <ScrollView contentContainerStyle={styles.container}>
                 {this._renderItem('Perfil', 'person-circle-outline', () => this.props.navigation.navigate('Profile'))}
-                {this._renderItem('Ajustes', 'settings-outline', () => this.props.navigation.navigate('Settings'))}
+                {this._renderItem('Seguridad', 'shield-checkmark-outline', () => this.props.navigation.navigate('Security'))}
               
-                {this._renderItem('Términos y condiciones', 'information-circle-outline', () => Linking.openURL("https://invoxmedical.com/terms-of-use/"))}
+                {this._renderItem('Ayuda', 'help-circle-outline', () => {})}
+                {this._renderItem('Información', 'information-circle-outline', () => {})}
+
                 {this._renderItem('Cerrar sesión', 'log-out-outline', () => this.handleLogout() )}
 
             </ScrollView>
@@ -175,4 +183,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
