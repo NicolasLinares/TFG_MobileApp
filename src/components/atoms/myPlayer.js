@@ -27,7 +27,7 @@ class myPlayer extends Component {
         super(props);
 
         this.state = {
-            path: this.props.item.path,
+            path: this.props.item.localpath,
             //path: 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3',
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 

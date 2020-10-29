@@ -24,7 +24,8 @@ export const logoutUser = () => {
         token: null
     }
 }
- 
+
+
 
 // AUDIO LIST ACTIONS
 
@@ -42,6 +43,14 @@ export const deleteAudio = (key) => {
     }
 }
 
+export const addAudioTag = (tag) => {
+    return {
+        type: 'ADD_AUDIOTAG',
+        tag: tag
+    }
+}
+
+
 // PLAYER ACTIONS
 
 export const setPlayerState = (playerState) => {
@@ -54,25 +63,36 @@ export const setPlayerState = (playerState) => {
 
 // PATIENT CODE ACTIONS
 
-export const setPatientCode = (code) => {
+export const setPatientTag = (tag) => {
     return {
-        type: 'SET_PATIENT_CODE',
-        code: code,
+        type: 'SET_PATIENT_TAG',
+        tag: tag,
     }
 }
  
-export const openCodeEditor = () => {
+export const openTagEditor = () => {
     return {
         type: 'OPEN_EDITOR'
     }
 }
  
-export const closeCodeEditor = () => {
+export const closeTagEditor = () => {
     return {
         type: 'CLOSE_EDITOR'
     }
 }
  
+
+// HISTORY ACTIONS
+
+export const addAudioHistory = (audio) => {
+    return {
+        type: 'ADD_AUDIO_HISTORY',
+        audio: audio,
+    }
+}
+
+
 
 
 export default {authUser};

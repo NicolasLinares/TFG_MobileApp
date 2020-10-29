@@ -1,7 +1,8 @@
 import * as types from '_redux_types';
+import moment from 'moment';
 
 const initialState = {
-    user: {
+    user: {                             // Datos del usuario actual
         name: null,
         surname: null,
         email: null,
@@ -10,12 +11,16 @@ const initialState = {
         token: null
     },
 
-    audiolist: [],
+    audiolist: [],                      // Lista con los nuevos audios grabados, se borra al enviar para transcribir
 
-    playerState: 'stop',
+    history: [],                        // Lista con todos los audios grabados
+    tags: [],                           // Lista con los códigos de paciente usados 
 
-    patientCode: {
-        code: '',
+    playerState: 'stop',                // Estado del reproductor de audio
+
+
+    patientCode: {                      // Código de paciente usado en la grabación actual, se borra al enviar para transcribir
+        tag: '',
         isEditorVisible: false,
     }
 
@@ -51,10 +56,9 @@ export function audioListReducer(state = initialState, action) {
                 audiolist: [{
                                 key: Math.random(),
                                 name: action.audio.name,
-                                path: action.audio.path,
-                                creation_time: action.audio.creation_time,
-                                creation_date: action.audio.creation_date,
-
+                                extension: action.audio.extension,
+                                localpath: action.audio.localpath,
+                                description: '',
                             }, ...state.audiolist]
             };
         case types.DELETE_AUDIO:
@@ -62,11 +66,85 @@ export function audioListReducer(state = initialState, action) {
                 ...state,
                 audiolist: state.audiolist.filter((item) => item.key !== action.key)
             };
+        
+        case types.ADD_AUDIOTAG:
+            return {
+                ...state,
+                audiolist: state.audiolist.map((item) => ({...item, tag: action.tag}))
+            };
         default:
             return state;
     }
 }
 
+export function historyReducer(state = initialState, action) {
+
+    switch (action.type) {
+
+        case types.ADD_AUDIO_HISTORY:
+            // si no tiene una sección con la fecha de hoy lo creamos
+            if (state.history.length == 0) {
+                return {
+                    ...state,
+                    history: [
+                        {
+                            date: moment().format('hh:mm'),
+                            data: [action.audio]
+                        }, 
+                        ...state.history
+                    ]
+                };
+            }
+            else
+                if (state.history[0].date === moment().format('hh:mm')) {
+
+                    if (state.history.length === 1)
+                        return {
+                            ...state,
+                            history: [
+                                {
+                                    ...state.history[0],
+                                    data: [
+                                        action.audio
+                                        ,
+                                        ...state.history[0].data
+                                    ]
+                                }
+                            ]
+                        };
+                    else 
+                        return {
+                            ...state,
+                            history: [
+                                {
+                                    ...state.history[0],
+                                    data: [
+                                        action.audio
+                                        ,
+                                        ...state.history[0].data
+                                    ]
+                                },
+                                ...state.history.shift()
+                            ]
+                        };
+                } else {               
+                
+                    return {
+                        ...state,
+                        history: [
+                            {
+                                date: moment().format('hh:mm'),
+                                data: [action.audio]
+                            },
+                            ...state.history
+                        ]
+                    };
+                }
+        
+        default:
+            return state;
+    }
+}
 
 export function playerReducer(state = initialState, action) {
     switch (action.type) {
@@ -84,10 +162,10 @@ export function playerReducer(state = initialState, action) {
 export function patientCodeReducer(state = initialState.patientCode, action) {
     switch (action.type) {
 
-        case types.SET_PATIENT_CODE:
+        case types.SET_PATIENT_TAG:
             return {
                 ...state,
-                code: action.code,
+                tag: action.tag,
             };
         case types.OPEN_EDITOR:
             return {

@@ -8,4 +8,5 @@ export const URL = {
     changeCountry: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/user/country',
     changeSpeciality: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/user/speciality',
 
+    addAudio: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/audio',
 };

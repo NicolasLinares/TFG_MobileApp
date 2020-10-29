@@ -15,6 +15,7 @@ import RNFS from 'react-native-fs';
 
 import { connect } from 'react-redux';
 import { addAudio } from '_redux_actions';
+import { Platform } from 'react-native';
 
 
 class recorderModule extends Component {
@@ -96,7 +97,6 @@ class recorderModule extends Component {
     const audioSet = {
         AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
         AudioSourceAndroid: AudioSourceAndroidType.MIC,
-  
         AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
         AVNumberOfChannelsKeyIOS: 2,
         AVFormatIDKeyIOS: AVEncodingOption.aac,
@@ -111,13 +111,13 @@ class recorderModule extends Component {
 
       audio = {
         name: name,
-        path: absolute_path,
-        creation_time: ctime,
-        patientTag: this.props.code,
-        //idDoctor: this.props.Doctor
+        extension: Platform.OS === 'ios' ? 'm4a' : 'mp3',
+        localpath: absolute_path,
+        ctime: ctime,
       };
 
       this.state.recorder.addRecordBackListener();
+
       return audio;
   };
   
@@ -167,12 +167,6 @@ class recorderModule extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-  return {
-      code: state.patientCodeReducer.code,
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
     addNewAudio: (audio) => dispatch(addAudio(audio))
@@ -180,4 +174,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps) (recorderModule);
+export default connect(null, mapDispatchToProps) (recorderModule);

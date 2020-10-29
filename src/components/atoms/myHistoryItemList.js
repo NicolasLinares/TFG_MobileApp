@@ -15,18 +15,13 @@ class myHistoryItemList extends Component {
     render() {
         return (
             <TouchableOpacity
-                onPress={() => this.props.nav.navigate('Audio',
-                    {
-                        name: this.props.item.name,
-                        date: this.props.item.date + ', ' + this.props.item.time,
-                    }
-                )}
+                onPress={() => this.props.nav.navigate('Audio', this.props.item)}
             >
                 <View style={styles.item}>
                     <View style={styles.info}>
                         <Text style={styles.name}>{this.props.item.name}</Text>
                         <Text style={styles.date}>
-                            {this.props.item.time}
+                            {this.props.item.tag}
                         </Text>
                     </View>
 

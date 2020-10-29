@@ -10,12 +10,15 @@ import {historial_list} from '_data';
 import {HistoryItem} from '_atoms';
 import { COLORS } from '_styles';
 
+import { connect } from 'react-redux';
+
+
 class myHeadersList extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            list: historial_list,
+            list: historial_list,//this.props.history,
             currentDate: null,
         };
     }
@@ -83,4 +86,11 @@ const styles = StyleSheet.create({
     },
 });
 
-export default myHeadersList;
+
+const mapStateToProps = (state) => {
+    return {
+        history: state.historyReducer.history
+    }
+}
+  
+export default connect(mapStateToProps, null)(myHeadersList);

@@ -11,8 +11,8 @@ import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
 import {connect} from 'react-redux';
-import {setPatientCode} from '_redux_actions';
-import { openCodeEditor } from '_redux_actions';
+import {setPatientTag} from '_redux_actions';
+import { openTagEditor } from '_redux_actions';
 
 
 class PatientCode extends Component {
@@ -26,8 +26,8 @@ class PatientCode extends Component {
         }
     }
     
-    componentWillUnmount() {
-        this.props.setCode('');
+    componentDidMount = () => {
+        this.props.setPatientTag('');
     } 
 
     render() {
@@ -44,15 +44,15 @@ class PatientCode extends Component {
                         <Text style={styles.title}>Identificador de paciente</Text>
                         <TouchableOpacity 
                                 style={styles.button}
-                                onPress={() => this.props.openCodeEditor()}
+                                onPress={() => this.props.openTagEditor()}
                         >
                             <Text style={styles.edit}>Editar</Text>
                         </TouchableOpacity>   
                     </View>
 
                     <Text style={[styles.code, 
-                        {color: this.props.code !== '' ? this.state.codeColor : this.state.placeholderColor}]}> 
-                        {this.props.code !== '' ? this.props.code : this.state.placeholder}
+                        {color: this.props.patientTag !== '' ? this.state.codeColor : this.state.placeholderColor}]}> 
+                        {this.props.patientTag !== '' ? this.props.patientTag : this.state.placeholder}
                     </Text>
                 </View>
             </View>
@@ -131,16 +131,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        code: state.patientCodeReducer.code,
+        patientTag: state.patientCodeReducer.tag,
     }
 }
   
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCode: (code) => dispatch(setPatientCode(code)),
-        openCodeEditor: () => dispatch(openCodeEditor()),
+        setPatientTag: (tag) => dispatch(setPatientTag(tag)),
+        openTagEditor: () => dispatch(openTagEditor()),
     }
 }
   
-
 export default connect(mapStateToProps, mapDispatchToProps)(PatientCode);

@@ -12,33 +12,32 @@ import IconII from "react-native-vector-icons/Ionicons";
 import Modal from 'react-native-modal';
 
 import {connect} from 'react-redux';
-import { setPatientCode, openCodeEditor, closeCodeEditor } from '_redux_actions';
+import { setPatientTag, openTagEditor, closeTagEditor } from '_redux_actions';
 
 class patientCodeEditorModule extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            code: this.props.code,
+            tag: this.props.patientTag,
         };
     }
 
     componentDidMount() {
-        this.props.openCodeEditor();
+        this.props.openTagEditor();
     }
 
     handleAccept() {
-        this.props.setCode(this.state.code);
-        this.props.closeCodeEditor();
+        this.props.setPatientTag(this.state.tag);
+        this.props.closeTagEditor();
     }
 
     handleCancel() {
-        this.props.closeCodeEditor();
-        this.props.nav.goBack();        
+        this.props.closeTagEditor();
     }
 
     handleScanner() {
-        this.props.closeCodeEditor();
+        this.props.closeTagEditor();
         this.props.nav.replace('Scanner');
     }
 
@@ -70,6 +69,10 @@ class patientCodeEditorModule extends Component {
                 </View>
 
 
+                <Text style={styles.helpTitle}>
+                    Código de paciente
+                </Text>
+
                 <Text style={styles.helpText}>
                     Escanea el código del paciente o {'\n'} 
                     escribe un nuevo código para identificar 
@@ -78,9 +81,9 @@ class patientCodeEditorModule extends Component {
 
                 <View style={styles.inputContainer}>
                     <TextInput
-                        value={this.state.code}
-                        onChangeText={(value) => this.setState({code: value})}
-                        placeholder='Código de paciente'
+                        value={this.state.tag}
+                        onChangeText={(value) => this.setState({tag: value})}
+                        placeholder='Escribe un código o escanéalo'
                         placeholderTextColor={COLORS.grey}
                         style={styles.textInput}
                     />
@@ -99,8 +102,8 @@ class patientCodeEditorModule extends Component {
             <Modal 
                 style={styles.modal}
                 swipeDirection="down"
-                swipeThreshold={400}
-                onSwipeComplete={() => this.setState({isModalVisible: false})}
+                swipeThreshold={300}
+                onSwipeComplete={this.props.closeTagEditor}
                 isVisible={this.props.isEditorVisible}
                 avoidKeyboard={true}
             >
@@ -135,8 +138,13 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
 
     },
-    helpText: {
+    helpTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
         marginTop: 30,
+    },
+    helpText: {
+        marginTop: 20,
         marginBottom: 40,
         marginHorizontal: 50,
         fontSize: 16,
@@ -182,7 +190,7 @@ const styles = StyleSheet.create({
         width:'75%',
         marginLeft: 20,
         textAlign: 'center',
-        fontSize: 15,
+        fontSize: 16,
         color: COLORS.electric_blue,
     },
     scanIcon:{
@@ -195,16 +203,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        code: state.patientCodeReducer.code,
+        patientTag: state.patientCodeReducer.tag,
         isEditorVisible: state.patientCodeReducer.isEditorVisible,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      setCode: (code) => dispatch(setPatientCode(code)),
-      openCodeEditor: () => dispatch(openCodeEditor()),
-      closeCodeEditor: () => dispatch(closeCodeEditor()),
+      setPatientTag: (tag) => dispatch(setPatientTag(tag)),
+      openTagEditor: () => dispatch(openTagEditor()),
+      closeTagEditor: () => dispatch(closeTagEditor()),
     }
 }
   

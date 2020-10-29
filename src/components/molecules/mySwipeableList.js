@@ -19,12 +19,11 @@ class swipeableList extends Component {
             <View style={styles.info}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.date}>
-                    {item.creation_time}
+                    {item.ctime}
                 </Text>
             </View>
 
             <Player item={item} stream={false}/>
-
         </View>
     )
 
@@ -43,8 +42,8 @@ class swipeableList extends Component {
 
     render() {
         return (
-
             <SwipeableFlatList
+
                 contentContainerStyle={{ paddingBottom: 20}}
                 style={styles.audiolist}
                 keyExtractor={(item) => item.key.toString()}
@@ -52,6 +51,7 @@ class swipeableList extends Component {
                 maxSwipeDistance={80}
                 renderItem={this._renderItem}
                 renderQuickActions={this._renderQuickActions}
+                bounceFirstRowOnMount={true}
             />
         )
     }
@@ -61,7 +61,6 @@ class swipeableList extends Component {
 const styles = StyleSheet.create({
     audiolist:{
       width:"100%",
-      backgroundColor: 'transparent',
       paddingTop: 10,
     },
     actionsContainer: {
