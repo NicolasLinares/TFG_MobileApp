@@ -52,7 +52,7 @@ class audioListModule extends Component {
 
     send = async (audio) => {
       data = JSON.stringify(audio);
-      return await fetch('http://localhost/API_Medcorder/public/v1/audio', 
+      return await fetch(URL.sendAudio, 
         {
           headers: {
             'Content-Type': 'application/json',
@@ -112,12 +112,11 @@ class audioListModule extends Component {
             //this.sendFile(audio);
 
             // Se elimina de la lista de grabaciones para que no se vuelva a enviar
-            this.props.delete(this.props.list[i].key);
-
+            // Se va borrando el primer elemento siempre
+            this.props.delete(this.props.list[0].key); 
             // Se añade al historial de audios del médico
             this.props.addAudioHistory(audio);
 
-            console.log(this.props.history);
           } else {
             // el audio no se ha enviado
             // problema de red o formato inválido (más bien el primer caso)

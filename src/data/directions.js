@@ -1,12 +1,18 @@
 
+const local = 'http://localhost/API_Medcorder';
+const remote =  'https://pln.inf.um.es/TFG_MobileApp_API';
+
+const server = local;
+
 export const URL = {
-    register: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/auth/register',
-    login: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/auth/login',
-    logout: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/auth/logout',
 
-    changePassword: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/user/password',
-    changeCountry: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/user/country',
-    changeSpeciality: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/user/speciality',
+    register: server + '/public/v1/auth/register',
+    login: server + '/public/v1/auth/login',
+    logout: server + '/public/v1/auth/logout',
 
-    addAudio: 'https://pln.inf.um.es/TFG_MobileApp_API/public/v1/audio',
+    changePassword: server +'/public/v1/user/password',
+    changeCountry: server +'/public/v1/user/country',
+    changeSpeciality: server + '/public/v1/user/speciality',
+
+    sendAudio: server +'/public/v1/audio',
 };

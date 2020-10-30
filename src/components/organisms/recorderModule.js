@@ -82,13 +82,12 @@ class recorderModule extends Component {
     return [filename, path];
   }
 
-  async getCreateTime(path) {
+  async getCreatedTime(path) {
     dateObj = (await RNFS.stat(path)).ctime;
     h=dateObj.getHours();
     hh= h < 10 ? '0'+h : h;
     m=dateObj.getMinutes();
     mm= m < 10 ? '0'+m : m;
-
     return hh + ":" + mm ;
   }
 
@@ -107,7 +106,7 @@ class recorderModule extends Component {
       path = audiofile[1];
   
       absolute_path = await this.state.recorder.startRecorder(path, true, audioSet);
-      ctime = await this.getCreateTime(absolute_path);
+      ctime = await this.getCreatedTime(absolute_path);
 
       audio = {
         name: name,

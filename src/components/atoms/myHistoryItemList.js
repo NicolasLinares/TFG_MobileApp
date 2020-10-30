@@ -10,19 +10,46 @@ import {
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
+import moment from 'moment';
+
 class myHistoryItemList extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+          name: this.props.item.name,
+          created_time: this.getCreatedTime(this.props.item.created_at),
+          tag:  this.props.item.tag,
+        }
+    }
+
+    getCreatedTime(timestamp) {
+        m = moment(timestamp);
+        return m.format('HH:ss');
+    }
+
     render() {
+        
         return (
             <TouchableOpacity
                 onPress={() => this.props.nav.navigate('Audio', this.props.item)}
             >
                 <View style={styles.item}>
                     <View style={styles.info}>
-                        <Text style={styles.name}>{this.props.item.name}</Text>
-                        <Text style={styles.date}>
-                            {this.props.item.tag}
-                        </Text>
+                        <Text style={styles.name}>{this.state.name}</Text>
+
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.date}>
+                                {this.state.created_time}
+                            </Text>
+
+                            <View style={styles.tag}>
+                                <Text style={styles.tagText}>
+                                    {this.state.tag}
+                                </Text>
+                            </View>
+                        </View>
+
                     </View>
 
                     <IconII style={styles.icon} name={'chevron-forward'}/>
@@ -63,12 +90,27 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     date: {
-        marginTop: 5,
-        fontSize: 12
+        marginTop: 7,
+        fontSize: 12,
     },
     icon: {
         fontSize: 25,
         color: 'red',
+    },
+    tag: {
+        backgroundColor: COLORS.light_green,
+        height: 20,
+        justifyContent: 'center',
+        alignSelf: 'flex-start',
+        borderRadius: 7,
+        marginTop: 5,        
+        marginHorizontal: 30,
+    },
+    tagText: {
+        marginHorizontal: 10,
+        fontSize: 12,
+        alignSelf: 'center',
+        justifyContent: 'center',
     }
 });
 

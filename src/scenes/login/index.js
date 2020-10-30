@@ -28,8 +28,8 @@ class LoginScreen extends Component {
     super(props);
     this.state = {
       savePssw: false,
-      email: 'nico@gmail.com',
-      password: 'hola',
+      email: 'nlbarba97@gmail.com',
+      password: '1234',
     };
   }
 
@@ -66,7 +66,7 @@ class LoginScreen extends Component {
     }
     data = JSON.stringify(json);
 
-    fetch('http://localhost/API_Medcorder/public/v1/auth/login', 
+    fetch(URL.login, 
           {
             headers: {
               'Content-Type': 'application/json'

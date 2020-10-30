@@ -35,16 +35,19 @@ class filterList extends Component {
 
     render() {
         return (
-            <FlatList
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={styles.audiolist}
-                contentContainerStyle={{ paddingRight: 60}}
-                keyExtractor={(item) => item.key.toString()}
-                data={this.state.list}  
-                extraData={this.state}
-                renderItem={this._renderItem}
-            />
+            <View style={{height: 50}}>
+                <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    style={styles.audiolist}
+                    contentContainerStyle={{ paddingRight: 60}}
+                    keyExtractor={(item) => item.key}
+                    data={this.state.list}  
+                    extraData={this.state}
+                    renderItem={this._renderItem}
+                />
+            </View>
+
         )
     }
 }
@@ -52,24 +55,25 @@ class filterList extends Component {
 
 const styles = StyleSheet.create({
     audiolist:{
-      width:"100%",
-      height: 100,
-      paddingHorizontal: 30,
+        width:"100%",
+        height: 50,
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+
     },
     item: {
-        backgroundColor: COLORS.light_blue,
+        backgroundColor: COLORS.light_green,
         height: 30,
         justifyContent: 'center',
         alignSelf: 'flex-start',
         borderRadius: 10,
-        marginTop: 5,
         marginHorizontal: 5,
     },
     name: {
         textAlign: 'center',
         fontSize: 14,
         marginHorizontal: 10,
-        marginRight: 15
+        marginRight: 15,
     }
 });
 

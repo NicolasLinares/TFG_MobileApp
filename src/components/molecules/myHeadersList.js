@@ -6,7 +6,6 @@ import {
     View
 } from 'react-native';
 
-import {historial_list} from '_data';
 import {HistoryItem} from '_atoms';
 import { COLORS } from '_styles';
 
@@ -18,7 +17,6 @@ class myHeadersList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: historial_list,//this.props.history,
             currentDate: null,
         };
     }
@@ -54,9 +52,9 @@ class myHeadersList extends Component {
                 contentContainerStyle={{ paddingBottom: 50}}
                 showsVerticalScrollIndicator={false}
                 style={styles.audiolist}
-                sections={this.state.list}
+                sections={this.props.history}
                 inverted={false}
-                keyExtractor={(item) => item.key}  // esto es posible que se deba poner como '(item) => item.key.toString()'
+                keyExtractor={(item) => item.uid} 
                 renderItem={this._renderItem}
                 renderSectionHeader={({ section: { date } }) => (this._renderDate(date))}
                 onViewableItemsChanged={this._updateDate}

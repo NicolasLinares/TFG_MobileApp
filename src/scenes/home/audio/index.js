@@ -10,24 +10,31 @@ import { Player } from '_atoms';
 import {COLORS} from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
+import moment from 'moment';
 
 class AudioScreen extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          audioName: this.props.navigation.state.params.name,
-          date: this.props.navigation.state.params.date,
+          name: this.props.navigation.state.params.name,
+          date: this.getDate(this.props.navigation.state.params.created_at),
+          transcription: this.props.navigation.state.params.transcription,
         }
+    }
+
+    getDate(timestamp) {
+      m = moment(timestamp);
+      return m.format('LL, HH:ss');
     }
 
 
     _renderPlayer() { 
       return (
         <View style={styles.audio}>
-          <Text style={styles.title}> {this.state.audioName}</Text>
+          <Text style={styles.title}> {this.state.name}</Text>
           <Text style={styles.date}> {this.state.date}</Text>
-          <Player item={this.props.navigation.state.params} stream={true} complexStyle={true}/>
+          <Player item={this.props.navigation.state.params} stream={false} complexStyle={true}/>
         </View>
       );
     }
@@ -48,22 +55,11 @@ class AudioScreen extends Component {
 
           <ScrollView style={styles.transcription}>
             <Text style={styles.text}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Vivamus consequat elit et urna posuere, non posuere leo 
-              varius. Phasellus rhoncus turpis non sem gravida tempus. 
-              Curabitur in mollis tellus. Nunc mi magna, facilisis id 
-              vehicula id, aliquam id neque. Nam vitae dolor id mi tempus 
-              faucibus. Duis euismod eu augue non congue. Quisque erat 
-              dolor, pretium a est non, finibus elementum risus. Ut et 
-              enim rhoncus, bibendum lacus eget, porttitor ante. 
-              Suspendisse vitae nisl ultricies, ultricies nibh quis,
-              sollicitudin nibh. Cras placerat erat ac quam vulputate, 
-              quis eleifend metus molestie. Sed ac neque dignissim, 
-              pharetra ex vel, placerat leo. Sed semper non urna in posuere. 
-              Praesent sed est tristique, pulvinar lacus et, viverra 
-              sapien. Proin risus sem, semper ut augue a, consequat 
-              ornare diam. Curabitur porttitor sem eget leo ullamcorper, 
-              sed sagittis ante imperdiet. Donec pharetra massa elit.
+              {this.state.transcription === null ? 
+                  "La transcripción no está disponible por el momento" 
+                :
+                this.state.transcription
+              }
             </Text>
           </ScrollView>
         </View>

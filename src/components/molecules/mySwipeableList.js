@@ -43,11 +43,10 @@ class swipeableList extends Component {
     render() {
         return (
             <SwipeableFlatList
-
                 contentContainerStyle={{ paddingBottom: 20}}
                 style={styles.audiolist}
                 keyExtractor={(item) => item.key.toString()}
-                data={this.props.list}  
+                data={this.props.list.reverse()}  
                 maxSwipeDistance={80}
                 renderItem={this._renderItem}
                 renderQuickActions={this._renderQuickActions}

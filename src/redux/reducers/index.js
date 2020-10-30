@@ -53,13 +53,18 @@ export function audioListReducer(state = initialState, action) {
         case types.ADD_AUDIO:
             return {
                 ...state,
-                audiolist: [{
-                                key: Math.random(),
-                                name: action.audio.name,
-                                extension: action.audio.extension,
-                                localpath: action.audio.localpath,
-                                description: '',
-                            }, ...state.audiolist]
+                audiolist: [
+                    ...state.audiolist,
+                    {
+                        key: Math.random(),
+                        name: action.audio.name,
+                        extension: action.audio.extension,
+                        localpath: action.audio.localpath,
+                        description: '',
+                        ctime: action.audio.ctime,
+                    }, 
+
+                ]
             };
         case types.DELETE_AUDIO:
             return {
@@ -82,64 +87,88 @@ export function historyReducer(state = initialState, action) {
     switch (action.type) {
 
         case types.ADD_AUDIO_HISTORY:
-            // si no tiene una sección con la fecha de hoy lo creamos
-            if (state.history.length == 0) {
+
+            /*
+
+                        LA LISTA ES DE LA SIGUIENTE FORMA
+
+                history: [
+                    {
+                        date: '28 de octubre de 2020,
+                        data: [audio1, audio2 ...]
+                    },
+                    {
+                        date: '26 de octubre de 2020,
+                        data: [audio1, audio2, audio3 ...]
+                    },
+                    ...
+                ]
+            */
+
+            // Los audios se añaden en la sublista data correspondiente según la fecha
+            // ------------------------------------------------------------------------
+
+            // Añadir primer elemento de una nueva fecha:
+            if (state.history.length == 0 || state.history[0].date !== moment().format('LL')) {
                 return {
                     ...state,
                     history: [
                         {
-                            date: moment().format('hh:mm'),
+                            date: moment().format('LL'),
                             data: [action.audio]
                         }, 
                         ...state.history
                     ]
                 };
             }
-            else
-                if (state.history[0].date === moment().format('hh:mm')) {
+            else {
 
-                    if (state.history.length === 1)
-                        return {
-                            ...state,
-                            history: [
-                                {
-                                    ...state.history[0],
-                                    data: [
-                                        action.audio
-                                        ,
-                                        ...state.history[0].data
-                                    ]
-                                }
+                // Se añade un nuevo elemento a la sublista para ello
+                // se duplica el primer conjunto {date, data} pero  
+                // añadiendo el nuevo elemento en data
+                newState = {
+                    ...state,
+                    history: [
+                        {
+                            ...state.history[0],
+                            data: [
+                                action.audio,
+                                ...state.history[0].data,
                             ]
-                        };
-                    else 
-                        return {
-                            ...state,
-                            history: [
-                                {
-                                    ...state.history[0],
-                                    data: [
-                                        action.audio
-                                        ,
-                                        ...state.history[0].data
-                                    ]
-                                },
-                                ...state.history.shift()
-                            ]
-                        };
-                } else {               
+                        },
+                        ...state.history,
+                    ]
+                };  
+
+                // Se debe borrar el anterior conjunto {date, data},
+                // que ahora se encuentra en la posición [1], en el [0]
+                // está el nuevo conjunto {date,data} con el valor añadido
+                newState.history.splice(1,1);
                 
-                    return {
-                        ...state,
-                        history: [
-                            {
-                                date: moment().format('hh:mm'),
-                                data: [action.audio]
-                            },
-                            ...state.history
-                        ]
-                    };
-                }
+
+                // Si no lo borramos tendríamos algo como lo siguiente:
+
+                /*
+
+                history: [
+                    {
+                        date: '28 de octubre de 2020,         
+                        data: [nuevo, audio1, audio2 ...]
+                    },
+                    {
+                        date: '28 de octubre de 2020,          <<< Duplicado y desactualizado
+                        data: [audio1, audio2 ...]
+                    },
+                    {
+                        date: '26 de octubre de 2020,
+                        data: [audio1, audio2, audio3 ...]
+                    },
+                    ...
+                ]
+            */
+
+                return newState;
+            }
         
         default:
             return state;
