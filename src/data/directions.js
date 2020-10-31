@@ -10,9 +10,11 @@ export const URL = {
     login: server + '/public/v1/auth/login',
     logout: server + '/public/v1/auth/logout',
 
-    changePassword: server +'/public/v1/user/password',
-    changeCountry: server +'/public/v1/user/country',
+    changePassword: server + '/public/v1/user/password',
+    changeCountry: server + '/public/v1/user/country',
     changeSpeciality: server + '/public/v1/user/speciality',
 
-    sendAudio: server +'/public/v1/audio',
+    getHistory: server + '/public/v1/audios',
+
+    sendAudio: server + '/public/v1/audio',
 };

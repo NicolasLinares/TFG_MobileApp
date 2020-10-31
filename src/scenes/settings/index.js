@@ -6,14 +6,13 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Linking
 } from 'react-native';
 
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 import { URL } from '_data';
 import {connect} from 'react-redux';
-import { logoutUser } from '_redux_actions';
+import { logoutUser, cleanHistory } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
 
 class SettingsScreen extends Component {
@@ -59,7 +58,10 @@ class SettingsScreen extends Component {
                 });
                 //Se limpian los datos del usuario en Redux
                 setTimeout(() => this.props.cleanUserInfo(), 500);
-                // TODO limpiar las listas de audio
+                
+                // Se vacía el historial de audios
+                this.props.cleanHistory();
+
                 this.props.navigation.navigate('Auth');
 
               } else {
@@ -179,7 +181,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        cleanUserInfo: () => dispatch(logoutUser())
+        cleanUserInfo: () => dispatch(logoutUser()),
+        cleanHistory: () => dispatch(cleanHistory())
     }
 }
 

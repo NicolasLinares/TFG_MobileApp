@@ -25,7 +25,7 @@ class myHistoryItemList extends Component {
 
     getCreatedTime(timestamp) {
         m = moment(timestamp);
-        return m.format('HH:ss');
+        return m.format('HH:mm');
     }
 
     render() {

@@ -85,6 +85,14 @@ export const closeTagEditor = () => {
 
 // HISTORY ACTIONS
 
+export const setHistory = (audio) => {
+    return {
+        type: 'SET_HISTORY',
+        audio: audio,
+    }
+}
+
+
 export const addAudioHistory = (audio) => {
     return {
         type: 'ADD_AUDIO_HISTORY',
@@ -92,6 +100,11 @@ export const addAudioHistory = (audio) => {
     }
 }
 
+export const cleanHistory = () => {
+    return {
+        type: 'CLEAN_HISTORY',
+    }
+}
 
 
 

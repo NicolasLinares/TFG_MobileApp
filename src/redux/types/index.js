@@ -18,4 +18,6 @@ export const OPEN_EDITOR = 'OPEN_EDITOR';
 export const CLOSE_EDITOR = 'CLOSE_EDITOR';
 
 // HISTORY ACTIONS
+export const SET_HISTORY = 'SET_HISTORY';
 export const ADD_AUDIO_HISTORY = 'ADD_AUDIO_HISTORY';
+export const CLEAN_HISTORY = 'CLEAN_HISTORY';

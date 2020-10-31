@@ -7,10 +7,6 @@ import {
 } from 'react-native';
 
 import {HistoryItem} from '_atoms';
-import { COLORS } from '_styles';
-
-import { connect } from 'react-redux';
-
 
 class myHeadersList extends Component {
 
@@ -52,12 +48,13 @@ class myHeadersList extends Component {
                 contentContainerStyle={{ paddingBottom: 50}}
                 showsVerticalScrollIndicator={false}
                 style={styles.audiolist}
-                sections={this.props.history}
+                sections={this.props.list}
                 inverted={false}
                 keyExtractor={(item) => item.uid} 
                 renderItem={this._renderItem}
                 renderSectionHeader={({ section: { date } }) => (this._renderDate(date))}
                 onViewableItemsChanged={this._updateDate}
+                onScrollEndDrag={() => this.props.refresh()}
             />
         )
     }
@@ -84,11 +81,5 @@ const styles = StyleSheet.create({
     },
 });
 
-
-const mapStateToProps = (state) => {
-    return {
-        history: state.historyReducer.history
-    }
-}
   
-export default connect(mapStateToProps, null)(myHeadersList);
+export default myHeadersList;
