@@ -96,71 +96,6 @@ export function historyReducer(state = initialState, action) {
 
         case types.SET_HISTORY:
 
-            // Se crea un nuevo conjunto si la lista está vacía o si el nuevo audio 
-            // tiene una fecha distinta al último conjunto añadido
-            if (state.history.length == 0 || state.history[0].date !== getDate(action.audio.created_at)) {
-                return {
-                    ...state,
-                    history: [
-                        {
-                            date: getDate(action.audio.created_at),
-                            data: [action.audio]
-                        }, 
-                        ...state.history
-                    ]
-                };
-            }
-            else {
-
-                // Se añade un nuevo elemento al conjunto dado para ello
-                // se duplica el primer conjunto {date, data} pero  
-                // añadiendo el nuevo elemento en data
-                newState = {
-                    ...state,
-                    history: [
-                        {
-                            ...state.history[0],
-                            data: [
-                                ...state.history[0].data,
-                                action.audio,
-                            ]
-                        },
-                        ...state.history,
-                    ]
-                };  
-
-                // Se debe borrar el anterior conjunto {date, data},
-                // que ahora se encuentra en la posición [1], en el [0]
-                // está el nuevo conjunto {date,data} con el valor añadido
-                newState.history.splice(1,1);
-                
-
-                // Si no lo borramos tendríamos algo como lo siguiente:
-
-                /*
-
-                history: [
-                    {
-                        date: '28 de octubre de 2020,         
-                        data: [nuevo, audio1, audio2 ...]
-                    },
-                    {
-                        date: '28 de octubre de 2020,          <<< Duplicado y desactualizado
-                        data: [audio1, audio2 ...]
-                    },
-                    {
-                        date: '26 de octubre de 2020,
-                        data: [audio1, audio2, audio3 ...]
-                    },
-                    ...
-                ]
-            */
-
-                return newState;
-            }
-
-        case types.ADD_AUDIO_HISTORY:
-
             /*
 
                         LA LISTA ES DE LA SIGUIENTE FORMA
@@ -178,7 +113,57 @@ export function historyReducer(state = initialState, action) {
                 ]
             */
 
-            // Los audios se añaden en la sublista data correspondiente según la fecha
+
+            // La lista va a ir creciendo hacia abajo, primero se insertan los
+            // audios más recientes y agrupados por días. Cuando hablamos de conjunto
+            // se habla de conjunto de audios por día.
+
+
+            // Se crea un nuevo conjunto si la lista está vacía o si el nuevo audio 
+            // tiene una fecha distinta al último conjunto añadido
+
+            // Para obtener el último conjunto añadido calculamos el número de elementos 
+            // que tiene la lista
+            index = state.history.length - 1;
+            if (state.history.length == 0 || state.history[index].date !== getDate(action.audio.created_at)) {
+                return {
+                    ...state,
+                    history: [
+                        ...state.history,
+                        {
+                            date: getDate(action.audio.created_at),
+                            data: [action.audio]
+                        }, 
+                    ]
+                };
+            }
+            else {
+
+                // Se extrae el último conjunto (que es donde se va a añadir el elemento)
+                // y se copian los valores que almacena más el nuevo audio
+
+                last = state.history.pop();
+
+                return {
+                    ...state,
+                    history: [
+                        ...state.history,
+                        {
+                            ...last,
+                            data: [
+                                ...last.data,
+                                action.audio,
+                            ]
+                        },
+                    ]
+                };  
+            
+            }
+
+        case types.ADD_AUDIO_HISTORY:
+
+            // Los audios se añaden en el primer conjunto si se ha creado hoy o
+            // se añade en un conjunto nuevo si es el primero audio de el día actual
             // ------------------------------------------------------------------------
 
             // Añadir primer elemento de una nueva fecha:
@@ -196,10 +181,12 @@ export function historyReducer(state = initialState, action) {
             }
             else {
 
-                // Se añade un nuevo elemento a la sublista para ello
-                // se duplica el primer conjunto {date, data} pero  
-                // añadiendo el nuevo elemento en data
-                newState = {
+                // Se extrae el último conjunto (que es donde se va a añadir el elemento)
+                // y se copian los valores que almacena más el nuevo audio
+
+                last = state.history.pop();
+
+                return {
                     ...state,
                     history: [
                         {
@@ -212,35 +199,6 @@ export function historyReducer(state = initialState, action) {
                         ...state.history,
                     ]
                 };  
-
-                // Se debe borrar el anterior conjunto {date, data},
-                // que ahora se encuentra en la posición [1], en el [0]
-                // está el nuevo conjunto {date,data} con el valor añadido
-                newState.history.splice(1,1);
-                
-
-                // Si no lo borramos tendríamos algo como lo siguiente:
-
-                /*
-
-                history: [
-                    {
-                        date: '28 de octubre de 2020,         
-                        data: [nuevo, audio1, audio2 ...]
-                    },
-                    {
-                        date: '28 de octubre de 2020,          <<< Duplicado y desactualizado
-                        data: [audio1, audio2 ...]
-                    },
-                    {
-                        date: '26 de octubre de 2020,
-                        data: [audio1, audio2, audio3 ...]
-                    },
-                    ...
-                ]
-            */
-
-                return newState;
             }
 
         case types.CLEAN_HISTORY:

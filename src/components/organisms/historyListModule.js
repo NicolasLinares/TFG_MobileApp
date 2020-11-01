@@ -44,7 +44,7 @@ class historyListModule extends Component {
         // Para el resto de peticiones ya se almacena la URL
         // con la siguiente página
         list = await this.historyRequest(this.state.next_page_URL);
-
+        //list = list.reverse();
         N = list.length;
         for (let i = 0; i < N; i++) {
             // Se añade cada audio al historial de audios 
