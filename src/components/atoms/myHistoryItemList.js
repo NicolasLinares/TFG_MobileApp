@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         marginTop: 5,        
         marginHorizontal: 30,
+        borderWidth: 1,
+        borderColor: COLORS.green
     },
     tagText: {
         marginHorizontal: 10,

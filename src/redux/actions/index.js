@@ -108,4 +108,26 @@ export const cleanHistory = () => {
 
 
 
+// TAGS ACTIONS
+
+export const addFilterTag = (tag) => {
+    return {
+        type: 'ADD_TAG',
+        tag: tag,
+    }
+}
+
+export const cleanTags = () => {
+    return {
+        type: 'CLEAN_TAGS',
+    }
+}
+
+export const setCurrentTagApplied = (tag) => {
+    return {
+        type: 'SET_CURRENT_TAG_APPLIED',
+        tag: tag,
+    }
+}
+
 export default {authUser};

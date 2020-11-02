@@ -10,7 +10,7 @@ import {
 import { SwipeableAudioList } from '_molecules';
 
 import { connect } from 'react-redux';
-import { deleteAudio, addAudioTag, addAudioHistory } from '_redux_actions';
+import { deleteAudio, addAudioTag, addAudioHistory, addFilterTag } from '_redux_actions';
 
 import RNFS from 'react-native-fs';
 
@@ -98,7 +98,7 @@ class audioListModule extends Component {
       if (this.props.patientTag !== '') {
 
         // Se asigna el código de paciente a todos los audios
-        await this.props.addTag(this.props.patientTag);
+        await this.props.addAudioTag(this.props.patientTag);
 
         // Por cada audio grabado se envía y se elimina de la lista para añadirla
         N = this.props.list.length;
@@ -112,11 +112,17 @@ class audioListModule extends Component {
             //this.sendFile(audio);
 
             // Se elimina de la lista de grabaciones para que no se vuelva a enviar
-            // Se va borrando el primer elemento siempre
             this.props.delete(this.props.list[0].key); 
-            // Se añade al historial de audios del médico
-            this.props.addAudioHistory(audio);
 
+            // Para evitar que añada el audio a la lista del filtro aplicado
+            // se comprueba que no haya ningún filtro en este momento
+            if (this.props.currentTagApplied === '') {
+              // Se añade al historial de audios del médico
+              this.props.addAudioHistory(audio);
+            }
+
+            // Se añade la nueva etiqueta si no existe ya
+            this.props.addFilterTag(audio.tag);
           } else {
             // el audio no se ha enviado
             // problema de red o formato inválido (más bien el primer caso)
@@ -142,7 +148,7 @@ class audioListModule extends Component {
             style={styles.sendButton}
             onPress={() => this.handleSendAudios()}
           >
-              <Text style={{fontSize:17, marginRight: 4, color: COLORS.electric_blue}}>
+              <Text style={{fontSize:15, marginRight: 4, color: COLORS.electric_blue}}>
                   Transcribir
               </Text>
               <IconII style={{fontSize:20, marginLeft: 4, color: COLORS.electric_blue}} name={'md-cloud-upload-outline'}/>
@@ -195,6 +201,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center',
     borderRadius: 20,
+    marginTop: 5,
     marginRight: 20,
     flexDirection: 'row',
     backgroundColor: COLORS.light_grey,
@@ -211,7 +218,8 @@ const mapStateToProps = (state) => {
       list: state.audioListReducer.audiolist,
       patientTag: state.patientCodeReducer.tag,
       token: state.userReducer.token,
-      history: state.historyReducer.history
+      history: state.historyReducer.history,
+      currentTagApplied: state.tagsReducer.currentTagApplied,
     }
 }
 
@@ -219,8 +227,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     delete: (key) => dispatch(deleteAudio(key)),
-    addTag: (tag) => dispatch(addAudioTag(tag)),
-    setPatientTag: (tag) => dispatch(setPatientTag(tag)),
+    addAudioTag: (tag) => dispatch(addAudioTag(tag)),
+    addFilterTag: (tag) => dispatch(addFilterTag(tag)),
     addAudioHistory: (audio) => dispatch(addAudioHistory(audio)),
   }
 }

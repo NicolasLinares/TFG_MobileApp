@@ -21,3 +21,9 @@ export const CLOSE_EDITOR = 'CLOSE_EDITOR';
 export const SET_HISTORY = 'SET_HISTORY';
 export const ADD_AUDIO_HISTORY = 'ADD_AUDIO_HISTORY';
 export const CLEAN_HISTORY = 'CLEAN_HISTORY';
+
+// TAGS ACTIONS
+export const ADD_TAG = 'ADD_TAG';
+export const CLEAN_TAGS = 'CLEAN_TAGS';
+export const SET_CURRENT_TAG_APPLIED = 'SET_CURRENT_TAG_APPLIED';
+

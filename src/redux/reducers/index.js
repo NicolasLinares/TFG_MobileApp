@@ -15,6 +15,7 @@ const initialState = {
 
     history: [],                        // Lista con todos los audios grabados
     tags: [],                           // Lista con los códigos de paciente usados 
+    currentTagApplied: '',              // Filtro usado en el momento actual
 
     playerState: 'stop',                // Estado del reproductor de audio
 
@@ -181,12 +182,10 @@ export function historyReducer(state = initialState, action) {
             }
             else {
 
-                // Se extrae el último conjunto (que es donde se va a añadir el elemento)
-                // y se copian los valores que almacena más el nuevo audio
-
-                last = state.history.pop();
-
-                return {
+                // Se añade un nuevo elemento a la sublista para ello
+                // se duplica el primer conjunto {date, data} pero  
+                // añadiendo el nuevo elemento en data
+                newState = {
                     ...state,
                     history: [
                         {
@@ -199,6 +198,14 @@ export function historyReducer(state = initialState, action) {
                         ...state.history,
                     ]
                 };  
+
+                // Se debe borrar el anterior conjunto {date, data},
+                // que ahora se encuentra en la posición [1], en el [0]
+                // está el nuevo conjunto {date,data} con el valor añadido
+                newState.history.splice(1,1);
+
+                return newState;
+
             }
 
         case types.CLEAN_HISTORY:
@@ -206,6 +213,7 @@ export function historyReducer(state = initialState, action) {
                 ...state,
                 history: [],
             };
+
         default:
             return state;
     }
@@ -246,3 +254,42 @@ export function patientCodeReducer(state = initialState.patientCode, action) {
             return state;
     }
 }
+
+export function tagsReducer(state = initialState, action) {
+    switch (action.type) {
+
+        case types.ADD_TAG:
+
+            const existsInArray = state.tags.some(l => l.tag === action.tag)
+            
+            if(existsInArray) {
+              return state;
+            }
+
+            return {
+                ...state,
+                tags: [
+                    {
+                        key: Math.random(),
+                        tag: action.tag,
+                    },
+                    ...state.tags
+                ]
+            };
+        case types.CLEAN_TAGS:
+            return {
+                ...state,
+                tags: [],
+            };
+
+        case types.SET_CURRENT_TAG_APPLIED:
+            return {
+                ...state,
+                currentTagApplied: action.tag,
+            };
+            
+        default:
+            return state;
+    }
+}
+

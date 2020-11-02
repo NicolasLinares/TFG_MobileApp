@@ -10,11 +10,10 @@ import {
 import { FilterList } from '_molecules';
 import { HeadersAudioList } from '_molecules';
 
-import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS } from '_styles';
 
 import { connect } from 'react-redux';
-import { setHistory, cleanHistory } from '_redux_actions';
+import { setHistory, cleanHistory, setCurrentTagApplied } from '_redux_actions';
 
 import { showMessage } from "react-native-flash-message";
 import { URL } from '_data';
@@ -26,25 +25,29 @@ class historyListModule extends Component {
         this.state = {
             pressed: false,
             next_page_URL: URL.getHistory,
-            loading: true
+            loading: true,
+            hideButton: true
         }
     }
 
     async componentDidMount() {
-
-        // Se vacía el historial de audios
+        // Se vacía el historial de audios grabados 
+        // para que no se dupliquen en caso de haber 
+        // hecho la consulta antes        
         this.props.cleanHistory();
-        
+
+        // GET de los audios paginados de 20 en 20
         await setTimeout(() => this.handleGetHistory(), 50);
+
         this.state.loading = false;
     }
 
     async handleGetHistory() {
-
+        
         // Para el resto de peticiones ya se almacena la URL
         // con la siguiente página
         list = await this.historyRequest(this.state.next_page_URL);
-        //list = list.reverse();
+
         N = list.length;
         for (let i = 0; i < N; i++) {
             // Se añade cada audio al historial de audios 
@@ -52,6 +55,8 @@ class historyListModule extends Component {
             this.props.setHistory(list[i]);
         }
     }
+
+
 
 
     async historyRequest(next_page_URL) {
@@ -90,16 +95,37 @@ class historyListModule extends Component {
         });
     }
 
-    _renderFilterButton() {
-        return (
-            <TouchableOpacity 
-                style={styles.button}
-                onPress={() => this.setState({pressed: !this.state.pressed})}
-            >
-                <Text style={styles.text}>Filtrar</Text>
-                <IconII style={styles.icon} name={this.state.pressed ? 'chevron-up' : 'chevron-down'}/>
-            </TouchableOpacity>
-        );
+    async handleRemoveFilter() {
+        // Se vacía el historial de audios grabados 
+        // para que no se dupliquen en caso de haber 
+        // hecho la consulta antes        
+        this.props.cleanHistory();
+
+        // Se elimpia el código de paciente usado
+        this.props.setCurrentTagApplied('');
+
+        this.setState({
+            next_page_URL: URL.getHistory,
+            hideButton: true
+        });
+
+        // GET de los audios paginados de 20 en 20
+        await setTimeout(() => this.handleGetHistory(), 50);
+
+    }
+
+    _renderRemoveFilterButton() {
+        if (!this.state.hideButton)
+            return (
+                <TouchableOpacity 
+                    style={styles.button}
+                    onPress={() => this.handleRemoveFilter()}
+                >
+                    <Text style={styles.text}> Eliminar filtro </Text>
+                </TouchableOpacity>
+            );
+        else 
+            return null;
     }
 
     render() {
@@ -109,18 +135,23 @@ class historyListModule extends Component {
                     <Text style={styles.title}>
                         Mis notas de voz
                     </Text>
-                    {this._renderFilterButton()}
+                    {this._renderRemoveFilterButton()}
                 </View>
  
-                {this.state.pressed ? <FilterList /> : null}
+                <FilterList 
+                    showRemoveFilterButton={() => this.setState({ hideButton: false })} 
+                    setNextURL={(url) => this.setState({ next_page_URL: url })} 
+                    list={this.props.tags}
+                />
                 
                 {this.state.loading === true
                     ?
                         <View style={{flex:1, justifyContent: 'center'}}>
                             <ActivityIndicator size='small' color='grey'/> 
                         </View>
-                    :    
+                    :
                         <HeadersAudioList 
+                            // Se muestra la lista total
                             list={this.props.history} 
                             refresh={() => {this.state.next_page_URL != null ? this.handleGetHistory() : {}}}
                             nav={this.props.nav} 
@@ -145,14 +176,18 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        height: 25,
+        height: 30,
+        borderRadius: 20,
+        marginTop: 5,
+        marginRight: 20,
         flexDirection: 'row',
         alignSelf: 'center',
-        alignItems: 'flex-end',
-        marginRight: 30,
+        alignItems: 'center',
+        backgroundColor: COLORS.light_grey,
+        paddingHorizontal: 10
     },
     text: {
-        fontSize: 14,
+        fontSize: 15,
         color: COLORS.electric_blue
     },
     icon: {
@@ -165,6 +200,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         history: state.historyReducer.history,
+        tags: state.tagsReducer.tags,
         token: state.userReducer.token,
     }
 }
@@ -172,7 +208,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setHistory: (audio) => dispatch(setHistory(audio)),
-        cleanHistory: () => dispatch(cleanHistory())
+        cleanHistory: () => dispatch(cleanHistory()),
+        setCurrentTagApplied: (tag) => dispatch(setCurrentTagApplied(tag)),
 
     }
 }
