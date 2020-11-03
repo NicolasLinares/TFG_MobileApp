@@ -106,6 +106,14 @@ export const cleanHistory = () => {
     }
 }
 
+export const updateDescription = (date, uid, description) => {
+    return {
+        type: 'UPDATE_DESCRIPTION_AUDIO',
+        date: date,
+        uid: uid,
+        description: description
+    }
+}
 
 
 // TAGS ACTIONS

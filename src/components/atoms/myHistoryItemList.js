@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 25,
-        color: 'red',
+        color: COLORS.grey,
     },
     tag: {
         backgroundColor: COLORS.light_green,

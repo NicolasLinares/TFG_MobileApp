@@ -20,4 +20,6 @@ export const URL = {
     getTags: server + '/public/v1/tags',
 
     sendAudio: server + '/public/v1/audio',
+
+    updateDescription: server + '/public/v1/audio/description/',
 };

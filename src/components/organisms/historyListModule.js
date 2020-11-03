@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       alignSelf: 'flex-start',
     },
-
     button: {
         height: 30,
         borderRadius: 20,

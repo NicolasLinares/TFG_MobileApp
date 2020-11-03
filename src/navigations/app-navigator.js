@@ -15,6 +15,7 @@ import SecurityScreen from '_scenes/settings/security';
 import PasswordSettingScreen from '_scenes/settings/security/password';
 
 import moment from 'moment';
+import {COLORS} from '_styles';
 
 const TabNavigatorConfig = {
   initialRouteName: 'Home',
@@ -51,15 +52,17 @@ const RouteConfigs = {
   },
   Audio: {
     screen: AudioScreen,
-    navigationOptions: {
+    navigationOptions: ({ navigation }) => ({
       headerBackTitle: ' ',
-      title: 'Nota de voz',
+      title: navigation.state.params.title,
+      headerTitleStyle: navigation.state.params.headerTitleStyle,
+      headerRight: navigation.state.params.headerRight,
       headerStyle: {
         // para esconder la línea inferior en el header
         shadowOpacity: 0, // iOS
         elevation: 0, // Android
       },
-    },
+    }),
   },
   Settings: {
     screen: SettingsScreen,

@@ -9,6 +9,7 @@ import {
 
 import { SwipeableAudioList } from '_molecules';
 
+
 import { connect } from 'react-redux';
 import { deleteAudio, addAudioTag, addAudioHistory, addFilterTag } from '_redux_actions';
 
@@ -192,9 +193,9 @@ const styles = StyleSheet.create({
   },
 
   text: {
-      fontWeight: 'bold',
-      marginBottom: 20,
-      fontSize: 18
+    fontWeight: 'bold',
+    marginBottom: 20,
+    fontSize: 18
   },
   sendButton: {
     height: 30,

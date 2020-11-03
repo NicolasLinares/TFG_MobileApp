@@ -165,7 +165,7 @@ class myPlayer extends Component {
                 style={styles.button}
                 onPress={() => this.handlePlayer()}
             >
-                <IconII name={this.state.state !== 'play' ? 'play' : 'pause'} size={30} color={COLORS.grey}/>
+                <IconII name={this.state.state !== 'play' ? 'play' : 'pause'} size={this.state.complexStyle ? 35 : 30} color={COLORS.grey}/>
             </TouchableOpacity>
         );
     }
@@ -182,7 +182,7 @@ class myPlayer extends Component {
                 style={styles.button}
                 onPress={() => this.skip(value)}
             >
-                <IconII style={{transform: [{rotateY: rotate}], marginRight: margRight, marginLeft: margLeft}}  name='reload' size={30} color={COLORS.grey}/>
+                <IconII style={{transform: [{rotateY: rotate}], marginRight: margRight, marginLeft: margLeft}}  name='reload' size={35} color={COLORS.grey}/>
                 <Text style={styles.skipTextValue}>{skipText}</Text>
             </TouchableOpacity>
         );
@@ -193,7 +193,7 @@ class myPlayer extends Component {
     _renderSimplePlayer() {
         return (
             <View style={[styles.player, {justifyContent: 'space-between', flexDirection: 'row'}]}>
-                <View style={[styles.slider, {marginLeft: 25}]}>
+                <View style={{marginLeft: 25, width: '70%'}}>
                     <Slider
                         value={this.state.sliderValue}
                         onSlidingComplete={value => this.slideValueChange(value)}
@@ -211,7 +211,7 @@ class myPlayer extends Component {
 
     _renderComplexPlayer() {
         return (
-            <View style={[styles.player, {justifyContent: 'center', flexDirection: 'column', marginTop: 30}]}>
+            <View style={[styles.player, {justifyContent: 'center', flexDirection: 'column', marginTop: 10}]}>
                     
                 <View style={styles.actionButtons}>
 
@@ -221,8 +221,7 @@ class myPlayer extends Component {
 
                 </View>
 
-                <View style={[styles.slider, {marginLeft: 0}]}>
-
+                <View style={{marginLeft: 0, width: '80%'}}>
                     <Slider
                         value={this.state.sliderValue}
                         onSlidingComplete={value => this.slideValueChange(value)}
@@ -250,24 +249,17 @@ const styles = StyleSheet.create({
     player: {
         width: '100%',
         alignItems: 'center',
-        backgroundColor: 'white',
     },
     actionButtons: {
         flexDirection: 'row',
         width: '40%',
         justifyContent: 'space-around'
     },
-    slider: {
-        width: '70%',
-        marginTop: 3,
-        backgroundColor: 'white'
-    },
     button: {
         width: 40,
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
         marginHorizontal: 20
     },
     skipTextValue: {

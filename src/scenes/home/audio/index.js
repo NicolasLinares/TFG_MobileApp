@@ -1,156 +1,354 @@
-import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet
-} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, {Component} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 
-import { Player } from '_atoms';
-import {COLORS} from '_styles';
-import IconII from "react-native-vector-icons/Ionicons";
+import {Player} from '_atoms';
+import {COLORS, CONSTANTS} from '_styles';
+import IconII from 'react-native-vector-icons/Ionicons';
 
 import moment from 'moment';
 
+
+import { showMessage } from "react-native-flash-message";
+import { URL } from '_data';
+import { connect } from 'react-redux';
+import { deleteAudio, updateDescription } from '_redux_actions';
+
+
 class AudioScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      uid: this.props.navigation.state.params.uid,
+      name: this.props.navigation.state.params.name,
+      tag: this.props.navigation.state.params.tag,
+      date: this.getDate(this.props.navigation.state.params.created_at),
+      hour: this.getHour(this.props.navigation.state.params.created_at),
+      transcription: this.props.navigation.state.params.transcription, //"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.",
+      description: this.props.navigation.state.params.description, //"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+      editing: false
+    };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          name: this.props.navigation.state.params.name,
-          date: this.getDate(this.props.navigation.state.params.created_at),
-          transcription: this.props.navigation.state.params.transcription,
+  componentDidMount() {
+    this.props.navigation.setParams({
+      title: this.state.name,
+      headerTitleStyle: {fontSize: 18},
+      headerRight: () => this._renderOptions(),
+    });
+  }
+
+  getDate(timestamp) {
+    m = moment(timestamp);
+    return m.format('LL');
+  }
+
+  getHour(timestamp) {
+    m = moment(timestamp);
+    return m.format('HH:mm');
+  }
+
+  _renderOptions() {
+    return (
+      <TouchableOpacity
+        onPress={() => {}} 
+      >
+          <IconII style={{marginRight: 10}} name={"ios-ellipsis-vertical"} size={25} color={COLORS.electric_blue}/>
+      </TouchableOpacity>
+    );
+  }
+
+
+  handleCancel() {
+    this.setState({
+      description: this.props.navigation.state.params.description,
+      editing: false
+    });
+  }
+
+
+
+  async sendDescription () {
+
+    data = JSON.stringify({description: this.state.description});
+    return await fetch(URL.updateDescription + this.state.uid, 
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.props.token
+        },
+        method : "PUT",
+        body: data,
+      })
+      .then((response) => {
+        return Promise.all([response.json(), response.status]);
+      })
+      .then(([body, status]) => {
+        if (status == 201) {
+          this.setState({
+            editing: false
+          });
+
+          // Se actualiza localmente en el historial
+          this.props.updateDescription(this.state.date, this.state.uid, this.state.description);
+          
+          showMessage({
+            message: body.message,
+            type: "success",
+            duration: 2000,
+            titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+          });
+        } else {
+          showMessage({
+            message: 'Error',
+            description: body.error,
+            type: "danger",
+            duration: 3000,
+            titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+            textStyle: {textAlign: 'center'},
+          });
+          return null;
         }
-    }
+      })
+      .catch((error) => {
+        showMessage({
+          message: 'Error',
+          description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
+          type: "danger",
+          duration: 3000,
+          titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
+          textStyle: {textAlign: 'center'},
+        });
+      });
+  }
 
-    getDate(timestamp) {
-      m = moment(timestamp);
-      return m.format('LL, HH:ss');
-    }
 
-
-    _renderPlayer() { 
+  _renderCancelInputChanges() {
       return (
-        <View style={styles.audio}>
-          <Text style={styles.title}> {this.state.name}</Text>
-          <Text style={styles.date}> {this.state.date}</Text>
-          <Player item={this.props.navigation.state.params} stream={false} complexStyle={true}/>
+          <TouchableOpacity 
+              onPress={() => this.handleCancel()}
+          >
+              <IconII style={styles.cancelAcceptButton} name={'close'} color={COLORS.grey} />
+          </TouchableOpacity>
+      );
+  }
+
+  _renderAcceptInputChanges() {
+    return (
+        <TouchableOpacity 
+            onPress={() => this.sendDescription()}
+        >
+              <IconII style={styles.cancelAcceptButton} name={'checkmark'} color={COLORS.electric_blue} />
+        </TouchableOpacity>
+    );
+  }
+
+  // Si es editable devuelve su respectivo botón, y si es compartible lo mismo
+  _renderSectionActions(editable, share) {
+
+    if (this.state.editing && editable) {
+      return (
+        <View style={{flexDirection:'row'}}>
+          {this._renderCancelInputChanges()}
+          {this._renderAcceptInputChanges()}
         </View>
       );
-    }
 
-    _renderTranscription() {
+    } else {
       return (
-        <View style={styles.transcriptionContainer}>
-              
-          <View style={styles.transcriptionHeader}>
-              <Text style={styles.title}>Transcripción</Text>
-              <View style={styles.actions}>
-                <IconII style={styles.iconButtons} name={'share-social-outline'}/>
-                <IconII style={styles.iconButtons} name={'create-outline'}/>
-              </View>
-          </View>
-
-          <View style={styles.line}></View>
-
-          <ScrollView style={styles.transcription}>
-            <Text style={styles.text}>
-              {this.state.transcription === null ? 
-                  "La transcripción no está disponible por el momento" 
-                :
-                this.state.transcription
-              }
-            </Text>
-          </ScrollView>
+        <View style={styles.actions}>
+          {
+            share ?
+              <TouchableOpacity onPress={() => {}}>
+                <IconII style={styles.iconButtons} name={'share-social-outline'} />
+              </TouchableOpacity>
+            : 
+              null
+          }
+          {
+            editable ? 
+              <TouchableOpacity onPress={() => this.setState({editing: !this.state.editing})}>
+                <IconII style={styles.iconButtons} name={'create-outline'} />
+              </TouchableOpacity>
+            : 
+              null
+          }
         </View>
       );
-    }
 
-    render() {
-        return (
-
-          <View style={styles.container}>
-            {this._renderPlayer()}
-            {this._renderTranscription()}
-          </View>
-        );
     }
+  }
+
+  // Si se ha presionado el botón de editar se transforma en un textinput
+  _renderTextOrInput(editable, text, placeholder) {
+    return (
+      
+        this.state.editing && editable ?
+          <TextInput
+            multiline={true}
+            autoFocus={true}
+            style={styles.text}
+            value={this.state.description}
+            onChangeText={(value) => this.setState({description: value})}
+          />
+        :
+          <Text style={styles.text}>
+            {text === null
+              ? placeholder
+              : text}
+          </Text>
+    );
+  }
+
+  _renderSection(title, text, placeholder, editable, share) {
+    return (
+      <View style={styles.sectionContainer}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.titleHeader}>{title}</Text>
+          {this._renderSectionActions(editable, share)}
+        </View>
+
+        <View style={styles.line}/>
+
+        <View style={styles.textContainer}>
+            {this._renderTextOrInput(editable, text, placeholder)}
+        </View>
+      </View>
+    );
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.date}> {this.state.date + ', ' + this.state.hour}</Text>
+
+        <ScrollView style={styles.scrollContainer}>
+          {this._renderSection('Descripción', this.state.description, 'Escribe una descripción del audio...', true, false)}
+          {this._renderSection('Transcripción', this.state.transcription, 'La transcripción estará disponible pronto...', false, true)}
+        </ScrollView>
+
+        <View style={styles.playerContainer}>
+          <Player
+            item={this.props.navigation.state.params}
+            stream={false}
+            complexStyle={true}
+          />
+        </View>
+      </View>
+    );
+  }
 }
-
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      width: '100%',
-      backgroundColor: 'white',
-      alignItems:'center',
-      justifyContent: 'flex-start'
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
   },
-  audio: {
-      height: 220,
-      width: '100%',
-      backgroundColor: 'white',
-      alignItems:'center',
-      justifyContent: 'flex-start',
+
+  date: {
+    fontSize: 14,
+    marginBottom: 20,
   },
-  transcriptionContainer: {
-      flex: 1,
-      width: '95%',
-      alignItems:'center',
-      justifyContent: 'flex-start',
-      backgroundColor: 'white',
-      shadowColor: 'black',
-      shadowOffset: {
-          width: 0,
-          height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-      borderRadius: 30,
-      marginBottom: 10
+
+  scrollContainer: {
+    width: '100%',
+    alignContent: 'center',
   },
-  transcriptionHeader:{
+  sectionContainer:{
+    width: '95%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderRadius: 10,
+    marginVertical: 5,
+
+  },
+
+  sectionHeader: {
+    width: '95%',
     flexDirection: 'row',
-    width: '80%',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
+
+  cancelAcceptButton: {
+    fontSize: 25,
+    marginVertical: 10,
+    marginHorizontal: 15,
+  },
+
   actions: {
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 20,
+    marginVertical: 10,
     justifyContent: 'center',
   },
   line: {
     borderWidth: 1,
     borderColor: COLORS.light_grey,
-    width: '80%'
+    width: '90%',
   },
-  transcription: {
-      flex: 1,
-      width: '90%',
-      backgroundColor: 'white',
-      marginBottom: 30,
-      marginTop: 20,
+  textContainer: {
+    width: '90%',
+    marginVertical: 15,
   },
-  title: {
-      marginTop:20,
-      marginBottom:10,
-      fontSize: 20
-  }, 
-  date: {
-      fontSize: 14
+  titleHeader: {
+    marginVertical: 10,
+    marginHorizontal: 10,
+    fontSize: 23,
+    fontWeight: 'bold'
   },
   text: {
     fontSize: 17,
-    paddingHorizontal: 20,
-    textAlign:'justify'
+    lineHeight: 25,
+    textAlign: 'justify',
   },
   iconButtons: {
-    fontSize: 27,
+    fontSize: 25,
     color: COLORS.electric_blue,
-    marginHorizontal: 10
+    marginHorizontal: 15,
+  },
+
+  playerContainer: {
+    height: 150,
+    paddingTop: 15,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: 'white',
+    borderTopColor: COLORS.grey,
+    borderTopWidth:0.5,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
 
-export default AudioScreen;
+
+const mapStateToProps = (state) => {
+  return {
+      token: state.userReducer.token,
+    }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    delete: (key) => dispatch(deleteAudio(key)),
+    updateDescription: (date, uid, description) => dispatch(updateDescription(date, uid, description)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AudioScreen);
