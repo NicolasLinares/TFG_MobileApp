@@ -100,6 +100,15 @@ export const addAudioHistory = (audio) => {
     }
 }
 
+
+export const deleteAudioHistory = (date, uid) => {
+    return {
+        type: 'DELETE_AUDIO_HISTORY',
+        date: date,
+        uid: uid,
+    }
+}
+
 export const cleanHistory = () => {
     return {
         type: 'CLEAN_HISTORY',

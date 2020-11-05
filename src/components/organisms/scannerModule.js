@@ -11,7 +11,7 @@ import { COLORS } from '_styles';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 import { connect } from 'react-redux';
-import { setPatientCode, openCodeEditor } from '_redux_actions';
+import { setPatientTag, openCodeEditor } from '_redux_actions';
 
 
 class Scanner extends Component {
@@ -82,7 +82,7 @@ class Scanner extends Component {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      setCode: (code) => dispatch(setPatientCode(code)),
+      setCode: (code) => dispatch(setPatientTag(code)),
       openCodeEditor: () => dispatch(openCodeEditor()),
     }
   }

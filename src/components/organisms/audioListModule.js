@@ -23,6 +23,12 @@ import { URL } from '_data';
 
 class audioListModule extends Component {
 
+  constructor(props) {
+    super(props);
+    this.sendingData = false;
+  }
+
+
     deleteItem = (item) => {
 
         Alert.alert(
@@ -98,6 +104,8 @@ class audioListModule extends Component {
 
       if (this.props.patientTag !== '') {
 
+        this.sendingData = true;
+
         // Se asigna el código de paciente a todos los audios
         await this.props.addAudioTag(this.props.patientTag);
 
@@ -124,6 +132,7 @@ class audioListModule extends Component {
 
             // Se añade la nueva etiqueta si no existe ya
             this.props.addFilterTag(audio.tag);
+
           } else {
             // el audio no se ha enviado
             // problema de red o formato inválido (más bien el primer caso)
@@ -140,6 +149,9 @@ class audioListModule extends Component {
           }
         );
       }
+
+      this.sendingData = false;
+
     }
 
 
@@ -164,7 +176,7 @@ class audioListModule extends Component {
                 <Text style={styles.title}>
                     Notas de voz
                 </Text>
-                {this.props.list.length > 0 ? this._renderSendButton() : null}
+                {this.props.list.length > 0 && !this.sendingData ? this._renderSendButton() : null}
             </View>
             
             <SwipeableAudioList

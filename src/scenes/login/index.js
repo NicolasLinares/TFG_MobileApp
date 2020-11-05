@@ -28,7 +28,7 @@ class LoginScreen extends Component {
     super(props);
     this.state = {
       savePssw: false,
-      email: 'nlbarba97@gmail.com',
+      email: 'felipe@gmail.com',
       password: '1234',
     };
   }

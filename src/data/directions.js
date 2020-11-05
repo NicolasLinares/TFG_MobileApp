@@ -2,7 +2,7 @@
 const local = 'http://localhost/API_Medcorder';
 const remote =  'https://pln.inf.um.es/TFG_MobileApp_API';
 
-const server = local;
+const server = remote;
 
 export const URL = {
 
@@ -20,6 +20,7 @@ export const URL = {
     getTags: server + '/public/v1/tags',
 
     sendAudio: server + '/public/v1/audio',
+    deleteAudio: server + '/public/v1/audio/',
 
     updateDescription: server + '/public/v1/audio/description/',
 };

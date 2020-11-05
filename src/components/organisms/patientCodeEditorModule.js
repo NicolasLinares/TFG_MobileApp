@@ -85,7 +85,6 @@ class patientCodeEditorModule extends Component {
                         onChangeText={(value) => this.setState({tag: value})}
                         placeholder='Escribe un código o escanéalo'
                         placeholderTextColor={COLORS.grey}
-                        autoFocus={true}
                         style={styles.textInput}
                     />
                     <TouchableOpacity onPress={() => this.handleScanner()}>

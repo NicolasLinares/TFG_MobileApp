@@ -153,20 +153,25 @@ class filterList extends Component {
 
 
     render() {
-        return (
-            <View style={{height: 60}}>
-                <FlatList
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.audiolist}
-                    contentContainerStyle={{ paddingRight: 60}}
-                    keyExtractor={(item) => item.key.toString()}
-                    data={this.props.tags}  
-                    renderItem={this._renderItem}
-                />
-            </View>
 
-        )
+        // Se muestra la lista de códigos de pacientes usados sólo cuando hay más
+        // de 1 distinto, ya que no tiene sentido mostrarla con un solo código 
+        if (this.props.tags.length > 1)
+            return (
+                <View style={{height: 60}}>
+                    <FlatList
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.audiolist}
+                        contentContainerStyle={{ paddingRight: 60}}
+                        keyExtractor={(item) => item.key.toString()}
+                        data={this.props.tags}  
+                        renderItem={this._renderItem}
+                    />
+                </View>
+            )
+        else 
+            return null;
     }
 }
 

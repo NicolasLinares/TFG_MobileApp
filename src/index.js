@@ -12,11 +12,12 @@ import SplashScreen from 'react-native-splash-screen'
 import { StatusBar } from 'react-native';
 import Navigator from '_navigations';
 
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider} from 'react-redux';
 import store from '_redux_store';
 
 import FlashMessage from "react-native-flash-message";
 
+import { MenuProvider } from 'react-native-popup-menu';
 
 
 class App extends Component {
@@ -29,14 +30,16 @@ class App extends Component {
 
   render() {
     return (
-      <Provider store={store}>
+      <ReduxProvider store={store}>
 
         <StatusBar barStyle="dark-content"/>
         
         <FlashMessage position="top" />
-        <Navigator/>
 
-      </Provider>
+        <MenuProvider>
+          <Navigator/>
+        </MenuProvider>
+      </ReduxProvider>
     );
   }
 };

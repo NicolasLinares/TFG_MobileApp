@@ -3,10 +3,11 @@ import {
     StyleSheet, 
     SectionList,
     Text, 
-    View
+    View,
 } from 'react-native';
 
 import {HistoryItem} from '_atoms';
+
 
 class myHeadersList extends Component {
 
@@ -19,7 +20,8 @@ class myHeadersList extends Component {
 
     _renderItem = ({item}) => {
         return (
-            <HistoryItem item={item} nav={this.props.nav}/>      
+
+            <HistoryItem item={item} nav={this.props.nav}/>     
         );
     }
 
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 3
     },
+
 });
 
   
