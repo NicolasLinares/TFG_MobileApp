@@ -18,8 +18,6 @@ import { setHistory, cleanHistory, setCurrentTagApplied, deleteAudioHistory } fr
 
 import { showMessage } from "react-native-flash-message";
 import { URL } from '_data';
-import RNFS from 'react-native-fs';
-import moment from 'moment';
 
 class historyListModule extends Component {
 
@@ -128,91 +126,7 @@ class historyListModule extends Component {
             return null;
     }
 
-    getDate(timestamp) {
-        m = moment(timestamp);
-        return m.format('LL');
-    }
 
-    deleteRequest = async (item) =>  {
-
-        return await fetch(URL.deleteAudio + item.uid, 
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + this.props.token
-            },
-            method : "DELETE",
-          })
-          .then((response) => {
-            return Promise.all([response.json(), response.status]);
-          })
-          .then(([body, status]) => {
-            if (status == 200) {
-    
-              // Se actualiza el historial
-              console.log(item.name);
-              date = this.getDate(item.date);
-              this.props.delete(date, item.uid);
-              // Volvemos a home
-              showMessage({
-                message: body.message,
-                type: "success",
-                duration: 2000,
-                titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-              });
-            } else {
-              showMessage({
-                message: 'Error',
-                description: body.error,
-                type: "danger",
-                duration: 3000,
-                titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-                textStyle: {textAlign: 'center'},
-              });
-              return null;
-            }
-          })
-          .catch((error) => {
-            showMessage({
-              message: 'Error',
-              description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
-              type: "danger",
-              duration: 3000,
-              titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-              textStyle: {textAlign: 'center'},
-            });
-          });
-      }
-    
-      handleAudioDelete = (item) => {
-        Alert.alert(
-          'Eliminar nota de voz',
-          'La nota de voz "' + item.name + '" se va a eliminar de forma permanente',
-          [
-            {
-              text: 'Cancelar',
-              style: 'cancel',
-            },
-            { text: 'Eliminar', 
-              onPress: () => {
-                
-                
-                // Se borra en el filesystem porque el recorder
-                // crea un fichero por cada grabación
-                RNFS.unlink(`${item.localpath}`).then(res => {
-                    // Se borra de la base de datos del servidor
-                    this.deleteRequest(item);
-    
-                }).catch(err => {
-                    alert("Error al borrar el audio");
-                });
-              }
-            }
-          ],
-          { cancelable: false }
-        );
-      }
-    
 
     render() {
         return (
@@ -237,11 +151,8 @@ class historyListModule extends Component {
                         </View>
                     :
                         <HeadersAudioList 
-                            // Se muestra la lista total
-                            list={this.props.history} 
                             refresh={() => {this.state.next_page_URL != null ? this.handleGetHistory() : {}}}
                             nav={this.props.nav} 
-                            deleteItem={this.handleAudioDelete}
                         />
                 }
             </>
@@ -296,8 +207,6 @@ const mapDispatchToProps = (dispatch) => {
         setHistory: (audio) => dispatch(setHistory(audio)),
         cleanHistory: () => dispatch(cleanHistory()),
         setCurrentTagApplied: (tag) => dispatch(setCurrentTagApplied(tag)),
-        delete: (date, uid) => dispatch(deleteAudioHistory(date, uid)),
-
     }
 }
   

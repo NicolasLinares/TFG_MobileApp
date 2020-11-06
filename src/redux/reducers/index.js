@@ -211,30 +211,18 @@ export function historyReducer(state = initialState, action) {
         case types.DELETE_AUDIO_HISTORY:
 
             // Busca la fecha correspondiente al audio
-
-            N = state.history.length;
-            i = 0;
-            while (i < N && state.history[i].date != action.date) {
-                i++;
-            }
-
-            // Busca dicho audio
-            N = state.history[i].data.length;
-            j = 0;
-            while ( j < N && state.history[i].data[j].uid != action.uid) {
-                j++;
-            }
-
-            //state.history[i].data.splice(j,1);
-
-            state.history[i].data = state.history[i].data.filter((item) => item.uid !== action.uid)
-
-            if (state.history[i].data.length === 0) {
-                // Si es el último de una sección se debe borrar también la sección
-                state.history.splice(i,1);
-            }
+            item_removed = state.history.map((section) => (
+                            {
+                                date: section.date,
+                                data: section.data.filter((item) => item.uid !== action.uid)
+                            }
+                        ));
             
-            return state;
+            return {
+                ...state,
+                history: item_removed.filter((section) => ( section.data.length > 0))
+            };
+        
 
         case types.CLEAN_HISTORY:
             return {

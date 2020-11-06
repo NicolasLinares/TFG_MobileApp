@@ -4,7 +4,7 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableWithoutFeedback
 } from 'react-native';
 
 import { COLORS, CONSTANTS } from '_styles';
@@ -31,7 +31,7 @@ class myHistoryItemList extends Component {
     render() {
         
         return (
-            <TouchableOpacity
+            <TouchableWithoutFeedback
                 onPress={() => this.props.nav.navigate('Audio', this.props.item)}
             >
                 <View style={styles.item}>
@@ -54,7 +54,7 @@ class myHistoryItemList extends Component {
 
                     <IconII style={styles.icon} name={'chevron-forward'}/>
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
 
         )
     }
