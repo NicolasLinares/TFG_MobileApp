@@ -12,7 +12,7 @@ import IconII from "react-native-vector-icons/Ionicons";
 
 import moment from 'moment';
 
-class myHistoryItemList extends Component {
+class mySimpleAudioItem extends Component {
 
     constructor(props) {
         super(props);
@@ -117,9 +117,7 @@ const styles = StyleSheet.create({
 });
 
 
-    
-  
-  export default myHistoryItemList;
+  export default mySimpleAudioItem;
   
 
 

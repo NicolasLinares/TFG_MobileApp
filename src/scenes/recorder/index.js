@@ -29,23 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems:'center',
-  },
-  patientCode: {
-    width: '80%',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  title: {
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  code: {
-    marginTop: 10,
-    fontSize: 16,
-  },
+  }
 });
 
 

@@ -1,3 +1,3 @@
-export {default as SwipeableAudioList} from './mySwipeableList';
-export {default as HeadersAudioList} from './myHeadersList';
+export {default as BasicList} from './myBasicList';
+export {default as SectionList} from './mySectionList';
 export {default as FilterList} from './myFilterList';

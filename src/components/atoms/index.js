@@ -14,8 +14,8 @@ export {default as RecorderButton } from './myRecorderButton';
 
 // Componentes del historial de audios
 export {default as Player} from './myPlayer';
-export {default as HistoryItem} from './myHistoryItemList';
-
+export {default as SimpleAudioItem} from './mySimpleAudioItem';
+export {default as ComplexAudioItem} from './myComplexAudioItem';
 
 // No usados
 export {default as Switch} from './mySwitch';

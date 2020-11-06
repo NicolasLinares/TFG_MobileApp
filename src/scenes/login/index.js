@@ -20,6 +20,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {connect} from 'react-redux';
 import { authUser } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
+import { calendarFormat } from 'moment';
 
 
 class LoginScreen extends Component {
@@ -60,11 +61,11 @@ class LoginScreen extends Component {
 
     // Envío de datos al servidor.
     // Se prepara el cuerpo del mensaje y se envía
-    json = {
+    var json = {
       email: this.state.email,
       password: this.state.password
-    }
-    data = JSON.stringify(json);
+    };
+    var data = JSON.stringify(json);
 
     fetch(URL.login, 
           {
@@ -88,6 +89,7 @@ class LoginScreen extends Component {
                 body.user.country,
                 body.access_token
               );
+
               this.props.navigation.navigate('App');
               
             } else { // ERROR

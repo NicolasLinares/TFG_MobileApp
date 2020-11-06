@@ -210,17 +210,22 @@ export function historyReducer(state = initialState, action) {
 
         case types.DELETE_AUDIO_HISTORY:
 
-            // Busca la fecha correspondiente al audio
-            item_removed = state.history.map((section) => (
+            // Recorre por secciones devolviendo todos los audios
+            // menos el que queremos eliminar
+            update_list = state.history.map((section) => (
                             {
                                 date: section.date,
                                 data: section.data.filter((item) => item.uid !== action.uid)
                             }
                         ));
             
+            // Ahora hay que comprobar si el audio eliminado ha provocado
+            // que quede una sección sin audios, en dicho caso se elimina
+            // también la sección
+
             return {
                 ...state,
-                history: item_removed.filter((section) => ( section.data.length > 0))
+                history: update_list.filter((section) => ( section.data.length > 0))
             };
         
 

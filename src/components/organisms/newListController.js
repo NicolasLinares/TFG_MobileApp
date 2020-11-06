@@ -7,7 +7,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { SwipeableAudioList } from '_molecules';
+import { BasicList } from '_molecules';
 
 
 import { connect } from 'react-redux';
@@ -179,7 +179,7 @@ class audioListModule extends Component {
                 {this.props.list.length > 0 && !this.sendingData ? this._renderSendButton() : null}
             </View>
             
-            <SwipeableAudioList
+            <BasicList
                 list={this.props.list}
                 onPress={this.deleteItem}
             />
