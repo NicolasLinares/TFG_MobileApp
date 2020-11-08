@@ -177,7 +177,6 @@ const containersStyles = StyleSheet.create({
         backgroundColor: 'white',
         width: '100%',
         height: CONSTANTS.heightRecorderModule,
-        bottom: 0, 
         alignItems: 'center', 
     }
   });
@@ -208,7 +207,7 @@ const componentStyles = StyleSheet.create({
         fontFamily: "FontAwesome",
         fontSize: 20,
         textAlign: 'center',
-      },
+    },
 
 });
   

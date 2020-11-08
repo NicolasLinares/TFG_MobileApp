@@ -27,8 +27,9 @@ class myPlayer extends Component {
         super(props);
 
         this.state = {
-            path: this.props.item.localpath,
-            //path: 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3',
+            name: this.getAudioName(this.props.item.localpath),
+            url: this.props.item.url,
+            localpath: this.props.item.localpath,
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 
             player: new AudioRecorderPlayer(),
@@ -47,10 +48,17 @@ class myPlayer extends Component {
         this.resetPlayer();
     }
 
+
+    getAudioName(localpath) {
+        parts = localpath.split('/');
+        name = parts.pop();
+        return name;
+    }
+
     setAudioDuration() {
-        path = this.props.stream ? this.props.item.path : this.props.item.name ;
+        path = this.props.stream ? this.state.url : this.state.name ;
         directory = this.props.stream ? null : RNFS.CachesDirectoryPath;
-        //path = this.state.path;        
+        //path = this.state.localpath;        
         //directory = null;
 
         var audio = new Sound(path , directory,  (error) => {
@@ -77,7 +85,7 @@ class myPlayer extends Component {
                 // Inicializa el player
                 this.props.setState('play');
                 this.setState({state: 'play'});
-                var msg = await this.state.player.startPlayer(this.state.path);
+                var msg = await this.state.player.startPlayer(this.state.localpath);
                 
                 // Si antes de darle al botón se ha movido el slider, entonces
                 // se sitúa en el segundo exacto donde se ha indicado
@@ -193,7 +201,7 @@ class myPlayer extends Component {
     _renderSimplePlayer() {
         return (
             <View style={[styles.player, {justifyContent: 'space-between', flexDirection: 'row'}]}>
-                <View style={{marginLeft: 25, width: '70%'}}>
+                <View style={{marginLeft: 15, width: '80%'}}>
                     <Slider
                         value={this.state.sliderValue}
                         onSlidingComplete={value => this.slideValueChange(value)}
@@ -214,11 +222,9 @@ class myPlayer extends Component {
             <View style={[styles.player, {justifyContent: 'center', flexDirection: 'column', marginTop: 10}]}>
                     
                 <View style={styles.actionButtons}>
-
                     {this._renderSkipButton(-5)}
                     {this._renderPlayStopButton()}
                     {this._renderSkipButton(5)}
-
                 </View>
 
                 <View style={{marginLeft: 0, width: '80%'}}>
@@ -260,7 +266,7 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: 20
+        marginHorizontal: 10
     },
     skipTextValue: {
         position: 'absolute',

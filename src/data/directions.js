@@ -23,4 +23,5 @@ export const URL = {
     deleteAudio: server + '/public/v1/audio/',
 
     updateDescription: server + '/public/v1/audio/description/',
+    updateAudioName: server + '/public/v1/audio/name/'
 };

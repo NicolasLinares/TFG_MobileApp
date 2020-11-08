@@ -162,7 +162,7 @@ class audioListModule extends Component {
             onPress={() => this.handleSendAudios()}
           >
               <Text style={{fontSize:15, marginRight: 4, color: COLORS.electric_blue}}>
-                  Transcribir
+                  Guardar
               </Text>
               <IconII style={{fontSize:20, marginLeft: 4, color: COLORS.electric_blue}} name={'md-cloud-upload-outline'}/>
           </TouchableOpacity>

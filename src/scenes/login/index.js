@@ -20,7 +20,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {connect} from 'react-redux';
 import { authUser } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
-import { calendarFormat } from 'moment';
 
 
 class LoginScreen extends Component {
@@ -164,7 +163,7 @@ class LoginScreen extends Component {
         </TouchableOpacity>
 
         <ButtonAuth 
-          onPress={() => this.handleLogin()}
+          onPress={() => this.props.navigation.navigate('App')} //this.handleLogin()}
           text='Iniciar sesión'
           color={COLORS.blue}
         />

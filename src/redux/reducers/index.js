@@ -256,7 +256,29 @@ export function historyReducer(state = initialState, action) {
             state.history[i].data[j].description = action.description;
 
             return state;
-        
+
+        case types.UPDATE_NAME_AUDIO:
+
+            // Busca la fecha correspondiente al audio
+            N = state.history.length;
+            i = 0;
+
+            while (i < N && state.history[i].date != action.date) {
+                i++;
+            }
+
+            // Busca dicho audio
+            N = state.history[i].data.length;
+            j = 0;
+            while ( j < N && state.history[i].data[j].uid != action.uid) {
+                j++;
+            }
+
+            // Actualiza su descripción
+            state.history[i].data[j].name = action.name;
+
+            return state;   
+
         default:
             return state;
     }

@@ -13,11 +13,20 @@ import {CONSTANTS} from '_styles';
 
 import {ComplexAudioItem} from '_atoms';
 
-
 class myBasicList extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state={
+            list: this.props.list.reverse(),
+            disableSwipe: false 
+        }
+    }
+
+
+
     _renderItem = data => (
-        <ComplexAudioItem item={data.item} />
+        <ComplexAudioItem item={data.item} onCollapse={() => this.setState({disableSwipe: !this.state.disableSwipe})}/>
     )
 
     _renderHideButtons = (data, rowMap) => (
@@ -30,16 +39,18 @@ class myBasicList extends Component {
     )
 
     render =() => (
+
         <SwipeListView
             contentContainerStyle={{ paddingBottom: 20}}
             showsVerticalScrollIndicator={false}
-            data={this.props.list.reverse()}  
+            data={this.state.list}  
             keyExtractor={(item) => item.key.toString()}
             style={styles.audiolist}
             renderItem={this._renderItem}
             renderHiddenItem={this._renderHideButtons}
             rightOpenValue={-80}
             disableRightSwipe={true}
+            disableLeftSwipe={this.state.disableSwipe}
             closeOnScroll={true}
             previewOpenValue={-40}
             previewOpenDelay={3000}

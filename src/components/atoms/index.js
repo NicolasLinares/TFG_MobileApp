@@ -1,7 +1,6 @@
 // Botones de cabecera
 export {default as ButtonSettings} from './mySettingsButton';
 export {default as ButtonBack} from './myBackButton';
-export {default as ButtonForward} from './myForwardButton';
 
 // Botones de inicio de sesión y registro
 export {default as ButtonAuth} from './myAuthButton';
@@ -16,6 +15,3 @@ export {default as RecorderButton } from './myRecorderButton';
 export {default as Player} from './myPlayer';
 export {default as SimpleAudioItem} from './mySimpleAudioItem';
 export {default as ComplexAudioItem} from './myComplexAudioItem';
-
-// No usados
-export {default as Switch} from './mySwitch';

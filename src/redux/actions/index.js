@@ -124,6 +124,15 @@ export const updateDescription = (date, uid, description) => {
     }
 }
 
+export const updateName = (date, uid, name) => {
+    return {
+        type: 'UPDATE_NAME_AUDIO',
+        date: date,
+        uid: uid,
+        name: name
+    }
+}
+
 
 // TAGS ACTIONS
 
