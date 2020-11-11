@@ -100,12 +100,13 @@ class recorderModule extends Component {
         AVNumberOfChannelsKeyIOS: 2,
         AVFormatIDKeyIOS: AVEncodingOption.aac,
       };
+
   
       audiofile = this.setAudioPath();
       name = audiofile[0];
       path = audiofile[1];
   
-      absolute_path = await this.state.recorder.startRecorder(path, true, audioSet);
+      absolute_path = await this.state.recorder.startRecorder(path, audioSet, true);
       ctime = await this.getCreatedTime(absolute_path);
 
       audio = {

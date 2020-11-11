@@ -3,16 +3,16 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
+    TextInput,
     StyleSheet,
-    TextInput
 } from 'react-native';
 
 import { CONSTANTS } from '_styles';
 
 import { default as Player } from './myPlayer';
 
-import CollapsibleView from "@eliav2/react-native-collapsible-view";
-import { COLORS } from '_styles';
+import { connect } from 'react-redux';
+import { updateNameNewAudio } from '_redux_actions';
 
 
 class myComplexAudioItem extends Component {
@@ -20,16 +20,48 @@ class myComplexAudioItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: this.props.item.name,
+            key: this.props.item.key,
+            name: this.props.item.name.slice(0, this.props.item.name.length - 4), // quito la extensión
+            extension: this.props.item.extension,
             created_time: this.props.item.ctime,
-            description: null
         }
     }
 
-    _renderHeader = () => (
+    setNewName() {
+        // Si no ha escrito nada dejamos el nombre como estaba
+        if (this.state.name === "") {            
+            this.setState({name: this.props.item.name.slice(0, this.props.item.name.length - 4)})
+        } else {
+
+            // comprobar que no tiene espacios en blanco
+            this.props.updateName(this.state.key,  this.state.name + '.' + this.state.extension);
+        }
+
+    }
+
+    render = () => (
+
         <View style={styles.item}>
             <View style={styles.info}>
-                <Text style={styles.name}>{this.state.name}</Text>
+
+                <View style={styles.nameInput}>
+
+                    <TextInput 
+                        style={styles.name}
+                        value={this.state.name }
+                        onChangeText={(value) => this.setState({name: value})}
+                        autoCapitalize="none"
+                        onBlur={() => this.setNewName() }
+                    />
+                    
+                    <Text
+                        style={[styles.name, {marginTop: 1.5}]}
+                    >
+                        {'.' +  this.state.extension}
+                    </Text>
+
+                </View>
+
                 <Text style={styles.date}>
                     {this.state.created_time}
                 </Text>
@@ -37,34 +69,6 @@ class myComplexAudioItem extends Component {
 
             <Player item={this.props.item} stream={false} />
         </View>
-    );
-
-    render = () => (
-
-
-        <CollapsibleView
-            activeOpacityFeedback={1}
-            style={styles.collapseHeader}
-            title={this._renderHeader()}
-            noArrow={true}
-            initExpanded={false}
-            collapsibleProps={{ collapsedHeight:0, onAnimationEnd: () => this.props.onCollapse()}} // bloquea el swipe de borrado
-        >
-
-            <View style={styles.textContainer}>
-                <TextInput
-                    maxLength={255}
-                    multiline={true}
-                    numberOfLines={3}
-                    style={styles.text}
-                    value={this.state.description}
-                    placeholder={'Escribe una descripción...'}
-                    placeholderTextColor={COLORS.dark_grey}
-                    onChangeText={(value) => this.setState({ description: value })}
-                />
-            </View>
-        </CollapsibleView>
-
     )
 
 }
@@ -72,11 +76,13 @@ class myComplexAudioItem extends Component {
 
 
 const styles = StyleSheet.create({
-    collapseHeader: {
-        maxHeight: 300,
+
+    item: {
         backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
+        height: 85,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         shadowColor: 'black',
         shadowOffset: {
             width: 0,
@@ -86,15 +92,9 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         borderRadius: 10,
-        borderWidth: 0,
+        paddingHorizontal: 10,
         marginHorizontal: CONSTANTS.marginHorizontalItemList,
         marginVertical: CONSTANTS.marginVerticalItemList,
-    },
-    item: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
     },
     info: {
         flexDirection: 'row',
@@ -102,8 +102,13 @@ const styles = StyleSheet.create({
         width: '95%',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
+        marginTop: 8,
         marginBottom: 10,
         marginHorizontal: 10,
+    },
+    nameInput: {
+        flexDirection: 'row',
+        height: 20,
     },
     name: {
         fontSize: 14
@@ -111,29 +116,15 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 14
     },
-
-
-    textContainer: {
-        marginTop: 10,
-        marginBottom: 2,
-        marginHorizontal: 2,
-        backgroundColor: COLORS.light_grey,
-        borderRadius: 7,
-    },
-    text: {
-        height: 50,
-        fontSize: 15,
-        lineHeight: 20,
-        textAlign: 'justify',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-    },
 });
 
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateName: (key, name) => dispatch(updateNameNewAudio(key, name)),
+	}
+}
 
-export default myComplexAudioItem;
-
-
+export default connect(null, mapDispatchToProps)(myComplexAudioItem);
 
 
 

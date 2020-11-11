@@ -19,7 +19,6 @@ const initialState = {
 
     playerState: 'stop',                // Estado del reproductor de audio
 
-
     patientCode: {                      // Código de paciente usado en la grabación actual, se borra al enviar para transcribir
         tag: '',
         isEditorVisible: false,
@@ -54,7 +53,6 @@ export function audioListReducer(state = initialState, action) {
             return {
                 ...state,
                 audiolist: [
-                    ...state.audiolist,
                     {
                         key: Math.random(),
                         name: action.audio.name,
@@ -62,8 +60,8 @@ export function audioListReducer(state = initialState, action) {
                         localpath: action.audio.localpath,
                         description: '',
                         ctime: action.audio.ctime,
-                    }, 
-
+                    },
+                    ...state.audiolist,
                 ]
             };
         case types.DELETE_AUDIO:
@@ -72,11 +70,28 @@ export function audioListReducer(state = initialState, action) {
                 audiolist: state.audiolist.filter((item) => item.key !== action.key)
             };
         
-        case types.ADD_AUDIOTAG:
+        case types.SET_AUDIOTAG:
             return {
                 ...state,
                 audiolist: state.audiolist.map((item) => ({...item, tag: action.tag}))
             };
+
+        case types.UPDATE_NAME_NEW_AUDIO:
+
+            return {
+                ...state,
+                audiolist: state.audiolist.map(
+                    (item) => (
+                        
+                        item.key === action.key 
+                        ?
+                            {...item, name: action.name}
+                        : 
+                            {...item}
+                    )
+                )
+            };
+
         default:
             return state;
     }
@@ -210,15 +225,22 @@ export function historyReducer(state = initialState, action) {
 
         case types.DELETE_AUDIO_HISTORY:
 
-            // Recorre por secciones devolviendo todos los audios
-            // menos el que queremos eliminar
-            update_list = state.history.map((section) => (
+            // Recorre por secciones hasta encontrar la fecha del audio que quiere borrar
+            // devolviendo todos los audios de dicha sección menos el que queremos eliminar
+            update_list =  state.history.map(
+                    (section) => (
+                        
+                        section.date === action.date 
+                        ?
                             {
-                                date: section.date,
+                                ...section, 
                                 data: section.data.filter((item) => item.uid !== action.uid)
                             }
-                        ));
-            
+                        : 
+                            {...section}
+                    )
+                );
+
             // Ahora hay que comprobar si el audio eliminado ha provocado
             // que quede una sección sin audios, en dicho caso se elimina
             // también la sección
@@ -227,6 +249,7 @@ export function historyReducer(state = initialState, action) {
                 ...state,
                 history: update_list.filter((section) => ( section.data.length > 0))
             };
+
         
 
         case types.CLEAN_HISTORY:
@@ -238,46 +261,63 @@ export function historyReducer(state = initialState, action) {
 
         case types.UPDATE_DESCRIPTION_AUDIO:
 
-            // Busca la fecha correspondiente al audio
-            N = state.history.length;
-            i = 0;
-            while ( i < N && state.history[i].date != action.date) {
-                i++;
-            }
+            // Recorre por secciones y cuando encuentra la correspondiente
+            // itera hasta encontrar el audio y actualiza su valor
 
-            // Busca dicho audio
-            N = state.history[i].data.length;
-            j = 0;
-            while ( j < N && state.history[i].data[j].uid != action.uid) {
-                j++;
-            }
-
-            // Actualiza su descripción
-            state.history[i].data[j].description = action.description;
-
-            return state;
+            return {
+                ...state,
+                history: state.history.map(
+                    (section) => (
+                        
+                        section.date === action.date 
+                        ?
+                            {
+                                ...section, 
+                                data: section.data.map(
+                                    (item) => (
+                                        item.uid === action.uid 
+                                        ?
+                                            {...item, description: action.description}
+                                        : 
+                                            {...item}
+                                    )
+                                )
+                            }
+                        : 
+                            {...section}
+                    )
+                )
+            };
 
         case types.UPDATE_NAME_AUDIO:
 
-            // Busca la fecha correspondiente al audio
-            N = state.history.length;
-            i = 0;
+            // Recorre por secciones y cuando encuentra la correspondiente
+            // itera hasta encontrar el audio y actualiza su valor
 
-            while (i < N && state.history[i].date != action.date) {
-                i++;
-            }
-
-            // Busca dicho audio
-            N = state.history[i].data.length;
-            j = 0;
-            while ( j < N && state.history[i].data[j].uid != action.uid) {
-                j++;
-            }
-
-            // Actualiza su descripción
-            state.history[i].data[j].name = action.name;
-
-            return state;   
+            return {
+                ...state,
+                history: state.history.map(
+                    (section) => (
+                        
+                        section.date === action.date 
+                        ?
+                            {
+                                ...section, 
+                                data: section.data.map(
+                                    (item) => (
+                                        item.uid === action.uid 
+                                        ?
+                                            {...item, name: action.name}
+                                        : 
+                                            {...item}
+                                    )
+                                )
+                            }
+                        : 
+                            {...section}
+                    )
+                )
+            };
 
         default:
             return state;

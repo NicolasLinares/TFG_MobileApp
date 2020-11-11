@@ -45,8 +45,16 @@ export const deleteAudio = (key) => {
 
 export const addAudioTag = (tag) => {
     return {
-        type: 'ADD_AUDIOTAG',
+        type: 'SET_AUDIOTAG',
         tag: tag
+    }
+}
+
+export const updateNameNewAudio = (key, name) => {
+    return {
+        type: 'UPDATE_NAME_NEW_AUDIO',
+        key: key,
+        name: name
     }
 }
 

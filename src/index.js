@@ -34,12 +34,13 @@ class App extends Component {
       <ReduxProvider store={store}>
 
         <StatusBar barStyle="dark-content"/>
-        
-        <FlashMessage position="top" />
 
         <MenuProvider>
           <Navigator/>
         </MenuProvider>
+
+        <FlashMessage position="top"/>
+
       </ReduxProvider>
     );
   }

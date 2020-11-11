@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import { setHistory, cleanHistory, addFilterTag, cleanTags, setCurrentTagApplied } from '_redux_actions';
 import { URL } from '_data';
 
+import {fetch} from 'react-native-ssl-pinning';
+
 
 class filterList extends Component {
 
@@ -55,6 +57,9 @@ class filterList extends Component {
                   'Authorization': 'Bearer ' + this.props.token
                 },
                 method : "GET",
+                sslPinning: {
+                    certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
+                },
             })
             .then((response) => {
                 return Promise.all([response.json(), response.status]);
@@ -115,6 +120,9 @@ class filterList extends Component {
               'Authorization': 'Bearer ' + this.props.token
             },
             method : "GET",
+            sslPinning: {
+                certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
+            },
         })
         .then((response) => {
             return Promise.all([response.json(), response.status]);

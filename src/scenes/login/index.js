@@ -21,6 +21,8 @@ import {connect} from 'react-redux';
 import { authUser } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
 
+import {fetch} from 'react-native-ssl-pinning';
+
 
 class LoginScreen extends Component {
 
@@ -44,6 +46,7 @@ class LoginScreen extends Component {
       email: email
     });
   }
+
 
   handleLogin = () => {
 
@@ -69,10 +72,14 @@ class LoginScreen extends Component {
     fetch(URL.login, 
           {
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Accept: "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*", "e_platform": "mobile",
             },
             method : "POST",
             body: data,
+            sslPinning: {
+              certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
+            },
           })
           .then((response) => {
             return Promise.all([response.json(), response.status]);
@@ -103,6 +110,7 @@ class LoginScreen extends Component {
             }
           })
           .catch((error) => {
+            console.log(error);
             showMessage({
               message: 'Error',
               description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
@@ -163,7 +171,7 @@ class LoginScreen extends Component {
         </TouchableOpacity>
 
         <ButtonAuth 
-          onPress={() => this.props.navigation.navigate('App')} //this.handleLogin()}
+          onPress={() => this.handleLogin()} //this.props.navigation.navigate('App')} 
           text='Iniciar sesión'
           color={COLORS.blue}
         />

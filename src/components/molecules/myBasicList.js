@@ -12,30 +12,38 @@ import IconII from "react-native-vector-icons/Ionicons";
 import {CONSTANTS} from '_styles';
 
 import {ComplexAudioItem} from '_atoms';
+import { COLORS } from '_styles';
 
 class myBasicList extends Component {
 
     constructor(props) {
         super(props);
         this.state={
-            list: this.props.list.reverse(),
             disableSwipe: false 
         }
     }
 
-
-
     _renderItem = data => (
-        <ComplexAudioItem item={data.item} onCollapse={() => this.setState({disableSwipe: !this.state.disableSwipe})}/>
+        <ComplexAudioItem item={data.item}/>
     )
 
     _renderHideButtons = (data, rowMap) => (
-        <TouchableOpacity 
-            style={styles.deleteButton}
-            onPress={() => this.props.onPress(data.item)}
-        >
-            <IconII name={"trash"} size={25} color='white'/>
-        </TouchableOpacity>
+        
+        <View style={styles.actionsContainer}>
+            <TouchableOpacity 
+                style={styles.descriptionButton}
+                onPress={() => this.props.onPress(data.item)}
+            >
+                <IconII name={"ios-chatbox"} size={25} color='white'/>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+                style={styles.deleteButton}
+                onPress={() => this.props.onPress(data.item)}
+            >
+                <IconII name={"trash"} size={25} color='white'/>
+            </TouchableOpacity>
+        </View>
     )
 
     render =() => (
@@ -43,13 +51,12 @@ class myBasicList extends Component {
         <SwipeListView
             contentContainerStyle={{ paddingBottom: 20}}
             showsVerticalScrollIndicator={false}
-            data={this.state.list}  
+            data={this.props.list}  
             keyExtractor={(item) => item.key.toString()}
             style={styles.audiolist}
             renderItem={this._renderItem}
             renderHiddenItem={this._renderHideButtons}
             rightOpenValue={-80}
-            disableRightSwipe={true}
             disableLeftSwipe={this.state.disableSwipe}
             closeOnScroll={true}
             previewOpenValue={-40}
@@ -66,22 +73,29 @@ const styles = StyleSheet.create({
       paddingTop: 10,
     },
     actionsContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        marginRight: CONSTANTS.marginHorizontalItemList,
-        marginVertical: CONSTANTS.marginVerticalItemList
+        height: 85,
+        width: '100%',
+        flexDirection: 'row', 
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: CONSTANTS.marginHorizontalItemList, 
+        marginVertical: CONSTANTS.marginVerticalItemList,
+    },
+    descriptionButton: {
+        height: 85,
+        width: 85,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgb(150,220,150)',
+        borderRadius: 10,
     },
     deleteButton: {
-        width: 80,
-        flex: 1,
-        alignSelf: 'flex-end',
+        height: 85,
+        width: 85,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'red',
         borderRadius: 10,
-        marginRight: CONSTANTS.marginHorizontalItemList,
-        marginVertical: CONSTANTS.marginVerticalItemList
     },
 });
 

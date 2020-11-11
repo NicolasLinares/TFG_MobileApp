@@ -20,6 +20,8 @@ import { COLORS, CONSTANTS }  from '_styles';
 
 import { showMessage } from "react-native-flash-message";
 import { URL } from '_data';
+import {fetch} from 'react-native-ssl-pinning';
+
 
 class audioListModule extends Component {
 
@@ -67,6 +69,9 @@ class audioListModule extends Component {
           },
           method : "POST",
           body: data,
+          sslPinning: {
+            certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
+          },
         })
         .then((response) => {
 
@@ -111,7 +116,7 @@ class audioListModule extends Component {
 
         // Por cada audio grabado se envía y se elimina de la lista para añadirla
         N = this.props.list.length;
-        list = this.props.list;
+        list = this.props.list.reverse();
         for (let i = 0; i < N; i++) {
           audio = list[i];
           audio = await this.send(audio);

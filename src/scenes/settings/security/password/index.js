@@ -16,6 +16,7 @@ import { showMessage } from "react-native-flash-message";
 
 import { URL } from '_data';
 import {connect} from 'react-redux';
+import {fetch} from 'react-native-ssl-pinning';
 
 
 class PasswordSettingScreen extends Component {
@@ -104,6 +105,9 @@ class PasswordSettingScreen extends Component {
             },
             method : "PUT",
             body: data,
+            sslPinning: {
+                certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
+            },
         })
         .then((response) => {
             return Promise.all([response.json(), response.status]);
