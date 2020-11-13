@@ -16,8 +16,6 @@ import { URL } from '_data';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import { showMessage } from "react-native-flash-message";
-import {fetch} from 'react-native-ssl-pinning';
-
 
 class SignInScreen extends Component {
 
@@ -62,10 +60,7 @@ class SignInScreen extends Component {
           'Content-Type': 'application/json'
         },
         method : "POST",
-        body: data,
-        sslPinning: {
-          certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-        },
+        body: data
       })
       .then((response) => {
         return Promise.all([response.json(), response.status]);

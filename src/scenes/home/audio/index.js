@@ -29,7 +29,6 @@ import { showMessage } from "react-native-flash-message";
 import { URL } from '_data';
 import { connect } from 'react-redux';
 import { deleteAudioHistory, updateDescription, updateName } from '_redux_actions';
-import {fetch} from 'react-native-ssl-pinning';
 
 
 class AudioScreen extends Component {
@@ -69,10 +68,6 @@ class AudioScreen extends Component {
 					'Authorization': 'Bearer ' + this.props.token
 				},
 				method: "DELETE",
-				sslPinning: {
-					certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-				},
-
 			})
 			.then((response) => {
 				return Promise.all([response.json(), response.status]);
@@ -158,10 +153,7 @@ class AudioScreen extends Component {
 					'Authorization': 'Bearer ' + this.props.token
 				},
 				method: "PUT",
-				body: data,
-				sslPinning: {
-					certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-				},
+				body: data
 			})
 			.then((response) => {
 				return Promise.all([response.json(), response.status]);
@@ -287,9 +279,7 @@ class AudioScreen extends Component {
 				},
 				method: "PUT",
 				body: data,
-				sslPinning: {
-					certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-				},
+
 			})
 			.then((response) => {
 				return Promise.all([response.json(), response.status]);

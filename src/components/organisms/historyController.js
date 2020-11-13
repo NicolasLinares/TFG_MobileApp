@@ -26,8 +26,6 @@ import { URL } from '_data';
 import RNFS from 'react-native-fs';
 import moment from 'moment';
 
-import {fetch} from 'react-native-ssl-pinning';
-
 
 
 class historyController extends Component {
@@ -64,10 +62,7 @@ class historyController extends Component {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + this.props.token,
             },
-            method: 'DELETE',
-            sslPinning: {
-                certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-            },
+            method: 'DELETE'
         })
             .then((response) => {
                 return Promise.all([response.json(), response.status]);
@@ -158,10 +153,7 @@ class historyController extends Component {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + this.props.token,
             },
-            method: 'GET',
-            sslPinning: {
-                certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-            },
+            method: 'GET'
         })
             .then((response) => {
                 return Promise.all([response.json(), response.status]);

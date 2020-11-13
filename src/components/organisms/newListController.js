@@ -20,8 +20,6 @@ import { COLORS, CONSTANTS }  from '_styles';
 
 import { showMessage } from "react-native-flash-message";
 import { URL } from '_data';
-import {fetch} from 'react-native-ssl-pinning';
-
 
 class audioListModule extends Component {
 
@@ -68,10 +66,7 @@ class audioListModule extends Component {
             'Authorization': 'Bearer ' + this.props.token
           },
           method : "POST",
-          body: data,
-          sslPinning: {
-            certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-          },
+          body: data
         })
         .then((response) => {
 

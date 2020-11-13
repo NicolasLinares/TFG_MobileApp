@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'white',
         alignItems: 'center',
-        marginTop: 30
+        marginTop: 20
     },
     text: {
         fontSize: 22, 

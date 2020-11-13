@@ -15,8 +15,6 @@ import {connect} from 'react-redux';
 import { logoutUser, cleanHistory } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
 
-import {fetch} from 'react-native-ssl-pinning';
-
 
 class SettingsScreen extends Component {
 
@@ -46,10 +44,7 @@ class SettingsScreen extends Component {
                 'Authorization': 'Bearer ' + this.props.token
               },
               method : "POST",
-              body: "",
-              sslPinning: {
-                certs: ["mycert"] // your certificates name (without extension), for example cert1.cer, cert2.cer
-              },
+              body: ""
             })
             .then((response) => {
               return Promise.all([response.json(), response.status]);
