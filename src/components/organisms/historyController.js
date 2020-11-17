@@ -21,11 +21,11 @@ import {
     deleteAudioHistory,
 } from '_redux_actions';
 
-import { showMessage } from 'react-native-flash-message';
 import { URL } from '_data';
 import RNFS from 'react-native-fs';
 import moment from 'moment';
 
+import { audioRequestService } from '_services';
 
 
 class historyController extends Component {
@@ -56,57 +56,8 @@ class historyController extends Component {
         return m.format('LL');
     }
 
-    deleteRequest = async (item) => {
-        return await fetch(URL.deleteAudio + item.uid, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.props.token,
-            },
-            method: 'DELETE'
-        })
-            .then((response) => {
-                return Promise.all([response.json(), response.status]);
-            })
-            .then(([body, status]) => {
-                if (status == 200) {
-                    // Se actualiza el historial
-                    date = this.getDate(item.date);
-                    this.props.delete(date, item.uid);
-                    // Volvemos a home
-                    showMessage({
-                        message: body.message,
-                        type: 'success',
-                        duration: 2000,
-                        titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-                    });
-                } else {
-                    showMessage({
-                        message: 'Error',
-                        description: body.error,
-                        type: 'danger',
-                        duration: 3000,
-                        titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-                        textStyle: { textAlign: 'center' },
-                    });
-                    return null;
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                showMessage({
-                    message: 'Error',
-                    description:
-                        'Compruebe su conexión de red o inténtelo de nuevo más tarde',
-                    type: 'danger',
-                    duration: 3000,
-                    titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-                    textStyle: { textAlign: 'center' },
-                });
-            });
-    };
-
-    handleAudioDelete = (item, closeRow) => {
-        Alert.alert(
+    handleAudioDelete = async (item, closeRow) => {
+        await Alert.alert(
             'Eliminar nota de voz',
             'La nota de voz "' + item.name + '" y su transcripción se van a eliminar de forma permanente',
             [
@@ -117,17 +68,32 @@ class historyController extends Component {
                 },
                 {
                     text: 'Eliminar',
-                    onPress: () => {
+                    onPress: async () => {
                         // Se borra en el filesystem porque el recorder
-                        // crea un fichero por cada grabación
-                        RNFS.unlink(`${item.localpath}`)
-                            .then((res) => {
-                                // Se borra de la base de datos del servidor
-                                this.deleteRequest(item);
-                            })
-                            .catch((err) => {
-                                alert('Error al borrar el audio');
-                            });
+                        // crea un fichero por cada grabación. Si no 
+                        // se encuentra localmente, es que solo se 
+                        // encuentra en el servidor
+
+                        await RNFS.unlink(`${item.localpath}`)
+                        .then(() => {
+                            console.log('Borrado correctamente del filesystem');
+                        })
+                        .catch((err) => {
+                            console.log('Archivo de audio no econtrado en el filesystem');
+                        });
+
+                        // Se borra de la base de datos del servidor
+                        let response = await audioRequestService.deleteAudioHistory(item.uid);
+
+                        if (response !== null) {
+                            // Se actualiza el historial
+                            date = this.getDate(item.date);
+
+                            console.log(date);
+                            console.log(item.uid);
+
+                            this.props.delete(date, item.uid);
+                        }
                     },
                 },
             ],
@@ -135,52 +101,25 @@ class historyController extends Component {
     };
 
     async handleGetHistory() {
-        // Para el resto de peticiones ya se almacena la URL
-        // con la siguiente página
-        list = await this.historyRequest(this.state.next_page_URL);
+        let response = await audioRequestService.getHistory(this.state.next_page_URL);
 
-        N = list.length;
-        for (let i = 0; i < N; i++) {
-            // Se añade cada audio al historial de audios
-            // grabados por el médico
-            this.props.setHistory(list[i]);
+        if (response !== null) {
+            // Para el resto de peticiones ya se almacena la URL
+            // con la siguiente página
+            this.setState({
+                next_page_URL: response.next_page_url,
+            });
+
+            let list = response.data;
+            let N = list.length;
+            for (let i = 0; i < N; i++) {
+                // Se añade cada audio al historial de audios
+                // grabados por el médico
+                this.props.setHistory(list[i]);
+            }
         }
     }
 
-    async historyRequest(next_page_URL) {
-        return await fetch(next_page_URL, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.props.token,
-            },
-            method: 'GET'
-        })
-            .then((response) => {
-                return Promise.all([response.json(), response.status]);
-            })
-            .then(([body, status]) => {
-                if (status == 200) {
-                    this.setState({
-                        next_page_URL: body.next_page_url,
-                    });
-                    return body.data;
-                } else {
-                    alert(body.error);
-                    return null;
-                }
-            })
-            .catch((error) => {
-                showMessage({
-                    message: 'Error',
-                    description:
-                        'Compruebe su conexión de red o inténtelo de nuevo más tarde',
-                    type: 'danger',
-                    duration: 3000,
-                    titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-                    textStyle: { textAlign: 'center' },
-                });
-            });
-    }
 
     async handleRemoveFilter() {
         // Se vacía el historial de audios grabados

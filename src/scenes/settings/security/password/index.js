@@ -14,11 +14,12 @@ import IconII from "react-native-vector-icons/Ionicons";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import { showMessage } from "react-native-flash-message";
 
-import { URL } from '_data';
 import {connect} from 'react-redux';
 
-class PasswordSettingScreen extends Component {
+import { authRequestService } from '_services';
 
+
+class PasswordSettingScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -35,7 +36,7 @@ class PasswordSettingScreen extends Component {
     }
 
 
-    handleButton = () => {
+    handleButton = async () => {
         if (this.state.currentPassword === null ||
             this.state.newPassword === null ||
             this.state.repPassword === null) {
@@ -86,73 +87,29 @@ class PasswordSettingScreen extends Component {
             return;
         }
 
-        // TODO comprobar que la contraseña cumple ciertos requisitos
+        //TODO comprobar que la contraseña cumple ciertos requisitos
 
-        // Envío de datos al servidor.
-        // Se prepara el cuerpo del mensaje y se envía
-        data = JSON.stringify({
-            old: this.state.currentPassword,
-            new: this.state.newPassword
-        });
 
-        fetch(URL.changePassword, 
-        {
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + this.props.token
-            },
-            method : "PUT",
-            body: data
-        })
-        .then((response) => {
-            return Promise.all([response.json(), response.status]);
-        })
-        .then(([body, status]) => {
-            if (status === 200){ // OK
-                showMessage({
-                    message: body.message,
-                    type: "success",
-                    duration: 3000,
-                    titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-                });
+        let status = await authRequestService.changePassword(this.state.currentPassword, this.state.newPassword);
+
+        if (status !== null) {
+
+            if (status == 200) {
                 this.setState({
                     curr_wrong: false,
                     new_wrong: false,
                     rep_wrong: false,
                     color: COLORS.green
                 });
-    
-            } else { // ERROR
 
-                if (status === 400) {
-                    this.setState({
-                        curr_wrong: true,
-                        new_wrong: false,
-                        rep_wrong: false
-                    });
-                }
-
-                showMessage({
-                    message: 'Error',
-                    description: body.error,
-                    type: "danger",
-                    duration: 3000,
-                    titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-                    textStyle: {textAlign: 'center'},
+            } else if (status == 400) {
+                this.setState({
+                    curr_wrong: true,
+                    new_wrong: false,
+                    rep_wrong: false
                 });
             }
-        })
-        .catch((error) => {
-            showMessage({
-                message: 'Error',
-                description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
-                type: "danger",
-                duration: 3000,
-                titleStyle: {textAlign: 'center', fontWeight: 'bold', fontSize: 18},
-                textStyle: {textAlign: 'center'},
-            });
-        });
-
+        }
     }
 
 
@@ -233,6 +190,7 @@ const styles = StyleSheet.create({
         fontSize: 19,
         width: '80%',
         marginLeft: 20,
+        color: 'black'
     },
     divider: {
         width: '70%',

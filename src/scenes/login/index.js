@@ -13,7 +13,6 @@ import {
 
 import { ButtonAuth, TextInput } from '_atoms';
 import { COLORS } from '_styles';
-import { URL } from '_data';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
@@ -21,7 +20,7 @@ import { connect } from 'react-redux';
 import { authUser } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
 
-import axios from 'axios';
+import { authRequestService } from '_services';
 
 class LoginScreen extends Component {
 
@@ -47,7 +46,7 @@ class LoginScreen extends Component {
 	}
 
 
-	handleLogin = () => {
+	handleLogin = async () => {
 
 		// Comprobación de campos escritos
 		if (this.state.email === '' || this.state.password === '') {
@@ -60,56 +59,21 @@ class LoginScreen extends Component {
 			return;
 		}
 
-		// Envío de datos al servidor.
-		// Se prepara el cuerpo del mensaje y se envía
-		var data = {
-			email: this.state.email,
-			password: this.state.password
-		};
+		// Petición al servidor
+		let response = await authRequestService.login(this.state.email, this.state.password);
 
-		axios.post(
-				URL.login,
-				data,
-				{ headers: { 'Content-Type': 'application/json; charset=UTF-8' }},
-			)
-			.then((response) => {
-
-				if (response.status == 200) { // OK
-
-					this.props.setUser(
-						response.data.user.name,
-						response.data.user.surname,
-						response.data.user.email,
-						response.data.user.speciality,
-						response.data.user.country,
-						response.data.access_token
-					);
-
-					this.props.navigation.navigate('App');
-
-				} else { // ERROR
-					showMessage({
-						message: 'Error',
-						description: response.data.error,
-						type: "danger",
-						duration: 3000,
-						titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-						textStyle: { textAlign: 'center' },
-					});
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-				showMessage({
-					message: 'Error',
-					description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
-					type: "danger",
-					duration: 3000,
-					titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-					textStyle: { textAlign: 'center' },
-				});
-			});
-
+		if (response !== null) {
+			this.props.setUser(
+				response.user.name,
+				response.user.surname,
+				response.user.email,
+				response.user.speciality,
+				response.user.country,
+				response.access_token
+			);
+			
+			this.props.navigation.navigate('App');
+		}
 	}
 
 	_renderInputs() {

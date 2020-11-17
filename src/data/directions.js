@@ -6,7 +6,7 @@ const server = remote;
 
 export const URL = {
 
-    register: server + '/public/v1/auth/register',
+    register: server + '/public/v1/auth/signin',
     login: server + '/public/v1/auth/login',
     logout: server + '/public/v1/auth/logout',
 
@@ -19,7 +19,7 @@ export const URL = {
 
     getTags: server + '/public/v1/tags',
 
-    sendAudio: server + '/public/v1/audio',
+    uploadAudio: server + '/public/v1/audio',
     deleteAudio: server + '/public/v1/audio/',
 
     updateDescription: server + '/public/v1/audio/description/',

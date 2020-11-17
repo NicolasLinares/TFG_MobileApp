@@ -1,3 +1,7 @@
-import * as recorderService from './recorderService';
+import * as audioRequestService from './audioRequests';
+import * as authRequestService from './authRequests';
 
-export { recorderService };
+export { 
+    audioRequestService, 
+    authRequestService, 
+};

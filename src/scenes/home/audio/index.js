@@ -24,14 +24,14 @@ import IconII from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import RNFS from 'react-native-fs';
 
-
-import { showMessage } from "react-native-flash-message";
-import { URL } from '_data';
 import { connect } from 'react-redux';
 import { deleteAudioHistory, updateDescription, updateName } from '_redux_actions';
 
+import { audioRequestService } from '_services';
+
 
 class AudioScreen extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -46,7 +46,7 @@ class AudioScreen extends Component {
 			description: this.props.navigation.state.params.item.description, //"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
 			editing: false,
 
-			// Función del componente HistoryItem
+			// Función del componente HistoryItem para actualizar la lista después de borrar el audio
 			updateHistoryItem: this.props.navigation.state.params.updateHistoryItem
 		};
 	}
@@ -59,58 +59,19 @@ class AudioScreen extends Component {
 		});
 	}
 
-	sendDelete = async () => {
 
-		return await fetch(URL.deleteAudio + this.state.uid,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + this.props.token
-				},
-				method: "DELETE",
-			})
-			.then((response) => {
-				return Promise.all([response.json(), response.status]);
-			})
-			.then(([body, status]) => {
-				if (status == 200) {
-
-					// Se actualiza el historial
-					this.props.delete(this.state.date, this.state.uid);
-					// Volvemos a home
-					showMessage({
-						message: body.message,
-						type: "success",
-						duration: 2000,
-						titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-					});
-				} else {
-					showMessage({
-						message: 'Error',
-						description: body.error,
-						type: "danger",
-						duration: 3000,
-						titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-						textStyle: { textAlign: 'center' },
-					});
-					return null;
-				}
-			})
-			.catch((error) => {
-				showMessage({
-					message: 'Error',
-					description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
-					type: "danger",
-					duration: 3000,
-					titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-					textStyle: { textAlign: 'center' },
-				});
-			});
+	getDate(timestamp) {
+		m = moment(timestamp);
+		return m.format('LL');
 	}
 
+	getHour(timestamp) {
+		m = moment(timestamp);
+		return m.format('HH:mm');
+	}
 
-	handleAudioDelete = () => {
-		Alert.alert(
+	handleAudioDelete = async () => {
+		await Alert.alert(
 			'Eliminar nota de voz',
 			'La nota de voz "' + this.state.name + '" se va a eliminar de forma permanente',
 			[
@@ -120,91 +81,34 @@ class AudioScreen extends Component {
 				},
 				{
 					text: 'Eliminar',
-					onPress: () => {
-
+					onPress: async () => {
 
 						// Se borra en el filesystem porque el recorder
-						// crea un fichero por cada grabación
-						RNFS.unlink(`${this.state.localpath}`).then(res => {
-							// Se borra de la base de datos del servidor
-							this.sendDelete();
+						// crea un fichero por cada grabación. Si no 
+						// se encuentra localmente, es que solo se 
+						// encuentra en el servidor
+						RNFS.unlink(`${this.state.localpath}`)
+							.catch((err) => {
+								console.log(err);
+							});
+
+						// Se borra de la base de datos del servidor
+						let response = await audioRequestService.deleteAudioHistory(this.state.uid);
+
+						if (response !== null) {
+							// Se actualiza el historial
+							this.props.delete(this.state.date, this.state.uid);
 							this.props.navigation.goBack();
-
-						}).catch(err => {
-							alert("Error al borrar el audio");
-						});
-
+						}
 					}
 				}
-			],
-			{ cancelable: false }
+			]
 		);
 	}
 
-	sendName = async (name) => {
 
-		name = name + '.' + this.state.extension;
-		data = JSON.stringify({ name: name });
-
-		return await fetch(URL.updateAudioName + this.state.uid,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + this.props.token
-				},
-				method: "PUT",
-				body: data
-			})
-			.then((response) => {
-				return Promise.all([response.json(), response.status]);
-			})
-			.then(([body, status]) => {
-				if (status == 201) {
-
-					this.setState({
-						name: name
-					});
-
-					this.props.navigation.setParams({
-						title: name,
-					});
-
-					this.state.updateHistoryItem(name);
-					// Se actualiza localmente en el historial
-					this.props.updateName(this.state.date, this.state.uid, this.state.name);
-
-					showMessage({
-						message: body.message,
-						type: "success",
-						duration: 2000,
-						titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-					});
-				} else {
-					showMessage({
-						message: 'Error',
-						description: body.error,
-						type: "danger",
-						duration: 3000,
-						titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-						textStyle: { textAlign: 'center' },
-					});
-					return null;
-				}
-			})
-			.catch((error) => {
-				showMessage({
-					message: 'Error',
-					description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde' + error,
-					type: "danger",
-					duration: 3000,
-					titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-					textStyle: { textAlign: 'center' },
-				});
-			});
-	}
-
-	handleNameChange = () => {
-		Alert.prompt(
+	handleUpdateName = async () => {
+		await Alert.prompt(
 			"Escribe un nuevo nombre",
 			"",
 			[
@@ -215,12 +119,45 @@ class AudioScreen extends Component {
 				{
 					text: "Aceptar",
 					style: "accept",
-					onPress: (name) => this.sendName(name)
+					onPress: async (name) => {
+						name = name + '.' + this.state.extension;
+
+						let response = await audioRequestService.updateName(this.state.uid, name);
+
+						if (response !== null) {
+							// Se actualiza el nombre del audio en todas sus referencias
+							this.setState({ name: name }); // en el estado
+							this.props.navigation.setParams({ title: name }); // en la cabecera del screen
+							this.state.updateHistoryItem(name); // en la vista del historial
+							this.props.updateName(this.state.date, this.state.uid, this.state.name); // Se actualiza localmente en el historial
+						}
+					}
 				}
 			],
 			"plain-text",
 			this.state.name.slice(0, this.state.name.length - 4), // quito la extensión
 		);
+	}
+
+	handleUpdateDescription = async () => {
+		Keyboard.dismiss();
+
+		let response = await audioRequestService.updateDescription(this.state.uid, this.state.description);
+
+		if (response !== null) {
+			this.setState({ editing: false });
+			this.props.navigation.state.params.item.description = this.state.description;
+			this.props.updateDescription(this.state.date, this.state.uid, this.state.description); // Se actualiza localmente en el historial
+		}
+	}
+
+	handleCancelUpdateDescription = () => {
+		Keyboard.dismiss();
+
+		this.setState({
+			description: this.props.navigation.state.params.item.description,
+			editing: false
+		});
 	}
 
 	_renderOptionsButton() {
@@ -231,7 +168,7 @@ class AudioScreen extends Component {
 				</MenuTrigger>
 
 				<MenuOptions optionsContainerStyle={{ borderRadius: 10 }} >
-					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleNameChange()}>
+					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleUpdateName()}>
 						<Text style={{ marginLeft: 15, fontSize: 16 }}>Cambiar nombre</Text>
 						<IconII style={[styles.icon, { color: 'black' }]} name={'create-outline'} />
 					</MenuOption>
@@ -245,97 +182,18 @@ class AudioScreen extends Component {
 		);
 	}
 
-	getDate(timestamp) {
-		m = moment(timestamp);
-		return m.format('LL');
-	}
-
-	getHour(timestamp) {
-		m = moment(timestamp);
-		return m.format('HH:mm');
-	}
-
-
-	handleCancel = () => {
-		Keyboard.dismiss();
-
-		this.setState({
-			description: this.props.navigation.state.params.item.description,
-			editing: false
-		});
-	}
-
-
-
-	sendDescription = async () => {
-		Keyboard.dismiss();
-
-		data = JSON.stringify({ description: this.state.description });
-		return await fetch(URL.updateDescription + this.state.uid,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + this.props.token
-				},
-				method: "PUT",
-				body: data,
-
-			})
-			.then((response) => {
-				return Promise.all([response.json(), response.status]);
-			})
-			.then(([body, status]) => {
-				if (status == 201) {
-					this.setState({
-						editing: false
-					});
-
-					this.props.navigation.state.params.item.description = this.state.description;
-					// Se actualiza localmente en el historial
-					this.props.updateDescription(this.state.date, this.state.uid, this.state.description);
-
-					showMessage({
-						message: body.message,
-						type: "success",
-						duration: 2000,
-						titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-					});
-				} else {
-					showMessage({
-						message: 'Error',
-						description: body.error,
-						type: "danger",
-						duration: 3000,
-						titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-						textStyle: { textAlign: 'center' },
-					});
-					return null;
-				}
-			})
-			.catch((error) => {
-				showMessage({
-					message: 'Error',
-					description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
-					type: "danger",
-					duration: 3000,
-					titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-					textStyle: { textAlign: 'center' },
-				});
-			});
-	}
-
 
 	_renderActionsInputChanges = () => (
 		<View style={styles.actions}>
 			<TouchableOpacity
 				style={styles.button}
-				onPress={() => this.handleCancel()}
+				onPress={() => this.handleCancelUpdateDescription()}
 			>
 				<IconII style={styles.icon} name={'close-outline'} color={COLORS.grey} />
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={styles.button}
-				onPress={() => this.sendDescription()}
+				onPress={() => this.handleUpdateDescription()}
 			>
 				<IconII style={styles.icon} name={'checkmark'} color={COLORS.electric_blue} />
 			</TouchableOpacity>
@@ -379,6 +237,7 @@ class AudioScreen extends Component {
 				style={styles.text}
 				value={this.state.description}
 				placeholder={placeholder}
+				placeholderTextColor={COLORS.grey}
 				onChangeText={(value) => this.setState({ description: value })}
 			/>
 
@@ -522,6 +381,7 @@ const styles = StyleSheet.create({
 		fontSize: 17,
 		lineHeight: 25,
 		textAlign: 'justify',
+		color: 'black'
 	},
 	button: {
 		height: 30,

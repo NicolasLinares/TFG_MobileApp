@@ -1,6 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-  package="com.recorder_cli">
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.recorder_cli"
+>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -18,7 +19,6 @@ xmlns:tools="http://schemas.android.com/tools"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
-        tools:targetApi="28"
         android:theme="@style/AppTheme"
     >
 
