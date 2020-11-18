@@ -28,8 +28,8 @@ class myPlayer extends Component {
 
         this.state = {
             name: this.getAudioName(this.props.item.localpath),
-            url: this.props.item.url,
             localpath: this.props.item.localpath,
+            
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 
             player: new AudioRecorderPlayer(),
@@ -56,10 +56,8 @@ class myPlayer extends Component {
     }
 
     setAudioDuration() {
-        path = this.props.stream ? this.state.url : this.state.name ;
-        directory = this.props.stream ? null : RNFS.CachesDirectoryPath;
-        //path = this.state.localpath;        
-        //directory = null;
+        path = this.state.name ;
+        directory = RNFS.CachesDirectoryPath;
 
         var audio = new Sound(path , directory,  (error) => {
           if (error) {

@@ -68,7 +68,7 @@ class myComplexAudioItem extends Component {
                 </Text>
             </View>
 
-            <Player item={this.props.item} stream={false} />
+            <Player item={this.props.item}/>
         </View>
     )
 

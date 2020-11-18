@@ -165,6 +165,8 @@ export async function uploadAudio(audio) {
     const state = store.getState();
     let token = state.userReducer.token;
 
+    let realPath = Platform.OS === 'ios' ? audio.localpath.replace('file://', '') : audio.localpath;
+
     return await RNFetchBlob.config({
         trusty: true
     })
@@ -172,12 +174,24 @@ export async function uploadAudio(audio) {
             'POST',
             URL.uploadAudio,
             {
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data',
                 Authorization: 'Bearer ' + token,
             },
-            JSON.stringify(audio)
+            [
+                {
+                    name : 'file', 
+                    filename: audio.name, 
+                    data: RNFetchBlob.wrap(realPath),
+                    type:'audio/' + audio.extension
+                },
+                {
+                    name: 'data', 
+                    data: JSON.stringify(audio),
+                }
+            ]
         )
         .then((response) => {
+
             let status = response.info().status;
 
             if (status == 201) {

@@ -71,8 +71,8 @@ class audioListModule extends Component {
 			N = this.props.list.length;
 			list = this.props.list.reverse();
 			for (let i = 0; i < N; i++) {
-				audio = list[i];
-
+				let audio = list[i];
+				
 				audio = await audioRequestService.uploadAudio(audio);
 
 				if (audio !== null) {

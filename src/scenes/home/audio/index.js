@@ -291,7 +291,6 @@ class AudioScreen extends Component {
 			<View style={styles.playerContainer}>
 				<Player
 					item={this.props.navigation.state.params.item}
-					stream={false}
 					complexStyle={true}
 				/>
 			</View>

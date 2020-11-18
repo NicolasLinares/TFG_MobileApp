@@ -20,6 +20,7 @@ export const URL = {
     getTags: server + '/public/v1/tags',
 
     uploadAudio: server + '/public/v1/audio',
+    downloadAudio: server + 'public/v1/audio/',
     deleteAudio: server + '/public/v1/audio/',
 
     updateDescription: server + '/public/v1/audio/description/',

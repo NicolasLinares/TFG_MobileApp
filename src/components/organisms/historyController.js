@@ -56,6 +56,7 @@ class historyController extends Component {
         return m.format('LL');
     }
 
+
     handleAudioDelete = async (item, closeRow) => {
         await Alert.alert(
             'Eliminar nota de voz',
@@ -74,7 +75,7 @@ class historyController extends Component {
                         // se encuentra localmente, es que solo se 
                         // encuentra en el servidor
 
-                        await RNFS.unlink(`${item.localpath}`)
+                        RNFS.unlink(`${item.localpath}`)
                         .then(() => {
                             console.log('Borrado correctamente del filesystem');
                         })
@@ -88,10 +89,6 @@ class historyController extends Component {
                         if (response !== null) {
                             // Se actualiza el historial
                             date = this.getDate(item.date);
-
-                            console.log(date);
-                            console.log(item.uid);
-
                             this.props.delete(date, item.uid);
                         }
                     },
