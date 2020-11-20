@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Platform,
     StatusBar,
-    Keyboard,
+    Alert,
     KeyboardAvoidingView
 } from 'react-native';
 
@@ -33,8 +33,17 @@ class patientCodeEditorModule extends Component {
     }
 
     handleAccept() {
-        this.props.setPatientTag(this.state.tag);
-        this.props.closeTagEditor();
+        // Comprueba que no tiene espacios en blanco, tabulaciones, etc
+        if (/\s/.test(this.state.tag)) {
+            Alert.alert(
+                'Código no válido', 
+                'Introduce un código de paciente sin espacios en blanco', 
+                [{text:'Aceptar'}]
+            );
+        } else {
+            this.props.setPatientTag(this.state.tag);
+            this.props.closeTagEditor();
+        }
     }
 
     handleCancel() {

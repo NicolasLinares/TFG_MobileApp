@@ -7,13 +7,12 @@ import {
     FlatList
 } from 'react-native';
 
-import { showMessage } from "react-native-flash-message";
-
-import { COLORS, CONSTANTS } from '_styles';
+import { COLORS } from '_styles';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux';
 import { setHistory, cleanHistory, addFilterTag, cleanTags, setCurrentTagApplied } from '_redux_actions';
-import { URL } from '_data';
+import IconII from "react-native-vector-icons/Ionicons";
 
 import { audioRequestService } from '_services';
 
@@ -24,7 +23,9 @@ class filterList extends Component {
         super(props);
 
         this.state = {
-            pressed_key: ''
+            pressed_key: '',
+            hideButton: true,
+            paddingLeft: 0,
         }
     }
 
@@ -59,7 +60,7 @@ class filterList extends Component {
         this.props.setCurrentTagApplied(tag);
 
         // Se muestra el botón para eliminar el filtrado
-        this.props.showRemoveFilterButton();
+        this.setState({ hideButton: false, paddingLeft: 50 });
 
         // Se vacía el historial de audios grabados 
         // para que no se dupliquen en caso de haber 
@@ -96,22 +97,50 @@ class filterList extends Component {
     )
 
 
+    _renderRemoveFilterButton() {
+        if (!this.state.hideButton)
+            return (
+                <LinearGradient 
+                    start={{x: 0, y: 0}} end={{x: 1, y: 0}} 
+                    colors={['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 0.9)','rgba(255, 255, 255, 0)']} 
+                    style={{position: 'absolute', top: 10, height: 30, width: 90, alignItems: 'flex-start'}}
+                >
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.setState({ hideButton: true, paddingLeft: 0 });
+                            this.props.handleRemoveFilter();
+                        }}
+                    >
+                        <IconII style={{ fontSize: 22, color: COLORS.electric_blue }} name={'close'} />
+                    </TouchableOpacity>
+                </LinearGradient>
+
+            );
+        else
+            return null;
+    }
+
     render() {
 
         // Se muestra la lista de códigos de pacientes usados sólo cuando hay más
         // de 1 distinto, ya que no tiene sentido mostrarla con un solo código 
         if (this.props.tags.length > 1)
             return (
-                <View style={{ height: 60 }}>
+                <View style={{ height: 60, paddingTop: 10, flexDirection: 'row' }}>
+
                     <FlatList
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         style={styles.audiolist}
-                        contentContainerStyle={{ paddingRight: 60 }}
+                        contentContainerStyle={{ paddingRight: 40, paddingLeft: this.state.paddingLeft }}
                         keyExtractor={(item) => item.key.toString()}
                         data={this.props.tags}
                         renderItem={this._renderItem}
                     />
+
+                    {this._renderRemoveFilterButton()}
+
                 </View>
             )
         else
@@ -123,10 +152,17 @@ class filterList extends Component {
 const styles = StyleSheet.create({
     audiolist: {
         width: "100%",
-        height: 50,
-        paddingVertical: 10,
         paddingHorizontal: 30,
-
+    },
+    button: {
+        height: 30,
+        width: 30,
+        justifyContent: 'center',
+        borderRadius: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 20,
+        backgroundColor: COLORS.light_grey,
     },
     item: {
         backgroundColor: COLORS.light_green,
@@ -136,7 +172,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: COLORS.green,
-        marginHorizontal: 5,
+        marginRight: 10,
     },
     name: {
         textAlign: 'center',

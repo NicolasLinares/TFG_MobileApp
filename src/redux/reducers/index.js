@@ -56,6 +56,7 @@ export function audioListReducer(state = initialState, action) {
                     {
                         key: Math.random(),
                         name: action.audio.name,
+                        persist_name: action.audio.name, 
                         extension: action.audio.extension,
                         localpath: action.audio.localpath,
                         description: '',

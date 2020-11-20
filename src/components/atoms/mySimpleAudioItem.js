@@ -49,7 +49,6 @@ class mySimpleAudioItem extends Component {
                                 </Text>
                             </View>
                         </View>
-
                     </View>
 
                     <IconII style={styles.icon} name={'chevron-forward'}/>

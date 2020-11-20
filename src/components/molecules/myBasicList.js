@@ -18,9 +18,6 @@ class myBasicList extends Component {
 
     constructor(props) {
         super(props);
-        this.state={
-            disableSwipe: false 
-        }
     }
 
     _renderItem = data => (
@@ -30,13 +27,6 @@ class myBasicList extends Component {
     _renderHideButtons = (data, rowMap) => (
         
         <View style={styles.actionsContainer}>
-            <TouchableOpacity 
-                style={styles.descriptionButton}
-                onPress={() => this.props.onPress(data.item)}
-            >
-                <IconII name={"ios-chatbox"} size={25} color='white'/>
-            </TouchableOpacity>
-
             <TouchableOpacity 
                 style={styles.deleteButton}
                 onPress={() => this.props.onPress(data.item)}
@@ -56,8 +46,8 @@ class myBasicList extends Component {
             style={styles.audiolist}
             renderItem={this._renderItem}
             renderHiddenItem={this._renderHideButtons}
-            rightOpenValue={-80}
-            disableLeftSwipe={this.state.disableSwipe}
+            rightOpenValue={-85}
+            disableRightSwipe={true}
             closeOnScroll={true}
             previewOpenValue={-40}
             previewOpenDelay={3000}
@@ -77,7 +67,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row', 
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         paddingHorizontal: CONSTANTS.marginHorizontalItemList, 
         marginVertical: CONSTANTS.marginVerticalItemList,
     },

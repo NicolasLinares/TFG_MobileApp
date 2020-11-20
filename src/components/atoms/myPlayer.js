@@ -21,13 +21,18 @@ import Sound from 'react-native-sound';
 import { connect } from 'react-redux';
 import { setPlayerState } from '_redux_actions';
 
+
+import RNFetchBlob from 'rn-fetch-blob';
+import { audioRequestService } from '_services';
+
 class myPlayer extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            name: this.getAudioName(this.props.item.localpath),
+            uid: this.props.item.uid,
+            name: this.props.item.persist_name + '.' + this.props.item.extension,
             localpath: this.props.item.localpath,
             
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
@@ -40,19 +45,35 @@ class myPlayer extends Component {
         };
     }
 
-    componentDidMount() {
-        this.setAudioDuration();
+    async componentDidMount() {
+
+		let realPath = Platform.OS === 'ios' ? this.state.localpath.replace('file://', '') : this.state.localpath;
+
+        // Comprobamos si el audio se encuentra ya localmente
+		let exists = await RNFetchBlob.fs.exists(realPath)
+			.then((exist) => {
+				return exist;
+			})
+			.catch(() => {
+				alert('Error al comprobar si el archivo existe')
+				return null;
+			});
+
+        // Si no se encuentra localmente lo descargamos del servidor
+		if (exists !== null && !exists) {
+			console.log('El archivo de audio no se encuentra localmente')
+			// Se descarga de la base de datos
+			await audioRequestService.downloadAudioFile(this.state.uid, realPath);
+		} else {
+			console.log('El archivo de audio se encuentra localmente')
+		}
+
+        // Se inicializan los datos
+        await this.setAudioDuration();
     }
 
     componentWillUnmount() {
         this.resetPlayer();
-    }
-
-
-    getAudioName(localpath) {
-        parts = localpath.split('/');
-        name = parts.pop();
-        return name;
     }
 
     setAudioDuration() {

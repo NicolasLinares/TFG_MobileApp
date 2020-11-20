@@ -22,7 +22,7 @@ import { COLORS } from '_styles';
 import IconII from 'react-native-vector-icons/Ionicons';
 
 import moment from 'moment';
-import RNFS from 'react-native-fs';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import { connect } from 'react-redux';
 import { deleteAudioHistory, updateDescription, updateName } from '_redux_actions';
@@ -54,7 +54,7 @@ class AudioScreen extends Component {
 	componentDidMount() {
 		this.props.navigation.setParams({
 			title: this.state.name,
-			headerTitleStyle: { fontSize: 18 },
+			headerTitleStyle: { fontSize: 20 },
 			headerRight: () => this._renderOptionsButton(),
 		});
 	}
@@ -73,7 +73,7 @@ class AudioScreen extends Component {
 	handleAudioDelete = async () => {
 		await Alert.alert(
 			'Eliminar nota de voz',
-			'La nota de voz "' + this.state.name + '" se va a eliminar de forma permanente',
+			'La nota de voz "' + this.state.name + '.' + this.state.extension + '" se va a eliminar de forma permanente',
 			[
 				{
 					text: 'Cancelar',
@@ -87,25 +87,29 @@ class AudioScreen extends Component {
 						// crea un fichero por cada grabación. Si no 
 						// se encuentra localmente, es que solo se 
 						// encuentra en el servidor
-						RNFS.unlink(`${this.state.localpath}`)
+						let realPath = Platform.OS === 'ios' ? this.state.localpath.replace('file://', '') : this.state.localpath;
+
+						RNFetchBlob.fs.unlink(realPath)
 							.catch((err) => {
-								console.log(err);
+								alert("Error al borrar el audio");
 							});
+						
+						/*
+							// Se borra de la base de datos del servidor
+							let response = await audioRequestService.deleteAudioHistory(this.state.uid);
 
-						// Se borra de la base de datos del servidor
-						let response = await audioRequestService.deleteAudioHistory(this.state.uid);
+							if (response !== null) {
+								// Se actualiza el historial
+								this.props.delete(this.state.date, this.state.uid);
+								this.props.navigation.goBack();
+							}
+						*/
 
-						if (response !== null) {
-							// Se actualiza el historial
-							this.props.delete(this.state.date, this.state.uid);
-							this.props.navigation.goBack();
-						}
 					}
 				}
 			]
 		);
 	}
-
 
 	handleUpdateName = async () => {
 		await Alert.prompt(
@@ -120,22 +124,31 @@ class AudioScreen extends Component {
 					text: "Aceptar",
 					style: "accept",
 					onPress: async (name) => {
-						name = name + '.' + this.state.extension;
 
-						let response = await audioRequestService.updateName(this.state.uid, name);
+						if (name == "" || /\s/.test(name)) {
+							Alert.alert(
+								'Nombre no válido',
+								'Introduce un nombre sin espacios en blanco',
+								[{ text: 'Aceptar' }]
+							);
 
-						if (response !== null) {
-							// Se actualiza el nombre del audio en todas sus referencias
-							this.setState({ name: name }); // en el estado
-							this.props.navigation.setParams({ title: name }); // en la cabecera del screen
-							this.state.updateHistoryItem(name); // en la vista del historial
-							this.props.updateName(this.state.date, this.state.uid, this.state.name); // Se actualiza localmente en el historial
+						} else {
+
+							let response = await audioRequestService.updateName(this.state.uid, name);
+
+							if (response !== null) {
+								// Se actualiza el nombre del audio en todas sus referencias
+								this.setState({ name: name }); // en el estado
+								this.props.navigation.setParams({ title: name }); // en la cabecera del screen
+								this.state.updateHistoryItem(name); // en la vista del historial
+								this.props.updateName(this.state.date, this.state.uid, this.state.name); // Se actualiza localmente en el historial
+							}
 						}
 					}
 				}
 			],
 			"plain-text",
-			this.state.name.slice(0, this.state.name.length - 4), // quito la extensión
+			this.state.name
 		);
 	}
 

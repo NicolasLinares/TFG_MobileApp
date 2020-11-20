@@ -5,7 +5,6 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    Platform
 } from 'react-native';
 
 import { CONSTANTS } from '_styles';
@@ -22,7 +21,7 @@ class myComplexAudioItem extends Component {
         super(props);
         this.state = {
             key: this.props.item.key,
-            name: this.props.item.name.slice(0, this.props.item.name.length - 4), // quito la extensión
+            name: this.props.item.name,
             extension: this.props.item.extension,
             created_time: this.props.item.ctime,
         }
@@ -30,12 +29,12 @@ class myComplexAudioItem extends Component {
 
     setNewName() {
         // Si no ha escrito nada dejamos el nombre como estaba
-        if (this.state.name === "") {
-            this.setState({ name: this.props.item.name.slice(0, this.props.item.name.length - 4) })
+        if (this.state.name === "") {            
+            this.setState({name: this.props.item.name})
         } else {
 
             // comprobar que no tiene espacios en blanco
-            this.props.updateName(this.state.key, this.state.name + '.' + this.state.extension);
+            this.props.updateName(this.state.key,  this.state.name);
         }
 
     }
@@ -45,20 +44,20 @@ class myComplexAudioItem extends Component {
         <View style={styles.item}>
             <View style={styles.info}>
 
-                <View style={{flexDirection: 'row'}}>
+                <View style={styles.nameInput}>
 
-                    <TextInput
-                        style={[styles.name, {}]}
-                        value={this.state.name}
-                        onChangeText={(value) => this.setState({ name: value })}
-                        autoCapitalize={"none"}
-                        onBlur={() => this.setNewName()}
-                    />
-
-                    <Text
+                    <TextInput 
                         style={styles.name}
+                        value={this.state.name }
+                        onChangeText={(value) => this.setState({name: value})}
+                        autoCapitalize="none"
+                        onBlur={() => this.setNewName() }
+                    />
+                    
+                    <Text
+                        style={[styles.name, {marginTop: 1.5}]}
                     >
-                        {'.' + this.state.extension}
+                        {'.' +  this.state.extension}
                     </Text>
 
                 </View>
@@ -68,7 +67,7 @@ class myComplexAudioItem extends Component {
                 </Text>
             </View>
 
-            <Player item={this.props.item}/>
+            <Player item={this.props.item} stream={false} />
         </View>
     )
 
@@ -107,11 +106,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginHorizontal: 10,
     },
+    nameInput: {
+        flexDirection: 'row',
+        height: 20,
+    },
     name: {
-        fontSize: 14,
-        color: 'black',
-        padding: 0,
-        marginRight: 0
+        fontSize: 14
     },
     date: {
         fontSize: 14
@@ -119,9 +119,9 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        updateName: (key, name) => dispatch(updateNameNewAudio(key, name)),
-    }
+	return {
+		updateName: (key, name) => dispatch(updateNameNewAudio(key, name)),
+	}
 }
 
 export default connect(null, mapDispatchToProps)(myComplexAudioItem);

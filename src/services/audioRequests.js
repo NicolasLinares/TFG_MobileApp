@@ -179,13 +179,13 @@ export async function uploadAudio(audio) {
             },
             [
                 {
-                    name : 'file', 
-                    filename: audio.name, 
+                    name: 'file',
+                    filename: audio.persist_name,
                     data: RNFetchBlob.wrap(realPath),
-                    type:'audio/' + audio.extension
+                    type: 'audio/' + audio.extension
                 },
                 {
-                    name: 'data', 
+                    name: 'data',
                     data: JSON.stringify(audio),
                 }
             ]
@@ -226,6 +226,53 @@ export async function uploadAudio(audio) {
         });
 }
 
+export async function downloadAudioFile(uid, localpath) {
+
+    const state = store.getState();
+    let token = state.userReducer.token;
+
+    await RNFetchBlob.config({
+        trusty: true,
+        fileCache: true,  // permite que la respuesta se almacena como un fichero
+        path: localpath  // el archivo se guarda directamente en ese path
+    })
+        .fetch(
+            'GET',
+            URL.downloadAudio + uid,
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            }
+        )
+        .then((response) => {
+
+            let status = response.info().status;
+
+            if (status != 200) {
+                let mssg = response.json();
+                showMessage({
+                    message: 'Error',
+                    description: mssg.error,
+                    type: "danger",
+                    duration: 3000,
+                    titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
+                    textStyle: { textAlign: 'center' },
+                });
+            }
+        })
+        .catch((errorMessage, statusCode) => {
+            console.log(errorMessage);
+
+            showMessage({
+                message: 'Error',
+                description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
+                type: "danger",
+                duration: 3000,
+                titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
+                textStyle: { textAlign: 'center' },
+            });
+        });
+}
 
 export async function deleteAudioHistory(uid) {
 
@@ -248,13 +295,14 @@ export async function deleteAudioHistory(uid) {
 
             if (status == 200) {
 
+                /*
                 showMessage({
                     message: response.json().message,
                     type: 'success',
                     duration: 2000,
                     titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
                 });
-
+                */
                 return response.json();
 
             } else {
@@ -313,14 +361,14 @@ export async function updateName(uid, name) {
             let status = response.info().status;
 
             if (status == 201) {
-
-                showMessage({
-                    message: response.json().message,
-                    type: 'success',
-                    duration: 2000,
-                    titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
-                });
-
+                /*
+                    showMessage({
+                        message: response.json().message,
+                        type: 'success',
+                        duration: 2000,
+                        titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
+                    });
+                */
                 return response.json();
 
             } else {
@@ -379,14 +427,14 @@ export async function updateDescription(uid, description) {
             let status = response.info().status;
 
             if (status == 201) {
-
+                /*
                 showMessage({
                     message: response.json().message,
                     type: 'success',
                     duration: 2000,
                     titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
                 });
-
+                */
                 return response.json();
 
             } else {

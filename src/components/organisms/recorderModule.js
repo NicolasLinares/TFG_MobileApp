@@ -69,17 +69,17 @@ class recorderModule extends Component {
 
     name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
 
-    filename = Platform.select({
-        ios: name + '.m4a',
-        android: name  + '.mp3',
+    extension = Platform.select({
+        ios: 'm4a',
+        android: 'mp3',
     });
 
     path = Platform.select({
-        ios: filename,
-        android:  RNFS.CachesDirectoryPath + '/'+ filename,
+        ios: name + '.' + extension,
+        android:  RNFS.CachesDirectoryPath + '/'+ name + '.' + extension,
     });
 
-    return [filename, path];
+    return [name, extension, path];
   }
 
   async getCreatedTime(path) {
@@ -104,14 +104,16 @@ class recorderModule extends Component {
   
       audiofile = this.setAudioPath();
       name = audiofile[0];
-      path = audiofile[1];
+      extension = audiofile[1];
+      path = audiofile[2];
+
   
       absolute_path = await this.state.recorder.startRecorder(path, audioSet, true);
       ctime = await this.getCreatedTime(absolute_path);
 
       audio = {
         name: name,
-        extension: Platform.OS === 'ios' ? 'm4a' : 'mp3',
+        extension: extension,
         localpath: absolute_path,
         ctime: ctime,
       };
@@ -130,6 +132,7 @@ class recorderModule extends Component {
 
   async handleRecorder () {
 
+      // START recording
       if (!this.state.isRecording) {
         newAudio = await this.startRecorder();
 
@@ -137,19 +140,23 @@ class recorderModule extends Component {
 
         this.setState({
           audio: newAudio,
-          isRecording: !this.state.isRecording
+          isRecording: !this.state.isRecording // true
         });
         
       } else {
+        
+        // STOP recording
+
         await this.stopRecorder();
 
         this.stopTimer();
         
         this.props.addNewAudio(this.state.audio);
         
+        // Reinicia valores
         this.setState({
           audio: null,
-          isRecording: !this.state.isRecording
+          isRecording: !this.state.isRecording // false
         });
       }
   }

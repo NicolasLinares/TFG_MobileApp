@@ -13,7 +13,8 @@ import { BasicList } from '_molecules';
 import { connect } from 'react-redux';
 import { deleteAudio, addAudioTag, addAudioHistory, addFilterTag } from '_redux_actions';
 
-import RNFS from 'react-native-fs';
+import RNFetchBlob from 'rn-fetch-blob';
+
 
 import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS, CONSTANTS } from '_styles';
@@ -33,7 +34,7 @@ class audioListModule extends Component {
 
 		Alert.alert(
 			'Eliminar nota de voz',
-			'La nota de voz "' + item.name + '" se va a eliminar de forma permanente',
+			'La nota de voz "' + item.name + '.' + item.extension + '" se va a eliminar de forma permanente',
 			[
 				{
 					text: 'Cancelar',
@@ -45,10 +46,12 @@ class audioListModule extends Component {
 
 						// Se borra en el filesystem porque el recorder
 						// crea un fichero por cada grabación
-						RNFS.unlink(`${item.localpath}`).then(res => {
+						let realPath = Platform.OS === 'ios' ? item.localpath.replace('file://', '') : item.localpath;
+
+                        RNFetchBlob.fs.unlink(realPath).then(() => {
 							// Se actualiza el estado
 							this.props.delete(item.key);
-						}).catch(err => {
+						}).catch((err) => {
 							alert("Error al borrar el audio");
 						});
 					}
@@ -72,7 +75,7 @@ class audioListModule extends Component {
 			list = this.props.list.reverse();
 			for (let i = 0; i < N; i++) {
 				let audio = list[i];
-				
+
 				audio = await audioRequestService.uploadAudio(audio);
 
 				if (audio !== null) {
@@ -94,6 +97,12 @@ class audioListModule extends Component {
 					// el audio no se ha enviado
 					// problema de red o formato inválido (más bien el primer caso)
 					// o token caducado
+					let audio = list[i];
+					Alert.alert(
+						'Error',
+						'El audio ' + audio.name + '.' + audio.extension + ' no se ha guardado correctamente',
+						[{ text: 'Aceptar' }]
+					);
 				}
 			}
 
@@ -101,9 +110,7 @@ class audioListModule extends Component {
 			Alert.alert(
 				'Código de paciente',
 				'Asigna un código para identificar a qué paciente van dirigidas las notas de voz',
-				{
-					text: 'Aceptar',
-				}
+				[{ text: 'Aceptar' }]
 			);
 		}
 
@@ -118,10 +125,10 @@ class audioListModule extends Component {
 				style={styles.sendButton}
 				onPress={() => this.handleSendAudios()}
 			>
-				<Text style={{ fontSize: 15, marginRight: 4, color: COLORS.electric_blue }}>
-					Guardar
-              </Text>
-				<IconII style={{ fontSize: 20, marginLeft: 4, color: COLORS.electric_blue }} name={'md-cloud-upload-outline'} />
+				<Text style={{ fontSize: 17, marginRight: 6, color: COLORS.electric_blue }}>
+					Hecho
+              	</Text>
+				<IconII style={{ fontSize: 20, color: COLORS.electric_blue }} name={'checkmark'} />
 			</TouchableOpacity>
 		);
 	}

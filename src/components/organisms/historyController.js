@@ -22,11 +22,11 @@ import {
 } from '_redux_actions';
 
 import { URL } from '_data';
-import RNFS from 'react-native-fs';
+import RNFetchBlob from 'rn-fetch-blob';
+
 import moment from 'moment';
 
 import { audioRequestService } from '_services';
-
 
 class historyController extends Component {
     constructor(props) {
@@ -35,7 +35,6 @@ class historyController extends Component {
             pressed: false,
             next_page_URL: URL.getHistory,
             loading: true,
-            hideButton: true,
         };
     }
 
@@ -60,7 +59,7 @@ class historyController extends Component {
     handleAudioDelete = async (item, closeRow) => {
         await Alert.alert(
             'Eliminar nota de voz',
-            'La nota de voz "' + item.name + '" y su transcripción se van a eliminar de forma permanente',
+            'La nota de voz "' + item.name + '.' + item.extension + '" y su transcripción se van a eliminar de forma permanente',
             [
                 {
                     text: 'Cancelar',
@@ -70,17 +69,16 @@ class historyController extends Component {
                 {
                     text: 'Eliminar',
                     onPress: async () => {
-                        // Se borra en el filesystem porque el recorder
-                        // crea un fichero por cada grabación. Si no 
-                        // se encuentra localmente, es que solo se 
-                        // encuentra en el servidor
 
-                        RNFS.unlink(`${item.localpath}`)
-                        .then(() => {
-                            console.log('Borrado correctamente del filesystem');
-                        })
-                        .catch((err) => {
-                            console.log('Archivo de audio no econtrado en el filesystem');
+                        // Se borra en el filesystem porque el recorder
+                        // crea un fichero por cada grabación
+                        let realPath = Platform.OS === 'ios' ? item.localpath.replace('file://', '') : item.localpath;
+
+                        RNFetchBlob.fs.unlink(realPath).then(() => {
+                            // Se actualiza el estado
+                            this.props.delete(item.key);
+                        }).catch((err) => {
+                            alert("Error al borrar el audio" + err);
                         });
 
                         // Se borra de la base de datos del servidor
@@ -129,37 +127,22 @@ class historyController extends Component {
 
         this.setState({
             next_page_URL: URL.getHistory,
-            hideButton: true,
         });
 
         // GET de los audios paginados de 20 en 20
         await setTimeout(() => this.handleGetHistory(), 50);
     }
 
-    _renderRemoveFilterButton() {
-        if (!this.state.hideButton)
-            return (
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => this.handleRemoveFilter()}>
-                    <Text style={styles.text}> Eliminar filtro </Text>
-                </TouchableOpacity>
-            );
-        else return null;
-    }
-
     render() {
         return (
             <>
-                <View style={styles.header}>
-                    <Text style={styles.title}>Mis notas de voz</Text>
-                    {this._renderRemoveFilterButton()}
-                </View>
+                
+                <Text style={styles.title}>Mis notas de voz</Text>
 
                 <FilterList
-                    showRemoveFilterButton={() => this.setState({ hideButton: false })}
                     setNextURL={(url) => this.setState({ next_page_URL: url })}
                     list={this.props.tags}
+                    handleRemoveFilter={() => this.handleRemoveFilter()}
                 />
 
                 {this.state.loading === true ? (
@@ -182,27 +165,12 @@ class historyController extends Component {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
     title: {
         fontSize: 25,
         marginVertical: 20,
         marginLeft: 40,
         fontWeight: 'bold',
         alignSelf: 'flex-start',
-    },
-    button: {
-        height: 30,
-        borderRadius: 20,
-        marginTop: 5,
-        marginRight: 20,
-        flexDirection: 'row',
-        alignSelf: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.light_grey,
-        paddingHorizontal: 10,
     },
     text: {
         fontSize: 15,
@@ -227,8 +195,7 @@ const mapDispatchToProps = (dispatch) => {
         setHistory: (audio) => dispatch(setHistory(audio)),
         cleanHistory: () => dispatch(cleanHistory()),
         setCurrentTagApplied: (tag) => dispatch(setCurrentTagApplied(tag)),
-        delete: (date, uid) => dispatch(deleteAudioHistory(date, uid)),
-
+        delete: (date, uid) => dispatch(deleteAudioHistory(date, uid))
     };
 };
 
