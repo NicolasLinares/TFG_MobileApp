@@ -38,8 +38,8 @@ class mySimpleAudioItem extends Component {
                     <View style={styles.info}>
                         <Text style={styles.name}>{this.state.name}</Text>
 
-                        <View style={{flexDirection: 'row'}}>
-                            <Text style={styles.date}>
+                        <View style={{flexDirection: 'row', marginBottom: 5}}>
+                            <Text style={styles.date} numberOfLines={1}>
                                 {this.state.created_time}
                             </Text>
 
@@ -64,7 +64,7 @@ class mySimpleAudioItem extends Component {
 const styles = StyleSheet.create({
     item: {
         backgroundColor: 'white',
-        height: 60,
+        minHeight: 60,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -83,10 +83,11 @@ const styles = StyleSheet.create({
     info: {
         flexDirection: 'column',
         width: '80%',
-        marginLeft: 20
+        marginLeft: 20,
     },
     name: {
-        fontSize: 16
+        marginVertical: 5,
+        fontSize: 16,
     },
     date: {
         marginTop: 7,

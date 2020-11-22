@@ -35,7 +35,7 @@ const RouteConfigs = {
     screen: RecorderScreen,
     navigationOptions: {
       headerBackTitle: ' ',
-      headerRight: () => <View />,
+      headerRight: () => <View />, // Android -  alinear título
       title: moment().format('LL'),
       headerStyle: {
         // para esconder la línea inferior en el header
@@ -68,6 +68,7 @@ const RouteConfigs = {
     screen: SettingsScreen,
     navigationOptions: {
       headerBackTitle: ' ',
+      headerRight: () => <View />, // Android -  alinear título
       title: 'Configuración',
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
@@ -78,6 +79,7 @@ const RouteConfigs = {
     screen: ProfileScreen,
     navigationOptions: {
       headerBackTitle: ' ',
+      headerRight: () => <View />, // Android -  alinear título
       title: 'Perfil',
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
@@ -88,6 +90,7 @@ const RouteConfigs = {
     screen: SecurityScreen,
     navigationOptions: {
       headerBackTitle: ' ',
+      headerRight: () => <View />, // Android -  alinear título
       title: 'Seguridad',
       headerTitleStyle: {
         textAlign: 'center', // Android -  alinear título
@@ -98,6 +101,7 @@ const RouteConfigs = {
     screen: PasswordSettingScreen,
     navigationOptions: {
       headerBackTitle: ' ',
+      headerRight: () => <View />, // Android -  alinear título
       title: 'Cambiar contraseña',
       headerStyle: {
         // para esconder la línea inferior en el header

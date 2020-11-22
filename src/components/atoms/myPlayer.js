@@ -35,6 +35,7 @@ class myPlayer extends Component {
             name: this.props.item.persist_name + '.' + this.props.item.extension,
             localpath: this.props.item.localpath,
             
+            
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 
             player: new AudioRecorderPlayer(),
@@ -47,27 +48,29 @@ class myPlayer extends Component {
 
     async componentDidMount() {
 
-		let realPath = Platform.OS === 'ios' ? this.state.localpath.replace('file://', '') : this.state.localpath;
+        if (this.state.complexStyle) {
 
-        // Comprobamos si el audio se encuentra ya localmente
-		let exists = await RNFetchBlob.fs.exists(realPath)
-			.then((exist) => {
-				return exist;
-			})
-			.catch(() => {
-				alert('Error al comprobar si el archivo existe')
-				return null;
-			});
+            let realPath = Platform.OS === 'ios' ? this.state.localpath.replace('file://', '') : this.state.localpath;
 
-        // Si no se encuentra localmente lo descargamos del servidor
-		if (exists !== null && !exists) {
-			console.log('El archivo de audio no se encuentra localmente')
-			// Se descarga de la base de datos
-			await audioRequestService.downloadAudioFile(this.state.uid, realPath);
-		} else {
-			console.log('El archivo de audio se encuentra localmente')
-		}
+            // Comprobamos si el audio se encuentra ya localmente
+            let exists = await RNFetchBlob.fs.exists(realPath)
+                .then((exist) => {
+                    return exist;
+                })
+                .catch(() => {
+                    alert('Error al comprobar si el archivo existe')
+                    return null;
+                });
 
+            // Si no se encuentra localmente lo descargamos del servidor
+            if (exists !== null && !exists) {
+                console.log('El archivo de audio no se encuentra localmente')
+                // Se descarga de la base de datos
+                await audioRequestService.downloadAudioFile(this.state.uid, realPath);
+            } else {
+                console.log('El archivo de audio se encuentra localmente')
+            }
+        }
         // Se inicializan los datos
         await this.setAudioDuration();
     }

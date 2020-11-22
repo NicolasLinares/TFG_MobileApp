@@ -109,6 +109,7 @@ class patientCodeEditorModule extends Component {
 
                 <View style={styles.inputContainer}>
                     <TextInput
+                        maxLength={32}
                         value={this.state.tag}
                         onChangeText={(value) => this.setState({ tag: value })}
                         placeholder='Escribe un código o escanéalo'

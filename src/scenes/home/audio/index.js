@@ -7,7 +7,9 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	TextInput,
-	Keyboard
+	Keyboard,
+	Platform,
+	Dimensions
 } from 'react-native';
 
 import {
@@ -17,7 +19,7 @@ import {
 	MenuTrigger,
 } from 'react-native-popup-menu';
 
-import { Player } from '_atoms';
+import { Player, Dialog } from '_atoms';
 import { COLORS } from '_styles';
 import IconII from 'react-native-vector-icons/Ionicons';
 
@@ -28,6 +30,9 @@ import { connect } from 'react-redux';
 import { deleteAudioHistory, updateDescription, updateName } from '_redux_actions';
 
 import { audioRequestService } from '_services';
+
+
+import Share from 'react-native-share';
 
 
 class AudioScreen extends Component {
@@ -42,7 +47,7 @@ class AudioScreen extends Component {
 			date: this.getDate(this.props.navigation.state.params.item.created_at),
 			hour: this.getHour(this.props.navigation.state.params.item.created_at),
 			localpath: this.props.navigation.state.params.item.localpath,
-			transcription: this.props.navigation.state.params.item.transcription, //"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.",
+			transcription: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.",
 			description: this.props.navigation.state.params.item.description, //"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
 			editing: false,
 
@@ -54,7 +59,10 @@ class AudioScreen extends Component {
 	componentDidMount() {
 		this.props.navigation.setParams({
 			title: this.state.name,
-			headerTitleStyle: { fontSize: 20 },
+			headerTitleStyle: {
+				textAlign: 'center', // Android -  alinear título
+				fontSize: 16
+			},
 			headerRight: () => this._renderOptionsButton(),
 		});
 	}
@@ -73,7 +81,7 @@ class AudioScreen extends Component {
 	handleAudioDelete = async () => {
 		await Alert.alert(
 			'Eliminar nota de voz',
-			'La nota de voz "' + this.state.name + '.' + this.state.extension + '" se va a eliminar de forma permanente',
+			'La nota de voz y todos sus datos se van a eliminar de forma permanente',
 			[
 				{
 					text: 'Cancelar',
@@ -93,18 +101,16 @@ class AudioScreen extends Component {
 							.catch((err) => {
 								alert("Error al borrar el audio");
 							});
-						
-						/*
-							// Se borra de la base de datos del servidor
-							let response = await audioRequestService.deleteAudioHistory(this.state.uid);
 
-							if (response !== null) {
-								// Se actualiza el historial
-								this.props.delete(this.state.date, this.state.uid);
-								this.props.navigation.goBack();
-							}
-						*/
 
+						// Se borra de la base de datos del servidor
+						let response = await audioRequestService.deleteAudioHistory(this.state.uid);
+
+						if (response !== null) {
+							// Se actualiza el historial
+							this.props.delete(this.state.date, this.state.uid);
+							this.props.navigation.goBack();
+						}
 					}
 				}
 			]
@@ -173,6 +179,43 @@ class AudioScreen extends Component {
 		});
 	}
 
+	handleShareAudioFile() {
+		let options = {
+			title: 'Compartir grabación de audio',
+			failOnCancel: false,
+			url: this.state.localpath,
+			type: 'audio/' + this.state.extension
+		};
+
+		Share.open(options)
+			.then((res) => { console.log(res) })
+			.catch((err) => { err && console.log(err); });
+
+	}
+
+	handleShareTranscription() {
+
+		if (this.state.transcription) {
+			let options = {
+				title: 'Compartir transcripción de audio',
+				failOnCancel: false,
+				message: this.state.transcription,
+			};
+
+			Share.open(options)
+				.then((res) => { console.log(res) })
+				.catch((err) => { err && console.log(err); });
+		} else {
+			Alert.alert(
+				'Error al compartir',
+				'Transcripción no disponible por el momento',
+				[{ text: 'Aceptar' }]
+			)
+		}
+
+	}
+
+	
 	_renderOptionsButton() {
 		return (
 			<Menu>
@@ -180,14 +223,30 @@ class AudioScreen extends Component {
 					<IconII style={{ marginRight: 10 }} name={"ios-ellipsis-vertical"} size={25} color={COLORS.electric_blue} />
 				</MenuTrigger>
 
-				<MenuOptions optionsContainerStyle={{ borderRadius: 10 }} >
+				<MenuOptions optionsContainerStyle={{ borderRadius: 10, width: 280, marginTop: 30}} >
 					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleUpdateName()}>
 						<Text style={{ marginLeft: 15, fontSize: 16 }}>Cambiar nombre</Text>
 						<IconII style={[styles.icon, { color: 'black' }]} name={'create-outline'} />
 					</MenuOption>
 
+					<View style={{borderColor:COLORS.light_grey, width: '100%', borderWidth: 0.5}}/>
+
+					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleShareTranscription()}>
+						<Text style={{ marginLeft: 15, fontSize: 16 }}>Compartir transcripción</Text>
+						<IconII style={[styles.icon, { color: 'black' }]} name={'share-outline'} />
+					</MenuOption>
+
+					<View style={{borderColor:COLORS.light_grey, width: '100%', borderWidth: 0.5}}/>
+
+					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleShareAudioFile()}>
+						<Text style={{ marginLeft: 15, fontSize: 16 }}>Compartir grabación</Text>
+						<IconII style={[styles.icon, { color: 'black' }]} name={'share-outline'} />
+					</MenuOption>
+
+					<View style={{borderColor:COLORS.light_grey, width: '100%', borderWidth: 0.5}}/>
+
 					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleAudioDelete()}>
-						<Text style={{ marginLeft: 15, fontSize: 16, color: 'red' }}>Eliminar audio</Text>
+						<Text style={{ marginLeft: 15, fontSize: 16, color: 'red' }}>Eliminar</Text>
 						<IconII style={[styles.icon, { color: 'red' }]} name={'trash-outline'} />
 					</MenuOption>
 				</MenuOptions>
@@ -283,19 +342,23 @@ class AudioScreen extends Component {
 
 	render = () => (
 		<View style={styles.container}>
-			<Text style={styles.date}> {this.state.date + ', ' + this.state.hour}</Text>
 
-			<View style={styles.tag}>
-				<Text style={styles.tagText}>
-					{this.state.tag}
-				</Text>
-			</View>
+			<Dialog></Dialog>
 
 			<ScrollView
 				style={styles.scrollContainer}
 				keyboardDismissMode={'on-drag'}
 				keyboardShouldPersistTaps={'handle'}
 			>
+
+				<Text style={styles.date}> {this.state.date + ', ' + this.state.hour}</Text>
+
+				<View style={styles.tag}>
+					<Text style={styles.tagText}>
+						{this.state.tag}
+					</Text>
+				</View>
+
 				{this._renderSection('Descripción', this.state.description, 'Escribe una descripción del audio...', true, false)}
 				{this._renderSection('Transcripción', this.state.transcription, 'La transcripción estará disponible pronto...', false, true)}
 
@@ -321,6 +384,7 @@ const styles = StyleSheet.create({
 
 	date: {
 		fontSize: 14,
+		alignSelf: 'center',
 	},
 	tag: {
 		backgroundColor: COLORS.light_green,
@@ -408,8 +472,8 @@ const styles = StyleSheet.create({
 	},
 
 	playerContainer: {
-		height: 150,
-		paddingTop: 15,
+		height: Platform.OS == 'ios' ? 140 : 115,
+		paddingTop: 10,
 		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'flex-start',

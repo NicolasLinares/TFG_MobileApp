@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
+	Platform,
 } from 'react-native';
 
 
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 	},
 	header: {
-		marginTop: 40,
+		marginTop: Platform.OS == 'ios' ? 40 : 0,
 		flexDirection: 'row',
 		width: '100%',
 	},

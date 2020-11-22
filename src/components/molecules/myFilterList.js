@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
     Text,
     StyleSheet,
@@ -106,7 +106,7 @@ class filterList extends Component {
                     style={{position: 'absolute', top: 10, height: 30, width: 90, alignItems: 'flex-start'}}
                 >
                     <TouchableOpacity
-                        style={styles.button}
+                        style={styles.buttonCancelFilter}
                         onPress={() => {
                             this.setState({ hideButton: true, paddingLeft: 0 });
                             this.props.handleRemoveFilter();
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 30,
     },
-    button: {
+    buttonCancelFilter: {
         height: 30,
         width: 30,
         justifyContent: 'center',
@@ -166,19 +166,20 @@ const styles = StyleSheet.create({
     },
     item: {
         backgroundColor: COLORS.light_green,
-        height: 30,
+        height: 25,
         justifyContent: 'center',
         alignSelf: 'flex-start',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: COLORS.green,
+        marginTop: 3,
         marginRight: 10,
     },
     name: {
         textAlign: 'center',
         fontSize: 14,
-        marginHorizontal: 10,
-        marginRight: 15,
+        marginLeft: 5,
+        marginRight: 8,
     }
 });
 

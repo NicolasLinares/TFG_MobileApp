@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     dateContainer: {
-        alignSelf: 'flex-start',
+        alignSelf: 'flex-end',
         textAlign: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(210,210,210, 0.6)',
         borderRadius: 10,
         marginVertical: 10,
-        marginLeft: 40
+        marginHorizontal: 40
     },
     dateText: {
         color: 'black',
