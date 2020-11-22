@@ -343,7 +343,7 @@ class AudioScreen extends Component {
 	render = () => (
 		<View style={styles.container}>
 
-			<Dialog></Dialog>
+			<Dialog/>
 
 			<ScrollView
 				style={styles.scrollContainer}

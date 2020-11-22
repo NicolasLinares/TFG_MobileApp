@@ -36,9 +36,6 @@ class myDialog extends Component {
                 <Button title="Show dialog" onPress={this.showDialog} />
                 <Dialog.Container visible={this.state.visible} statusBarTranslucent>
                     <Dialog.Title>Nuevo nombre</Dialog.Title>
-                    <Dialog.Description>
-                        El nombre no puede contener espacios en blanco
-                    </Dialog.Description>
 
                     <Dialog.Input value={this.props.name} onChangeText={value => this.props.onChangeText(value)} />
 
