@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { 
+import {
     View,
     Text,
     StyleSheet,
@@ -9,6 +9,7 @@ import {
 
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
+import {Tag} from '_atoms';
 
 import moment from 'moment';
 
@@ -17,9 +18,9 @@ class mySimpleAudioItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          name: this.props.item.name,
-          created_time: this.getCreatedTime(this.props.item.created_at),
-          tag:  this.props.item.tag,
+            name: this.props.item.name,
+            created_time: this.getCreatedTime(this.props.item.created_at),
+            tag: this.props.item.tag,
         }
     }
 
@@ -28,30 +29,34 @@ class mySimpleAudioItem extends Component {
         return m.format('HH:mm');
     }
 
+
     render() {
-        
+
         return (
             <TouchableWithoutFeedback
-                onPress={() => this.props.nav.navigate('Audio', {item: this.props.item, updateHistoryItem: (name) => this.setState({name: name})})}
+                onPress={() => this.props.nav.navigate('Audio', { item: this.props.item, updateHistoryItem: (name) => this.setState({ name: name }) })}
             >
                 <View style={styles.item}>
                     <View style={styles.info}>
                         <Text style={styles.name}>{this.state.name}</Text>
 
-                        <View style={{flexDirection: 'row', marginBottom: 5}}>
+                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                             <Text style={styles.date} numberOfLines={1}>
                                 {this.state.created_time}
                             </Text>
 
-                            <View style={styles.tag}>
-                                <Text style={styles.tagText}>
-                                    {this.state.tag}
-                                </Text>
-                            </View>
+                            <Tag
+                                pressed={false}
+                                style={{height: 20, borderRadius: 7}}
+                                textStyle={{fontSize: 11}}
+                                tag={this.state.tag}
+                            />
+
+
                         </View>
                     </View>
 
-                    <IconII style={styles.icon} name={'chevron-forward'}/>
+                    <IconII style={styles.icon} name={'chevron-forward'} />
                 </View>
             </TouchableWithoutFeedback>
 
@@ -92,6 +97,7 @@ const styles = StyleSheet.create({
     date: {
         marginTop: 7,
         fontSize: 12,
+        marginRight: 20,
     },
     icon: {
         fontSize: 25,
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'flex-start',
         borderRadius: 7,
-        marginTop: 5,        
+        marginTop: 5,
         marginHorizontal: 30,
         borderWidth: 1,
         borderColor: COLORS.green
@@ -117,8 +123,8 @@ const styles = StyleSheet.create({
 });
 
 
-  export default mySimpleAudioItem;
-  
+export default mySimpleAudioItem;
+
 
 
 

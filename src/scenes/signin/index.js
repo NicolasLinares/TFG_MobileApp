@@ -50,7 +50,7 @@ class SignInScreen extends Component {
 				duration: 3000,
 				titleStyle: { textAlign: 'center', fontSize: 18 },
 			});
-			
+
 			return;
 		}
 
@@ -161,6 +161,7 @@ class SignInScreen extends Component {
 			<>
 
 				<KeyboardAwareScrollView
+					overScrollMode={"never"}
 					style={styles.scrollview}
 					resetScrollToCoords={{ x: 0, y: 0 }}
 					scrollEnabled

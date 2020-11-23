@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     View,
+    ScrollView,
     TextInput,
     Text,
     StyleSheet,
@@ -8,15 +9,18 @@ import {
     Platform,
     StatusBar,
     Alert,
+    FlatList,
     KeyboardAvoidingView
 } from 'react-native';
 
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
-import Modal from 'react-native-modal';
+import ScrollModal from 'react-native-modal';
 
 import { connect } from 'react-redux';
 import { setPatientTag, openTagEditor, closeTagEditor } from '_redux_actions';
+import { FilterList } from '_molecules';
+
 
 
 class patientCodeEditorModule extends Component {
@@ -26,6 +30,7 @@ class patientCodeEditorModule extends Component {
         this.state = {
             tag: this.props.patientTag,
         };
+
     }
 
     componentDidMount() {
@@ -36,9 +41,9 @@ class patientCodeEditorModule extends Component {
         // Comprueba que no tiene espacios en blanco, tabulaciones, etc
         if (/\s/.test(this.state.tag)) {
             Alert.alert(
-                'Código no válido', 
-                'Introduce un código de paciente sin espacios en blanco', 
-                [{text:'Aceptar'}]
+                'Código no válido',
+                'Introduce un código de paciente sin espacios en blanco',
+                [{ text: 'Aceptar' }]
             );
         } else {
             this.props.setPatientTag(this.state.tag);
@@ -91,15 +96,17 @@ class patientCodeEditorModule extends Component {
                 </View>
 
 
-                <View style={styles.iconContainer}>
-                    <IconII style={styles.icon} name={"person"} />
-                    <IconII style={styles.icon} name={"list"} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                    <View style={styles.iconContainer}>
+                        <IconII style={styles.icon} name={"person"} />
+                        <IconII style={[styles.icon, { marginLeft: -3 }]} name={"list"} />
+                    </View>
+                    <Text style={styles.title}>
+                        Código de paciente
+                    </Text>
                 </View>
 
 
-                <Text style={styles.helpTitle}>
-                    Código de paciente
-                </Text>
 
                 <Text style={styles.helpText}>
                     Escanea el código del paciente {'\n'}
@@ -121,6 +128,15 @@ class patientCodeEditorModule extends Component {
                     </TouchableOpacity>
                 </View>
 
+
+                <Text style={styles.subtitle}>
+                    Códigos recientes
+                </Text>
+
+                <FilterList
+                    data={this.props.tags}
+                    onPressTag={(tag) => this.setState({ tag: tag })}
+                />
             </View>
         );
     }
@@ -129,10 +145,11 @@ class patientCodeEditorModule extends Component {
 
         return (
 
-            <Modal
+            <ScrollModal
                 style={styles.modal}
-                swipeDirection="down"
+                swipeDirection={"down"}
                 swipeThreshold={300}
+                propagateSwipe={true}
                 onSwipeComplete={this.props.closeTagEditor}
                 isVisible={this.props.isEditorVisible}
                 avoidKeyboard={false}
@@ -149,10 +166,13 @@ class patientCodeEditorModule extends Component {
                     keyboardVerticalOffset={-10}
                 >
                     {this._renderInputCode()}
+
                 </KeyboardAvoidingView>
-            </Modal>
+
+            </ScrollModal>
         )
     }
+
 }
 
 const styles = StyleSheet.create({
@@ -171,22 +191,22 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
     },
-    helpTitle: {
+    title: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginTop: 30,
+        marginLeft: 20
     },
     helpText: {
         marginTop: 15,
         marginBottom: 30,
-        fontSize: 15,
+        fontSize: 13,
         color: COLORS.dark_grey,
         textAlign: 'center',
     },
     actionContainer: {
         flexDirection: 'row',
         width: '90%',
-        height: 60,
+        height: 80,
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'white'
@@ -199,17 +219,16 @@ const styles = StyleSheet.create({
     },
     iconContainer: {
         flexDirection: 'row',
-        marginTop: Platform.OS === 'ios' ? 20 : 10,
-        width: 65,
-        height: 65,
-        borderRadius: 20,
+        width: 45,
+        height: 45,
+        borderRadius: 13,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: COLORS.light_green
     },
     icon: {
-        fontSize: 23,
-        color: COLORS.green
+        fontSize: 18,
+        color: COLORS.green,
     },
     inputContainer: {
         flexDirection: 'row',
@@ -220,6 +239,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+
     textInput: {
         width: '75%',
         marginLeft: 20,
@@ -232,12 +252,22 @@ const styles = StyleSheet.create({
         color: COLORS.electric_blue,
         marginRight: 5
     },
+
+    subtitle: {
+        marginTop: 30,
+        marginBottom: 15,
+        fontSize: 18,
+        fontWeight: '400',
+        alignSelf: 'center',
+        color: 'rgb(40,40,40)',
+    },
 });
 
 
 const mapStateToProps = (state) => {
     return {
         patientTag: state.patientCodeReducer.tag,
+        tags: state.tagsReducer.tags,
         isEditorVisible: state.patientCodeReducer.isEditorVisible,
     }
 }

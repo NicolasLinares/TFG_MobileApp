@@ -1,5 +1,6 @@
 export {default as UserInfo} from './userInfo';
 export {default as HistoryList} from './historyController';
+export {default as FilterList} from './filterListController';
 
 export {default as PatientCode} from './patientCode';
 export {default as PatientCodeEditor} from './patientCodeEditorModule';

@@ -149,6 +149,7 @@ class LoginScreen extends Component {
 		return (
 
 			<KeyboardAwareScrollView
+				overScrollMode={"never"}
 				style={styles.scrollview}
 				resetScrollToCoords={{ x: 0, y: 0 }}
 				scrollEnabled

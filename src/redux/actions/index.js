@@ -157,11 +157,5 @@ export const cleanTags = () => {
     }
 }
 
-export const setCurrentTagApplied = (tag) => {
-    return {
-        type: 'SET_CURRENT_TAG_APPLIED',
-        tag: tag,
-    }
-}
 
 export default {authUser};

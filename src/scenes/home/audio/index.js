@@ -9,7 +9,7 @@ import {
 	TextInput,
 	Keyboard,
 	Platform,
-	Dimensions
+	ActivityIndicator
 } from 'react-native';
 
 import {
@@ -19,9 +19,13 @@ import {
 	MenuTrigger,
 } from 'react-native-popup-menu';
 
-import { Player, Dialog } from '_atoms';
+import Dialog from "react-native-dialog";
+
+import { Player, Tag } from '_atoms';
+
 import { COLORS } from '_styles';
 import IconII from 'react-native-vector-icons/Ionicons';
+import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import moment from 'moment';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -47,10 +51,12 @@ class AudioScreen extends Component {
 			date: this.getDate(this.props.navigation.state.params.item.created_at),
 			hour: this.getHour(this.props.navigation.state.params.item.created_at),
 			localpath: this.props.navigation.state.params.item.localpath,
-			transcription: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.",
+			transcription: this.props.navigation.state.params.item.transcription, //"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.",
 			description: this.props.navigation.state.params.item.description, //"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-			editing: false,
 
+			editing: false,
+			showDialog: false,
+			errorDialog: false,
 			// Función del componente HistoryItem para actualizar la lista después de borrar el audio
 			updateHistoryItem: this.props.navigation.state.params.updateHistoryItem
 		};
@@ -118,45 +124,23 @@ class AudioScreen extends Component {
 	}
 
 	handleUpdateName = async () => {
-		await Alert.prompt(
-			"Escribe un nuevo nombre",
-			"",
-			[
-				{
-					text: "Cancelar",
-					style: "cancel"
-				},
-				{
-					text: "Aceptar",
-					style: "accept",
-					onPress: async (name) => {
+		let name = this.state.name;
+		if (name == "" || /\s/.test(name)) {
+			this.setState({ errorDialog: true });
+		} else {
 
-						if (name == "" || /\s/.test(name)) {
-							Alert.alert(
-								'Nombre no válido',
-								'Introduce un nombre sin espacios en blanco',
-								[{ text: 'Aceptar' }]
-							);
+			let response = await audioRequestService.updateName(this.state.uid, name);
 
-						} else {
-
-							let response = await audioRequestService.updateName(this.state.uid, name);
-
-							if (response !== null) {
-								// Se actualiza el nombre del audio en todas sus referencias
-								this.setState({ name: name }); // en el estado
-								this.props.navigation.setParams({ title: name }); // en la cabecera del screen
-								this.state.updateHistoryItem(name); // en la vista del historial
-								this.props.updateName(this.state.date, this.state.uid, this.state.name); // Se actualiza localmente en el historial
-							}
-						}
-					}
-				}
-			],
-			"plain-text",
-			this.state.name
-		);
+			if (response !== null) {
+				// Se actualiza el nombre del audio en todas sus referencias
+				this.props.navigation.setParams({ title: name }); // en la cabecera del screen
+				this.state.updateHistoryItem(name); // en la vista del historial
+				this.props.updateName(this.state.date, this.state.uid, name); // Se actualiza localmente en el historial
+				this.setState({ showDialog: false });
+			}
+		}
 	}
+
 
 	handleUpdateDescription = async () => {
 		Keyboard.dismiss();
@@ -215,7 +199,7 @@ class AudioScreen extends Component {
 
 	}
 
-	
+
 	_renderOptionsButton() {
 		return (
 			<Menu>
@@ -223,27 +207,27 @@ class AudioScreen extends Component {
 					<IconII style={{ marginRight: 10 }} name={"ios-ellipsis-vertical"} size={25} color={COLORS.electric_blue} />
 				</MenuTrigger>
 
-				<MenuOptions optionsContainerStyle={{ borderRadius: 10, width: 280, marginTop: 30}} >
-					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleUpdateName()}>
+				<MenuOptions optionsContainerStyle={{ borderRadius: 10, width: 280, marginTop: 30 }} >
+					<MenuOption style={styles.sectionHeader} onSelect={() => this.setState({ showDialog: true })}>
 						<Text style={{ marginLeft: 15, fontSize: 16 }}>Cambiar nombre</Text>
 						<IconII style={[styles.icon, { color: 'black' }]} name={'create-outline'} />
 					</MenuOption>
 
-					<View style={{borderColor:COLORS.light_grey, width: '100%', borderWidth: 0.5}}/>
+					<View style={{ borderColor: COLORS.light_grey, width: '100%', borderWidth: 0.5 }} />
 
 					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleShareTranscription()}>
 						<Text style={{ marginLeft: 15, fontSize: 16 }}>Compartir transcripción</Text>
-						<IconII style={[styles.icon, { color: 'black' }]} name={'share-outline'} />
+						<IconMCI style={[styles.icon, { color: 'black' }]} name={'share'} />
 					</MenuOption>
 
-					<View style={{borderColor:COLORS.light_grey, width: '100%', borderWidth: 0.5}}/>
+					<View style={{ borderColor: COLORS.light_grey, width: '100%', borderWidth: 0.5 }} />
 
 					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleShareAudioFile()}>
 						<Text style={{ marginLeft: 15, fontSize: 16 }}>Compartir grabación</Text>
-						<IconII style={[styles.icon, { color: 'black' }]} name={'share-outline'} />
+						<IconMCI style={[styles.icon, { color: 'black' }]} name={'share'} />
 					</MenuOption>
 
-					<View style={{borderColor:COLORS.light_grey, width: '100%', borderWidth: 0.5}}/>
+					<View style={{ borderColor: COLORS.light_grey, width: '100%', borderWidth: 0.5 }} />
 
 					<MenuOption style={styles.sectionHeader} onSelect={() => this.handleAudioDelete()}>
 						<Text style={{ marginLeft: 15, fontSize: 16, color: 'red' }}>Eliminar</Text>
@@ -274,27 +258,16 @@ class AudioScreen extends Component {
 
 
 	// Si es editable devuelve su respectivo botón, y si es compartible lo mismo
-	_renderSectionActions = (editable, share) => (
-
-		this.state.editing && editable
-
-			? <View style={{ flexDirection: 'row' }}>
-				{this._renderActionsInputChanges()}
-			</View>
-
-			: <View style={styles.actions}>
-				{
-					share
-						? <TouchableOpacity
-							style={styles.button}
-							onPress={() => { }}
-						>
-							<IconII style={styles.icon} name={'share-social-outline'} />
-						</TouchableOpacity>
-
-						: null
-				}
-			</View>
+	_renderSectionActions = (editable) => (
+		<View style={{ flexDirection: 'row' }}>
+			{
+				this.state.editing && editable
+					?
+					this._renderActionsInputChanges()
+					:
+					null
+			}
+		</View>
 
 	);
 
@@ -303,31 +276,39 @@ class AudioScreen extends Component {
 
 		editable
 
-			? <TextInput
+			?
+
+			<TextInput
 				multiline={true}
 				onFocus={() => this.setState({ editing: true })}
-				style={styles.text}
+				style={[styles.text, { marginBottom: Platform.OS == 'ios' ? 10 : 0 }]}
 				value={this.state.description}
 				placeholder={placeholder}
 				placeholderTextColor={COLORS.grey}
 				onChangeText={(value) => this.setState({ description: value })}
 			/>
 
-			: <Text style={styles.text}>
-				{
-					text === null
-						? placeholder
-						: text
-				}
-			</Text>
+			:
+
+			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+
+				<Text style={[styles.text, { color: text === null ? COLORS.grey : 'black', marginTop: 8, marginBottom: 8 }]}>
+					{
+						text === null
+							? placeholder
+							: text
+					}
+				</Text>
+				<ActivityIndicator size="small" color={COLORS.grey} />
+			</View>
 	);
 
 
-	_renderSection = (title, text, placeholder, editable, share) => (
+	_renderSection = (title, text, placeholder, editable) => (
 		<View style={styles.sectionContainer}>
 			<View style={styles.sectionHeader}>
 				<Text style={styles.titleHeader}>{title}</Text>
-				{this._renderSectionActions(editable, share)}
+				{this._renderSectionActions(editable)}
 			</View>
 
 			<View style={styles.line} />
@@ -339,11 +320,38 @@ class AudioScreen extends Component {
 	);
 
 
+	_renderDialogPrompt() {
+
+		const errorMessage = () => {
+			return (
+				<Dialog.Description style={{ color: 'red' }}>
+					Los espacios en blanco no están permitidos
+				</Dialog.Description>
+			);
+		}
+
+		return this.state.showDialog ? (
+
+			<Dialog.Container contentStyle={{ marginBottom: 200 }} visible={this.state.showDialog} statusBarTranslucent>
+				<Dialog.Title>Nuevo nombre</Dialog.Title>
+
+				{this.state.errorDialog ? errorMessage() : null}
+
+				<Dialog.Input style={{ color: 'black' }} value={this.state.name} onChangeText={value => this.setState({ name: value })} />
+
+				<Dialog.Button label="Cancelar" onPress={() => this.setState({ name: this.props.navigation.state.params.item.name, showDialog: false, errorDialog: false })} />
+				<Dialog.Button label="Aceptar" onPress={() => this.handleUpdateName()} />
+			</Dialog.Container>
+		)
+
+			: null;
+	}
+
 
 	render = () => (
 		<View style={styles.container}>
 
-			<Dialog/>
+			{this._renderDialogPrompt()}
 
 			<ScrollView
 				style={styles.scrollContainer}
@@ -353,14 +361,17 @@ class AudioScreen extends Component {
 
 				<Text style={styles.date}> {this.state.date + ', ' + this.state.hour}</Text>
 
-				<View style={styles.tag}>
-					<Text style={styles.tagText}>
-						{this.state.tag}
-					</Text>
-				</View>
 
-				{this._renderSection('Descripción', this.state.description, 'Escribe una descripción del audio...', true, false)}
-				{this._renderSection('Transcripción', this.state.transcription, 'La transcripción estará disponible pronto...', false, true)}
+				<Tag
+					pressed={false}
+					style={styles.tag}
+					textStyle={styles.tagText}
+					tag={this.state.tag}
+				/>
+				
+
+				{this._renderSection('Descripción', this.state.description, 'Escribe una descripción del audio...', true)}
+				{this._renderSection('Transcripción', this.state.transcription, 'Transcribiendo nota de voz...', false)}
 
 			</ScrollView>
 
@@ -385,6 +396,7 @@ const styles = StyleSheet.create({
 	date: {
 		fontSize: 14,
 		alignSelf: 'center',
+		marginBottom: 20
 	},
 	tag: {
 		backgroundColor: COLORS.light_green,
@@ -439,18 +451,17 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	line: {
-		borderWidth: 1,
+		borderWidth: 0.5,
 		borderColor: COLORS.light_grey,
-		width: '90%',
+		width: '100%',
 	},
 	textContainer: {
 		width: '90%',
-		marginVertical: 15,
 	},
 	titleHeader: {
-		marginVertical: 10,
+		marginVertical: 5,
 		marginHorizontal: 10,
-		fontSize: 23,
+		fontSize: 20,
 		fontWeight: 'bold'
 	},
 	text: {
@@ -488,6 +499,13 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
 		elevation: 5,
+	},
+
+	dialogContainer: {
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
 	},
 });
 

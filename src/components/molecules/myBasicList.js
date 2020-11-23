@@ -39,6 +39,7 @@ class myBasicList extends Component {
     render =() => (
 
         <SwipeListView
+            overScrollMode={"never"}
             contentContainerStyle={{ paddingBottom: 20}}
             showsVerticalScrollIndicator={false}
             data={this.props.list}  

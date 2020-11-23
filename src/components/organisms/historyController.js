@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
     StyleSheet,
     ActivityIndicator,
     Alert,
 } from 'react-native';
 
-import { FilterList } from '_molecules';
+import { FilterList } from '_organisms';
 import { SectionList } from '_molecules';
 
 import { COLORS } from '_styles';
@@ -17,7 +16,6 @@ import { connect } from 'react-redux';
 import {
     setHistory,
     cleanHistory,
-    setCurrentTagApplied,
     deleteAudioHistory,
 } from '_redux_actions';
 
@@ -122,9 +120,6 @@ class historyController extends Component {
         // hecho la consulta antes
         this.props.cleanHistory();
 
-        // Se elimpia el código de paciente usado
-        this.props.setCurrentTagApplied('');
-
         this.setState({
             next_page_URL: URL.getHistory,
         });
@@ -141,13 +136,12 @@ class historyController extends Component {
 
                 <FilterList
                     setNextURL={(url) => this.setState({ next_page_URL: url })}
-                    list={this.props.tags}
                     handleRemoveFilter={() => this.handleRemoveFilter()}
                 />
 
                 {this.state.loading === true ? (
                     <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <ActivityIndicator size="small" color="grey" />
+                        <ActivityIndicator size="small" color={COLORS.grey} />
                     </View>
                 ) : (
                         <SectionList
@@ -157,6 +151,7 @@ class historyController extends Component {
                             }}
                             nav={this.props.nav}
                             handleAudioDelete={this.handleAudioDelete}
+                            showLoading={this.state.next_page_URL != null ? true : false}
                         />
                     )}
             </>
@@ -185,7 +180,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         history: state.historyReducer.history,
-        tags: state.tagsReducer.tags,
         token: state.userReducer.token,
     };
 };
@@ -194,7 +188,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setHistory: (audio) => dispatch(setHistory(audio)),
         cleanHistory: () => dispatch(cleanHistory()),
-        setCurrentTagApplied: (tag) => dispatch(setCurrentTagApplied(tag)),
         delete: (date, uid) => dispatch(deleteAudioHistory(date, uid))
     };
 };

@@ -35,7 +35,6 @@ class myPlayer extends Component {
             name: this.props.item.persist_name + '.' + this.props.item.extension,
             localpath: this.props.item.localpath,
             
-            
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 
             player: new AudioRecorderPlayer(),

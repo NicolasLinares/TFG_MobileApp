@@ -4,13 +4,14 @@ import {
     TouchableOpacity,
     Text, 
     View,
+    ActivityIndicator
 } from 'react-native';
 
 import IconII from "react-native-vector-icons/Ionicons";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import {SimpleAudioItem} from '_atoms';
 
-import {CONSTANTS} from '_styles';
+import {COLORS, CONSTANTS} from '_styles';
 
 import moment from 'moment';
 
@@ -75,6 +76,7 @@ class mySectionList extends Component {
         return (
             <SwipeListView
                 useSectionList={true}
+                overScrollMode={"never"}
                 contentContainerStyle={{ paddingBottom: 10}}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.uid}
@@ -88,6 +90,7 @@ class mySectionList extends Component {
                 previewOpenValue={-40}
                 previewOpenDelay={3000}
                 onScrollEndDrag={() => this.props.refresh()}
+                ListFooterComponent={() => this.props.showLoading ? <ActivityIndicator size="small" color={COLORS.grey} style={{marginTop: 20}}/> : null}
             />
         )
     }
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     dateContainer: {
-        alignSelf: 'flex-end',
+        alignSelf: 'center',
         textAlign: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(210,210,210, 0.6)',

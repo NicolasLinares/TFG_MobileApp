@@ -15,4 +15,4 @@ export {default as RecorderButton } from './myRecorderButton';
 export {default as Player} from './myPlayer';
 export {default as SimpleAudioItem} from './mySimpleAudioItem';
 export {default as ComplexAudioItem} from './myComplexAudioItem';
-export {default as Dialog} from './myDialog';
+export {default as Tag} from './myTag';
