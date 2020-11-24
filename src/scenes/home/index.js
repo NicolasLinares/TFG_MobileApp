@@ -9,11 +9,25 @@ import {
 import { ButtonNewRecord, ButtonSettings } from '_atoms';
 import { UserInfo, HistoryList } from '_organisms';
 
+import { permissionsService } from '_services';
+
 class HomeScreen extends Component {
 
 
 	constructor(props) {
 		super(props);
+	}
+
+	componentDidMount() {
+		permissionsService.checkAllPermissions();
+	}
+
+	async handleNewRecord() {
+        let granted = await permissionsService.checkMicrophonePermissions();
+
+        if (granted) {
+            this.props.navigation.navigate('Recorder');
+        }
 	}
 
 	render() {
@@ -29,7 +43,7 @@ class HomeScreen extends Component {
 				</View>
 
 				<View style={styles.newRecordContainer}>
-					<ButtonNewRecord onPress={() => this.props.navigation.navigate('Recorder')} />
+					<ButtonNewRecord onPress={() => this.handleNewRecord()} />
 				</View>
 
 			</View>

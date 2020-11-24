@@ -40,11 +40,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>La cámara es necesaria para leer los códigos de barras</string>
+	<string>Cámara necesaria para leer los códigos QR o de barras de los pacientes</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>El micrófono es necesario para grabar las notas de voz</string>
+	<string>Micrófono necesario para grabar las notas de voz</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Ionicons.ttf</string>

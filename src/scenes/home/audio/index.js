@@ -337,13 +337,16 @@ class AudioScreen extends Component {
 
 				{this.state.errorDialog ? errorMessage() : null}
 
-				<Dialog.Input style={{ color: 'black' }} value={this.state.name} onChangeText={value => this.setState({ name: value })} />
+				<Dialog.Input 
+					style={{ color: 'black', borderBottomWidth: Platform.OS == 'ios' ? 0 : 0.5, borderBottomColor: COLORS.grey }} 
+					value={this.state.name} 
+					onChangeText={value => this.setState({ name: value })} 
+				/>
 
 				<Dialog.Button label="Cancelar" onPress={() => this.setState({ name: this.props.navigation.state.params.item.name, showDialog: false, errorDialog: false })} />
 				<Dialog.Button label="Aceptar" onPress={() => this.handleUpdateName()} />
 			</Dialog.Container>
 		)
-
 			: null;
 	}
 

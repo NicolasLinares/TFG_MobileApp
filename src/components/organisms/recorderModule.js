@@ -67,7 +67,7 @@ class recorderModule extends Component {
 
   setAudioPath() {
 
-    name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
+    let name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
 
     extension = Platform.select({
         ios: 'm4a',
@@ -131,7 +131,7 @@ class recorderModule extends Component {
 
 
   async handleRecorder () {
-
+      console.log('pressed');
       // START recording
       if (!this.state.isRecording) {
         newAudio = await this.startRecorder();

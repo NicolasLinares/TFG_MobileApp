@@ -18,7 +18,7 @@ import store from '_redux_store';
 import FlashMessage from "react-native-flash-message";
 
 import { MenuProvider } from 'react-native-popup-menu';
-import { COLORS } from '_styles';
+
 
 
 class App extends Component {

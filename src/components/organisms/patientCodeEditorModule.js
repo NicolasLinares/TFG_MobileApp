@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import { setPatientTag, openTagEditor, closeTagEditor } from '_redux_actions';
 import { FilterList } from '_molecules';
 
+import { permissionsService } from '_services';
 
 
 class patientCodeEditorModule extends Component {
@@ -55,9 +56,14 @@ class patientCodeEditorModule extends Component {
         this.props.closeTagEditor();
     }
 
-    handleScanner() {
-        this.props.closeTagEditor();
-        this.props.nav.replace('Scanner');
+    async handleScanner() {
+
+        let granted = await permissionsService.checkCameraPermissions();
+
+        if (granted) {
+            this.props.closeTagEditor();
+            this.props.nav.replace('Scanner');
+        }
     }
 
     _renderInputCode() {
