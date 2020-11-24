@@ -131,7 +131,6 @@ class recorderModule extends Component {
 
 
   async handleRecorder () {
-      console.log('pressed');
       // START recording
       if (!this.state.isRecording) {
         newAudio = await this.startRecorder();

@@ -84,8 +84,10 @@ class audioListModule extends Component {
 					this.props.delete(this.props.list[0].key);
 
 					// Para evitar que añada el audio a la lista del filtro aplicado
-					// se comprueba que no haya ningún filtro en este momento
-					if (this.props.currentTagApplied === '') {
+					// se comprueba que no haya ningún filtro en este momento o que 
+					// el filtro aplicado sea el mismo que el grabado
+					if (this.props.currentTagApplied === '' || 
+						this.props.currentTagApplied === audio.tag) {
 						// Se añade al historial de audios del médico
 						this.props.addAudioHistory(audio);
 					}

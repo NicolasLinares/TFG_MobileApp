@@ -135,16 +135,29 @@ class patientCodeEditorModule extends Component {
                 </View>
 
 
-                <Text style={styles.subtitle}>
-                    Códigos recientes
-                </Text>
 
-                <FilterList
-                    data={this.props.tags}
-                    onPressTag={(tag) => this.setState({ tag: tag })}
-                />
+                {this._renderRecentCodes()}
+
             </View>
         );
+    }
+
+    _renderRecentCodes() {
+        if (this.props.tags.length > 0 )
+            return (
+                <View style={{width: '100%'}}>
+                    <Text style={styles.subtitle}>
+                        Códigos recientes
+                    </Text>
+
+                    <FilterList
+                        data={this.props.tags}
+                        onPressTag={(tag) => this.setState({ tag: tag })}
+                    />
+                </View>
+            );
+        else 
+            null;
     }
 
     render() {

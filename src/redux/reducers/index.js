@@ -15,6 +15,7 @@ const initialState = {
 
     history: [],                        // Lista con todos los audios grabados
     tags: [],                           // Lista con los códigos de paciente usados 
+    currentTagApplied: '',              // Filtro usado en el momento actual
 
     playerState: 'stop',                // Estado del reproductor de audio
 
@@ -385,6 +386,12 @@ export function tagsReducer(state = initialState, action) {
             return {
                 ...state,
                 tags: [],
+            };
+
+        case types.SET_CURRENT_TAG_APPLIED:
+            return {
+                ...state,
+                currentTagApplied: action.tag,
             };
             
         default:

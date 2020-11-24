@@ -9,7 +9,7 @@ import { COLORS } from '_styles';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux';
-import { setHistory, cleanHistory, addFilterTag, cleanTags } from '_redux_actions';
+import { setHistory, cleanHistory, addFilterTag, cleanTags, setCurrentTagApplied } from '_redux_actions';
 import IconII from "react-native-vector-icons/Ionicons";
 
 import { audioRequestService } from '_services';
@@ -57,6 +57,9 @@ class filterListController extends Component {
 
     async handleTagPressed(tag) {
 
+        // Se establece el código de paciente usado actualmente
+        this.props.setCurrentTagApplied(tag);
+
         // Se muestra el botón para eliminar el filtrado
         this.setState({ hideButton: false, paddingLeft: 50 });
 
@@ -96,6 +99,8 @@ class filterListController extends Component {
                         style={styles.buttonCancelFilter}
                         onPress={() => {
                             this.setState({ hideButton: true, paddingLeft: 0 });
+                            // Se limpia el código de paciente usado
+                            this.props.setCurrentTagApplied('');
                             this.props.handleRemoveFilter();
                             this.ref_filterList.current.removeTagUsed();
                         }}
@@ -154,6 +159,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         tags: state.tagsReducer.tags,
+        currentTagApplied: state.tagsReducer.currentTagApplied,
         token: state.userReducer.token,
     }
 }
@@ -164,6 +170,8 @@ const mapDispatchToProps = (dispatch) => {
         cleanHistory: () => dispatch(cleanHistory()),
         addFilterTag: (tag) => dispatch(addFilterTag(tag)),
         cleanTags: () => dispatch(cleanTags()),
+        setCurrentTagApplied: (tag) => dispatch(setCurrentTagApplied(tag)),
+
     }
 }
 
