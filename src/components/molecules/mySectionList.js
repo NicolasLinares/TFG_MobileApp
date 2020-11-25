@@ -28,8 +28,8 @@ class mySectionList extends Component {
         }
     };
     
-    deleteRow = (rowMap, item) => {
-        this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.uid));
+    deleteRow = async (rowMap, item) => {
+        await this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.uid));
     };
 
     _renderItem = data => {
@@ -90,7 +90,7 @@ class mySectionList extends Component {
                 previewOpenValue={-40}
                 previewOpenDelay={3000}
                 onScrollEndDrag={() => this.props.refresh()}
-                ListFooterComponent={() => this.props.showLoading ? <ActivityIndicator size="small" color={COLORS.grey} style={{marginTop: 20}}/> : null}
+                ListFooterComponent={() => this.props.loading ? <ActivityIndicator size="small" color={COLORS.grey} style={{marginTop: 20}}/> : null}
             />
         )
     }

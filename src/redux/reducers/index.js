@@ -230,7 +230,7 @@ export function historyReducer(state = initialState, action) {
             // devolviendo todos los audios de dicha sección menos el que queremos eliminar
             update_list =  state.history.map(
                     (section) => (
-                        
+
                         section.date === action.date 
                         ?
                             {

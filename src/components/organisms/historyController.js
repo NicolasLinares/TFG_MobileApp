@@ -72,19 +72,16 @@ class historyController extends Component {
                         // crea un fichero por cada grabación
                         let realPath = Platform.OS === 'ios' ? item.localpath.replace('file://', '') : item.localpath;
 
-                        RNFetchBlob.fs.unlink(realPath).then(() => {
-                            // Se actualiza el estado
-                            this.props.delete(item.key);
-                        }).catch((err) => {
+                        RNFetchBlob.fs.unlink(realPath).catch((err) => {
                             alert("Error al borrar el audio" + err);
                         });
 
                         // Se borra de la base de datos del servidor
                         let response = await audioRequestService.deleteAudioHistory(item.uid);
-
                         if (response !== null) {
+
                             // Se actualiza el historial
-                            date = this.getDate(item.date);
+                            let date = this.getDate(item.created_at);
                             this.props.delete(date, item.uid);
                         }
                     },
@@ -94,14 +91,16 @@ class historyController extends Component {
     };
 
     async handleGetHistory() {
+
+        // Con esta variable se controla tanto la animación del ActivityIndicator
+        // así como evitar que se realicen nuevas llamadas mientras se procesa esta
+        this.setState({
+            loading: true,
+        });
+
         let response = await audioRequestService.getHistory(this.state.next_page_URL);
 
         if (response !== null) {
-            // Para el resto de peticiones ya se almacena la URL
-            // con la siguiente página
-            this.setState({
-                next_page_URL: response.next_page_url,
-            });
 
             let list = response.data;
             let N = list.length;
@@ -110,6 +109,13 @@ class historyController extends Component {
                 // grabados por el médico
                 this.props.setHistory(list[i]);
             }
+
+            // Para el resto de peticiones ya se almacena la URL
+            // con la siguiente página
+            this.setState({
+                next_page_URL: response.next_page_url,
+                loading: false
+            });
         }
     }
 
@@ -131,7 +137,7 @@ class historyController extends Component {
     render() {
         return (
             <>
-                
+
                 <Text style={styles.title}>Mis notas de voz</Text>
 
                 <FilterList
@@ -139,21 +145,17 @@ class historyController extends Component {
                     handleRemoveFilter={() => this.handleRemoveFilter()}
                 />
 
-                {this.state.loading === true ? (
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <ActivityIndicator size="small" color={COLORS.grey} />
-                    </View>
-                ) : (
-                        <SectionList
-                            list={this.props.history}
-                            refresh={() => {
-                                this.state.next_page_URL != null ? this.handleGetHistory() : {};
-                            }}
-                            nav={this.props.nav}
-                            handleAudioDelete={this.handleAudioDelete}
-                            showLoading={this.state.next_page_URL != null ? true : false}
-                        />
-                    )}
+
+                <SectionList
+                    list={this.props.history}
+                    refresh={() => {
+                        this.state.next_page_URL != null && !this.state.loading ? this.handleGetHistory() : {};
+                    }}
+                    nav={this.props.nav}
+                    handleAudioDelete={this.handleAudioDelete}
+                    loading={this.state.loading}
+                />
+
             </>
         );
     }
