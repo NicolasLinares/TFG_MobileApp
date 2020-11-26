@@ -6,7 +6,6 @@ import {
     TextInput,
     StyleSheet,
     Alert,
-    Platform,
     Dimensions
 } from 'react-native';
 
@@ -17,6 +16,7 @@ import { default as Player } from './myPlayer';
 import { connect } from 'react-redux';
 import { updateNameNewAudio } from '_redux_actions';
 
+import AnimatedItem from './myAnimatedItemList';
 
 class myComplexAudioItem extends Component {
 
@@ -30,6 +30,7 @@ class myComplexAudioItem extends Component {
             created_time: this.props.item.ctime,
         }
     }
+
 
     setNewName() {
         // Si no ha escrito nada dejamos el nombre como estaba
@@ -76,11 +77,9 @@ class myComplexAudioItem extends Component {
 
     render = () => (
 
-        <View style={styles.item}>
+        <AnimatedItem style={styles.item}>
             <View style={styles.info}>
-
                 <View style={styles.nameInput}>
-
                     <TextInput
                         style={styles.name}
                         maxLength={32}
@@ -89,16 +88,13 @@ class myComplexAudioItem extends Component {
                         autoCapitalize="none"
                         onBlur={() => this.setNewName()}
                     />
-
                 </View>
-
                 <Text style={styles.date}>
                     {this.state.created_time}
                 </Text>
             </View>
-
             <Player item={this.props.item} />
-        </View>
+        </AnimatedItem>
     )
 
 }

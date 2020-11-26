@@ -4,12 +4,12 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
 } from 'react-native';
 
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
-import {Tag} from '_atoms';
+import { Tag } from '_atoms';
 
 import moment from 'moment';
 
@@ -33,9 +33,11 @@ class mySimpleAudioItem extends Component {
     render() {
 
         return (
+
             <TouchableWithoutFeedback
-                onPress={() => this.props.nav.navigate('Audio', { item: this.props.item, updateHistoryItem: (name) => this.setState({ name: name }) })}
+                onPress={this.move} //this.props.nav.navigate('Audio', { item: this.props.item, updateHistoryItem: (name) => this.setState({ name: name }) })}
             >
+
                 <View style={styles.item}>
                     <View style={styles.info}>
                         <Text style={styles.name}>{this.state.name}</Text>
@@ -47,19 +49,16 @@ class mySimpleAudioItem extends Component {
 
                             <Tag
                                 pressed={false}
-                                style={{height: 20, borderRadius: 7}}
-                                textStyle={{fontSize: 11}}
+                                style={{ height: 20, borderRadius: 7 }}
+                                textStyle={{ fontSize: 11 }}
                                 tag={this.state.tag}
                             />
-
-
                         </View>
                     </View>
 
                     <IconII style={styles.icon} name={'chevron-forward'} />
                 </View>
             </TouchableWithoutFeedback>
-
         )
     }
 }

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { 
-    Text,
     StyleSheet,
-    View,
     TouchableOpacity
 } from 'react-native';
 
@@ -11,8 +9,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import IconII from "react-native-vector-icons/Ionicons";
 import {CONSTANTS} from '_styles';
 
-import {ComplexAudioItem} from '_atoms';
-import { COLORS } from '_styles';
+import {ComplexAudioItem, AnimatedItem} from '_atoms';
 
 class myBasicList extends Component {
 
@@ -26,14 +23,14 @@ class myBasicList extends Component {
 
     _renderHideButtons = (data, rowMap) => (
         
-        <View style={styles.actionsContainer}>
+        <AnimatedItem style={styles.actionsContainer}>
             <TouchableOpacity 
                 style={styles.deleteButton}
                 onPress={() => this.props.onPress(data.item)}
             >
                 <IconII name={"trash"} size={25} color='white'/>
             </TouchableOpacity>
-        </View>
+        </AnimatedItem>
     )
 
     render =() => (

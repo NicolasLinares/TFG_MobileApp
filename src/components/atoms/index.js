@@ -16,3 +16,6 @@ export {default as Player} from './myPlayer';
 export {default as SimpleAudioItem} from './mySimpleAudioItem';
 export {default as ComplexAudioItem} from './myComplexAudioItem';
 export {default as Tag} from './myTag';
+
+// Animación de los items de la lista
+export {default as AnimatedItem} from './myAnimatedItemList';
