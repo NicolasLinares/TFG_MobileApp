@@ -34,26 +34,26 @@ class recorderButton extends Component {
             Animated.timing(this.state.sizeButtonAnimated, {
                 toValue: size,
                 duration: duration,
-                useNativeDriver: false,
+                useNativeDriver: true,
             }).start(),
 
             Animated.timing(this.state.radiusButtonAnimated, {
                 toValue: radius,
                 duration: duration,
-                useNativeDriver: false,
+                useNativeDriver: true,
             }).start(),
 
             Animated.timing(this.state.heightAnimated, {
                 toValue: position,
                 duration: duration,
-                useNativeDriver: false,
+                useNativeDriver: true,
             }).start(),
 
             Animated.timing(this.state.fadeAnim, {
                 toValue: fade,
                 duration: fadeDuration,
                 easing: Easing.cubic,
-                useNativeDriver: false,
+                useNativeDriver: true,
             }).start(),
         ]);
     }

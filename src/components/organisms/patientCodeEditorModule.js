@@ -172,6 +172,7 @@ class patientCodeEditorModule extends Component {
                 onSwipeComplete={this.props.closeTagEditor}
                 isVisible={this.props.isEditorVisible}
                 avoidKeyboard={false}
+                useNativeDriver={true}
             >
                 <StatusBar backgroundColor="rgba(0,0,0,0.7)" barStyle="dark-content" />
 

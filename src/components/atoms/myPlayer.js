@@ -49,7 +49,7 @@ class myPlayer extends Component {
 
         if (this.state.complexStyle) {
 
-            let realPath = Platform.OS === 'ios' ? this.state.localpath.replace('file://', '') : this.state.localpath;
+            let realPath = this.state.localpath.replace('file://', '');
 
             // Comprobamos si el audio se encuentra ya localmente
             let exists = await RNFetchBlob.fs.exists(realPath)
@@ -79,12 +79,12 @@ class myPlayer extends Component {
     }
 
     setAudioDuration() {
-        path = this.state.name ;
-        directory = RNFS.CachesDirectoryPath;
+        let path = this.state.name ;
+        let directory = RNFS.CachesDirectoryPath;
 
         var audio = new Sound(path , directory,  (error) => {
           if (error) {
-            alert('Error al cargar la nota de audio');
+            alert('Error al obtener la duración de la nota de voz');
             return;
           }
 

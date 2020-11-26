@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { RecorderButton } from '_atoms';
 
 import AudioRecorderPlayer, {
-  AVEncoderAudioQualityIOSType,
-  AVEncodingOption,
-  AudioEncoderAndroidType,
-  AudioSourceAndroidType,
+	AVEncoderAudioQualityIOSType,
+	AVEncodingOption,
+	AudioEncoderAndroidType,
+	AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
 
 import moment from 'moment';
@@ -20,164 +20,166 @@ import { Platform } from 'react-native';
 
 class recorderModule extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-        recorder: new AudioRecorderPlayer(),
-        audio: null,
-        isRecording: false,
+	constructor(props) {
+		super(props);
+		this.state = {
+			recorder: new AudioRecorderPlayer(),
+			audio: null,
+			isRecording: false,
 
-        timer: null,
-        minutes_Counter: '00',
-        seconds_Counter: '00',
-    };
-  }
+			timer: null,
+			minutes_Counter: '00',
+			seconds_Counter: '00',
+		};
+	}
 
-  componentWillUnmount() {
-    clearInterval(this.state.timer);
-  }
+	componentWillUnmount() {
+		clearInterval(this.state.timer);
+	}
 
-  startTimer() {
-    let timer = setInterval(() => {
-      var num = (Number(this.state.seconds_Counter) + 1).toString(),
-      count = this.state.minutes_Counter;
+	startTimer() {
+		let timer = setInterval(() => {
+			var num = (Number(this.state.seconds_Counter) + 1).toString(),
+				count = this.state.minutes_Counter;
 
-      if (Number(this.state.seconds_Counter) == 59) {
-        count = (Number(this.state.minutes_Counter) + 1).toString();
-        num = '00';
-      }
+			if (Number(this.state.seconds_Counter) == 59) {
+				count = (Number(this.state.minutes_Counter) + 1).toString();
+				num = '00';
+			}
 
-      this.setState({
-        minutes_Counter: count.length == 1 ? '0' + count : count,
-        seconds_Counter: num.length == 1 ? '0' + num : num
-      });
-    }, 1000);
+			this.setState({
+				minutes_Counter: count.length == 1 ? '0' + count : count,
+				seconds_Counter: num.length == 1 ? '0' + num : num
+			});
+		}, 1000);
 
-    this.setState({ timer });
-  }
+		this.setState({ timer });
+	}
 
-  stopTimer() {
-      clearInterval(this.state.timer);
-      this.setState({
-        timer: null,
-        minutes_Counter: '00',
-        seconds_Counter: '00',
-      });
-  }
+	stopTimer() {
+		clearInterval(this.state.timer);
+		this.setState({
+			timer: null,
+			minutes_Counter: '00',
+			seconds_Counter: '00',
+		});
+	}
 
-  setAudioPath() {
+	setAudioPath() {
 
-    let name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
+		let name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
 
-    extension = Platform.select({
-        ios: 'm4a',
-        android: 'mp3',
-    });
+		let extension = Platform.select({
+			ios: 'm4a',
+			android: 'mp3',
+		});
 
-    path = Platform.select({
-        ios: name + '.' + extension,
-        android:  RNFS.CachesDirectoryPath + '/'+ name + '.' + extension,
-    });
+		let path = Platform.select({
+			ios: name + '.' + extension,
+			android: RNFS.CachesDirectoryPath + '/'+ name + '.' + extension,
+		});
 
-    return [name, extension, path];
-  }
+		return [name, extension, path];
+	}
 
-  async getCreatedTime(path) {
-    dateObj = (await RNFS.stat(path)).ctime;
-    h=dateObj.getHours();
-    hh= h < 10 ? '0'+h : h;
-    m=dateObj.getMinutes();
-    mm= m < 10 ? '0'+m : m;
-    return hh + ":" + mm ;
-  }
+	async getCreatedTime(path) {
+		dateObj = (await RNFS.stat(path)).ctime;
+		h = dateObj.getHours();
+		hh = h < 10 ? '0' + h : h;
+		m = dateObj.getMinutes();
+		mm = m < 10 ? '0' + m : m;
+		return hh + ":" + mm;
+	}
 
-  async startRecorder() {
-    
-    const audioSet = {
-        AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-        AudioSourceAndroid: AudioSourceAndroidType.MIC,
-        AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-        AVNumberOfChannelsKeyIOS: 2,
-        AVFormatIDKeyIOS: AVEncodingOption.aac,
-      };
+	async startRecorder() {
 
-  
-      audiofile = this.setAudioPath();
-      name = audiofile[0];
-      extension = audiofile[1];
-      path = audiofile[2];
-
-  
-      absolute_path = await this.state.recorder.startRecorder(path, audioSet, true);
-      ctime = await this.getCreatedTime(absolute_path);
-
-      audio = {
-        name: name,
-        extension: extension,
-        localpath: absolute_path,
-        ctime: ctime,
-      };
-
-      this.state.recorder.addRecordBackListener();
-
-      return audio;
-  };
-  
-  
-  async stopRecorder() {
-      const path = await this.state.recorder.stopRecorder();
-      this.state.recorder.removeRecordBackListener();
-  };
+		const audioSet = {
+			AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+			AudioSourceAndroid: AudioSourceAndroidType.MIC,
+			AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+			AVNumberOfChannelsKeyIOS: 2,
+			AVFormatIDKeyIOS: AVEncodingOption.aac,
+		};
 
 
-  async handleRecorder () {
-      // START recording
-      if (!this.state.isRecording) {
-        newAudio = await this.startRecorder();
-
-        this.startTimer();
-
-        this.setState({
-          audio: newAudio,
-          isRecording: !this.state.isRecording // true
-        });
-        
-      } else {
-        
-        // STOP recording
-
-        await this.stopRecorder();
-
-        this.stopTimer();
-        
-        this.props.addNewAudio(this.state.audio);
-        
-        // Reinicia valores
-        this.setState({
-          audio: null,
-          isRecording: !this.state.isRecording // false
-        });
-      }
-  }
+		let audiofile = this.setAudioPath();
+		let name = audiofile[0];
+		let extension = audiofile[1];
+		let path = audiofile[2];
 
 
-  render() {
-    return (
-      <RecorderButton
-        onPress={() => this.handleRecorder()} 
-        time={this.state.minutes_Counter + ' : '+ this.state.seconds_Counter}
-      />
-    )
-  };
+		let absolute_path = await this.state.recorder.startRecorder(path, audioSet, true);
+		let ctime = await this.getCreatedTime(absolute_path);
+
+		console.log(absolute_path);
+
+		let audio = {
+			name: name,
+			extension: extension,
+			localpath: absolute_path,
+			ctime: ctime,
+		};
+
+		this.state.recorder.addRecordBackListener();
+
+		return audio;
+	};
+
+
+	async stopRecorder() {
+		let path = await this.state.recorder.stopRecorder();
+		this.state.recorder.removeRecordBackListener();
+	};
+
+
+	async handleRecorder() {
+		// START recording
+		if (!this.state.isRecording) {
+			let newAudio = await this.startRecorder();
+
+			this.startTimer();
+
+			this.setState({
+				audio: newAudio,
+				isRecording: !this.state.isRecording // true
+			});
+
+		} else {
+
+			// STOP recording
+
+			await this.stopRecorder();
+
+			this.stopTimer();
+
+			this.props.addNewAudio(this.state.audio);
+
+			// Reinicia valores
+			this.setState({
+				audio: null,
+				isRecording: !this.state.isRecording // false
+			});
+		}
+	}
+
+
+	render() {
+		return (
+			<RecorderButton
+				onPress={() => this.handleRecorder()}
+				time={this.state.minutes_Counter + ' : ' + this.state.seconds_Counter}
+			/>
+		)
+	};
 
 }
 
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    addNewAudio: (audio) => dispatch(addAudio(audio))
-  }
+	return {
+		addNewAudio: (audio) => dispatch(addAudio(audio))
+	}
 }
 
 
-export default connect(null, mapDispatchToProps) (recorderModule);
+export default connect(null, mapDispatchToProps)(recorderModule);

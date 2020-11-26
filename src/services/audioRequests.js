@@ -231,6 +231,7 @@ export async function downloadAudioFile(uid, localpath) {
     const state = store.getState();
     let token = state.userReducer.token;
 
+
     await RNFetchBlob.config({
         trusty: true,
         fileCache: true,  // permite que la respuesta se almacena como un fichero
