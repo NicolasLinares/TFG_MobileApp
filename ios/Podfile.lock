@@ -316,7 +316,7 @@ PODS:
     - React-jsi (= 0.63.2)
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNAudioRecorderPlayer (2.5.4):
+  - RNAudioRecorderPlayer (2.6.0):
     - React
   - RNCMaskedView (0.1.10):
     - React
@@ -566,7 +566,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNAudioRecorderPlayer: edfede932d2d95fb708d87749fc24d4935fe3087
+  RNAudioRecorderPlayer: 9964c7c66ab7d8d2f3a1cc821bd0a5dc0eeb3908
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df

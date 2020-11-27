@@ -9,8 +9,13 @@ import {
 
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-import { COLORS, CONSTANTS }  from '_styles';
+import { COLORS, CONSTANTS } from '_styles';
 
+import {
+    BarIndicator,
+    PulseIndicator,
+    WaveIndicator,
+} from 'react-native-indicators';
 
 class recorderButton extends Component {
 
@@ -76,17 +81,17 @@ class recorderButton extends Component {
         if (!this.state.pressed) {
             sizeButton = 30;
             radiusButton = 10;
-            positionContainer = -CONSTANTS.heightRecorderModule;
+            positionContainer = -CONSTANTS.heightRecorderModule / 1.5;
             // Los componentes aparecen después
             fadeDuration = 300;
             fade = 1;
         }
-        
+
         this.setState({
             pressed: !this.state.pressed
         });
 
-        this.multipleAnimation(sizeButton, radiusButton, duration, positionContainer,fadeDuration, fade);
+        this.multipleAnimation(sizeButton, radiusButton, duration, positionContainer, fadeDuration, fade);
 
         // Espera 300 ms antes de ejecutar la grabadora
         setTimeout(this.props.onPress, 300);
@@ -101,12 +106,18 @@ class recorderButton extends Component {
     _renderHiddenInfo() {
 
         return (
-            <Animated.View style={[containersStyles.animatedContainer, 
-                {transform: [{translateY: this.state.heightAnimated}]}]} >
-                <Animated.View style={{opacity: this.state.fadeAnim}}>
+            <Animated.View style={[containersStyles.animatedContainer,
+            { transform: [{ translateY: this.state.heightAnimated }] }]} >
+                <Animated.View style={{flex:1, alignItems: 'center', justifyContent: 'flex-start', opacity: this.state.fadeAnim }}>
+                    <Text style={{fontSize: 16, marginVertical: 15,}}>Grabando nota de voz</Text>
 
-                    <Text style={componentStyles.text}>Nueva grabación</Text>
-                    <Text style={componentStyles.time_record}> {this.props.time} </Text>
+                    <View style={{ flex: 1, flexDirection: 'row'}}>
+                        <View style={{ height: 40, width: 40 }}>
+                            <PulseIndicator animationDuration={1000} color='rgba(255,0,0,0.4)' size={20} />
+                        </View>
+                        <Text style={componentStyles.time_record}> {this.props.time} </Text>
+                    </View>
+
                 </Animated.View>
             </Animated.View>
         );
@@ -117,7 +128,7 @@ class recorderButton extends Component {
         Contiene el botón de grabación que permite iniciar la grabación del audio.
         Al pulsarlo se llama a handleClick que inicia las animaciones y comienza a grabar.
     */
-   _renderRecordButton() {
+    _renderRecordButton() {
         const sizeButtonValue = this.state.sizeButtonAnimated.interpolate({
             inputRange: [30, 58],
             outputRange: [0.5, 1],
@@ -127,21 +138,21 @@ class recorderButton extends Component {
                 style={componentStyles.button}
                 onPress={() => this.handleClick()}
             >
-                <Animated.View 
+                <Animated.View
                     style={[
                         componentStyles.animatedIcon,
                         {
                             // No está soportada la animación de la altura y anchura de un View
                             // por lo que se debe hacer con interpolación
                             transform: [
-                                {  
+                                {
                                     scaleX: sizeButtonValue
                                 },
-                                {  
+                                {
                                     scaleY: sizeButtonValue
-                                },                            
+                                },
                             ],
-                                
+
                             borderRadius: this.state.radiusButtonAnimated
                         }
                     ]}
@@ -152,10 +163,10 @@ class recorderButton extends Component {
 
     render() {
         return (
-                <View style={containersStyles.staticContainer}>
-                    {this._renderHiddenInfo()}
-                    {this._renderRecordButton()}
-                </View>
+            <View style={containersStyles.staticContainer}>
+                {this._renderHiddenInfo()}
+                {this._renderRecordButton()}
+            </View>
         )
     }
 }
@@ -165,32 +176,31 @@ class recorderButton extends Component {
 const containersStyles = StyleSheet.create({
     animatedContainer: {
         position: 'absolute',
-        borderTopWidth:0.5,
+        borderTopWidth: 0.5,
         borderTopColor: COLORS.grey,
-        width:'100%',
+        width: '100%',
         height: CONSTANTS.heightRecorderModule,
-        bottom: 0, 
+        bottom: 0,
         alignItems: 'center',
         backgroundColor: 'white',
     },
     staticContainer: {
-        backgroundColor: 'white',
         width: '100%',
         height: CONSTANTS.heightRecorderModule,
-        alignItems: 'center', 
+        alignItems: 'center',
     }
-  });
+});
 
 const componentStyles = StyleSheet.create({
     button: {
-      borderWidth:3,
-      borderColor: COLORS.dark_grey,
-      alignItems:'center',
-      justifyContent:'center',
-      width:70,
-      height:70,
-      borderRadius:35,
-      marginTop: 25
+        borderWidth: 3,
+        borderColor: COLORS.dark_grey,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        marginTop: 25
     },
     animatedIcon: {
         height: 58,
@@ -204,13 +214,15 @@ const componentStyles = StyleSheet.create({
         marginBottom: 20
     },
     time_record: {
-        fontFamily: "FontAwesome",
-        fontSize: 20,
-        textAlign: 'center',
+        width: 120,
+        fontSize: 23,
+        marginTop: 5,
+        marginLeft: 5,
+        paddingRight: 40
     },
 
 });
-  
+
 export default recorderButton;
 
 

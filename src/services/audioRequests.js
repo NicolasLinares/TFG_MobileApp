@@ -4,7 +4,6 @@ import { URL } from '_data';
 import { showMessage } from "react-native-flash-message";
 
 import store from '_redux_store';
-import { stat } from 'react-native-fs';
 
 
 export async function getHistory(next_url) {
