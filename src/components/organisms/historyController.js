@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
-    View,
     Text,
     StyleSheet,
-    ActivityIndicator,
     Alert,
 } from 'react-native';
 
@@ -57,7 +55,7 @@ class historyController extends Component {
     handleAudioDelete = async (item, closeRow) => {
         await Alert.alert(
             'Eliminar nota de voz',
-            'La nota de voz "' + item.name + '.' + item.extension + '" y su transcripción se van a eliminar de forma permanente',
+            'La nota de voz "' + item.localpath + '" y su transcripción se van a eliminar de forma permanente',
             [
                 {
                     text: 'Cancelar',
@@ -70,9 +68,9 @@ class historyController extends Component {
 
                         // Se borra en el filesystem porque el recorder
                         // crea un fichero por cada grabación
-                        let realPath = Platform.OS === 'ios' ? item.localpath.replace('file://', '') : item.localpath;
+						let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
 
-                        RNFetchBlob.fs.unlink(realPath).catch((err) => {
+                        RNFetchBlob.fs.unlink(localpath).catch((err) => {
                             alert("Error al borrar el audio" + err);
                         });
 

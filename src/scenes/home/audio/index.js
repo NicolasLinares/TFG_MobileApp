@@ -101,9 +101,9 @@ class AudioScreen extends Component {
 						// crea un fichero por cada grabación. Si no 
 						// se encuentra localmente, es que solo se 
 						// encuentra en el servidor
-						let realPath = Platform.OS === 'ios' ? this.state.localpath.replace('file://', '') : this.state.localpath;
+						let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
 
-						RNFetchBlob.fs.unlink(realPath)
+						RNFetchBlob.fs.unlink(localpath)
 							.catch((err) => {
 								alert("Error al borrar el audio");
 							});
@@ -164,10 +164,13 @@ class AudioScreen extends Component {
 	}
 
 	handleShareAudioFile() {
+
+		let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
+
 		let options = {
 			title: 'Compartir grabación de audio',
 			failOnCancel: false,
-			url: this.state.localpath,
+			url: localpath,
 			type: 'audio/' + this.state.extension
 		};
 

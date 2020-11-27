@@ -4,6 +4,7 @@ import { URL } from '_data';
 import { showMessage } from "react-native-flash-message";
 
 import store from '_redux_store';
+import { stat } from 'react-native-fs';
 
 
 export async function getHistory(next_url) {
@@ -165,7 +166,7 @@ export async function uploadAudio(audio) {
     const state = store.getState();
     let token = state.userReducer.token;
 
-    let realPath = Platform.OS === 'ios' ? audio.localpath.replace('file://', '') : audio.localpath;
+    let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + audio.localpath;
 
     return await RNFetchBlob.config({
         trusty: true
@@ -180,8 +181,8 @@ export async function uploadAudio(audio) {
             [
                 {
                     name: 'file',
-                    filename: audio.persist_name,
-                    data: RNFetchBlob.wrap(realPath),
+                    filename: audio.localpath.replace('.' + audio.extension, ''),
+                    data: RNFetchBlob.wrap(localpath),
                     type: 'audio/' + audio.extension
                 },
                 {
@@ -230,7 +231,6 @@ export async function downloadAudioFile(uid, localpath) {
 
     const state = store.getState();
     let token = state.userReducer.token;
-
 
     await RNFetchBlob.config({
         trusty: true,

@@ -15,9 +15,8 @@ import { deleteAudio, addAudioTag, addAudioHistory, addFilterTag } from '_redux_
 
 import RNFetchBlob from 'rn-fetch-blob';
 
-
 import IconII from "react-native-vector-icons/Ionicons";
-import { COLORS, CONSTANTS } from '_styles';
+import { COLORS } from '_styles';
 
 import { audioRequestService } from '_services';
 
@@ -26,7 +25,7 @@ class audioListModule extends Component {
 
 	constructor(props) {
 		super(props);
-		this.sendingData = false;
+		this.uploadingData = false;
 	}
 
 
@@ -46,14 +45,16 @@ class audioListModule extends Component {
 
 						// Se borra en el filesystem porque el recorder
 						// crea un fichero por cada grabación
-						let realPath = Platform.OS === 'ios' ? item.localpath.replace('file://', '') : item.localpath;
 
-                        RNFetchBlob.fs.unlink(realPath).then(() => {
+						let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
+
+                        RNFetchBlob.fs.unlink(localpath).then(() => {
 							// Se actualiza el estado
 							this.props.delete(item.key);
 						}).catch((err) => {
 							alert("Error al borrar el audio");
 						});
+						
 					}
 				}
 			]
@@ -65,7 +66,7 @@ class audioListModule extends Component {
 
 		if (this.props.patientTag !== '') {
 
-			this.sendingData = true;
+			this.uploadingData = true;
 
 			// Se asigna el código de paciente a todos los audios
 			await this.props.addAudioTag(this.props.patientTag);
@@ -102,7 +103,7 @@ class audioListModule extends Component {
 					let audio = list[i];
 					Alert.alert(
 						'Error',
-						'El audio ' + audio.name + '.' + audio.extension + ' no se ha guardado correctamente',
+						'El audio ' + audio.localpath + ' no se ha guardado correctamente',
 						[{ text: 'Aceptar' }]
 					);
 				}
@@ -116,7 +117,7 @@ class audioListModule extends Component {
 			);
 		}
 
-		this.sendingData = false;
+		this.uploadingData = false;
 
 	}
 
@@ -142,7 +143,7 @@ class audioListModule extends Component {
 					<Text style={styles.title}>
 						Notas de voz
                 </Text>
-					{this.props.list.length > 0 && !this.sendingData ? this._renderSendButton() : null}
+					{this.props.list.length > 0 && !this.uploadingData ? this._renderSendButton() : null}
 				</View>
 
 				<BasicList

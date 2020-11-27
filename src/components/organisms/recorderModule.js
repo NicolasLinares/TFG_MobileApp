@@ -11,7 +11,7 @@ import AudioRecorderPlayer, {
 
 import moment from 'moment';
 import 'moment/locale/es';
-import RNFS from 'react-native-fs';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import { connect } from 'react-redux';
 import { addAudio } from '_redux_actions';
@@ -71,24 +71,22 @@ class recorderModule extends Component {
 
 		let extension = Platform.select({
 			ios: 'm4a',
-			android: 'mp3',
+			android: 'mp4',
 		});
 
 		let path = Platform.select({
 			ios: name + '.' + extension,
-			android: RNFS.CachesDirectoryPath + '/'+ name + '.' + extension,
+			android: RNFetchBlob.fs.dirs.CacheDir + '/'+ name + '.' + extension,
 		});
 
 		return [name, extension, path];
 	}
 
-	async getCreatedTime(path) {
-		dateObj = (await RNFS.stat(path)).ctime;
-		h = dateObj.getHours();
-		hh = h < 10 ? '0' + h : h;
-		m = dateObj.getMinutes();
-		mm = m < 10 ? '0' + m : m;
-		return hh + ":" + mm;
+	async getCreatedTime(file_path) {
+		let path = file_path.replace('file://', '');
+		let timestamp = (await RNFetchBlob.fs.stat(path)).lastModified;
+		let m = moment(timestamp);
+		return m.format('HH:mm');
 	}
 
 	async startRecorder() {
@@ -107,16 +105,13 @@ class recorderModule extends Component {
 		let extension = audiofile[1];
 		let path = audiofile[2];
 
-
-		let absolute_path = await this.state.recorder.startRecorder(path, audioSet, true);
-		let ctime = await this.getCreatedTime(absolute_path);
-
-		console.log(absolute_path);
+		let file_path = await this.state.recorder.startRecorder(path, audioSet, true); // devuelve en formato file://path
+		let ctime = await this.getCreatedTime(file_path);
 
 		let audio = {
 			name: name,
 			extension: extension,
-			localpath: absolute_path,
+			localpath: name + '.' + extension,
 			ctime: ctime,
 		};
 
@@ -127,7 +122,7 @@ class recorderModule extends Component {
 
 
 	async stopRecorder() {
-		let path = await this.state.recorder.stopRecorder();
+		await this.state.recorder.stopRecorder();
 		this.state.recorder.removeRecordBackListener();
 	};
 
@@ -147,7 +142,6 @@ class recorderModule extends Component {
 		} else {
 
 			// STOP recording
-
 			await this.stopRecorder();
 
 			this.stopTimer();

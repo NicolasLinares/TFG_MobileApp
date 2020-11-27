@@ -15,13 +15,12 @@ import IconII from "react-native-vector-icons/Ionicons";
 
 
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-import RNFS from 'react-native-fs';
 import Sound from 'react-native-sound';
 
 import { connect } from 'react-redux';
 import { setPlayerState } from '_redux_actions';
 
-
+import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 import { audioRequestService } from '_services';
 
@@ -32,9 +31,9 @@ class myPlayer extends Component {
 
         this.state = {
             uid: this.props.item.uid,
-            name: this.props.item.persist_name + '.' + this.props.item.extension,
+            name: this.props.item.name,
             localpath: this.props.item.localpath,
-            
+
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 
             player: new AudioRecorderPlayer(),
@@ -49,10 +48,10 @@ class myPlayer extends Component {
 
         if (this.state.complexStyle) {
 
-            let realPath = this.state.localpath.replace('file://', '');
+            let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
 
             // Comprobamos si el audio se encuentra ya localmente
-            let exists = await RNFetchBlob.fs.exists(realPath)
+            let exists = await RNFetchBlob.fs.exists(localpath)
                 .then((exist) => {
                     return exist;
                 })
@@ -65,24 +64,23 @@ class myPlayer extends Component {
             if (exists !== null && !exists) {
                 console.log('El archivo de audio no se encuentra localmente')
                 // Se descarga de la base de datos
-                await audioRequestService.downloadAudioFile(this.state.uid, realPath);
+                await audioRequestService.downloadAudioFile(this.state.uid, localpath);
             } else {
                 console.log('El archivo de audio se encuentra localmente')
             }
         }
         // Se inicializan los datos
-        await this.setAudioDuration();
+        this.setAudioDuration();
     }
 
     componentWillUnmount() {
         this.resetPlayer();
     }
 
-    setAudioDuration() {
-        let path = this.state.name ;
-        let directory = RNFS.CachesDirectoryPath;
 
-        var audio = new Sound(path , directory,  (error) => {
+    setAudioDuration() {
+
+        var audio = new Sound(this.state.localpath, RNFetchBlob.fs.dirs.CacheDir,  (error) => {
           if (error) {
             alert('Error al obtener la duración de la nota de voz');
             return;
@@ -106,7 +104,7 @@ class myPlayer extends Component {
                 // Inicializa el player
                 this.props.setState('play');
                 this.setState({state: 'play'});
-                var msg = await this.state.player.startPlayer(this.state.localpath);
+                var msg = await this.state.player.startPlayer('file://'+ RNFetchBlob.fs.dirs.CacheDir +'/'+ this.state.localpath);
                 
                 // Si antes de darle al botón se ha movido el slider, entonces
                 // se sitúa en el segundo exacto donde se ha indicado
@@ -145,6 +143,10 @@ class myPlayer extends Component {
         }
 
     }
+
+
+
+
 
     skip(skip) {
         updatePos = this.state.sliderValue + skip; // secs
