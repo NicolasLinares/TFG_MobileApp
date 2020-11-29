@@ -9,17 +9,19 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import IconII from "react-native-vector-icons/Ionicons";
 import {CONSTANTS} from '_styles';
 
-import {ComplexAudioItem, AnimatedItem} from '_atoms';
+import {SimpleAudioItem} from '_atoms';
 
-class myBasicList extends Component {
+class mySearchList extends Component {
 
     constructor(props) {
         super(props);
     }
 
-    _renderItem = data => (
-        <ComplexAudioItem item={data.item}/>
-    )
+    _renderItem = data => {
+        return (
+            <SimpleAudioItem item={data.item} nav={this.props.nav} />
+        );
+    }
 
     closeRow = (rowMap, rowKey) => {
         if (rowMap[rowKey]) {
@@ -28,20 +30,19 @@ class myBasicList extends Component {
     };
 
     deleteRow = async (rowMap, item) => {
-        await this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.key));
+        await this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.uid));
     };
 
-    _renderHideButtons = (data, rowMap) => (
-        
-        <AnimatedItem style={styles.actionsContainer}>
-            <TouchableOpacity 
+    _renderHideButtons = (data, rowMap) => {
+        return (
+            <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={() => this.deleteRow(rowMap, data.item)}
             >
-                <IconII name={"trash"} size={25} color='white'/>
+                <IconII name={"trash"} size={25} color='white' />
             </TouchableOpacity>
-        </AnimatedItem>
-    )
+        );
+    }
 
     render =() => (
 
@@ -50,11 +51,11 @@ class myBasicList extends Component {
             contentContainerStyle={{ paddingBottom: 20}}
             showsVerticalScrollIndicator={false}
             data={this.props.list}  
-            keyExtractor={(item) => item.key.toString()}
+            keyExtractor={(item) => item.uid}
             style={styles.audiolist}
             renderItem={this._renderItem}
             renderHiddenItem={this._renderHideButtons}
-            rightOpenValue={-85}
+            rightOpenValue={-65}
             disableRightSwipe={true}
             closeOnScroll={true}
             previewOpenValue={-40}
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
       paddingTop: 10,
     },
     actionsContainer: {
-        height: 85,
+        height: 60,
         width: '100%',
         flexDirection: 'row', 
         alignItems: 'center',
@@ -79,23 +80,18 @@ const styles = StyleSheet.create({
         paddingHorizontal: CONSTANTS.marginHorizontalItemList, 
         marginVertical: CONSTANTS.marginVerticalItemList,
     },
-    descriptionButton: {
-        height: 85,
-        width: 85,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgb(150,220,150)',
-        borderRadius: 10,
-    },
     deleteButton: {
-        height: 85,
-        width: 85,
+        width: 65,
+        flex: 1,
+        alignSelf: 'flex-end',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'red',
         borderRadius: 10,
+        marginRight: CONSTANTS.marginHorizontalItemList,
+        marginVertical: CONSTANTS.marginVerticalItemList
     },
 });
 
 
-export default myBasicList;
+export default mySearchList;

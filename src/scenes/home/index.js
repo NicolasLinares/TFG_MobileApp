@@ -33,6 +33,7 @@ class HomeScreen extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
+
 				<View style={styles.container}>
 					<View style={styles.header}>
 						<UserInfo />
@@ -42,6 +43,7 @@ class HomeScreen extends Component {
 				</View>
 
 				<ButtonNewRecord onPress={() => this.handleNewRecord()} />
+
 			</View>
 		);
 	}
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 	},
 	header: {
-		marginTop: Platform.OS == 'ios' ? 30 : 10,
+		marginTop: Platform.OS == 'ios' ? 40 : 0,
 		flexDirection: 'row',
 		width: '100%',
 	},

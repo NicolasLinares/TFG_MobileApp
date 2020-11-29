@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { 
-    StyleSheet, 
+import {
+    StyleSheet,
     TouchableOpacity,
-    Text, 
+    Text,
     View,
     ActivityIndicator
 } from 'react-native';
 
 import IconII from "react-native-vector-icons/Ionicons";
 import { SwipeListView } from 'react-native-swipe-list-view';
-import {SimpleAudioItem} from '_atoms';
-
-import {COLORS, CONSTANTS} from '_styles';
+import { SimpleAudioItem } from '_atoms';
+import { SearchBar } from '_organisms';
+import { COLORS, CONSTANTS } from '_styles';
 
 import moment from 'moment';
 
@@ -27,29 +27,29 @@ class mySectionList extends Component {
             rowMap[rowKey].closeRow();
         }
     };
-    
+
     deleteRow = async (rowMap, item) => {
         await this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.uid));
     };
 
     _renderItem = data => {
         return (
-            <SimpleAudioItem item={data.item} nav={this.props.nav}/>     
+            <SimpleAudioItem item={data.item} nav={this.props.nav} />
         );
     }
 
-    _renderHideButtons  = (data, rowMap) => {
+    _renderHideButtons = (data, rowMap) => {
         return (
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={() => this.deleteRow(rowMap, data.item)}
             >
-                <IconII name={"trash"} size={25} color='white'/>
+                <IconII name={"trash"} size={25} color='white' />
             </TouchableOpacity>
         );
     }
 
-    _renderSection  = ({ section }) =>  {
+    _renderSection = ({ section }) => {
 
         // Comprobar si la fecha de la sección corresponde a 'hoy'
         if (section.date === moment().format('LL')) {
@@ -61,7 +61,7 @@ class mySectionList extends Component {
             if (section.date === m.format('LL'))
                 date = 'Ayer';
             else
-                date = section.date ;
+                date = section.date;
         }
 
         return (
@@ -77,7 +77,7 @@ class mySectionList extends Component {
             <SwipeListView
                 useSectionList={true}
                 overScrollMode={"never"}
-                contentContainerStyle={{ paddingBottom: 10}}
+                contentContainerStyle={{ paddingBottom: 10 }}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.uid}
                 sections={this.props.list}
@@ -90,15 +90,15 @@ class mySectionList extends Component {
                 previewOpenValue={-40}
                 previewOpenDelay={3000}
                 onScrollEndDrag={() => this.props.refresh()}
-                ListFooterComponent={() => this.props.loading ? <ActivityIndicator size="small" color={COLORS.grey} style={{marginTop: 20}}/> : null}
+                ListFooterComponent={() => this.props.loading ? <ActivityIndicator size="small" color={COLORS.grey} style={{ marginTop: 20 }} /> : null}
             />
         )
     }
 }
 
 const styles = StyleSheet.create({
-    audiolist:{
-        width:"100%",
+    audiolist: {
+        width: "100%",
         backgroundColor: 'white',
     },
     dateContainer: {

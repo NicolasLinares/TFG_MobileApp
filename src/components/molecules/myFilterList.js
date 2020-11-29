@@ -6,7 +6,7 @@ import {
 
 import {Tag} from '_atoms';
 
-class filterList extends Component {
+class myFilterList extends Component {
 
     constructor(props) {
         super(props);
@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
     },
 });
 
-export default filterList;
+export default myFilterList;
 
 

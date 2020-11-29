@@ -29,7 +29,7 @@ class audioListModule extends Component {
 	}
 
 
-	deleteItem = (item) => {
+	handleAudioDelete = (item, closeRow) => {
 
 		Alert.alert(
 			'Eliminar nota de voz',
@@ -38,6 +38,7 @@ class audioListModule extends Component {
 				{
 					text: 'Cancelar',
 					style: 'cancel',
+					onPress: closeRow
 				},
 				{
 					text: 'Eliminar',
@@ -148,7 +149,7 @@ class audioListModule extends Component {
 
 				<BasicList
 					list={this.props.list}
-					onPress={this.deleteItem}
+					handleAudioDelete={this.handleAudioDelete}
 				/>
 			</>
 		)
