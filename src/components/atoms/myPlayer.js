@@ -20,7 +20,6 @@ import Sound from 'react-native-sound';
 import { connect } from 'react-redux';
 import { setPlayerState } from '_redux_actions';
 
-import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 import { audioRequestService } from '_services';
 

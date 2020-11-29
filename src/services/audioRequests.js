@@ -292,7 +292,6 @@ export async function deleteAudioHistory(uid) {
         )
         .then((response) => {
             let status = response.info().status;
-
             if (status == 200) {
 
                 /*
@@ -437,6 +436,58 @@ export async function updateDescription(uid, description) {
                 */
                 return response.json();
 
+            } else {
+                let mssg = response.json();
+                showMessage({
+                    message: 'Error',
+                    description: mssg.error,
+                    type: "danger",
+                    duration: 3000,
+                    titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
+                    textStyle: { textAlign: 'center' },
+                });
+
+                return null;
+            }
+        })
+        .catch((errorMessage, statusCode) => {
+            console.log(errorMessage);
+
+            showMessage({
+                message: 'Error',
+                description: 'Compruebe su conexión de red o inténtelo de nuevo más tarde',
+                type: "danger",
+                duration: 3000,
+                titleStyle: { textAlign: 'center', fontWeight: 'bold', fontSize: 18 },
+                textStyle: { textAlign: 'center' },
+            });
+
+            return null;
+        });
+}
+
+export async function searchAudio(name) {
+
+    const state = store.getState();
+
+    let token = state.userReducer.token;
+
+    return await RNFetchBlob.config({
+        trusty: true
+    })
+        .fetch(
+            'GET',
+            URL.searchAudio + name,
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            }
+        )
+        .then((response) => {
+            let status = response.info().status;
+
+            if (status == 200) {
+                return response.json();
             } else {
                 let mssg = response.json();
                 showMessage({

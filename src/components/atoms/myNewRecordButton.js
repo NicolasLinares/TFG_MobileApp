@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {
     TouchableOpacity,
-    Text,
     StyleSheet,
 } from 'react-native';
-import IconII from "react-native-vector-icons/Ionicons";
-import { COLORS } from '_styles';
+import IconMI from "react-native-vector-icons/MaterialIcons";
 
 class myNewRecordButton extends Component {
 
@@ -14,27 +12,27 @@ class myNewRecordButton extends Component {
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={this.props.onPress} 
+                onPress={this.props.onPress}
             >
-                <IconII name={"mic"} size={30} color={'red'}/>
-                <Text style={styles.text}> Nueva nota de voz</Text>
+                <IconMI style={{marginTop: 5}} name={'mic'} size={40} color={'white'} />
             </TouchableOpacity>
         )
     }
 }
 
+
 const styles = StyleSheet.create({
     button: {
-        flexDirection: 'row',
-        backgroundColor: 'white',
+        position: 'absolute',
+        height: 70,
+        width: 70,
+        backgroundColor: 'rgba(255, 30, 60, 0.8)',
         alignItems: 'center',
-        marginTop: 20
+        justifyContent: 'center',
+        borderRadius: 35,
+        bottom: 30,
+        right: 30
     },
-    text: {
-        fontSize: 22, 
-        color: 'black',
-        marginLeft: 10
-    }
 });
 
 export default myNewRecordButton;

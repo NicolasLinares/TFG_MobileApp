@@ -81,6 +81,9 @@ class historyController extends Component {
                             // Se actualiza el historial
                             let date = this.getDate(item.created_at);
                             this.props.delete(date, item.uid);
+
+                            console.log(response.tag)
+                            console.log(response.count)
                         }
                     },
                 },
