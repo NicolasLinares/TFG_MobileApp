@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     View,
+    Text,
     Dimensions,
     Platform,
     Alert
@@ -9,7 +10,7 @@ import { SearchBar, Header } from 'react-native-elements';
 
 import { audioRequestService } from '_services';
 
-import {SearchList} from '_molecules';
+import { SearchList } from '_molecules';
 import RNFetchBlob from 'rn-fetch-blob';
 import moment from 'moment';
 
@@ -18,6 +19,10 @@ import {
     deleteAudioHistory,
 } from '_redux_actions';
 
+import {HeaderButtons} from '_atoms';
+import IconII from "react-native-vector-icons/Ionicons";
+import { COLORS } from '_styles';
+
 
 class SearchBarController extends Component {
 
@@ -25,27 +30,31 @@ class SearchBarController extends Component {
         super(props);
         this.state = {
             searchText: '',
+            showNullResponse: false,
             loading: false,
             data: []
         }
     }
 
     async searchWord() {
-        if (this.state.searchText != '') {
-            // Se borra de la base de datos del servidor
-            let response = await audioRequestService.searchAudio(this.state.searchText);
-            if (response !== null) {
-                this.setState({ data: response, loading: false});
+        if (this.state.searchText != '')
+            if (!/\s/.test(this.state.searchText)) {
+                this.setState({ loading: true });
+
+                // Se borra de la base de datos del servidor
+                let response = await audioRequestService.searchAudio(this.state.searchText);
+                if (response !== null && response.length > 0) {
+                    this.setState({ data: response, loading: false });
+                } else {
+                    this.setState({ showNullResponse: true, loading: false });
+                }
+            } else {
+                this.setState({ showNullResponse: true, loading: false });
             }
-        }
     }
 
     onChangeText = (value) => {
-        this.setState({ searchText: value, data: [], loading: true });
-
-        if (value !== '') {
-            this.searchWord();
-        }
+        this.setState({ searchText: value, data: [] });
     }
 
 
@@ -70,7 +79,7 @@ class SearchBarController extends Component {
 
                         // Se borra en el filesystem porque el recorder
                         // crea un fichero por cada grabación
-						let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
+                        let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
 
                         RNFetchBlob.fs.unlink(localpath).catch((err) => {
                             alert("Error al borrar el audio" + err);
@@ -94,10 +103,29 @@ class SearchBarController extends Component {
         );
     };
 
+    _renderNullMessage = () => {
+        return (
+            <View style={
+                {
+                    height: 35,
+                    backgroundColor: 'rgba(255,0,0,0.3)',
+                    width: 300,
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                    alignItems: 'center',
+                    borderRadius: 15,
+                    marginTop: 20
+                }
+            }>
+                <Text>No se han encontrado coincidencias</Text>
+            </View>
+        );
+    }
+
     _renderSearchBar = () => {
 
         return (
-            <View style={{ width: Dimensions.get('window').width, paddingHorizontal: 10 }}>
+            <View style={{width: Dimensions.get('window').width - 30, marginLeft: 30 }}>
                 <SearchBar
                     platform={Platform.OS}
                     lightTheme
@@ -108,31 +136,40 @@ class SearchBarController extends Component {
                     placeholder={"Buscar..."}
                     onChangeText={(searchText) => this.onChangeText(searchText)}
                     onBlur={() => this.searchWord()}
-                    onCancel={() => this.setState({loading:false})}
+                    onFocus={() => this.setState({ showNullResponse: false })}
+                    onCancel={() => this.setState({ loading: false })}
+                    onClear={() => this.setState({ data: [] })}
                     value={this.state.searchText}
                 />
-
             </View>
         );
     }
+
 
     render() {
         return (
             <View style={{ flex: 1 }}>
 
                 <Header
+                    leftComponent={HeaderButtons.BackButton(this.props.nav)}
+                    leftContainerStyle={{left: -10}}
                     centerComponent={this._renderSearchBar}
                     containerStyle={{
                         backgroundColor: 'white',
                     }}
                 />
 
-                <SearchList 
-                    list={this.state.data}
-                    nav={this.props.nav}
-                    handleAudioDelete={this.handleAudioDelete}
-                />
-                
+                {
+                    this.state.showNullResponse
+                        ?
+                        this._renderNullMessage()
+                        :
+                        <SearchList
+                            list={this.state.data}
+                            nav={this.props.nav}
+                            handleAudioDelete={this.handleAudioDelete}
+                        />
+                }
             </View>
 
         )

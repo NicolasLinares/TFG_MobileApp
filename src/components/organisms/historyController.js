@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-    Text,
     StyleSheet,
     Alert,
 } from 'react-native';
@@ -68,7 +67,7 @@ class historyController extends Component {
 
                         // Se borra en el filesystem porque el recorder
                         // crea un fichero por cada grabación
-						let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
+                        let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
 
                         RNFetchBlob.fs.unlink(localpath).catch((err) => {
                             alert("Error al borrar el audio" + err);
@@ -138,9 +137,6 @@ class historyController extends Component {
     render() {
         return (
             <>
-
-                <Text style={styles.title}>Mis notas de voz</Text>
-
                 <FilterList
                     setNextURL={(url) => this.setState({ next_page_URL: url })}
                     handleRemoveFilter={() => this.handleRemoveFilter()}
@@ -163,13 +159,7 @@ class historyController extends Component {
 }
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 25,
-        marginVertical: 20,
-        marginLeft: 40,
-        fontWeight: 'bold',
-        alignSelf: 'flex-start',
-    },
+
     text: {
         fontSize: 15,
         color: COLORS.electric_blue,

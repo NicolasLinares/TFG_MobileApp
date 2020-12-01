@@ -14,7 +14,7 @@ class myNewRecordButton extends Component {
                 style={styles.button}
                 onPress={this.props.onPress}
             >
-                <IconMI style={{marginTop: 5}} name={'mic'} size={40} color={'white'} />
+                <IconMI style={{marginTop: 5}} name={'add'} size={40} color={'white'} />
             </TouchableOpacity>
         )
     }

@@ -1,5 +1,13 @@
 // Botones de cabecera
-export {default as ButtonSettings} from './mySettingsButton';
+import * as HeaderButtons from './myHeaderButtons';
+
+export { 
+    HeaderButtons
+};
+
+
+
+
 export {default as ButtonBack} from './myBackButton';
 
 // Botones de inicio de sesión y registro

@@ -3,11 +3,12 @@ import { View } from 'react-native';
 
 import { createStackNavigator } from 'react-navigation-stack';
 
+import HomeScreen from '_scenes/home';
+import SearchScreen from '_scenes/home/search';
 import AudioScreen from '_scenes/home/audio';
 
 import RecorderScreen from '_scenes/recorder';
 import ScannerScreen from '_scenes/recorder/scanner';
-import TabsNavigator from './app-navigator-tabs';
 
 import SettingsScreen from '_scenes/settings';
 import ProfileScreen from '_scenes/settings/profile';
@@ -15,16 +16,37 @@ import SecurityScreen from '_scenes/settings/security';
 import PasswordSettingScreen from '_scenes/settings/security/password';
 
 import moment from 'moment';
+import {HeaderButtons} from '_atoms';
 
 const StackNavigatorConfig = {
 	initialRouteName: 'Home',
-	mode: 'modal'
 };
 
 const StackRouteConfigs = {
 	Home: {
-		screen: TabsNavigator,
-		navigationOptions: { headerShown: false, title: ' ' },
+		screen: HomeScreen,
+		navigationOptions: ({ navigation }) => ({
+			headerLeft: () => HeaderButtons.MenuButton(navigation),
+			headerRight: () => HeaderButtons.SearchButton(navigation),
+			title: 'Mis notas de voz',
+			headerStyle: {
+				// para esconder la línea inferior en el header
+				shadowOpacity: 0, // iOS
+				elevation: 0, // Android
+				backgroundColor: 'white',
+			},
+			headerTitleStyle: {
+				textAlign: 'center', // Android -  alinear título
+				fontWeight: 'bold',
+				fontSize: 25
+			},
+		}),
+	},
+	Search: {
+		screen: SearchScreen,
+		navigationOptions: {
+			headerShown: false
+		},
 	},
 	Scanner: {
 		screen: ScannerScreen,

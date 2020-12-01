@@ -78,7 +78,7 @@ class SettingsScreen extends Component {
 				<View style={styles.copyright}>
 					<Text style={{ fontSize: 15 }}>
 						Invox Medcorder {'\u00A9'} 2020
-              </Text>
+              		</Text>
 				</View>
 			</View>
 		)

@@ -77,7 +77,7 @@ class mySectionList extends Component {
             <SwipeListView
                 useSectionList={true}
                 overScrollMode={"never"}
-                contentContainerStyle={{ paddingBottom: 10 }}
+                contentContainerStyle={{ paddingBottom: 30 }}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.uid}
                 sections={this.props.list}
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     dateContainer: {
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
         textAlign: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(210,210,210, 0.6)',
