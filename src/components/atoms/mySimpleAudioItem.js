@@ -30,12 +30,20 @@ class mySimpleAudioItem extends Component {
     }
 
 
+
     render() {
 
         return (
 
             <TouchableWithoutFeedback
-                onPress={() => this.props.nav.navigate('Audio', { item: this.props.item, updateHistoryItem: (name) => this.setState({ name: name }) })}
+                onPress={() => this.props.nav.navigate('Audio',
+                        {
+                            item: this.props.item,
+                            updateHistoryItem: (name) => this.setState({ name: name }),
+                            handleAudioDelete: this.props.handleAudioDelete
+                        }
+                    )
+                }
             >
 
                 <View style={styles.item}>

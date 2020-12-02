@@ -3,6 +3,7 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
+import AlertAsync from "react-native-alert-async";
 
 import { SwipeListView } from 'react-native-swipe-list-view';
 
@@ -17,9 +18,13 @@ class mySearchList extends Component {
         super(props);
     }
 
-    _renderItem = data => {
+    _renderItem = (data, rowMap) => {
         return (
-            <SimpleAudioItem item={data.item} nav={this.props.nav} />
+            <SimpleAudioItem 
+                item={data.item} 
+                handleAudioDelete={() => this.handleDeleteRow(rowMap, data.item)} 
+                nav={this.props.nav}     
+            />
         );
     }
 
@@ -29,22 +34,43 @@ class mySearchList extends Component {
         }
     };
 
-    deleteRow = async (rowMap, item) => {
-        await this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.uid));
-    };
+    handleDeleteRow = async (rowMap, item) => {
+
+        return await AlertAsync(
+            'Eliminar nota de voz',
+            'La nota de voz "' + item.localpath + '" y su transcripción se van a eliminar de forma permanente',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                    onPress: () => {
+                        this.closeRow(rowMap, item.uid);
+                        return Promise.resolve(false);
+                    } 
+                },
+                {
+                    text: 'Eliminar',
+                    onPress:  () => {
+                        this.props.handleAudioDelete(item);
+                        return Promise.resolve(true);
+                    },
+                },
+            ],
+        );
+    } 
 
     _renderHideButtons = (data, rowMap) => {
         return (
             <TouchableOpacity
                 style={styles.deleteButton}
-                onPress={() => this.deleteRow(rowMap, data.item)}
+                onPress={() => this.handleDeleteRow(rowMap, data.item)}
             >
                 <IconII name={"trash"} size={25} color='white' />
             </TouchableOpacity>
         );
     }
 
-    render =() => (
+    render = () => (
 
         <SwipeListView
             overScrollMode={"never"}

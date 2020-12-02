@@ -85,42 +85,9 @@ class AudioScreen extends Component {
 	}
 
 	handleAudioDelete = async () => {
-		await Alert.alert(
-			'Eliminar nota de voz',
-			'La nota de voz y todos sus datos se van a eliminar de forma permanente',
-			[
-				{
-					text: 'Cancelar',
-					style: 'cancel',
-				},
-				{
-					text: 'Eliminar',
-					onPress: async () => {
-
-						// Se borra en el filesystem porque el recorder
-						// crea un fichero por cada grabación. Si no 
-						// se encuentra localmente, es que solo se 
-						// encuentra en el servidor
-						let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
-
-						RNFetchBlob.fs.unlink(localpath)
-							.catch((err) => {
-								alert("Error al borrar el audio");
-							});
-
-
-						// Se borra de la base de datos del servidor
-						let response = await audioRequestService.deleteAudioHistory(this.state.uid);
-
-						if (response !== null) {
-							// Se actualiza el historial
-							this.props.delete(this.state.date, this.state.uid);
-							this.props.navigation.goBack();
-						}
-					}
-				}
-			]
-		);
+		const deleted = await this.props.navigation.state.params.handleAudioDelete();
+		if (deleted) 
+			this.props.navigation.goBack();
 	}
 
 	handleUpdateName = async () => {
@@ -344,6 +311,9 @@ class AudioScreen extends Component {
 					style={{ color: 'black', borderBottomWidth: Platform.OS == 'ios' ? 0 : 0.5, borderBottomColor: COLORS.grey }} 
 					value={this.state.name} 
 					onChangeText={value => this.setState({ name: value })} 
+					selectTextOnFocus={true}
+					focusable={true}
+					autoFocus={true}
 				/>
 
 				<Dialog.Button label="Cancelar" onPress={() => this.setState({ name: this.props.navigation.state.params.item.name, showDialog: false, errorDialog: false })} />
@@ -378,7 +348,6 @@ class AudioScreen extends Component {
 
 				{this._renderSection('Descripción', this.state.description, 'Escribe una descripción del audio...', true)}
 				{this._renderSection('Transcripción', this.state.transcription, 'Transcribiendo nota de voz...', false)}
-
 			</ScrollView>
 
 			<View style={styles.playerContainer}>

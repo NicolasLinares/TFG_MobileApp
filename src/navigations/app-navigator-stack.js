@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import HomeScreen from '_scenes/home';
-import SearchScreen from '_scenes/home/search';
 import AudioScreen from '_scenes/home/audio';
 
 import RecorderScreen from '_scenes/recorder';
@@ -27,7 +26,7 @@ const StackRouteConfigs = {
 		screen: HomeScreen,
 		navigationOptions: ({ navigation }) => ({
 			headerLeft: () => HeaderButtons.MenuButton(navigation),
-			headerRight: () => HeaderButtons.SearchButton(navigation),
+			headerRight: () => {},
 			title: 'Mis notas de voz',
 			headerStyle: {
 				// para esconder la línea inferior en el header
@@ -41,12 +40,6 @@ const StackRouteConfigs = {
 				fontSize: 25
 			},
 		}),
-	},
-	Search: {
-		screen: SearchScreen,
-		navigationOptions: {
-			headerShown: false
-		},
 	},
 	Scanner: {
 		screen: ScannerScreen,

@@ -57,23 +57,22 @@ class filterListController extends Component {
 
     async handleTagPressed(tag) {
 
-        // Se establece el código de paciente usado actualmente
-        this.props.setCurrentTagApplied(tag);
-
-        // Se muestra el botón para eliminar el filtrado
-        this.setState({ hideButton: false, paddingLeft: 50 });
-
-        // Se vacía el historial de audios grabados 
-        // para que no se dupliquen en caso de haber 
-        // hecho la consulta antes        
-        this.props.cleanHistory();
-
         // Para el resto de peticiones ya se almacena la URL
         // con la siguiente página
         let response = await audioRequestService.filterByTag(tag);
 
         if (response !== null) {
 
+            // Se establece el código de paciente usado actualmente
+            this.props.setCurrentTagApplied(tag);
+
+            // Se muestra el botón para eliminar el filtrado
+            this.setState({ hideButton: false, paddingLeft: 50 });
+
+            // Se vacía el historial de audios grabados 
+            // para que no se dupliquen en caso de haber 
+            // hecho la consulta antes        
+            this.props.cleanHistory();
             this.props.setNextURL(response.next_page_url)
 
             let list = response.data;
@@ -90,7 +89,7 @@ class filterListController extends Component {
         if (!this.state.hideButton)
             return (
                 <LinearGradient
-                    start={{ x: 0, y: 0 }} 
+                    start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
                     colors={['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 0.9)', 'rgba(255, 255, 255, 0)']}
                     style={{ position: 'absolute', top: 10, height: 30, width: 90, alignItems: 'flex-start' }}
@@ -101,7 +100,7 @@ class filterListController extends Component {
                             this.setState({ hideButton: true, paddingLeft: 0 });
                             // Se limpia el código de paciente usado
                             this.props.setCurrentTagApplied('');
-                            this.props.handleRemoveFilter();
+                            this.props.resetHistory();
                             this.ref_filterList.current.removeTagUsed();
                         }}
                     >
@@ -138,10 +137,10 @@ class filterListController extends Component {
 
 
 const styles = StyleSheet.create({
-    container: { 
-        height: 60, 
-        paddingTop: 10, 
-        flexDirection: 'row' 
+    container: {
+        height: 60,
+        paddingTop: 10,
+        flexDirection: 'row'
     },
     buttonCancelFilter: {
         height: 30,
@@ -171,7 +170,6 @@ const mapDispatchToProps = (dispatch) => {
         addFilterTag: (tag) => dispatch(addFilterTag(tag)),
         cleanTags: () => dispatch(cleanTags()),
         setCurrentTagApplied: (tag) => dispatch(setCurrentTagApplied(tag)),
-
     }
 }
 

@@ -151,6 +151,13 @@ export const addFilterTag = (tag) => {
     }
 }
 
+export const deleteFilter = (tag) => {
+    return {
+        type: 'DELETE_TAG',
+        tag: tag,
+    }
+}
+
 export const cleanTags = () => {
     return {
         type: 'CLEAN_TAGS',

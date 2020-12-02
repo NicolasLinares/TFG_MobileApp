@@ -69,27 +69,28 @@ export function audioListReducer(state = initialState, action) {
                 ...state,
                 audiolist: state.audiolist.filter((item) => item.key !== action.key)
             };
-        
+
         case types.SET_AUDIOTAG:
             return {
                 ...state,
-                audiolist: state.audiolist.map((item) => ({...item, tag: action.tag}))
+                audiolist: state.audiolist.map((item) => ({ ...item, tag: action.tag }))
             };
 
         case types.UPDATE_NAME_NEW_AUDIO:
+            let array = state.audiolist.map(
+                (item) => (
+
+                    item.key === action.key
+                        ?
+                        { ...item, name: action.name }
+                        :
+                        { ...item }
+                )
+            );
 
             return {
                 ...state,
-                audiolist: state.audiolist.map(
-                    (item) => (
-                        
-                        item.key === action.key 
-                        ?
-                            {...item, name: action.name}
-                        : 
-                            {...item}
-                    )
-                )
+                audiolist: [...array]
             };
 
         default:
@@ -103,7 +104,7 @@ export function audioListReducer(state = initialState, action) {
 function getDate(timestamp) {
     m = moment(timestamp);
     return m.format('LL');
-} 
+}
 
 
 export function historyReducer(state = initialState, action) {
@@ -149,7 +150,7 @@ export function historyReducer(state = initialState, action) {
                         {
                             date: getDate(action.audio.created_at),
                             data: [action.audio]
-                        }, 
+                        },
                     ]
                 };
             }
@@ -172,8 +173,8 @@ export function historyReducer(state = initialState, action) {
                             ]
                         },
                     ]
-                };  
-            
+                };
+
             }
 
         case types.ADD_AUDIO_HISTORY:
@@ -190,7 +191,7 @@ export function historyReducer(state = initialState, action) {
                         {
                             date: moment().format('LL'),
                             data: [action.audio]
-                        }, 
+                        },
                         ...state.history
                     ]
                 };
@@ -212,12 +213,12 @@ export function historyReducer(state = initialState, action) {
                         },
                         ...state.history,
                     ]
-                };  
+                };
 
                 // Se debe borrar el anterior conjunto {date, data},
                 // que ahora se encuentra en la posición [1], en el [0]
                 // está el nuevo conjunto {date,data} con el valor añadido
-                newState.history.splice(1,1);
+                newState.history.splice(1, 1);
 
                 return newState;
 
@@ -227,19 +228,19 @@ export function historyReducer(state = initialState, action) {
 
             // Recorre por secciones hasta encontrar la fecha del audio que quiere borrar
             // devolviendo todos los audios de dicha sección menos el que queremos eliminar
-            update_list =  state.history.map(
-                    (section) => (
+            update_list = state.history.map(
+                (section) => (
 
-                        section.date === action.date 
+                    section.date === action.date
                         ?
-                            {
-                                ...section, 
-                                data: section.data.filter((item) => item.uid !== action.uid)
-                            }
-                        : 
-                            {...section}
-                    )
-                );
+                        {
+                            ...section,
+                            data: section.data.filter((item) => item.uid !== action.uid)
+                        }
+                        :
+                        { ...section }
+                )
+            );
 
             // Ahora hay que comprobar si el audio eliminado ha provocado
             // que quede una sección sin audios, en dicho caso se elimina
@@ -247,10 +248,10 @@ export function historyReducer(state = initialState, action) {
 
             return {
                 ...state,
-                history: update_list.filter((section) => ( section.data.length > 0))
+                history: update_list.filter((section) => (section.data.length > 0))
             };
 
-        
+
 
         case types.CLEAN_HISTORY:
             return {
@@ -268,56 +269,54 @@ export function historyReducer(state = initialState, action) {
                 ...state,
                 history: state.history.map(
                     (section) => (
-                        
-                        section.date === action.date 
-                        ?
+
+                        section.date === action.date
+                            ?
                             {
-                                ...section, 
+                                ...section,
                                 data: section.data.map(
                                     (item) => (
-                                        item.uid === action.uid 
-                                        ?
-                                            {...item, description: action.description}
-                                        : 
-                                            {...item}
+                                        item.uid === action.uid
+                                            ?
+                                            { ...item, description: action.description }
+                                            :
+                                            { ...item }
                                     )
                                 )
                             }
-                        : 
-                            {...section}
+                            :
+                            { ...section }
                     )
                 )
             };
 
         case types.UPDATE_NAME_AUDIO:
 
-            // Recorre por secciones y cuando encuentra la correspondiente
-            // itera hasta encontrar el audio y actualiza su valor
-
-            return {
+        return {
                 ...state,
                 history: state.history.map(
                     (section) => (
-                        
-                        section.date === action.date 
-                        ?
+
+                        section.date === action.date
+                            ?
                             {
-                                ...section, 
+                                ...section,
                                 data: section.data.map(
                                     (item) => (
-                                        item.uid === action.uid 
-                                        ?
-                                            {...item, name: action.name}
-                                        : 
-                                            {...item}
+                                        item.uid === action.uid
+                                            ?
+                                            { ...item, name: action.name }
+                                            :
+                                            { ...item }
                                     )
                                 )
                             }
-                        : 
-                            {...section}
+                            :
+                            { ...section }
                     )
                 )
             };
+
 
         default:
             return state;
@@ -366,9 +365,9 @@ export function tagsReducer(state = initialState, action) {
         case types.ADD_TAG:
 
             const existsInArray = state.tags.some(l => l.tag === action.tag)
-            
-            if(existsInArray) {
-              return state;
+
+            if (existsInArray) {
+                return state;
             }
 
             return {
@@ -381,6 +380,13 @@ export function tagsReducer(state = initialState, action) {
                     ...state.tags
                 ]
             };
+
+        case types.DELETE_TAG:
+            return {
+                ...state,
+                tags: state.tags.filter((item) => item.tag !== action.tag)
+            };
+
         case types.CLEAN_TAGS:
             return {
                 ...state,
@@ -392,7 +398,7 @@ export function tagsReducer(state = initialState, action) {
                 ...state,
                 currentTagApplied: action.tag,
             };
-            
+
         default:
             return state;
     }

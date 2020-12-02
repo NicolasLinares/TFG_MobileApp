@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 
 import IconII from "react-native-vector-icons/Ionicons";
@@ -66,13 +67,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        marginVertical: Platform.OS === 'ios' ? 50 : 20,
     },
     icon: {
-        fontSize: 25,
+        fontSize: 20,
         color: 'red'
     },
     name: {
-        fontSize: 18,
+        fontSize: 14,
         marginHorizontal: 10,
         color: 'red'
     },

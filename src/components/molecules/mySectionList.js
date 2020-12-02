@@ -7,10 +7,11 @@ import {
     ActivityIndicator
 } from 'react-native';
 
+import AlertAsync from "react-native-alert-async";
+
 import IconII from "react-native-vector-icons/Ionicons";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { SimpleAudioItem } from '_atoms';
-import { SearchBar } from '_organisms';
 import { COLORS, CONSTANTS } from '_styles';
 
 import moment from 'moment';
@@ -22,27 +23,52 @@ class mySectionList extends Component {
         super(props);
     }
 
+    _renderItem = (data, rowMap) => {
+        return (
+            <SimpleAudioItem 
+                item={data.item} 
+                handleAudioDelete={() => this.handleDeleteRow(rowMap, data.item)} 
+                nav={this.props.nav}     
+            />
+        );
+    }
+
     closeRow = (rowMap, rowKey) => {
         if (rowMap[rowKey]) {
             rowMap[rowKey].closeRow();
         }
     };
 
-    deleteRow = async (rowMap, item) => {
-        await this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.uid));
-    };
+    handleDeleteRow = async (rowMap, item) => {
 
-    _renderItem = data => {
-        return (
-            <SimpleAudioItem item={data.item} nav={this.props.nav} />
+        return await AlertAsync(
+            'Eliminar nota de voz',
+            'La nota de voz "' + item.localpath + '" y su transcripción se van a eliminar de forma permanente',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                    onPress: () => {
+                        this.closeRow(rowMap, item.uid);
+                        return Promise.resolve(false);
+                    } 
+                },
+                {
+                    text: 'Eliminar',
+                    onPress:  () => {
+                        this.props.handleAudioDelete(item);
+                        return Promise.resolve(true);
+                    },
+                },
+            ],
         );
-    }
+    } 
 
     _renderHideButtons = (data, rowMap) => {
         return (
             <TouchableOpacity
                 style={styles.deleteButton}
-                onPress={() => this.deleteRow(rowMap, data.item)}
+                onPress={() => this.handleDeleteRow(rowMap, data.item)}
             >
                 <IconII name={"trash"} size={25} color='white' />
             </TouchableOpacity>

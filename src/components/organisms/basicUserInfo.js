@@ -3,6 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
+    Platform,
 } from 'react-native';
 
 import IconII from "react-native-vector-icons/Ionicons";
@@ -44,10 +45,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     imageContainer: {
-        height: 90,
-        width: 90,
+        height: Platform.OS === 'ios' ? 90 : 70,
+        width: Platform.OS === 'ios' ? 90 : 70,
         borderWidth: 3,
-        borderRadius: 45,
+        borderRadius: 60,
         borderColor: COLORS.green,
         justifyContent: 'center',
         alignItems: 'center',

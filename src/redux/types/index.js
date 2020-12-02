@@ -27,6 +27,7 @@ export const UPDATE_NAME_AUDIO = 'UPDATE_NAME_AUDIO';
 
 // TAGS ACTIONS
 export const ADD_TAG = 'ADD_TAG';
+export const DELETE_TAG = 'DELETE_TAG';
 export const CLEAN_TAGS = 'CLEAN_TAGS';
 export const SET_CURRENT_TAG_APPLIED = 'SET_CURRENT_TAG_APPLIED';
 

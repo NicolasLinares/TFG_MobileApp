@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Alert,
-} from 'react-native';
 
-import { FilterList } from '_organisms';
+import { FilterBar, SearchBar } from '_organisms';
 import { SectionList } from '_molecules';
 
-import { COLORS } from '_styles';
 
 import { connect } from 'react-redux';
 import {
     setHistory,
     cleanHistory,
     deleteAudioHistory,
+    deleteFilter
 } from '_redux_actions';
 
 import { URL } from '_data';
@@ -45,49 +41,39 @@ class historyController extends Component {
         this.state.loading = false;
     }
 
+
     getDate(timestamp) {
         m = moment(timestamp);
         return m.format('LL');
     }
 
+    handleAudioDelete = async (item) => {
 
-    handleAudioDelete = async (item, closeRow) => {
-        await Alert.alert(
-            'Eliminar nota de voz',
-            'La nota de voz "' + item.localpath + '" y su transcripción se van a eliminar de forma permanente',
-            [
-                {
-                    text: 'Cancelar',
-                    style: 'cancel',
-                    onPress: closeRow
-                },
-                {
-                    text: 'Eliminar',
-                    onPress: async () => {
+        // Se borra en el filesystem porque el recorder
+        // crea un fichero por cada grabación
+        let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
 
-                        // Se borra en el filesystem porque el recorder
-                        // crea un fichero por cada grabación
-                        let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
+        RNFetchBlob.fs.unlink(localpath).catch((err) => {
+            alert("Error al borrar el audio" + err);
+        });
 
-                        RNFetchBlob.fs.unlink(localpath).catch((err) => {
-                            alert("Error al borrar el audio" + err);
-                        });
+        // Se borra de la base de datos del servidor
+        let response = await audioRequestService.deleteAudioHistory(item.uid);
+        if (response !== null) {
 
-                        // Se borra de la base de datos del servidor
-                        let response = await audioRequestService.deleteAudioHistory(item.uid);
-                        if (response !== null) {
+            // Se actualiza el historial
+            let date = this.getDate(item.created_at);
+            this.props.deleteAudio(date, item.uid);
 
-                            // Se actualiza el historial
-                            let date = this.getDate(item.created_at);
-                            this.props.delete(date, item.uid);
+            // Response.count contiene el número de audios que todavía hay
+            // para el código de paciente (tag) al que pertenece el audio borrado
+            if (response.count === 0) {
+                // si ya no quedan audios para el identificador Response.tag
+                // entonces lo borramos de la lista de filtros
+                this.props.deleteFilter(response.tag);
+            }
+        }
 
-                            console.log(response.tag)
-                            console.log(response.count)
-                        }
-                    },
-                },
-            ],
-        );
     };
 
     async handleGetHistory() {
@@ -120,7 +106,7 @@ class historyController extends Component {
     }
 
 
-    async handleRemoveFilter() {
+    async handleResetHistory() {
         // Se vacía el historial de audios grabados
         // para que no se dupliquen en caso de haber
         // hecho la consulta antes
@@ -137,11 +123,15 @@ class historyController extends Component {
     render() {
         return (
             <>
-                <FilterList
+                <SearchBar
                     setNextURL={(url) => this.setState({ next_page_URL: url })}
-                    handleRemoveFilter={() => this.handleRemoveFilter()}
+                    resetHistory={() => this.handleResetHistory()}
                 />
 
+                <FilterBar
+                    setNextURL={(url) => this.setState({ next_page_URL: url })}
+                    resetHistory={() => this.handleResetHistory()}
+                />
 
                 <SectionList
                     list={this.props.history}
@@ -158,22 +148,12 @@ class historyController extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-
-    text: {
-        fontSize: 15,
-        color: COLORS.electric_blue,
-    },
-    icon: {
-        fontSize: 16,
-        color: COLORS.electric_blue,
-    },
-});
 
 const mapStateToProps = (state) => {
     return {
         history: state.historyReducer.history,
         token: state.userReducer.token,
+        tags: state.tagsReducer.tags,
     };
 };
 
@@ -181,7 +161,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setHistory: (audio) => dispatch(setHistory(audio)),
         cleanHistory: () => dispatch(cleanHistory()),
-        delete: (date, uid) => dispatch(deleteAudioHistory(date, uid))
+        deleteAudio: (date, uid) => dispatch(deleteAudioHistory(date, uid)),
+        deleteFilter: (tag) => dispatch(deleteFilter(tag))
     };
 };
 
