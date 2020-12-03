@@ -15,6 +15,7 @@ export const URL = {
     changeSpeciality: server + '/public/v1/user/speciality',
 
     getHistory: server + '/public/v1/audios',
+    deleteAll: server + '/public/v1/audios',
     filterHistory: server + '/public/v1/audios/filter/',
     searchAudio: server + '/public/v1/audios/search/',
 

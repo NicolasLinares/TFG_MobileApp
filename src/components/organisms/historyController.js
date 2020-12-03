@@ -53,9 +53,13 @@ class historyController extends Component {
         // crea un fichero por cada grabación
         let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
 
-        RNFetchBlob.fs.unlink(localpath).catch((err) => {
-            alert("Error al borrar el audio" + err);
-        });
+        RNFetchBlob.fs.exists(localpath).then((exist) => {
+                if (exist)
+                    RNFetchBlob.fs.unlink(localpath).catch((err) => {
+                        alert("Error al borrar el audio" + err);
+                    });
+            }
+        )
 
         // Se borra de la base de datos del servidor
         let response = await audioRequestService.deleteAudioHistory(item.uid);
@@ -73,7 +77,6 @@ class historyController extends Component {
                 this.props.deleteFilter(response.tag);
             }
         }
-
     };
 
     async handleGetHistory() {

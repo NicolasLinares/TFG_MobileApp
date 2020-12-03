@@ -56,18 +56,17 @@ class filterListController extends Component {
 
 
     async handleTagPressed(tag) {
+        // Se establece el código de paciente usado actualmente
+        this.props.setCurrentTagApplied(tag);
+
+        // Se muestra el botón para eliminar el filtrado
+        this.setState({ hideButton: false, paddingLeft: 50 });
 
         // Para el resto de peticiones ya se almacena la URL
         // con la siguiente página
         let response = await audioRequestService.filterByTag(tag);
 
         if (response !== null) {
-
-            // Se establece el código de paciente usado actualmente
-            this.props.setCurrentTagApplied(tag);
-
-            // Se muestra el botón para eliminar el filtrado
-            this.setState({ hideButton: false, paddingLeft: 50 });
 
             // Se vacía el historial de audios grabados 
             // para que no se dupliquen en caso de haber 

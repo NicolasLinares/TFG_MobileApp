@@ -9,7 +9,6 @@ import {
 
 import { BasicList } from '_molecules';
 
-
 import { connect } from 'react-redux';
 import { deleteAudio, addAudioTag, addAudioHistory, addFilterTag } from '_redux_actions';
 
@@ -28,9 +27,7 @@ class audioListModule extends Component {
 		this.uploadingData = false;
 	}
 
-
 	handleAudioDelete = (item, closeRow) => {
-
 		Alert.alert(
 			'Eliminar nota de voz',
 			'La nota de voz "' + item.name + '.' + item.extension + '" se va a eliminar de forma permanente',
@@ -143,7 +140,7 @@ class audioListModule extends Component {
 				<View style={styles.header}>
 					<Text style={styles.title}>
 						Notas de voz
-                </Text>
+                	</Text>
 					{this.props.list.length > 0 && !this.uploadingData ? this._renderSendButton() : null}
 				</View>
 

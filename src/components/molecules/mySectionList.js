@@ -40,7 +40,6 @@ class mySectionList extends Component {
     };
 
     handleDeleteRow = async (rowMap, item) => {
-
         return await AlertAsync(
             'Eliminar nota de voz',
             'La nota de voz "' + item.localpath + '" y su transcripción se van a eliminar de forma permanente',
@@ -115,7 +114,7 @@ class mySectionList extends Component {
                 closeOnScroll={true}
                 previewOpenValue={-40}
                 previewOpenDelay={3000}
-                onScrollEndDrag={() => this.props.refresh()}
+                onScrollEndDrag={() => this.props.refresh()} // más fluido con onMomentumScrollBegin pero con swipe up también se activa
                 ListFooterComponent={() => this.props.loading ? <ActivityIndicator size="small" color={COLORS.grey} style={{ marginTop: 20 }} /> : null}
             />
         )

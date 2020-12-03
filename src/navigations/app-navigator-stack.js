@@ -26,7 +26,7 @@ const StackRouteConfigs = {
 		screen: HomeScreen,
 		navigationOptions: ({ navigation }) => ({
 			headerLeft: () => HeaderButtons.MenuButton(navigation),
-			headerRight: () => {},
+			headerRight: () => HeaderButtons.OptionsButton(),
 			title: 'Mis notas de voz',
 			headerStyle: {
 				// para esconder la línea inferior en el header
@@ -37,7 +37,8 @@ const StackRouteConfigs = {
 			headerTitleStyle: {
 				textAlign: 'center', // Android -  alinear título
 				fontWeight: 'bold',
-				fontSize: 25
+				fontSize: Platform.OS === 'ios' ? 24 : 22,
+
 			},
 		}),
 	},

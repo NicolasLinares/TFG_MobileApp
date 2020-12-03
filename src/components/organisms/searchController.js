@@ -8,6 +8,7 @@ import { audioRequestService } from '_services';
 
 import { connect } from 'react-redux';
 import { setHistory, cleanHistory} from '_redux_actions';
+import { COLORS } from '_styles';
 
 
 
@@ -64,7 +65,8 @@ class searchController extends Component {
                 platform={Platform.OS}
                 lightTheme
                 containerStyle={{ width: '95%', alignSelf: 'center' }}
-                inputContainerStyle={{ backgroundColor: this.state.showNullResponse ? 'rgba(255,0,0,0.3)' : 'rgb(220,220,225)', borderRadius: 15, height: 35 }}
+                inputContainerStyle={{ backgroundColor: this.state.showNullResponse ? 'rgba(255,0,0,0.3)' : COLORS.light_grey, borderRadius: 15, height: 35 }}
+                inputStyle={{fontSize: 16}}
                 cancelButtonTitle={'Cancelar'}
                 showLoading={this.state.loading}
                 placeholder={"Buscar..."}
@@ -72,12 +74,12 @@ class searchController extends Component {
                 onBlur={() => this.searchWord()}
                 onFocus={() => this.setState({ showNullResponse: false })}
                 onCancel={() => {
-                    this.setState({ loading: false });
+                    this.setState({showNullResponse: false,loading: false });
                     this.props.resetHistory();
                 }
                 }
                 onClear={() => {
-                    this.setState({ loading: false });
+                    this.setState({showNullResponse: false, loading: false });
                     this.props.resetHistory();
                 }
                 }
