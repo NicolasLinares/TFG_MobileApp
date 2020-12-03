@@ -15,6 +15,8 @@ import { authRequestService } from '_services';
 
 class LogoutController extends Component {
 
+
+
     handleLogout = async () => {
         await Alert.alert(
             'Cerrar sesión',
@@ -27,7 +29,7 @@ class LogoutController extends Component {
                 {
                     text: 'Salir',
                     onPress: async () => {
-
+                        
                         let response = await authRequestService.logout();
 
                         if (response !== null) {

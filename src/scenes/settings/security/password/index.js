@@ -119,8 +119,10 @@ class PasswordSettingScreen extends Component {
                 <IconII style={[styles.icon, {color: color}]} name={icon}/>
                 <TextInput
                     onChangeText={value => setValue(value)}
+                    underlineColorAndroid={'transparent'}
                     style={styles.text}
                     placeholder={name}
+                    textContentType={'none'} // evita el autorrelleno en ios
                     placeholderTextColor={COLORS.dark_grey}
                     secureTextEntry={true}
                 />

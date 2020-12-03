@@ -251,6 +251,7 @@ class AudioScreen extends Component {
 			<TextInput
 				multiline={true}
 				onFocus={() => this.setState({ editing: true })}
+				underlineColorAndroid={'transparent'}
 				style={[styles.text, { marginBottom: Platform.OS == 'ios' ? 10 : 0 }]}
 				value={this.state.description}
 				placeholder={placeholder}
@@ -332,7 +333,7 @@ class AudioScreen extends Component {
 			<ScrollView
 				style={styles.scrollContainer}
 				keyboardDismissMode={'on-drag'}
-				keyboardShouldPersistTaps={'handle'}
+				keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
 			>
 
 				<Text style={styles.date}> {this.state.date + ', ' + this.state.hour}</Text>

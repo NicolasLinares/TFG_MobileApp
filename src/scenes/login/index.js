@@ -28,8 +28,8 @@ class LoginScreen extends Component {
 		super(props);
 		this.state = {
 			savePssw: false,
-			email: 'felipe@gmail.com',
-			password: '1234',
+			email: '',
+			password: ''
 		};
 	}
 
@@ -71,7 +71,7 @@ class LoginScreen extends Component {
 				response.user.country,
 				response.access_token
 			);
-			
+
 			this.props.navigation.navigate('App');
 		}
 	}
@@ -83,6 +83,8 @@ class LoginScreen extends Component {
 					value={this.state.email}
 					onChangeText={(value) => this.setState({ email: value })}
 					marginTop={10}
+					keyboardType={'email-address'}
+					textContentType={'emailAddress'}
 					icon='mail'
 					placeholder='Correo electrónico'
 				/>
@@ -90,9 +92,11 @@ class LoginScreen extends Component {
 				<TextInput
 					onChangeText={(value) => this.setState({ password: value })}
 					secureTextEntry={true}
+					keyboardType={'default'}
+					textContentType={'none'}
 					marginTop={10}
-					icon='lock-closed'
-					placeholder='Contraseña'
+					icon={'lock-closed'}
+					placeholder={'Contraseña'}
 				/>
 
 				<View style={{ flexDirection: "row", alignSelf: 'flex-start', marginTop: 20 }}>
@@ -107,7 +111,7 @@ class LoginScreen extends Component {
 					}}
 					>
 						Recordar contraseña
-          </Text>
+          			</Text>
 				</View>
 			</>
 		);
@@ -121,7 +125,7 @@ class LoginScreen extends Component {
 					onPress={() => Linking.openURL("https://invoxmedical.com/rememberpassword/")}>
 					<Text style={[styles.link_text, { textAlign: 'center' }]}>
 						¿Ha olvidado el nombre de usuario {'\n'}o la contraseña?
-          </Text>
+          			</Text>
 				</TouchableOpacity>
 
 				<ButtonAuth
@@ -138,7 +142,7 @@ class LoginScreen extends Component {
 						onPress={() => this.props.navigation.navigate('SignIn', { onGoBack: (email) => this.refresh(email) })}>
 						<Text style={[styles.link_text, { marginLeft: 6 }]}>
 							Regístrese
-              </Text>
+             			</Text>
 					</TouchableOpacity>
 				</View>
 			</>
@@ -153,6 +157,8 @@ class LoginScreen extends Component {
 				style={styles.scrollview}
 				resetScrollToCoords={{ x: 0, y: 0 }}
 				scrollEnabled
+				keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
+
 			>
 				<View style={styles.container}>
 					<Image

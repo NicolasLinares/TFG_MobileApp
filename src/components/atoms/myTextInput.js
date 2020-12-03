@@ -1,28 +1,63 @@
 import React, { Component } from 'react';
 import {
-    TextInput, 
+    TextInput,
     View,
-    StyleSheet
+    StyleSheet,
 } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS } from '_styles';
 
 class myTextInput extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state={
+            hidePassword: true,
+            value: '',
+            colorSelected: COLORS.grey,
+            focus: false
+        }
+    }
+
+    handleValueChange(value) {
+        this.setState({value: value});
+        this.props.onChangeText(value);
+    }
+
     render() {
         return (
-            <View style={[styles.card,{marginTop: this.props.marginTop, marginBottom: this.props.marginBottom}]} >
-                <IconII style={{marginLeft:15}} name={this.props.icon} size={20} color={COLORS.grey}/>
-                
+            <View style={[styles.card, {borderColor: this.state.colorSelected, marginTop: this.props.marginTop, marginBottom: this.props.marginBottom }]} >
+                <IconII style={{ marginLeft: 15 }} name={this.props.icon} size={20} color={this.state.colorSelected} />
+
                 <TextInput
                     value={this.props.value}
-                    onChangeText={this.props.onChangeText}
+                    onChangeText={value => this.handleValueChange(value)}
                     style={styles.text}
                     placeholder={this.props.placeholder}
                     placeholderTextColor={COLORS.grey}
-                    secureTextEntry={this.props.secureTextEntry}
-                    autoCapitalize="none"
+                    autoCapitalize={'none'}
+                    keyboardType={this.props.keyboardType}
+                    underlineColorAndroid={"transparent"}
+                    textContentType={this.props.textContentType}
+                    secureTextEntry={this.props.secureTextEntry ? this.state.hidePassword : false}
+                    onBlur={() => this.setState({colorSelected: COLORS.grey, focus: false})}
+                    onFocus={() => this.setState({colorSelected: COLORS.green, focus: true})}
                 />
+
+                {
+                    this.props.secureTextEntry  && this.state.focus && this.state.value.length > 0
+                        ?
+                        <TouchableWithoutFeedback
+                            style={styles.eyeButton}
+                            onPress={() => this.setState({hidePassword: !this.state.hidePassword})}
+                        >
+                            <IconII name={this.state.hidePassword ? 'eye-off' : 'eye'} size={20} color={this.state.colorSelected} />
+                        </TouchableWithoutFeedback>
+                        :
+                        null
+                }
             </View>
         )
     }
@@ -32,19 +67,26 @@ class myTextInput extends Component {
 const styles = StyleSheet.create({
     card: {
         height: 50,
-        borderColor: 'grey',
-        borderWidth: 0.5,
+        width: '100%',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
         borderRadius: 30,
-        flexDirection: 'row', 
-        alignItems: 'center'
+        borderWidth: 1.5,
     },
     text: {
-        width:'80%',
-        marginLeft:15, 
-        fontSize: 15, 
-        color:'black'
+        flex:1,
+        marginLeft: 15,        
+        marginRight: 10,
+        fontSize: 15,
+        color: 'black',
+    },
+    eyeButton: {
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 30,
+        marginRight: 10,
     }
 });
 

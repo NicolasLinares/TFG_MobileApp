@@ -28,6 +28,7 @@ target 'recorder_cli' do
   post_install do |installer|
     flipper_post_install(installer)
   end
+
 end
 
 target 'recorder_cli-tvOS' do

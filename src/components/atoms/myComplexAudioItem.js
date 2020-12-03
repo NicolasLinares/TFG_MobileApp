@@ -82,10 +82,11 @@ class myComplexAudioItem extends Component {
                 <View style={styles.nameInput}>
                     <TextInput
                         style={styles.name}
+                        underlineColorAndroid={'transparent'}
                         maxLength={32}
                         value={this.state.name}
                         onChangeText={(value) => this.setState({ name: value })}
-                        autoCapitalize="none"
+                        autoCapitalize={'none'}
                         onBlur={() => this.setNewName()}
                     />
                 </View>
