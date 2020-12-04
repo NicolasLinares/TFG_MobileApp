@@ -26,7 +26,7 @@ class Scanner extends Component {
 
     onScanSuccess = e => {
       this.props.setCode(e.data);
-      this.props.nav.replace('Recorder');     
+      this.props.nav.goBack('Recorder');     
     };
 
 
@@ -41,7 +41,7 @@ class Scanner extends Component {
 
           {this._renderMessage()}
           
-          <ButtonBack onPress={ () => { this.props.nav.replace('Recorder')}}/>
+          <ButtonBack onPress={ () => { this.props.nav.goBack()}}/>
         </>
       )
     };

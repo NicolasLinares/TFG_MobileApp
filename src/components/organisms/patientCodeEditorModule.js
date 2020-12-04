@@ -62,7 +62,7 @@ class patientCodeEditorModule extends Component {
 
         if (granted) {
             this.props.closeTagEditor();
-            this.props.nav.replace('Scanner');
+            this.props.nav.navigate('Scanner');
         }
     }
 

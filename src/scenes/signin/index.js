@@ -66,7 +66,7 @@ class SignInScreen extends Component {
 		);
 
 		if (response !== null) {
-
+			// Se escribe en el input del Login el email para que pueda iniciar sesión en esa cuenta
 			this.props.navigation.state.params.onGoBack(this.state.email);
 			this.props.navigation.goBack();
 		}

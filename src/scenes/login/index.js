@@ -21,6 +21,7 @@ import { authUser } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
 
 import { authRequestService } from '_services';
+import * as Keychain from 'react-native-keychain';
 
 class LoginScreen extends Component {
 
@@ -28,23 +29,47 @@ class LoginScreen extends Component {
 		super(props);
 		this.state = {
 			savePssw: false,
-			email: 'felipe@gmail.com',
-			password: '1234'
+			email: '',
+			password: ''
 		};
 	}
 
-	handlerPasswordManager(value) {
-		this.setState({
-			savePssw: value,
-		});
+	componentDidMount = async () => {
+		try {
+			// Retrieve the credentials
+			const credentials = await Keychain.getGenericPassword();
+			if (credentials) {
+				console.log('Credenciales cargadas correctamente');
+				this.setState({ 
+					savePssw: true,
+					email: credentials.username,
+					password: credentials.password
+				});
+
+			} else {
+				console.log('Las credenciales no se encuentran almacenadas');
+			}
+		} catch (error) {
+			console.log("Keychain Error: ", error);
+		}
 	}
 
-	refresh = (email) => {
+	rememberMe = async (remember) => {
+		this.setState({
+			savePssw: remember,
+		});
+
+		if (!remember) {
+			await Keychain.resetGenericPassword();
+			console.log('Credenciales eliminadas correctamente');
+		}
+	}
+
+	setInputEmail = (email) => {
 		this.setState({
 			email: email
 		});
 	}
-
 
 	handleLogin = async () => {
 
@@ -72,13 +97,18 @@ class LoginScreen extends Component {
 				response.access_token
 			);
 
+			if (this.state.savePssw) {
+				await Keychain.setGenericPassword(this.state.email, this.state.password);
+				console.log('Credenciales guardadas correctamente');
+			}
+
 			this.props.navigation.navigate('App');
 		}
 	}
 
 	_renderInputs() {
 		return (
-			<> 
+			<>
 				<TextInput
 					value={this.state.email}
 					onChangeText={(value) => this.setState({ email: value })}
@@ -90,6 +120,7 @@ class LoginScreen extends Component {
 				/>
 
 				<TextInput
+					value={this.state.password}
 					onChangeText={(value) => this.setState({ password: value })}
 					secureTextEntry={true}
 					keyboardType={'default'}
@@ -101,7 +132,7 @@ class LoginScreen extends Component {
 
 				<View style={{ flexDirection: "row", alignSelf: 'flex-start', marginTop: 20 }}>
 					<Switch
-						onValueChange={(value) => this.handlerPasswordManager(value)}
+						onValueChange={(value) => this.rememberMe(value)}
 						value={this.state.savePssw}
 					/>
 					<Text style={{
@@ -134,12 +165,11 @@ class LoginScreen extends Component {
 					color={COLORS.blue}
 				/>
 
-
 				<View style={{ flexDirection: "row", justifyContent: 'center', marginTop: 20, alignItems: 'center' }}>
 					<Text style={{ fontSize: 15 }}>¿No tiene cuenta?</Text>
 					<TouchableOpacity
 						style={{ height: 40, justifyContent: 'center' }}
-						onPress={() => this.props.navigation.navigate('SignIn', { onGoBack: (email) => this.refresh(email) })}>
+						onPress={() => this.props.navigation.navigate('SignIn', { onGoBack: (email) => this.setInputEmail(email) })}>
 						<Text style={[styles.link_text, { marginLeft: 6 }]}>
 							Regístrese
              			</Text>

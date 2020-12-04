@@ -47,7 +47,7 @@ class myTextInput extends Component {
                 />
 
                 {
-                    this.props.secureTextEntry  && this.state.focus && this.state.value.length > 0
+                    this.props.secureTextEntry  && this.state.focus && this.props.value.length > 0
                         ?
                         <TouchableWithoutFeedback
                             style={styles.eyeButton}
