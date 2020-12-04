@@ -13,10 +13,12 @@ class myPicker extends Component {
 
         this.state = {
             colorText: COLORS.grey,
-            list: this.props.data
+            list: this.props.data,
+            colorSelected: COLORS.grey,
         }
     }
 
+    // El color se simula porque no viene por defecto
     handleValue(value) {
         // Gestión del color del placeholder
         if (value === null) {
@@ -35,33 +37,40 @@ class myPicker extends Component {
     render() {
         return (
 
-            <View style={[styles.card,{marginTop: this.props.marginTop, marginBottom: this.props.marginBottom}]}>
-                <IconII style={{marginLeft:15}} name={this.props.icon} size={20} color={COLORS.grey}/>
-                
+            <View style={[styles.card, { borderColor: this.state.colorSelected, marginTop: this.props.marginTop, marginBottom: this.props.marginBottom }]} >
+                <IconII style={{ marginLeft: 15 }} name={this.props.icon} size={20} color={this.state.colorSelected} />
+
                 <RNPickerSelect
-                    useNativeAndroidPickerStyle={false}
+                    items={this.state.list}                    
+                    onValueChange={value => this.handleValue(value)}
                     placeholder={{
                         label: this.props.placeholder,
                         value: null,
                         color: COLORS.grey,
                     }}
-                    textInputProps={{height:"100%", 
-                                    width: "100%", 
-                                    marginLeft:15, 
-                                    color: this.state.colorText}}
-                    onValueChange={value => this.handleValue(value)}
-                    items={this.state.list}
+                    textInputProps={{
+                        height: "100%",
+                        width: "100%",
+                        marginLeft: 15,
+                        color: this.state.colorText,
+                    }}
+                    onOpen={() => this.setState({ colorSelected: COLORS.green })} 
+                    onClose={() => this.setState({ colorSelected: COLORS.grey })} // iOS only
                     style={{
                         inputAndroid: {
-                            backgroundColor: 'transparent',
                             color: 'black',
-                            fontSize: 15
+                            fontSize: 15,
+                            minWidth: '85%',
+                            maxWidth: "85%",
                         },
                         inputIOS: {
-                            backgroundColor: 'transparent',
-                            fontSize: 15
+                            fontSize: 15,
+                            minWidth: '85%',
+                            maxWidth: "85%",
                         },
                     }}
+                    useNativeAndroidPickerStyle={false}
+                    fixAndroidTouchableBug={true}
                 />
             </View>
         )
@@ -69,18 +78,17 @@ class myPicker extends Component {
 }
 
 const styles = StyleSheet.create({
-    card: {        
+    card: {
         flexDirection: "row",
         height: 50,
-        borderColor: 'grey',
         borderRadius: 30,
-        borderWidth: 0.5,
+        borderWidth: 1.5,
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
     text: {
-        fontSize: 20, 
-        marginRight: 15, 
+        fontSize: 20,
+        marginRight: 15,
         color: COLORS.electric_blue
     },
 });

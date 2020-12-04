@@ -125,6 +125,7 @@ class PasswordSettingScreen extends Component {
                     textContentType={'none'} // evita el autorrelleno en ios
                     placeholderTextColor={COLORS.dark_grey}
                     secureTextEntry={true}
+                    blurOnSubmit={false}
                 />
             </View>
         );

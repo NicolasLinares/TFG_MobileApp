@@ -28,8 +28,8 @@ class LoginScreen extends Component {
 		super(props);
 		this.state = {
 			savePssw: false,
-			email: '',
-			password: ''
+			email: 'felipe@gmail.com',
+			password: '1234'
 		};
 	}
 
@@ -78,7 +78,7 @@ class LoginScreen extends Component {
 
 	_renderInputs() {
 		return (
-			<>
+			<> 
 				<TextInput
 					value={this.state.email}
 					onChangeText={(value) => this.setState({ email: value })}
