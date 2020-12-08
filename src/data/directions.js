@@ -6,9 +6,10 @@ const server = remote;
 
 export const URL = {
 
-    register: server + '/public/v1/auth/signin',
-    login: server + '/public/v1/auth/login',
-    logout: server + '/public/v1/auth/logout',
+    register: server + '/public/v1/signin',
+    login: server + '/public/v1/login',
+    logout: server + '/public/v1/logout',
+    refresh: server + '/public/v1/refresh',
 
     changePassword: server + '/public/v1/user/password',
     changeCountry: server + '/public/v1/user/country',

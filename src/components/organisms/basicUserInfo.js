@@ -61,12 +61,15 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 16,
-        fontWeight: '500'
+        fontWeight: '500',
+        textAlign: 'center'
     },
     spec: {
         marginTop: 5,
         fontSize: 14,
-        color: 'grey'
+        color: 'grey',
+        textAlign: 'center'
+
     }
 
 });

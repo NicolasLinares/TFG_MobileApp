@@ -17,6 +17,7 @@ import { showMessage } from "react-native-flash-message";
 import {connect} from 'react-redux';
 
 import { authRequestService } from '_services';
+import * as Keychain from 'react-native-keychain';
 
 
 class PasswordSettingScreen extends Component {
@@ -102,6 +103,9 @@ class PasswordSettingScreen extends Component {
                     color: COLORS.green
                 });
 
+                await Keychain.setGenericPassword(this.state.email, this.state.password);
+				console.log('Credenciales guardadas correctamente');
+
             } else if (status == 400) {
                 this.setState({
                     curr_wrong: true,
@@ -122,7 +126,7 @@ class PasswordSettingScreen extends Component {
                     underlineColorAndroid={'transparent'}
                     style={styles.text}
                     placeholder={name}
-                    textContentType={'none'} // evita el autorrelleno en ios
+                    textContentType={'oneTimeCode'} // evita el autorrelleno en ios
                     placeholderTextColor={COLORS.dark_grey}
                     secureTextEntry={true}
                     blurOnSubmit={false}

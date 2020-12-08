@@ -38,6 +38,7 @@ class myTextInput extends Component {
                     placeholder={this.props.placeholder}
                     placeholderTextColor={COLORS.grey}
                     autoCapitalize={'none'}
+                    textContentType={'oneTimeCode'}
                     keyboardType={this.props.keyboardType}
                     underlineColorAndroid={"transparent"}
                     textContentType={this.props.textContentType}

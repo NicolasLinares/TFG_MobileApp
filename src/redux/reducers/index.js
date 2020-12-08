@@ -8,7 +8,8 @@ const initialState = {
         email: null,
         speciality: null,
         country: null,
-        token: null
+        token: null,                    // Token de autorización para la comunicación con el servidor
+        expires_in: null                // Tiempo en mss en el que expira el token
     },
 
     audiolist: [],                      // Lista con los nuevos audios grabados, se borra al enviar para transcribir
@@ -28,7 +29,6 @@ const initialState = {
 
 export function userReducer(state = initialState.user, action) {
     switch (action.type) {
-
         case types.SET_USER_DATA:
             return {
                 ...state,
@@ -37,7 +37,14 @@ export function userReducer(state = initialState.user, action) {
                 email: action.email,
                 speciality: action.speciality,
                 country: action.country,
-                token: action.token
+                token: action.token,
+                expires_in: moment.now() + 1000*60*action.expires_in
+            };
+        case types.REFRESH_TOKEN:
+            return {
+                ...state,
+                token: action.refresh_token,
+                expires_in: moment.now() + 1000*60*action.expires_in
             };
         default:
             return state;
@@ -292,7 +299,7 @@ export function historyReducer(state = initialState, action) {
 
         case types.UPDATE_NAME_AUDIO:
 
-        return {
+            return {
                 ...state,
                 history: state.history.map(
                     (section) => (

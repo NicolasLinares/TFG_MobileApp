@@ -61,6 +61,7 @@ class historyController extends Component {
             }
         )
 
+        
         // Se borra de la base de datos del servidor
         let response = await audioRequestService.deleteAudioHistory(item.uid);
         if (response !== null) {
@@ -77,6 +78,7 @@ class historyController extends Component {
                 this.props.deleteFilter(response.tag);
             }
         }
+        
     };
 
     async handleGetHistory() {

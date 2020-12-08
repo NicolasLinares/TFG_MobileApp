@@ -15,5 +15,6 @@ export const COLORS = {
     light_grey: 'rgba(210,210,210, 0.4)',
 
     orange: 'rgba(232, 173, 46, 0.8)',
-
+    
+    danger: '#f2673d',
 };

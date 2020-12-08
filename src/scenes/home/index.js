@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
 	View,
-	StyleSheet,
+	StyleSheet
 } from 'react-native';
 
 import { ButtonNewRecord } from '_atoms';

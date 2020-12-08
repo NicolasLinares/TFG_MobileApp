@@ -1,7 +1,7 @@
 
 // USER ACTIONS
 
-export const authUser = (name, surname, email, speciality, country, token) => {
+export const authUser = (name, surname, email, speciality, country, token, expires_in) => {
     return {
         type: 'SET_USER_DATA',
         name: name,
@@ -9,7 +9,16 @@ export const authUser = (name, surname, email, speciality, country, token) => {
         email: email,
         speciality: speciality,
         country: country,
-        token: token
+        token: token,
+        expires_in: expires_in
+    }
+}
+
+export const refreshToken = (token, expires_in) => {
+    return {
+        type: 'REFRESH_TOKEN',
+        refresh_token: token,
+        expires_in: expires_in
     }
 }
 
@@ -21,7 +30,8 @@ export const logoutUser = () => {
         email: null,
         speciality: null,
         country: null,
-        token: null
+        token: null,
+        expires_in: null
     }
 }
 

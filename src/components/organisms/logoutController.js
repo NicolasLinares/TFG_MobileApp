@@ -16,7 +16,6 @@ import { authRequestService } from '_services';
 class LogoutController extends Component {
 
 
-
     handleLogout = async () => {
         await Alert.alert(
             'Cerrar sesión',
@@ -29,7 +28,8 @@ class LogoutController extends Component {
                 {
                     text: 'Salir',
                     onPress: async () => {
-                        
+                        await this.props.nav.closeDrawer();
+
                         let response = await authRequestService.logout();
 
                         if (response !== null) {
@@ -37,8 +37,8 @@ class LogoutController extends Component {
                             this.props.cleanUserInfo();
                             // Se vacía el historial de audios
                             this.props.cleanHistory();
-                            
-                            this.props.nav.closeDrawer();
+
+                            // Se vuelve al espacio de autenticación
                             this.props.nav.navigate('Auth');
                         }
                     }

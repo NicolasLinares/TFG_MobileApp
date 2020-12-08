@@ -65,10 +65,14 @@ class LoginScreen extends Component {
 		}
 	}
 
-	setInputEmail = (email) => {
+	setInputEmail = async (email) => {
 		this.setState({
-			email: email
+			email: email,
+			password: '',
+			savePssw: false
 		});
+
+		await Keychain.resetGenericPassword();
 	}
 
 	handleLogin = async () => {
@@ -94,9 +98,10 @@ class LoginScreen extends Component {
 				response.user.email,
 				response.user.speciality,
 				response.user.country,
-				response.access_token
-			);
-
+				response.access_token,
+				response.expires_in
+			);			
+			
 			if (this.state.savePssw) {
 				await Keychain.setGenericPassword(this.state.email, this.state.password);
 				console.log('Credenciales guardadas correctamente');
@@ -251,7 +256,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setUser: (name, surname, email, speciality, country, token) => dispatch(authUser(name, surname, email, speciality, country, token))
+		setUser: (name, surname, email, speciality, country, token, expires_in) => dispatch(authUser(name, surname, email, speciality, country, token, expires_in))
 	}
 }
 

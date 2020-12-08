@@ -120,11 +120,14 @@ class SignInScreen extends Component {
 				/>
 
 				<TextInput
+					value={this.state.password}
 					onChangeText={(value) => this.setState({ password: value })}
 					secureTextEntry={true}
-					marginTop={5}
-					icon='lock-closed'
-					placeholder='Contraseña'
+					keyboardType={'default'}
+					textContentType={'none'}
+					marginTop={10}
+					icon={'lock-closed'}
+					placeholder={'Contraseña'}
 				/>
 
 			</>
@@ -165,6 +168,7 @@ class SignInScreen extends Component {
 					style={styles.scrollview}
 					resetScrollToCoords={{ x: 0, y: 0 }}
 					scrollEnabled
+					keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
 				>
 
 					<View style={styles.container}>
