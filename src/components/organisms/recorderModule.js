@@ -71,7 +71,7 @@ class recorderModule extends Component {
 
 		let extension = Platform.select({
 			ios: 'wav',
-			android: 'mp3',
+			android: 'wav',
 		});
 
 		let path = Platform.select({
