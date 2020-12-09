@@ -2,6 +2,8 @@ import { httpRequest, showError, showSuccess } from './templates/httpTemplate';
 import { checkTokenExpired } from './tokenRequest';
 import { URL } from '_constants';
 
+
+
 export async function login(email, password) {
 
 	let configProps = { trusty: true };
@@ -56,6 +58,7 @@ export async function signin(name, surname, email, password, speciality, country
 			return null;
 	}
 }
+
 
 export async function logout() {
 

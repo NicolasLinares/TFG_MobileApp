@@ -6,7 +6,7 @@ import AudioRecorderPlayer, {
 	AVEncoderAudioQualityIOSType,
 	AVEncodingOption,
 	AudioEncoderAndroidType,
-	AudioSourceAndroidType,
+	AudioSourceAndroidType
 } from 'react-native-audio-recorder-player';
 
 import moment from 'moment';
@@ -70,8 +70,8 @@ class recorderModule extends Component {
 		let name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
 
 		let extension = Platform.select({
-			ios: 'm4a',
-			android: 'mp4',
+			ios: 'wav',
+			android: 'mp3',
 		});
 
 		let path = Platform.select({
@@ -94,9 +94,10 @@ class recorderModule extends Component {
 		const audioSet = {
 			AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
 			AudioSourceAndroid: AudioSourceAndroidType.MIC,
+	
 			AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
 			AVNumberOfChannelsKeyIOS: 2,
-			AVFormatIDKeyIOS: AVEncodingOption.aac,
+			AVFormatIDKeyIOS: AVEncodingOption.lpcm,
 		};
 
 
@@ -116,7 +117,6 @@ class recorderModule extends Component {
 		};
 
 		this.state.recorder.addRecordBackListener();
-
 		return audio;
 	};
 

@@ -132,7 +132,7 @@ class AudioScreen extends Component {
 
 	handleShareAudioFile() {
 
-		let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
+		let localpath = 'file://' + RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
 
 		let options = {
 			title: 'Compartir grabación de audio',

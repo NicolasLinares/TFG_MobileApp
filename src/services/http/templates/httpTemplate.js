@@ -4,7 +4,8 @@ import { COLORS } from '_styles';
 
 export async function httpRequest(configProps, method, url, headers, body) {
 
-	return await RNFetchBlob.config(configProps)
+	return await RNFetchBlob
+		.config(configProps)
 		.fetch(
 			method,
 			url,
@@ -13,7 +14,6 @@ export async function httpRequest(configProps, method, url, headers, body) {
 		)
 		.then((response) => {
 			let status = response.info().status;
-
 			// Esta comprobación es para evitar que cuando se desargue el audio,
 			// por el método "downloadAudioFile()", aparezca un warning porque el cuerpo
 			// del mensaje no es un json sino un blob
