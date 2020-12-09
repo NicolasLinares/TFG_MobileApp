@@ -2,7 +2,7 @@ import { httpRequest, showError } from './templates/httpTemplate';
 import { refreshToken } from '_redux_actions';
 import moment from 'moment';
 import store from '_redux_store';
-import { URL } from '_data';
+import { URL } from '_constants';
 
 async function refresh(token) {
 

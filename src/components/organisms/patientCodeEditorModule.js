@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     View,
-    ScrollView,
     TextInput,
     Text,
     StyleSheet,
@@ -9,7 +8,6 @@ import {
     Platform,
     StatusBar,
     Alert,
-    FlatList,
     KeyboardAvoidingView
 } from 'react-native';
 

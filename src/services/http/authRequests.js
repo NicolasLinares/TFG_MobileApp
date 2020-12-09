@@ -1,6 +1,6 @@
 import { httpRequest, showError, showSuccess } from './templates/httpTemplate';
 import { checkTokenExpired } from './tokenRequest';
-import { URL } from '_data';
+import { URL } from '_constants';
 
 export async function login(email, password) {
 

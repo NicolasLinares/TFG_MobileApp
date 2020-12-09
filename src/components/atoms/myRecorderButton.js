@@ -11,11 +11,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { COLORS, CONSTANTS } from '_styles';
 
-import {
-    BarIndicator,
-    PulseIndicator,
-    WaveIndicator,
-} from 'react-native-indicators';
+import { PulseIndicator } from 'react-native-indicators';
 
 class recorderButton extends Component {
 

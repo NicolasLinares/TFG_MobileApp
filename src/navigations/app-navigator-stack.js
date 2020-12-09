@@ -3,16 +3,16 @@ import { View } from 'react-native';
 
 import { createStackNavigator } from 'react-navigation-stack';
 
-import HomeScreen from '_scenes/home';
-import AudioScreen from '_scenes/home/audio';
+import HomeScreen from '_screens/home';
+import AudioScreen from '_screens/home/audio';
 
-import RecorderScreen from '_scenes/recorder';
-import ScannerScreen from '_scenes/recorder/scanner';
+import RecorderScreen from '_screens/recorder';
+import ScannerScreen from '_screens/recorder/scanner';
 
-import SettingsScreen from '_scenes/settings';
-import ProfileScreen from '_scenes/settings/profile';
-import SecurityScreen from '_scenes/settings/security';
-import PasswordSettingScreen from '_scenes/settings/security/password';
+import SettingsScreen from '_screens/settings';
+import ProfileScreen from '_screens/settings/profile';
+import SecurityScreen from '_screens/settings/security';
+import PasswordSettingScreen from '_screens/settings/security/password';
 
 import moment from 'moment';
 import {HeaderButtons} from '_atoms';

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-    Alert,
     Text, 
     StyleSheet,
     View

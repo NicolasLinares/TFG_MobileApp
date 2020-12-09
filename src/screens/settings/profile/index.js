@@ -12,7 +12,7 @@ import { showMessage } from "react-native-flash-message";
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
-import { URL } from '_data';
+import { URL } from '_constants';
 
 import {connect} from 'react-redux';
 import { editUser } from '_redux_actions';

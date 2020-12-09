@@ -12,7 +12,7 @@ import {
     deleteFilter
 } from '_redux_actions';
 
-import { URL } from '_data';
+import { URL } from '_constants';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import moment from 'moment';

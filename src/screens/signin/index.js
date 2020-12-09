@@ -11,7 +11,7 @@ import {
 
 import { ButtonAuth, Picker, TextInput } from '_atoms';
 import { COLORS } from '_styles';
-import * as DATA from '_data';
+import * as DATA from '_constants';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { showMessage } from "react-native-flash-message";

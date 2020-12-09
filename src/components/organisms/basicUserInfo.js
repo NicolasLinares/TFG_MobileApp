@@ -6,8 +6,6 @@ import {
     Platform,
 } from 'react-native';
 
-import IconII from "react-native-vector-icons/Ionicons";
-
 import { COLORS } from '_styles';
 import {connect} from 'react-redux';
 

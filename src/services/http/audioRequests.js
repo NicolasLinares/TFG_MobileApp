@@ -1,6 +1,6 @@
 import { httpRequest, showError } from './templates/httpTemplate';
 import { checkTokenExpired } from './tokenRequest';
-import { URL } from '_data';
+import { URL } from '_constants';
 import RNFetchBlob from 'rn-fetch-blob';
 
 export async function getHistory(next_url) {
