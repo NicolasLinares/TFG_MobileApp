@@ -28,7 +28,7 @@ import IconII from 'react-native-vector-icons/Ionicons';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import moment from 'moment';
-import RNFetchBlob from 'rn-fetch-blob';
+import * as FS from '_constants';
 
 import { connect } from 'react-redux';
 import { deleteAudioHistory, updateDescription, updateName } from '_redux_actions';
@@ -132,7 +132,7 @@ class AudioScreen extends Component {
 
 	handleShareAudioFile() {
 
-		let localpath = 'file://' + RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
+		let localpath = 'file://' + FS.DIRECTORY + '/' + this.state.localpath;
 
 		let options = {
 			title: 'Compartir grabación de audio',

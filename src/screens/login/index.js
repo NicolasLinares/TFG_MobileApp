@@ -96,7 +96,7 @@ class LoginScreen extends Component {
 				response.user.name,
 				response.user.surname,
 				response.user.email,
-				response.user.speciality,
+				response.user.specialty,
 				response.user.country,
 				response.access_token,
 				response.expires_in
@@ -256,7 +256,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setUser: (name, surname, email, speciality, country, token, expires_in) => dispatch(authUser(name, surname, email, speciality, country, token, expires_in))
+		setUser: (name, surname, email, specialty, country, token, expires_in) => dispatch(authUser(name, surname, email, specialty, country, token, expires_in))
 	}
 }
 

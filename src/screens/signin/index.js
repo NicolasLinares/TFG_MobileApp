@@ -11,7 +11,7 @@ import {
 
 import { ButtonAuth, Picker, TextInput } from '_atoms';
 import { COLORS } from '_styles';
-import * as DATA from '_constants';
+import * as FORMDATA from '_constants';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { showMessage } from "react-native-flash-message";
@@ -30,7 +30,7 @@ class SignInScreen extends Component {
 			email: '',
 			password: '',
 			country: '',
-			speciality: '',
+			specialty: '',
 		};
 	}
 
@@ -41,7 +41,7 @@ class SignInScreen extends Component {
 			this.state.surname === '' ||
 			this.state.email === '' ||
 			this.state.password === '' ||
-			this.state.speciality === '' ||
+			this.state.specialty === '' ||
 			this.state.country === ''
 		) {
 			showMessage({
@@ -54,14 +54,13 @@ class SignInScreen extends Component {
 			return;
 		}
 
-
 		// Petición al servidor
 		let response = await authRequestService.signin(
 			this.state.name,
 			this.state.surname,
 			this.state.email,
 			this.state.password,
-			this.state.speciality,
+			this.state.specialty,
 			this.state.country
 		);
 
@@ -93,8 +92,8 @@ class SignInScreen extends Component {
 				{/* zIndex (altura) para superponer un Picker sobre otro y sobre los demás componentes*/}
 				<View style={{ ...(Platform.OS !== 'android' && { zIndex: 2 }) }}>
 					<Picker
-						onValueChange={(value) => this.setState({ speciality: value })}
-						data={DATA.speciality_list}
+						onValueChange={(value) => this.setState({ specialty: value })}
+						data={FORMDATA.SPECIALTIES}
 						marginTop={5}
 						icon='md-medkit'
 						placeholder='Especialidad médica'
@@ -105,7 +104,7 @@ class SignInScreen extends Component {
 				<View style={{ ...(Platform.OS !== 'android' && { zIndex: 1 }) }}>
 					<Picker
 						onValueChange={(value) => this.setState({ country: value })}
-						data={DATA.country_list}
+						data={FORMDATA.COUNTRIES}
 						marginTop={5}
 						icon='location-sharp'
 						placeholder='País en el que trabaja'

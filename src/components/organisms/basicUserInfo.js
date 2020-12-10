@@ -27,7 +27,7 @@ class basicUserInfo extends Component {
                 {this._renderProfilePicture()}
                 <View style={styles.infoContainer}>
                     <Text style={styles.name}> {this.props.name + ' ' + this.props.surname}</Text>
-                    <Text style={styles.spec}>{this.props.speciality}</Text>
+                    <Text style={styles.spec}>{this.props.specialty}</Text>
                 </View>
             </View>
 
@@ -78,7 +78,7 @@ const mapStateToProps = (state) => {
     return {
         name: state.userReducer.name,
         surname: state.userReducer.surname,
-        speciality: state.userReducer.speciality
+        specialty: state.userReducer.specialty
     }
 }
 

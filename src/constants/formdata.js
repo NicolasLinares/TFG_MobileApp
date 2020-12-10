@@ -2,7 +2,7 @@ import {Platform} from 'react-native';
 
 const textColor = Platform.OS === 'android' ? 'white' : 'black';
 
-export const country_list = [
+export const COUNTRIES = [
     {label: 'Argentina', value: 'Argentina', color: textColor},
     {label: 'Bolivia', value: 'Bolivia', color: textColor},
     {label: 'Chile', value: 'Chile', color: textColor},
@@ -26,7 +26,7 @@ export const country_list = [
     {label: 'Venezuela', value: 'Venezuela', color: textColor},
 ];
 
-export const speciality_list = [
+export const SPECIALTIES = [
     {label: 'Anatomía patológica', value: 'Anatomía patológica', color: textColor},
     {label: 'Cirugía general y del aparato digestivo', value: 'Cirugía general y del aparato digestivo', color: textColor},
     {label: 'Cirugía ortopédica y traumatología', value: 'Cirugía ortopédica y traumatología', color: textColor},

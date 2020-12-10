@@ -6,7 +6,7 @@ const initialState = {
         name: null,
         surname: null,
         email: null,
-        speciality: null,
+        specialty: null,
         country: null,
         token: null,                    // Token de autorización para la comunicación con el servidor
         expires_in: null                // Tiempo en mss en el que expira el token
@@ -35,7 +35,7 @@ export function userReducer(state = initialState.user, action) {
                 name: action.name,
                 surname: action.surname,
                 email: action.email,
-                speciality: action.speciality,
+                specialty: action.specialty,
                 country: action.country,
                 token: action.token,
                 expires_in: moment.now() + 1000*60*action.expires_in

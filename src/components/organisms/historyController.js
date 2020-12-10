@@ -13,6 +13,8 @@ import {
 } from '_redux_actions';
 
 import { URL } from '_constants';
+import * as FS from '_constants';
+
 import RNFetchBlob from 'rn-fetch-blob';
 
 import moment from 'moment';
@@ -51,7 +53,7 @@ class historyController extends Component {
 
         // Se borra en el filesystem porque el recorder
         // crea un fichero por cada grabación
-        let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
+        let localpath = FS.DIRECTORY + '/' + item.localpath;
 
         RNFetchBlob.fs.exists(localpath).then((exist) => {
                 if (exist)

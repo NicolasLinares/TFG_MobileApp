@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { 
     View,
-    Alert,
     ScrollView,
     Text,
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
 
-import { showMessage } from "react-native-flash-message";
 import { COLORS } from '_styles';
-import IconII from "react-native-vector-icons/Ionicons";
-
-import { URL } from '_constants';
 
 import {connect} from 'react-redux';
 import { editUser } from '_redux_actions';
@@ -57,7 +52,7 @@ class ProfileScreen extends Component {
                 {this._renderItem('Nombre', this.props.name, () => {})}
                 {this._renderItem('Apellidos', this.props.surname, () => {})}
                 {this._renderItem('Correo electrónico', this.props.email, () => {})}
-                {this._renderItem('Especialidad médica', this.props.speciality, () => {})}
+                {this._renderItem('Especialidad médica', this.props.specialty, () => {})}
                 {this._renderItem('País donde trabaja', this.props.country, () => {})}
 
             </ScrollView>
@@ -126,7 +121,7 @@ const mapStateToProps = (state) => {
         name: state.userReducer.name,
         surname: state.userReducer.surname,
         email: state.userReducer.email,
-        speciality: state.userReducer.speciality,
+        specialty: state.userReducer.specialty,
         country: state.userReducer.country,
         token: state.userReducer.token,
     }

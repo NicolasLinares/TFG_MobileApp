@@ -28,7 +28,7 @@ export async function login(email, password) {
 	}
 }
 
-export async function signin(name, surname, email, password, speciality, country) {
+export async function signin(name, surname, email, password, specialty, country) {
 
 	let configProps = { trusty: true };
 	let method = 'POST';
@@ -39,7 +39,7 @@ export async function signin(name, surname, email, password, speciality, country
 		surname: surname,
 		email: email,
 		password: password,
-		speciality: speciality,
+		specialty: specialty,
 		country: country
 	});
 

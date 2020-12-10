@@ -1,7 +1,11 @@
 import { httpRequest, showError } from './templates/httpTemplate';
 import { checkTokenExpired } from './tokenRequest';
 import { URL } from '_constants';
+import * as FS from '_constants';
+
 import RNFetchBlob from 'rn-fetch-blob';
+
+
 
 export async function getHistory(next_url) {
 
@@ -90,7 +94,7 @@ export async function uploadAudio(audio) {
     let url = URL.uploadAudio;
     let headers = { 'Content-Type': 'multipart/form-data', Authorization: 'Bearer ' + token };
 
-    let absolute_path = RNFetchBlob.fs.dirs.CacheDir + '/' + audio.localpath;
+    let absolute_path = FS.DIRECTORY + '/' + audio.localpath;
     let body = [
         {
             name: 'file',

@@ -16,6 +16,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS } from '_styles';
+import * as FS from '_constants';
 
 import { audioRequestService } from '_services';
 
@@ -44,7 +45,7 @@ class audioListModule extends Component {
 						// Se borra en el filesystem porque el recorder
 						// crea un fichero por cada grabación
 
-						let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + item.localpath;
+						let localpath = FS.DIRECTORY + '/' + item.localpath;
 
                         RNFetchBlob.fs.unlink(localpath).then(() => {
 							// Se actualiza el estado

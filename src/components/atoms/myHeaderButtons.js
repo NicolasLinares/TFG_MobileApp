@@ -20,6 +20,8 @@ import {
     cleanTags
 } from '_redux_actions';
 
+import * as FS from '_constants';
+
 
 export function MenuButton(navigation) {
     return (
@@ -47,13 +49,13 @@ export function OptionsButton() {
 
     const deleteAll = async () => {
 
-        await RNFetchBlob.fs.lstat(RNFetchBlob.fs.dirs.CacheDir)
+        await RNFetchBlob.fs.lstat(FS.DIRECTORY)
             .then(async (stats) => {
 
                 // Se borran los audios que se encuentren localmente
                 for (i in stats) {
                     if (stats[i].type === 'file') {
-                        await RNFetchBlob.fs.unlink(RNFetchBlob.fs.dirs.CacheDir + '/' + stats[i].filename)
+                        await RNFetchBlob.fs.unlink(FS.DIRECTORY + '/' + stats[i].filename)
                             .then(() => console.log(stats[i].filename + ' borrado correctamente'))
                             .catch((err) => { console.log(err) });
                     }

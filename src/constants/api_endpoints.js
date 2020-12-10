@@ -1,8 +1,5 @@
 
-const local = 'http://localhost/API_Medcorder';
-const remote =  'https://pln.inf.um.es/TFG_MobileApp_API';
-
-const server = remote;
+const server = 'https://pln.inf.um.es/TFG_MobileApp_API';
 
 export const URL = {
 
@@ -12,8 +9,6 @@ export const URL = {
     refresh: server + '/public/v1/refresh',
 
     changePassword: server + '/public/v1/user/password',
-    changeCountry: server + '/public/v1/user/country',
-    changeSpeciality: server + '/public/v1/user/speciality',
 
     getHistory: server + '/public/v1/audios',
     deleteAll: server + '/public/v1/audios',

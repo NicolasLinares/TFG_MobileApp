@@ -23,6 +23,9 @@ import { setPlayerState } from '_redux_actions';
 import RNFetchBlob from 'rn-fetch-blob';
 import { audioRequestService } from '_services';
 
+import * as FS from '_constants';
+
+
 class myPlayer extends Component {
 
     constructor(props) {
@@ -47,7 +50,7 @@ class myPlayer extends Component {
 
         if (this.state.complexStyle) {
 
-            let localpath = RNFetchBlob.fs.dirs.CacheDir + '/' + this.state.localpath;
+            let localpath = FS.DIRECTORY + '/' + this.state.localpath;
 
             // Comprobamos si el audio se encuentra ya localmente
             let exists = await RNFetchBlob.fs.exists(localpath)
@@ -79,7 +82,7 @@ class myPlayer extends Component {
 
     setAudioDuration() {
 
-        var audio = new Sound(this.state.localpath, RNFetchBlob.fs.dirs.CacheDir,  (error) => {
+        var audio = new Sound(this.state.localpath, FS.DIRECTORY,  (error) => {
           if (error) {
             alert('Error al obtener la duración de la nota de voz');
             return;
@@ -103,7 +106,7 @@ class myPlayer extends Component {
                 // Inicializa el player
                 this.props.setState('play');
                 this.setState({state: 'play'});
-                var msg = await this.state.player.startPlayer('file://'+ RNFetchBlob.fs.dirs.CacheDir +'/'+ this.state.localpath);
+                var msg = await this.state.player.startPlayer('file://'+ FS.DIRECTORY +'/'+ this.state.localpath);
                 
                 // Si antes de darle al botón se ha movido el slider, entonces
                 // se sitúa en el segundo exacto donde se ha indicado

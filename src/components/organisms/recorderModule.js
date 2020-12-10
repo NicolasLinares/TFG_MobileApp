@@ -9,6 +9,8 @@ import AudioRecorderPlayer, {
 	AudioSourceAndroidType
 } from 'react-native-audio-recorder-player';
 
+import * as FS from '_constants';
+
 import moment from 'moment';
 import 'moment/locale/es';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -76,7 +78,7 @@ class recorderModule extends Component {
 
 		let path = Platform.select({
 			ios: name + '.' + extension,
-			android: RNFetchBlob.fs.dirs.CacheDir + '/'+ name + '.' + extension,
+			android: FS.DIRECTORY + '/'+ name + '.' + extension,
 		});
 
 		return [name, extension, path];
