@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { 
+import {
     View,
     Text,
     StyleSheet,
@@ -10,8 +10,8 @@ import {
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
-import {connect} from 'react-redux';
-import {setPatientTag} from '_redux_actions';
+import { connect } from 'react-redux';
+import { setPatientTag } from '_redux_actions';
 import { openTagEditor } from '_redux_actions';
 
 
@@ -19,45 +19,42 @@ class PatientCode extends Component {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             placeholder: 'Código necesario',
             placeholderColor: 'rgb(230, 69, 95)',
             codeColor: COLORS.electric_blue
         }
     }
-    
+
     componentDidMount = () => {
         this.props.setPatientTag('');
-    } 
+    }
 
     render() {
         return (
-            <View style={styles.item}>
+
+            <TouchableOpacity 
+                style={styles.item}
+                onPress={() => this.props.openTagEditor()}
+            >
 
                 <View style={styles.iconContainer}>
-                    <IconII style={styles.icon} name={"person"}/>
-                    <IconII style={styles.icon} name={"list"}/>
-                </View>    
+                    <IconII style={styles.icon} name={"person"} />
+                    <IconII style={styles.icon} name={"list"} />
+                </View>
 
                 <View style={styles.headerContainer}>
                     <View style={styles.container}>
                         <Text style={styles.title}>Identificador de paciente</Text>
-                        <TouchableOpacity 
-                                style={styles.button}
-                                onPress={() => this.props.openTagEditor()}
-                        >
-                            <Text style={styles.edit}>Editar</Text>
-                        </TouchableOpacity>   
+                        <Text style={styles.edit}>Editar</Text>
                     </View>
 
-                    <Text style={[styles.code, 
-                        {color: this.props.patientTag !== '' ? this.state.codeColor : this.state.placeholderColor}]}> 
+                    <Text style={[styles.code,
+                    { color: this.props.patientTag !== '' ? this.state.codeColor : this.state.placeholderColor }]}>
                         {this.props.patientTag !== '' ? this.props.patientTag : this.state.placeholder}
                     </Text>
                 </View>
-            </View>
-
-
+            </TouchableOpacity>
         )
     }
 }
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
         marginHorizontal: CONSTANTS.marginHorizontalItemList,
         marginVertical: CONSTANTS.marginVerticalItemList + 5,
     },
-    iconContainer:{        
+    iconContainer: {
         flexDirection: 'row',
         width: 60,
         height: 60,
@@ -106,13 +103,11 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginRight: 10,
     },
-    button: {
+    edit: {
         height: 25,
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginHorizontal: 15,
-    },
-    edit: {
         fontSize: 15,
         color: COLORS.electric_blue
     },
@@ -134,12 +129,12 @@ const mapStateToProps = (state) => {
         patientTag: state.patientCodeReducer.tag,
     }
 }
-  
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setPatientTag: (tag) => dispatch(setPatientTag(tag)),
         openTagEditor: () => dispatch(openTagEditor()),
     }
 }
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(PatientCode);

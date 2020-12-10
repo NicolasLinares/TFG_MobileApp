@@ -29,7 +29,6 @@ class patientCodeEditorModule extends Component {
         this.state = {
             tag: this.props.patientTag,
         };
-
     }
 
     componentDidMount() {
@@ -60,7 +59,11 @@ class patientCodeEditorModule extends Component {
 
         if (granted) {
             this.props.closeTagEditor();
-            this.props.nav.navigate('Scanner');
+            this.props.nav.navigate('Scanner', 
+                { 
+                    setTag: (value) => this.setState({tag: value})
+                }
+            );
         }
     }
 
@@ -134,7 +137,6 @@ class patientCodeEditorModule extends Component {
                 </View>
 
 
-
                 {this._renderRecentCodes()}
 
             </View>
@@ -142,9 +144,9 @@ class patientCodeEditorModule extends Component {
     }
 
     _renderRecentCodes() {
-        if (this.props.tags.length > 0 )
+        if (this.props.tags.length > 0)
             return (
-                <View style={{width: '100%'}}>
+                <View style={{ width: '100%' }}>
                     <Text style={styles.subtitle}>
                         Códigos recientes
                     </Text>
@@ -155,7 +157,7 @@ class patientCodeEditorModule extends Component {
                     />
                 </View>
             );
-        else 
+        else
             null;
     }
 

@@ -32,9 +32,12 @@ class myComplexAudioItem extends Component {
     }
 
 
-    setNewName() {
+    setNewName(value) {
+
+        this.setState({ name: value });
+
         // Si no ha escrito nada dejamos el nombre como estaba
-        if (this.state.name === "") {
+        if (value === "") {
             Alert.alert(
                 'Nombre no válido',
                 'Añade un nombre a la grabación o utiliza el nombre por defecto',
@@ -52,7 +55,7 @@ class myComplexAudioItem extends Component {
         } else {
 
             // Comprueba que no tiene espacios en blanco, tabulaciones, etc
-            if (/\s/.test(this.state.name)) {
+            if (/\s/.test(value)) {
                 Alert.alert(
                     'Nombre no válido',
                     'Introduce un nombre sin espacios en blanco',
@@ -60,7 +63,7 @@ class myComplexAudioItem extends Component {
                         text: 'Aceptar',
                         onPress: () => {
                             var chars = { ' ': '_' };
-                            name = this.state.name.replace(/ /g, m => chars[m]);
+                            name = value.replace(/ /g, m => chars[m]);
                             this.setState({ name: name });
                             this.props.updateName(this.state.key, name);
 
@@ -69,8 +72,8 @@ class myComplexAudioItem extends Component {
                 );
 
             } else {
-                // comprobar que no tiene espacios en blanco
-                this.props.updateName(this.state.key, this.state.name);
+
+                this.props.updateName(this.state.key, value);
             }
         }
     }
@@ -83,11 +86,11 @@ class myComplexAudioItem extends Component {
                     <TextInput
                         style={styles.name}
                         underlineColorAndroid={'transparent'}
+                        autoCapitalize={'none'}
                         maxLength={32}
                         value={this.state.name}
-                        onChangeText={(value) => this.setState({ name: value })}
-                        autoCapitalize={'none'}
-                        onBlur={() => this.setNewName()}
+                        onChangeText={(value) => this.setNewName(value)}
+                        onBlur={() => this.setNewName(this.state.name)}
                     />
                 </View>
                 <Text style={styles.date}>
