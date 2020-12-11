@@ -18,6 +18,8 @@ import { updateNameNewAudio } from '_redux_actions';
 
 import AnimatedItem from './myAnimatedItemList';
 
+import { checkInputService } from '_services';
+
 class myComplexAudioItem extends Component {
 
     constructor(props) {
@@ -55,7 +57,8 @@ class myComplexAudioItem extends Component {
         } else {
 
             // Comprueba que no tiene espacios en blanco, tabulaciones, etc
-            if (/\s/.test(value)) {
+            if (checkInputService.withBlankSpaces(value)) {
+            
                 Alert.alert(
                     'Nombre no válido',
                     'Introduce un nombre sin espacios en blanco',
@@ -66,7 +69,6 @@ class myComplexAudioItem extends Component {
                             name = value.replace(/ /g, m => chars[m]);
                             this.setState({ name: name });
                             this.props.updateName(this.state.key, name);
-
                         }
                     }]
                 );

@@ -13,10 +13,13 @@ import { ButtonAuth, Picker, TextInput } from '_atoms';
 import { COLORS } from '_styles';
 import * as FORMDATA from '_constants';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import { showMessage } from "react-native-flash-message";
 
-import { authRequestService } from '_services';
+import { authRequestService, checkInputService } from '_services';
+
+import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 
 
 class SignInScreen extends Component {
@@ -50,9 +53,12 @@ class SignInScreen extends Component {
 				duration: 3000,
 				titleStyle: { textAlign: 'center', fontSize: 18 },
 			});
-
 			return;
 		}
+
+		if (!checkInputService.validatePassword(this.state.password))
+			console.log('Contraseña no válida');
+			return;
 
 		// Petición al servidor
 		let response = await authRequestService.signin(
@@ -129,6 +135,14 @@ class SignInScreen extends Component {
 					placeholder={'Contraseña'}
 				/>
 
+				<BarPasswordStrengthDisplay
+					password={this.state.password}
+					minLength={1}
+					labelVisible={false}
+					width={Dimensions.get('window').width - 100}
+					barContainerStyle={{marginTop: 5, alignSelf: 'center'}}
+				/>
+
 			</>
 		);
 	}
@@ -147,7 +161,6 @@ class SignInScreen extends Component {
 					</TouchableOpacity>
 				</View>
 
-
 				<ButtonAuth
 					onPress={() => this.handleRegister()}
 					text='Registrarse'
@@ -160,13 +173,11 @@ class SignInScreen extends Component {
 
 	render() {
 		return (
-			<>
 
 				<KeyboardAwareScrollView
-					overScrollMode={"never"}
 					style={styles.scrollview}
-					resetScrollToCoords={{ x: 0, y: 0 }}
-					scrollEnabled
+					enableOnAndroid={true}
+					extraHeight={100}
 					keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
 				>
 
@@ -177,18 +188,15 @@ class SignInScreen extends Component {
 							source={require('_assets/logo_invox_medical.jpg')}
 						/>
 
-						<View width="80%">
-
+						<View width="85%">
 							{this._renderInputs()}
-
 							{this._renderButtons()}
-
 						</View>
 
 					</View>
 
 				</KeyboardAwareScrollView>
-			</>
+	
 
 		);
 	}

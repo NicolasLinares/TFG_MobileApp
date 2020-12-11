@@ -11,7 +11,8 @@ import {
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import { showMessage } from "react-native-flash-message";
 
 import {connect} from 'react-redux';
@@ -148,11 +149,11 @@ class PasswordSettingScreen extends Component {
 
     render() {
         return (
-            <KeyboardAwareScrollView
-                style={styles.scrollview}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled
-            >
+			<KeyboardAwareScrollView
+				style={styles.scrollview}
+				enableOnAndroid={true}
+				extraHeight={50}
+			>
                 <View style={[styles.container, {paddingTop: 150}]}>
                     {this._renderInput('lock-open', 'Contraseña actual', this.state.curr_wrong ? 'red' : this.state.color, (value) => this.setState({currentPassword: value}))}
                     <View style={styles.divider}/>

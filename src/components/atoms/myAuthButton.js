@@ -14,17 +14,15 @@ class myAuthButton extends Component {
     render() {
         return (
             <TouchableOpacity
-                style={{width: "100%",
-                        alignItems:'center', 
-                        marginTop: this.props.marginTop, 
-                        marginBottom: this.props.marginBottom
-                    }}
+                style={[styles.card, { 
+                    backgroundColor: this.props.color,
+                    marginTop: this.props.marginTop, 
+                    marginBottom: this.props.marginBottom
+                }]}
                 onPress={this.props.onPress}
             >
-                <View style={[styles.card, {backgroundColor: this.props.color}]}>
-                    <Text style={{fontSize: 20}}>{this.props.text}</Text>
-                </View>
-          </TouchableOpacity>
+                <Text style={{ fontSize: 20 }}>{this.props.text}</Text>
+            </TouchableOpacity>
         )
     }
 }

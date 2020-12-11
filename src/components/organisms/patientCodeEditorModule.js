@@ -20,6 +20,7 @@ import { setPatientTag, openTagEditor, closeTagEditor } from '_redux_actions';
 import { FilterList } from '_molecules';
 
 import { permissionsService } from '_services';
+import { checkInputService } from '_services';
 
 
 class patientCodeEditorModule extends Component {
@@ -37,7 +38,7 @@ class patientCodeEditorModule extends Component {
 
     handleAccept() {
         // Comprueba que no tiene espacios en blanco, tabulaciones, etc
-        if (/\s/.test(this.state.tag)) {
+        if (checkInputService.withBlankSpaces(this.state.tag)) {
             Alert.alert(
                 'Código no válido',
                 'Introduce un código de paciente sin espacios en blanco',
@@ -187,7 +188,6 @@ class patientCodeEditorModule extends Component {
                     keyboardVerticalOffset={-10}
                 >
                     {this._renderInputCode()}
-
                 </KeyboardAvoidingView>
 
             </ScrollModal>

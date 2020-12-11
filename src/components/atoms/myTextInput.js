@@ -13,7 +13,7 @@ class myTextInput extends Component {
     constructor(props) {
         super(props);
 
-        this.state={
+        this.state = {
             hidePassword: true,
             value: '',
             colorSelected: COLORS.grey,
@@ -22,13 +22,13 @@ class myTextInput extends Component {
     }
 
     handleValueChange(value) {
-        this.setState({value: value});
+        this.setState({ value: value });
         this.props.onChangeText(value);
     }
 
     render() {
         return (
-            <View style={[styles.card, {borderColor: this.state.colorSelected, marginTop: this.props.marginTop, marginBottom: this.props.marginBottom }]} >
+            <View style={[styles.card, { borderColor: this.state.colorSelected, marginTop: this.props.marginTop, marginBottom: this.props.marginBottom }]} >
                 <IconII style={{ marginLeft: 15 }} name={this.props.icon} size={20} color={this.state.colorSelected} />
 
                 <TextInput
@@ -43,16 +43,16 @@ class myTextInput extends Component {
                     underlineColorAndroid={"transparent"}
                     textContentType={this.props.textContentType}
                     secureTextEntry={this.props.secureTextEntry ? this.state.hidePassword : false}
-                    onBlur={() => this.setState({colorSelected: COLORS.grey, focus: false})}
-                    onFocus={() => this.setState({colorSelected: COLORS.green, focus: true})}
+                    onBlur={() => this.setState({ colorSelected: COLORS.grey, focus: false })}
+                    onFocus={() => this.setState({ colorSelected: COLORS.green, focus: true })}
                 />
 
                 {
-                    this.props.secureTextEntry  && this.state.focus && this.props.value.length > 0
+                    this.props.secureTextEntry && this.state.focus && this.props.value.length > 0
                         ?
                         <TouchableWithoutFeedback
                             style={styles.eyeButton}
-                            onPress={() => this.setState({hidePassword: !this.state.hidePassword})}
+                            onPress={() => this.setState({ hidePassword: !this.state.hidePassword })}
                         >
                             <IconII name={this.state.hidePassword ? 'eye-off' : 'eye'} size={20} color={this.state.colorSelected} />
                         </TouchableWithoutFeedback>
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
     },
     text: {
-        flex:1,
-        marginLeft: 15,        
+        flex: 1,
+        marginLeft: 15,
         marginRight: 10,
         fontSize: 15,
         color: 'black',

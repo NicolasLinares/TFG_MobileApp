@@ -14,7 +14,7 @@ import {
 import { ButtonAuth, TextInput } from '_atoms';
 import { COLORS } from '_styles';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { connect } from 'react-redux';
 import { authUser } from '_redux_actions';
@@ -40,7 +40,7 @@ class LoginScreen extends Component {
 			const credentials = await Keychain.getGenericPassword();
 			if (credentials) {
 				console.log('Credenciales cargadas correctamente');
-				this.setState({ 
+				this.setState({
 					savePssw: true,
 					email: credentials.username,
 					password: credentials.password
@@ -100,8 +100,8 @@ class LoginScreen extends Component {
 				response.user.country,
 				response.access_token,
 				response.expires_in
-			);			
-			
+			);
+
 			if (this.state.savePssw) {
 				await Keychain.setGenericPassword(this.state.email, this.state.password);
 				console.log('Credenciales guardadas correctamente');
@@ -188,12 +188,10 @@ class LoginScreen extends Component {
 		return (
 
 			<KeyboardAwareScrollView
-				overScrollMode={"never"}
 				style={styles.scrollview}
-				resetScrollToCoords={{ x: 0, y: 0 }}
-				scrollEnabled
+				enableOnAndroid={true}
+				extraHeight={100}
 				keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
-
 			>
 				<View style={styles.container}>
 					<Image

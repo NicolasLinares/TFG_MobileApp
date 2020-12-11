@@ -4,12 +4,11 @@ import {
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
-import { audioRequestService } from '_services';
+import { audioRequestService, checkInputService } from '_services';
 
 import { connect } from 'react-redux';
 import { setHistory, cleanHistory} from '_redux_actions';
 import { COLORS } from '_styles';
-
 
 
 class searchController extends Component {
@@ -25,7 +24,8 @@ class searchController extends Component {
 
     async searchWord() {
         if (this.state.searchText != '')
-            if (!/\s/.test(this.state.searchText)) {
+            if (!checkInputService.withBlankSpaces(this.state.searchText)) {
+                
                 this.setState({ loading: true });
 
                 // Se borra de la base de datos del servidor

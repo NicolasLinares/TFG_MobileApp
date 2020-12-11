@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { 
+import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
@@ -7,9 +7,9 @@ import {
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import IconII from "react-native-vector-icons/Ionicons";
-import {CONSTANTS} from '_styles';
+import { CONSTANTS } from '_styles';
 
-import {ComplexAudioItem, AnimatedItem} from '_atoms';
+import { ComplexAudioItem, AnimatedItem } from '_atoms';
 
 class myBasicList extends Component {
 
@@ -18,7 +18,7 @@ class myBasicList extends Component {
     }
 
     _renderItem = data => (
-        <ComplexAudioItem item={data.item}/>
+        <ComplexAudioItem item={data.item} />
     )
 
     closeRow = (rowMap, rowKey) => {
@@ -32,24 +32,24 @@ class myBasicList extends Component {
     };
 
     _renderHideButtons = (data, rowMap) => (
-        
+
         <AnimatedItem style={styles.actionsContainer}>
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={() => this.deleteRow(rowMap, data.item)}
             >
-                <IconII name={"trash"} size={25} color='white'/>
+                <IconII name={"trash"} size={25} color='white' />
             </TouchableOpacity>
         </AnimatedItem>
     )
 
-    render =() => (
+    render = () => (
 
         <SwipeListView
             overScrollMode={"never"}
-            contentContainerStyle={{ paddingBottom: 20}}
+            contentContainerStyle={{ paddingBottom: 20 }}
             showsVerticalScrollIndicator={false}
-            data={this.props.list}  
+            data={this.props.list}
             keyExtractor={(item) => item.key.toString()}
             style={styles.audiolist}
             renderItem={this._renderItem}
@@ -61,22 +61,22 @@ class myBasicList extends Component {
             previewOpenDelay={3000}
         />
     )
-    
+
 }
 
 
 const styles = StyleSheet.create({
     audiolist: {
-      width:"100%",
-      paddingTop: 10,
+        width: "100%",
+        paddingTop: 10,
     },
     actionsContainer: {
         height: 85,
         width: '100%',
-        flexDirection: 'row', 
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        paddingHorizontal: CONSTANTS.marginHorizontalItemList, 
+        paddingHorizontal: CONSTANTS.marginHorizontalItemList,
         marginVertical: CONSTANTS.marginVerticalItemList,
     },
     descriptionButton: {
