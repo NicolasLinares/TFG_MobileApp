@@ -44,7 +44,7 @@ class Scanner extends Component {
 				{this._renderMessage()}
 
 				<ButtonBack onPress={() => {
-					this.props.nav.state.params.openTagEditor();
+					this.props.openTagEditor();
 					this.props.nav.goBack();
 				}} />
 			</>

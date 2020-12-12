@@ -38,7 +38,7 @@ class App extends Component {
 		return (
 			<ReduxProvider store={store}>
 
-				<StatusBar barStyle="dark-content" />
+				<StatusBar backgroundColor="white" barStyle="dark-content" />
 
 				<MenuProvider>
 					<Navigator />

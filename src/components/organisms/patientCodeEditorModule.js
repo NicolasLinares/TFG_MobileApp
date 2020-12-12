@@ -61,7 +61,7 @@ class patientCodeEditorModule extends Component {
         if (granted) {
             this.props.closeTagEditor();
             this.props.nav.navigate('Scanner', 
-                { 
+                {
                     setTag: (value) => this.setState({tag: value})
                 }
             );
@@ -174,7 +174,7 @@ class patientCodeEditorModule extends Component {
                 onSwipeComplete={this.props.closeTagEditor}
                 isVisible={this.props.isEditorVisible}
                 avoidKeyboard={false}
-                useNativeDriver={Platform.OS === 'ios' ? false : true}
+                useNativeDriver={false} // En Android el swipe funciona con lag
             >
                 <StatusBar backgroundColor="rgba(0,0,0,0.7)" barStyle="dark-content" />
 

@@ -302,7 +302,7 @@ class AudioScreen extends Component {
 
 		return this.state.showDialog ? (
 
-			<Dialog.Container contentStyle={{ marginBottom: 200 }} visible={this.state.showDialog} statusBarTranslucent>
+			<Dialog.Container contentStyle={{ marginBottom: 200 }} visible={this.state.showDialog}>
 				<Dialog.Title>Nuevo nombre</Dialog.Title>
 
 				{this.state.errorDialog ? errorMessage() : null}
