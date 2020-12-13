@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
+import { COLORS } from '_styles';
+
 import { 
     Text, 
-    TouchableOpacity, 
-    StyleSheet 
+    StyleSheet,
+    TouchableOpacity as reactTouchableOpacity
 } from 'react-native';
 
-import { COLORS } from '_styles';
+import { TouchableOpacity as guesterTouchableOpacity } from 'react-native-gesture-handler';
+
+const TouchableOpacity = Platform.OS ==='ios' ? reactTouchableOpacity : guesterTouchableOpacity;
+
+
 
 
 class myTag extends Component {
-
 
     render() {
         return (

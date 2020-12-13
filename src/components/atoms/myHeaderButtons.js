@@ -23,6 +23,17 @@ import {
 import * as FS from '_constants';
 
 
+export function BackButton(navigation) {
+    return (
+        <TouchableOpacity
+            style={{ height: 40, width: 50, justifyContent: 'center', alignItems: 'center'}}
+            onPress={() => navigation.goBack()}
+        >
+            <IconII style={{ marginRight: 20, fontSize: 30, color: COLORS.electric_blue }} name={'chevron-back'} />
+        </TouchableOpacity>
+    )
+};
+
 export function MenuButton(navigation) {
     return (
         <TouchableOpacity
@@ -115,5 +126,27 @@ export function OptionsButton() {
             </MenuOptions>
         </Menu>
 
+    )
+};
+
+export function CloseButton(onClose) {
+    return (
+        <TouchableOpacity
+            style={{ height: 40, width: 50, alignItems: 'flex-start', justifyContent : 'center'}}
+            onPress={() => onClose()}
+        >
+            <IconII style={{fontSize: 30, color: COLORS.electric_blue }} name={'close-outline'} />
+        </TouchableOpacity>
+    )
+};
+
+export function AcceptButton(onAccept) {
+    return (
+        <TouchableOpacity
+            style={{ height: 40, width: 50, alignItems: 'flex-end', justifyContent: 'center'}}
+            onPress={() => onAccept()}
+        >
+            <IconII style={{ fontSize: 30, color: COLORS.electric_blue }} name={'checkmark'} />
+        </TouchableOpacity>
     )
 };

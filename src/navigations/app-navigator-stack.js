@@ -14,7 +14,6 @@ import ProfileScreen from '_screens/settings/profile';
 import SecurityScreen from '_screens/settings/security';
 import PasswordSettingScreen from '_screens/settings/security/password';
 
-import moment from 'moment';
 import {HeaderButtons} from '_atoms';
 
 const StackNavigatorConfig = {
@@ -37,8 +36,7 @@ const StackRouteConfigs = {
 			headerTitleStyle: {
 				textAlign: 'center', // Android -  alinear título
 				fontWeight: 'bold',
-				fontSize: Platform.OS === 'ios' ? 24 : 22,
-
+				fontSize: 20,
 			},
 		}),
 	},
@@ -48,22 +46,7 @@ const StackRouteConfigs = {
 	},
 	Recorder: {
 		screen: RecorderScreen,
-		navigationOptions: {
-			headerBackTitle: ' ',
-			headerRight: () => <View />, // Android -  alinear título
-			title: moment().format('LL'),
-			headerStyle: {
-				// para esconder la línea inferior en el header
-				shadowOpacity: 0, // iOS
-				elevation: 0, // Android
-				backgroundColor: 'white',
-			},
-			headerTitleStyle: {
-				textAlign: 'center', // Android -  alinear título
-				fontWeight: '300',
-				fontSize: 15
-			},
-		},
+		navigationOptions:  { headerShown: false, title: ' ' },
 	},
 	Audio: {
 		screen: AudioScreen,

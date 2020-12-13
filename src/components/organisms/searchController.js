@@ -64,7 +64,7 @@ class searchController extends Component {
             <SearchBar
                 platform={Platform.OS}
                 lightTheme
-                containerStyle={{ width: '95%', alignSelf: 'center' }}
+                containerStyle={{ width: Platform.OS === 'ios' ? '90%' : '85%', alignSelf: 'center' }}
                 inputContainerStyle={{ backgroundColor: this.state.showNullResponse ? 'rgba(255,0,0,0.3)' : COLORS.light_grey, borderRadius: 15, height: 35 }}
                 inputStyle={{fontSize: 16}}
                 cancelButtonTitle={'Cancelar'}

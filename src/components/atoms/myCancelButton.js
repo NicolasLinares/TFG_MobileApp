@@ -11,40 +11,34 @@ import { COLORS } from '_styles';
 
 
 
-class myBackButton extends Component {
+class myCancelButton extends Component {
 
     render() {
         return (
             <TouchableOpacity
-                style={styles.button}
+                style={styles.card}
                 onPress={this.props.onPress} 
             >
-                <View style={styles.card}>
                     <IconII style={styles.icon} name={"chevron-back"}/>
                     <Text style={styles.text}>Cancelar</Text>
-                </View>
-
             </TouchableOpacity>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    button: { 
-        position: "absolute",
+    card: {
+        position: 'absolute',
         left: 60,
         bottom: 90,
-        borderRadius: 35,
-    },
-    card: {
         flexDirection:'row',
-        height: 40,
+        height: 35,
         borderRadius: 30,
-        backgroundColor:'rgba(100,100,100,0.7)',
+        backgroundColor: 'rgba(100,100,100,0.7)',
         alignItems: 'center',
         justifyContent: 'center',
         shadowRadius: 5,
-        shadowColor: "grey",
+        shadowColor: 'grey',
         shadowOpacity: 0.5,
         shadowOffset: {
             width: 0,
@@ -65,4 +59,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default myBackButton;
+export default myCancelButton;

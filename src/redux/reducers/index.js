@@ -21,8 +21,7 @@ const initialState = {
     playerState: 'stop',                // Estado del reproductor de audio
 
     patientCode: {                      // Código de paciente usado en la grabación actual, se borra al enviar para transcribir
-        tag: '',
-        isEditorVisible: false,
+        tag: ''
     }
 
 }
@@ -351,16 +350,7 @@ export function patientCodeReducer(state = initialState.patientCode, action) {
                 ...state,
                 tag: action.tag,
             };
-        case types.OPEN_EDITOR:
-            return {
-                ...state,
-                isEditorVisible: true,
-            };
-        case types.CLOSE_EDITOR:
-            return {
-                ...state,
-                isEditorVisible: false,
-            };
+
         default:
             return state;
     }

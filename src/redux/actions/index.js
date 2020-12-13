@@ -87,19 +87,6 @@ export const setPatientTag = (tag) => {
         tag: tag,
     }
 }
- 
-export const openTagEditor = () => {
-    return {
-        type: 'OPEN_EDITOR'
-    }
-}
- 
-export const closeTagEditor = () => {
-    return {
-        type: 'CLOSE_EDITOR'
-    }
-}
- 
 
 // HISTORY ACTIONS
 

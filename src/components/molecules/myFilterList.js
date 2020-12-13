@@ -59,9 +59,10 @@ class myFilterList extends Component {
 
 const styles = StyleSheet.create({
     audiolist: {
+        height: 40,
         width: "100%",
-        paddingHorizontal: 30,
-    },
+        paddingHorizontal: 30
+    }
 });
 
 export default myFilterList;

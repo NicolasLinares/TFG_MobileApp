@@ -5,13 +5,9 @@ import {
 	View
 } from 'react-native';
 
-import { ButtonBack } from '_atoms';
+import { ButtonCancel } from '_atoms';
 import { COLORS } from '_styles';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-
-import { connect } from 'react-redux';
-import { openTagEditor } from '_redux_actions';
-
 
 class Scanner extends Component {
 
@@ -27,7 +23,6 @@ class Scanner extends Component {
 		// Se muestra el código leido en el input
 		this.props.nav.state.params.setTag(scan.data);
 		// Se abre de nuevo el Editor con ese valor en el input
-		this.props.openTagEditor();
 		this.props.nav.goBack();
 	};
 
@@ -43,8 +38,7 @@ class Scanner extends Component {
 
 				{this._renderMessage()}
 
-				<ButtonBack onPress={() => {
-					this.props.openTagEditor();
+				<ButtonCancel onPress={() => {
 					this.props.nav.goBack();
 				}} />
 			</>
@@ -85,10 +79,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		openTagEditor: () => dispatch(openTagEditor()),
-	}
-}
-
-export default connect(null, mapDispatchToProps)(Scanner);
+export default Scanner;
