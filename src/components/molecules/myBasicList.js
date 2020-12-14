@@ -49,7 +49,7 @@ class myBasicList extends Component {
             overScrollMode={"never"}
             contentContainerStyle={{ paddingBottom: 20 }}
             showsVerticalScrollIndicator={false}
-            data={this.props.list}
+            data={this.props.list.slice().reverse()}
             keyExtractor={(item) => item.key.toString()}
             style={styles.audiolist}
             renderItem={this._renderItem}

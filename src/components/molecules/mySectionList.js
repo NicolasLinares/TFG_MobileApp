@@ -106,6 +106,7 @@ class mySectionList extends Component {
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.uid}
                 sections={this.props.list}
+                stickySectionHeadersEnabled
                 renderSectionHeader={this._renderSection}
                 renderItem={this._renderItem}
                 renderHiddenItem={this._renderHideButtons}

@@ -34,12 +34,11 @@ class myComplexAudioItem extends Component {
     }
 
 
-    setNewName(value) {
 
-        this.setState({ name: value });
+    checkNewName() {
 
         // Si no ha escrito nada dejamos el nombre como estaba
-        if (value === "") {
+        if (this.state.name === "") {
             Alert.alert(
                 'Nombre no válido',
                 'Añade un nombre a la grabación o utiliza el nombre por defecto',
@@ -57,7 +56,7 @@ class myComplexAudioItem extends Component {
         } else {
 
             // Comprueba que no tiene espacios en blanco, tabulaciones, etc
-            if (checkInputService.withBlankSpaces(value)) {
+            if (checkInputService.withBlankSpaces(this.state.name)) {
             
                 Alert.alert(
                     'Nombre no válido',
@@ -66,7 +65,8 @@ class myComplexAudioItem extends Component {
                         text: 'Aceptar',
                         onPress: () => {
                             var chars = { ' ': '_' };
-                            name = value.replace(/ /g, m => chars[m]);
+                            
+                            name = this.state.name.replace(/ /g, m => chars[m]);
                             this.setState({ name: name });
                             this.props.updateName(this.state.key, name);
                         }
@@ -75,7 +75,7 @@ class myComplexAudioItem extends Component {
 
             } else {
 
-                this.props.updateName(this.state.key, value);
+                this.props.updateName(this.state.key, this.state.name);
             }
         }
     }
@@ -91,8 +91,8 @@ class myComplexAudioItem extends Component {
                         autoCapitalize={'none'}
                         maxLength={32}
                         value={this.state.name}
-                        onChangeText={(value) => this.setNewName(value)}
-                        onBlur={() => this.setNewName(this.state.name)}
+                        onChangeText={(value) => this.setState({ name: value })}
+                        onBlur={() => this.checkNewName()}
                     />
                 </View>
                 <Text style={styles.date}>

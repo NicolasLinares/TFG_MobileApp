@@ -5,7 +5,8 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Platform
 } from 'react-native';
 
 import { COLORS } from '_styles';
@@ -130,7 +131,6 @@ class PasswordSettingScreen extends Component {
                     textContentType={'oneTimeCode'} // evita el autorrelleno en ios
                     placeholderTextColor={COLORS.dark_grey}
                     secureTextEntry={true}
-                    blurOnSubmit={false}
                 />
             </View>
         );
@@ -154,13 +154,13 @@ class PasswordSettingScreen extends Component {
 				enableOnAndroid={true}
 				extraHeight={50}
 			>
-                <View style={[styles.container, {paddingTop: 150}]}>
+                <View style={[styles.container, {paddingTop: 100}]}>
                     {this._renderInput('lock-open', 'Contraseña actual', this.state.curr_wrong ? 'red' : this.state.color, (value) => this.setState({currentPassword: value}))}
                     <View style={styles.divider}/>
                     {this._renderInput('lock-open', 'Nueva contraseña', this.state.new_wrong ? 'red' : this.state.color, (value) => this.setState({newPassword: value}))}
                     <View style={styles.divider}/>
                     {this._renderInput('lock-open', 'Repetir contraseña', this.state.rep_wrong ? 'red' : this.state.color,  (value) => this.setState({repPassword: value}))}
-                    <View style={[styles.divider, {marginBottom: 60}]}/>
+                    <View style={[styles.divider, {marginBottom: 30}]}/>
 
                     {this._renderButton(() => this.handleButton())}
                 </View>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '70%',
         marginTop: 25,
-        marginBottom: 15,
+        marginBottom: Platform.OS == 'ios' ? 15 : 5,
         alignItems:'center', 
         justifyContent: 'space-around',
     },
@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
+        marginVertical: 15,
         shadowRadius: 5,
         shadowColor: "grey",
         shadowOpacity: 0.5,
@@ -223,7 +224,6 @@ const styles = StyleSheet.create({
             height: 2,
         },
         elevation: 5, // Android solo funciona con elevation
-    
     }
 });
 

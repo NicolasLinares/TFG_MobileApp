@@ -59,6 +59,7 @@ export function audioListReducer(state = initialState, action) {
             return {
                 ...state,
                 audiolist: [
+                    ...state.audiolist,
                     {
                         key: Math.random(),
                         name: action.audio.name,
@@ -67,7 +68,6 @@ export function audioListReducer(state = initialState, action) {
                         description: '',
                         ctime: action.audio.ctime,
                     },
-                    ...state.audiolist,
                 ]
             };
         case types.DELETE_AUDIO:

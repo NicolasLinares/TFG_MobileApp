@@ -111,6 +111,7 @@ export async function uploadAudio(audio) {
     let response = await httpRequest(configProps, method, url, headers, body);
 
     if (response == null) {
+        console.log('llega')
         showError('Error de conexión', 'Compruebe su conexión de red o inténtelo de nuevo más tarde');
         return null;
     }

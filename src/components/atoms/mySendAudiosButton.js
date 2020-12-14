@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {
-	Alert,
-	Text,
-	TouchableOpacity
+    Alert,
+    Text,
+    TouchableOpacity
 } from 'react-native';
 
 import { COLORS } from '_styles';
@@ -30,35 +30,34 @@ class mySendAudiosButton extends Component {
             await this.props.addAudioTag(this.props.patientTag);
 
             // Por cada audio grabado se envía y se elimina de la lista para añadirla
-            N = this.props.list.length;
-            list = this.props.list.reverse();
+            let N = this.props.list.length;
+            let list = this.props.list;
             for (let i = 0; i < N; i++) {
                 let audio = list[i];
 
-                audio = await audioRequestService.uploadAudio(audio);
+                audio_resp = await audioRequestService.uploadAudio(audio);
 
-                if (audio !== null) {
+                if (audio_resp !== null) {
 
                     // Se elimina de la lista de grabaciones para que no se vuelva a enviar
-                    this.props.delete(this.props.list[0].key);
+                    this.props.delete(audio.key);
 
                     // Para evitar que añada el audio a la lista del filtro aplicado
                     // se comprueba que no haya ningún filtro en este momento o que 
                     // el filtro aplicado sea el mismo que el grabado
                     if (this.props.currentTagApplied === '' ||
-                        this.props.currentTagApplied === audio.tag) {
+                        this.props.currentTagApplied === audio_resp.tag) {
                         // Se añade al historial de audios del médico
-                        this.props.addAudioHistory(audio);
+                        this.props.addAudioHistory(audio_resp);
                     }
 
                     // Se añade la nueva etiqueta si no existe ya
-                    this.props.addFilterTag(audio.tag);
+                    this.props.addFilterTag(audio_resp.tag);
 
                 } else {
                     // el audio no se ha enviado
                     // problema de red o formato inválido (más bien el primer caso)
                     // o token caducado
-                    let audio = list[i];
                     Alert.alert(
                         'Error',
                         'El audio ' + audio.localpath + ' no se ha guardado correctamente',
@@ -66,6 +65,7 @@ class mySendAudiosButton extends Component {
                     );
                 }
             }
+
 
         } else {
             Alert.alert(
@@ -100,22 +100,22 @@ class mySendAudiosButton extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {
-		list: state.audioListReducer.audiolist,
-		patientTag: state.patientCodeReducer.tag,
-		history: state.historyReducer.history,
-		currentTagApplied: state.tagsReducer.currentTagApplied,
-	}
+    return {
+        list: state.audioListReducer.audiolist,
+        patientTag: state.patientCodeReducer.tag,
+        history: state.historyReducer.history,
+        currentTagApplied: state.tagsReducer.currentTagApplied,
+    }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
-	return {
+    return {
         delete: (key) => dispatch(deleteAudio(key)),
-		addAudioTag: (tag) => dispatch(addAudioTag(tag)),
-		addFilterTag: (tag) => dispatch(addFilterTag(tag)),
-		addAudioHistory: (audio) => dispatch(addAudioHistory(audio)),
-	}
+        addAudioTag: (tag) => dispatch(addAudioTag(tag)),
+        addFilterTag: (tag) => dispatch(addFilterTag(tag)),
+        addAudioHistory: (audio) => dispatch(addAudioHistory(audio)),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(mySendAudiosButton);

@@ -20,7 +20,6 @@ import FlashMessage from "react-native-flash-message";
 import { MenuProvider } from 'react-native-popup-menu';
 
 
-
 class App extends Component {
 
 	componentDidMount() {

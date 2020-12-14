@@ -7,7 +7,7 @@ import {
 import { BasicList } from '_molecules';
 
 import { connect } from 'react-redux';
-import { deleteAudio, addAudioTag, addAudioHistory } from '_redux_actions';
+import { deleteAudio, addAudioTag } from '_redux_actions';
 
 import RNFetchBlob from 'rn-fetch-blob';
 
@@ -76,7 +76,6 @@ const mapStateToProps = (state) => {
 		list: state.audioListReducer.audiolist,
 		patientTag: state.patientCodeReducer.tag,
 		token: state.userReducer.token,
-		history: state.historyReducer.history,
 		currentTagApplied: state.tagsReducer.currentTagApplied,
 	}
 }
@@ -86,7 +85,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		delete: (key) => dispatch(deleteAudio(key)),
 		addAudioTag: (tag) => dispatch(addAudioTag(tag)),
-		addAudioHistory: (audio) => dispatch(addAudioHistory(audio)),
 	}
 }
 

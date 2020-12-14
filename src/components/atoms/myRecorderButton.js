@@ -77,7 +77,7 @@ class recorderButton extends Component {
         if (!this.state.pressed) {
             sizeButton = 30;
             radiusButton = 10;
-            positionContainer = -CONSTANTS.heightRecorderModule / 1.5;
+            positionContainer = -contHeight;
             // Los componentes aparecen después
             fadeDuration = 300;
             fade = 1;
@@ -167,7 +167,7 @@ class recorderButton extends Component {
     }
 }
 
-
+const contHeight = 110;
 
 const containersStyles = StyleSheet.create({
     animatedContainer: {
@@ -175,14 +175,14 @@ const containersStyles = StyleSheet.create({
         borderTopWidth: 0.5,
         borderTopColor: COLORS.grey,
         width: '100%',
-        height: CONSTANTS.heightRecorderModule,
+        height: Platform.OS === 'ios' ? contHeight + 20 : contHeight,
         bottom: 0,
         alignItems: 'center',
         backgroundColor: 'white',
     },
     staticContainer: {
         width: '100%',
-        height: CONSTANTS.heightRecorderModule,
+        height: Platform.OS === 'ios' ? contHeight + 20 : contHeight,
         alignItems: 'center',
     }
 });
