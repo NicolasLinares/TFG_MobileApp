@@ -34,6 +34,7 @@ class Scanner extends Component {
 					onRead={this.onScanSuccess}
 					reactivate={false}
 					showMarker
+					vibrate={true}
 				/>
 
 				{this._renderMessage()}

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         tags: state.tagsReducer.tags,
-        patientTag: state.patientCodeReducer.tag,
+        patientTag: state.patientCodeReducer.patientCode,
     }
 }
 

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
     Alert,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 
 import { COLORS } from '_styles';
@@ -19,7 +20,6 @@ class mySendAudiosButton extends Component {
         this.uploadingData = false;
     }
 
-
     handleSendAudios = async () => {
 
         if (this.props.patientTag !== '') {
@@ -34,10 +34,11 @@ class mySendAudiosButton extends Component {
             let list = this.props.list;
             for (let i = 0; i < N; i++) {
                 let audio = list[i];
-
-                audio_resp = await audioRequestService.uploadAudio(audio);
+                console.log(audio.name + ' - Procesando audio...');
+                let audio_resp = await audioRequestService.uploadAudio(audio);
 
                 if (audio_resp !== null) {
+                    console.log(audio.name + ' - Audio almacenado en el servidor...');
 
                     // Se elimina de la lista de grabaciones para que no se vuelva a enviar
                     this.props.delete(audio.key);
@@ -53,8 +54,11 @@ class mySendAudiosButton extends Component {
 
                     // Se añade la nueva etiqueta si no existe ya
                     this.props.addFilterTag(audio_resp.tag);
+                    console.log(audio.name + ' - Audio actualizado localmente...');
 
                 } else {
+                    console.log(audio.name + ' - Audio no guardado correctamente en el servidor...');
+
                     // el audio no se ha enviado
                     // problema de red o formato inválido (más bien el primer caso)
                     // o token caducado
@@ -78,23 +82,23 @@ class mySendAudiosButton extends Component {
         this.uploadingData = false;
     }
 
-    _renderSendButton() {
+    _renderSendButton = () => {
         return (
-            <TouchableOpacity
-                onPress={() => this.handleSendAudios()}
-            >
-                <Text style={{ fontSize: 17, color: COLORS.electric_blue }}>
-                    Hecho
-              	</Text>
-            </TouchableOpacity>
-        );
+            this.uploadingData
+                ?
+                <ActivityIndicator size={'small'} color={COLORS.dark_grey} />
+                :
+                <TouchableOpacity onPress={() => this.handleSendAudios()}>
+                    <Text style={{ fontSize: 17, fontWeight: 'bold', color: COLORS.electric_blue }}>
+                        Hecho
+              	    </Text>
+                </TouchableOpacity>
+        )
     }
 
     render() {
         return (
-            <>
-                {this.props.list.length > 0 && !this.uploadingData ? this._renderSendButton() : null}
-            </>
+            this.props.list.length > 0 ? this._renderSendButton() : null
         )
     }
 }
@@ -102,7 +106,7 @@ class mySendAudiosButton extends Component {
 const mapStateToProps = (state) => {
     return {
         list: state.audioListReducer.audiolist,
-        patientTag: state.patientCodeReducer.tag,
+        patientTag: state.patientCodeReducer.patientCode,
         history: state.historyReducer.history,
         currentTagApplied: state.tagsReducer.currentTagApplied,
     }

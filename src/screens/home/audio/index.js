@@ -19,9 +19,7 @@ import {
 	MenuTrigger,
 } from 'react-native-popup-menu';
 
-import Dialog from "react-native-dialog";
-
-import { Player, Tag } from '_atoms';
+import { Player, Tag, DialogPrompt } from '_atoms';
 
 import { COLORS } from '_styles';
 import IconII from 'react-native-vector-icons/Ionicons';
@@ -290,39 +288,19 @@ class AudioScreen extends Component {
 	);
 
 
-	_renderDialogPrompt() {
+    _renderDialogPrompt() {
 
-		const errorMessage = () => {
-			return (
-				<Dialog.Description style={{ color: 'red' }}>
-					Los espacios en blanco no están permitidos
-				</Dialog.Description>
-			);
-		}
-
-		return this.state.showDialog ? (
-
-			<Dialog.Container contentStyle={{ marginBottom: 200 }} visible={this.state.showDialog}>
-				<Dialog.Title>Nuevo nombre</Dialog.Title>
-
-				{this.state.errorDialog ? errorMessage() : null}
-
-				<Dialog.Input 
-					style={{ color: 'black', borderBottomWidth: Platform.OS == 'ios' ? 0 : 0.5, borderBottomColor: COLORS.grey }} 
-					value={this.state.name} 
-					onChangeText={value => this.setState({ name: value })} 
-					selectTextOnFocus={true}
-					focusable={true}
-					autoFocus={true}
-				/>
-
-				<Dialog.Button label="Cancelar" onPress={() => this.setState({ name: this.props.navigation.state.params.item.name, showDialog: false, errorDialog: false })} />
-				<Dialog.Button label="Aceptar" onPress={() => this.handleUpdateName()} />
-			</Dialog.Container>
-		)
-			: null;
-	}
-
+        return (
+            <DialogPrompt 
+                value={this.state.name}
+                onChangeText={value => this.setState({ name: value })}
+                visible={this.state.showDialog}
+                showError={this.state.errorDialog}
+                onCancel={() => this.setState({ name: this.props.navigation.state.params.item.name, showDialog: false, errorDialog: false })}
+                onAccept={() => this.handleUpdateName()}
+            />  
+        );
+    }
 
 	render = () => (
 		<View style={styles.container}>

@@ -24,14 +24,7 @@ export const refreshToken = (token, expires_in) => {
 
 export const logoutUser = () => {
     return {
-        type: 'SET_USER_DATA',
-        name: null,
-        surname: null,
-        email: null,
-        specialty: null,
-        country: null,
-        token: null,
-        expires_in: null
+        type: 'LOGOUT',
     }
 }
 
@@ -68,6 +61,11 @@ export const updateNameNewAudio = (key, name) => {
     }
 }
 
+export const cleanAudioList = () => {
+    return {
+        type: 'CLEAN_AUDIOLIST'
+    }
+}
 
 // PLAYER ACTIONS
 

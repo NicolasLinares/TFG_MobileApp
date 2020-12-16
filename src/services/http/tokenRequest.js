@@ -25,7 +25,7 @@ async function refresh(token) {
 			store.dispatch(refreshToken(response.body.access_token, response.body.expires_in));
 			return response.body.access_token;
 		default:
-			showError('Error', response.body.error);
+			showError('Error de sesión', response.body.error);
 			return null;
 	}
 }

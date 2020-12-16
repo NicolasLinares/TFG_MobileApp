@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        patientTag: state.patientCodeReducer.tag,
+        patientTag: state.patientCodeReducer.patientCode,
         tags: state.tagsReducer.tags,
         isEditorVisible: state.patientCodeReducer.isEditorVisible,
     }

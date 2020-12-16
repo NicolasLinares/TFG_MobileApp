@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
 	return {
 		list: state.audioListReducer.audiolist,
-		patientTag: state.patientCodeReducer.tag,
+		patientTag: state.patientCodeReducer.patientCode,
 		token: state.userReducer.token,
 		currentTagApplied: state.tagsReducer.currentTagApplied,
 	}

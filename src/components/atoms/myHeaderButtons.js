@@ -17,17 +17,59 @@ import { COLORS } from '_styles';
 
 import {
     cleanHistory,
-    cleanTags
+    cleanTags,
+    deleteAudio
 } from '_redux_actions';
 
 import * as FS from '_constants';
 
 
 export function BackButton(navigation) {
+
+
+    const handleGoBack = async () => {
+
+        const state = store.getState();
+        let audiolist = state.audioListReducer.audiolist;
+
+        if (audiolist.length > 0) {
+            await Alert.alert(
+                'Cancelar grabación',
+                'Se eliminarán las notas de voz de forma permanente',
+                [
+                    {
+                        text: 'Cancelar',
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Eliminar',
+                        onPress: async () => {
+                            // Eliminar del filesystem
+                            for (i in audiolist) {
+                                await RNFetchBlob.fs.unlink(FS.DIRECTORY + '/' + audiolist[i].localpath)
+                                    .then(() => {
+                                        // Eliminar del estado global
+                                        store.dispatch(deleteAudio(audiolist[i].key));
+                                        console.log(audiolist[i].localpath + ' borrado correctamente')
+                                    })
+                                    .catch((err) => { console.log(err) });
+                            }
+
+                            navigation.goBack()
+                        },
+                    },
+                ],
+            );
+        } else {
+            navigation.goBack()
+        }
+
+    }
+
     return (
         <TouchableOpacity
-            style={{ height: 40, width: 50, justifyContent: 'center', alignItems: 'center'}}
-            onPress={() => navigation.goBack()}
+            style={{ height: 40, width: 50, justifyContent: 'center', alignItems: 'center' }}
+            onPress={() => handleGoBack()}
         >
             <IconII style={{ marginRight: 20, fontSize: 30, color: COLORS.electric_blue }} name={'chevron-back'} />
         </TouchableOpacity>
@@ -96,7 +138,7 @@ export function OptionsButton() {
                 },
                 {
                     text: 'Eliminar',
-                    onPress:  () => {
+                    onPress: () => {
                         deleteAll();
                     },
                 },
@@ -125,17 +167,16 @@ export function OptionsButton() {
 
             </MenuOptions>
         </Menu>
-
     )
 };
 
 export function CloseButton(onClose) {
     return (
         <TouchableOpacity
-            style={{ height: 40, width: 50, alignItems: 'flex-start', justifyContent : 'center'}}
+            style={{ height: 40, width: 50, alignItems: 'flex-start', justifyContent: 'center' }}
             onPress={() => onClose()}
         >
-            <IconII style={{fontSize: 30, color: COLORS.electric_blue }} name={'close-outline'} />
+            <IconII style={{ fontSize: 30, color: COLORS.electric_blue }} name={'close-outline'} />
         </TouchableOpacity>
     )
 };
@@ -143,7 +184,7 @@ export function CloseButton(onClose) {
 export function AcceptButton(onAccept) {
     return (
         <TouchableOpacity
-            style={{ height: 40, width: 50, alignItems: 'flex-end', justifyContent: 'center'}}
+            style={{ height: 40, width: 50, alignItems: 'flex-end', justifyContent: 'center' }}
             onPress={() => onAccept()}
         >
             <IconII style={{ fontSize: 30, color: COLORS.electric_blue }} name={'checkmark'} />

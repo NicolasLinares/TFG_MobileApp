@@ -5,6 +5,7 @@ export {
     HeaderButtons
 };
 
+export {default as DialogPrompt} from './myDialogPrompt';
 
 // Botones de inicio de sesión y registro
 export {default as ButtonAuth} from './myAuthButton';

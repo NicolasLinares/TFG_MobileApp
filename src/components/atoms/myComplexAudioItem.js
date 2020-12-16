@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    TextInput,
     StyleSheet,
-    Alert,
     Dimensions
 } from 'react-native';
 
@@ -17,8 +15,10 @@ import { connect } from 'react-redux';
 import { updateNameNewAudio } from '_redux_actions';
 
 import AnimatedItem from './myAnimatedItemList';
+import DialogPrompt from './myDialogPrompt';
 
 import { checkInputService } from '_services';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class myComplexAudioItem extends Component {
 
@@ -27,9 +27,12 @@ class myComplexAudioItem extends Component {
         this.state = {
             key: this.props.item.key,
             name: this.props.item.name,
-            default_name: this.props.item.name,
             extension: this.props.item.extension,
             created_time: this.props.item.ctime,
+
+            newName: this.props.item.name,
+            showDialog: false,
+            errorDialog: false,
         }
     }
 
@@ -37,70 +40,57 @@ class myComplexAudioItem extends Component {
 
     checkNewName() {
 
-        // Si no ha escrito nada dejamos el nombre como estaba
-        if (this.state.name === "") {
-            Alert.alert(
-                'Nombre no válido',
-                'Añade un nombre a la grabación o utiliza el nombre por defecto',
-                [
-                    {
-                        text: 'Usar nombre por defecto',
-                        onPress: () => this.setState({ name: this.state.default_name })
-                    },
-                    {
-                        text: 'Modificar nombre anterior',
-                        onPress: () => this.setState({ name: this.props.item.name })
-                    },
-                ]
-            );
+        // Comprueba que no tiene espacios en blanco, tabulaciones, etc
+        if (checkInputService.withBlankSpaces(this.state.newName)) {
+            this.setState({ errorDialog: true });
         } else {
-
-            // Comprueba que no tiene espacios en blanco, tabulaciones, etc
-            if (checkInputService.withBlankSpaces(this.state.name)) {
-            
-                Alert.alert(
-                    'Nombre no válido',
-                    'Introduce un nombre sin espacios en blanco',
-                    [{
-                        text: 'Aceptar',
-                        onPress: () => {
-                            var chars = { ' ': '_' };
-                            
-                            name = this.state.name.replace(/ /g, m => chars[m]);
-                            this.setState({ name: name });
-                            this.props.updateName(this.state.key, name);
-                        }
-                    }]
-                );
-
-            } else {
-
-                this.props.updateName(this.state.key, this.state.name);
-            }
+            this.props.updateName(this.state.key, this.state.newName);
+            this.setState({ name: this.state.newName, showDialog: false });
         }
+
+    }
+
+    _renderDialogPrompt() {
+
+        return (
+            <DialogPrompt 
+                value={this.state.newName}
+                onChangeText={value => this.setState({ newName: value })}
+                visible={this.state.showDialog}
+                showError={this.state.errorDialog}
+                onCancel={() => this.setState({showDialog: false, errorDialog: false, newName: this.state.name})}
+                onAccept={() => { this.state.newName !== "" ? this.checkNewName() : this.setState({ errorDialog: true })}}
+            />  
+        );
     }
 
     render = () => (
 
-        <AnimatedItem style={styles.item}>
-            <View style={styles.info}>
-                <View style={styles.nameInput}>
-                    <TextInput
-                        style={styles.name}
-                        underlineColorAndroid={'transparent'}
-                        autoCapitalize={'none'}
-                        maxLength={32}
-                        value={this.state.name}
-                        onChangeText={(value) => this.setState({ name: value })}
-                        onBlur={() => this.checkNewName()}
-                    />
+        <>
+            {this._renderDialogPrompt()}
+
+            <AnimatedItem style={styles.item}>
+                <View style={styles.info}>
+                    <View style={styles.nameInput}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ showDialog: true })}
+                        >
+                            <Text
+                                style={styles.name}
+                            >
+                                {this.state.name}
+                            </Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <Text style={styles.date}>
+                        {this.state.created_time}
+                    </Text>
                 </View>
-                <Text style={styles.date}>
-                    {this.state.created_time}
-                </Text>
-            </View>
-            <Player item={this.props.item} />
-        </AnimatedItem>
+                <Player item={this.props.item} />
+            </AnimatedItem>
+
+        </>
     )
 
 }

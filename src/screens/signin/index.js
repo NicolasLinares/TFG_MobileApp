@@ -56,8 +56,10 @@ class SignInScreen extends Component {
 			return;
 		}
 
+		if (!checkInputService.validateEmail(this.state.email))
+			return;
+
 		if (!checkInputService.validatePassword(this.state.password))
-			console.log('Contraseña no válida');
 			return;
 
 		// Petición al servidor
@@ -71,9 +73,10 @@ class SignInScreen extends Component {
 		);
 
 		if (response !== null) {
+			this.props.navigation.goBack();
 			// Se escribe en el input del Login el email para que pueda iniciar sesión en esa cuenta
 			this.props.navigation.state.params.onGoBack(this.state.email);
-			this.props.navigation.goBack();
+
 		}
 
 	}
@@ -84,15 +87,17 @@ class SignInScreen extends Component {
 			<>
 				<TextInput
 					onChangeText={(value) => this.setState({ name: value })}
+					autoCapitalize={'words'}
 					icon='person'
 					placeholder='Nombre'
 				/>
 
 				<TextInput
 					onChangeText={(value) => this.setState({ surname: value })}
+					autoCapitalize={'words'}
 					marginTop={5}
-					icon='person'
-					placeholder='Apellidos'
+					icon={'person'}
+					placeholder={'Apellidos'}
 				/>
 
 				{/* zIndex (altura) para superponer un Picker sobre otro y sobre los demás componentes*/}
@@ -101,8 +106,9 @@ class SignInScreen extends Component {
 						onValueChange={(value) => this.setState({ specialty: value })}
 						data={FORMDATA.SPECIALTIES}
 						marginTop={5}
-						icon='md-medkit'
-						placeholder='Especialidad médica'
+						icon={'md-medkit'}
+						placeholder={'Especialidad médica'}
+						
 					/>
 				</View>
 
@@ -119,6 +125,9 @@ class SignInScreen extends Component {
 
 				<TextInput
 					onChangeText={(value) => this.setState({ email: value })}
+					autoCapitalize={'none'}
+					keyboardType={'email-address'}
+					textContentType={'emailAddress'}
 					marginTop={5}
 					icon='mail'
 					placeholder='Correo electrónico'
@@ -127,6 +136,7 @@ class SignInScreen extends Component {
 				<TextInput
 					value={this.state.password}
 					onChangeText={(value) => this.setState({ password: value })}
+					autoCapitalize={'none'}
 					secureTextEntry={true}
 					keyboardType={'default'}
 					textContentType={'none'}

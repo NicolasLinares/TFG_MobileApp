@@ -117,6 +117,7 @@ class LoginScreen extends Component {
 				<TextInput
 					value={this.state.email}
 					onChangeText={(value) => this.setState({ email: value })}
+					autoCapitalize={'none'}
 					marginTop={10}
 					keyboardType={'email-address'}
 					textContentType={'emailAddress'}
@@ -127,6 +128,7 @@ class LoginScreen extends Component {
 				<TextInput
 					value={this.state.password}
 					onChangeText={(value) => this.setState({ password: value })}
+					autoCapitalize={'none'}
 					secureTextEntry={true}
 					keyboardType={'default'}
 					textContentType={'none'}

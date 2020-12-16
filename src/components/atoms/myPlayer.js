@@ -104,7 +104,7 @@ class myPlayer extends Component {
             case 'stop': {
 
                 // Inicializa el player
-                this.props.setState('play');
+                this.props.setPlayerState('play');
                 this.setState({state: 'play'});
                 var msg = await this.state.player.startPlayer('file://'+ FS.DIRECTORY +'/'+ this.state.localpath);
                 
@@ -132,13 +132,13 @@ class myPlayer extends Component {
                 return;
             }
             case 'play': {
-                this.props.setState('pause');
+                this.props.setPlayerState('pause');
                 this.setState({state: 'pause'});
                 return;
             }
             case 'pause': {
                 this.state.player.resumePlayer();
-                this.props.setState('play');
+                this.props.setPlayerState('play');
                 this.setState({state: 'play'});
                 return;
             }
@@ -165,7 +165,7 @@ class myPlayer extends Component {
     resetPlayer() {
         this.state.player.stopPlayer().catch(err => console.log(err.message));
         this.state.player.removePlayBackListener();
-        this.props.setState('stop');
+        this.props.setPlayerState('stop');
         this.setState({ 
             sliderValue: 0,
             state: 'stop'
@@ -309,7 +309,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setState: (state) => dispatch(setPlayerState(state))
+        setPlayerState: (state) => dispatch(setPlayerState(state))
     }
 }
 

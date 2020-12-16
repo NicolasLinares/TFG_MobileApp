@@ -12,17 +12,15 @@ const initialState = {
         expires_in: null                // Tiempo en mss en el que expira el token
     },
 
+    // Usados en Screen Recorder
     audiolist: [],                      // Lista con los nuevos audios grabados, se borra al enviar para transcribir
+    patientCode: '',                    // Código de paciente usado en la grabación actual, se borra al enviar para transcribir
+    playerState: 'stop',                // Estado del reproductor de audio, permite que no se reproduzcan dos audios a la vez si está en estado 'play'
 
+    // Usados en Screen Home
     history: [],                        // Lista con todos los audios grabados
     tags: [],                           // Lista con los códigos de paciente usados 
     currentTagApplied: '',              // Filtro usado en el momento actual
-
-    playerState: 'stop',                // Estado del reproductor de audio
-
-    patientCode: {                      // Código de paciente usado en la grabación actual, se borra al enviar para transcribir
-        tag: ''
-    }
 
 }
 
@@ -37,19 +35,47 @@ export function userReducer(state = initialState.user, action) {
                 specialty: action.specialty,
                 country: action.country,
                 token: action.token,
-                expires_in: moment.now() + 1000*60*action.expires_in
+                expires_in: moment.now() + 1000 * 60 * action.expires_in
             };
         case types.REFRESH_TOKEN:
             return {
                 ...state,
                 token: action.refresh_token,
-                expires_in: moment.now() + 1000*60*action.expires_in
+                expires_in: moment.now() + 1000 * 60 * action.expires_in
             };
         default:
             return state;
     }
 }
 
+export function logoutReducer(state = initialState, action) {
+    switch (action.type) {
+        case types.LOGOUT:
+            return {
+                ...state,
+                user: {
+                    name: null,
+                    surname: null,
+                    email: null,
+                    specialty: null,
+                    country: null,
+                    token: null,
+                    expires_in: null
+                },
+                
+                audiolist: [],
+                patientCode: '',
+                playerState: 'stop',
+            
+                history: [],
+                tags: [],
+                currentTagApplied: '',
+            };
+
+        default:
+            return state;
+    }
+}
 
 export function audioListReducer(state = initialState, action) {
 
@@ -98,7 +124,11 @@ export function audioListReducer(state = initialState, action) {
                 ...state,
                 audiolist: [...array]
             };
-
+        case types.CLEAN_AUDIOLIST:
+            return {
+                ...state,
+                audiolist: []
+            };
         default:
             return state;
     }
@@ -342,13 +372,13 @@ export function playerReducer(state = initialState, action) {
     }
 }
 
-export function patientCodeReducer(state = initialState.patientCode, action) {
+export function patientCodeReducer(state = initialState, action) {
     switch (action.type) {
 
         case types.SET_PATIENT_TAG:
             return {
                 ...state,
-                tag: action.tag,
+                patientCode: action.tag,
             };
 
         default:

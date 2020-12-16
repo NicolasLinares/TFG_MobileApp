@@ -18,34 +18,6 @@ import { authRequestService } from '_services';
 
 class SettingsScreen extends Component {
 
-	handleLogout = async () => {
-		await Alert.alert(
-			'Cerrar sesión',
-			'¿Seguro que desea cerrar la sesión?',
-			[
-				{
-					text: 'Cancelar',
-					style: 'cancel',
-				},
-				{
-					text: 'Salir',
-					onPress: async () => {
-
-						let response = await authRequestService.logout();
-
-						if (response !== null) {
-							//Se limpian los datos del usuario en Redux
-							this.props.cleanUserInfo();
-							// Se vacía el historial de audios
-							this.props.cleanHistory();
-							this.props.navigation.navigate('Auth');
-						}
-					}
-				}
-			]
-		);
-	}
-
 	_renderItem(name, icon, onPress) {
 		return (
 			<View style={styles.itemContainer}>
@@ -71,8 +43,6 @@ class SettingsScreen extends Component {
 
 					{this._renderItem('Ayuda', 'help-circle-outline', () => { })}
 					{this._renderItem('Información', 'information-circle-outline', () => { })}
-
-					{this._renderItem('Cerrar sesión', 'log-out-outline', () => this.handleLogout())}
 
 				</ScrollView>
 				<View style={styles.copyright}>

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
+import {
+	StatusBar
+} from 'react-native';
 import { Scanner } from '_organisms';
 
 class ScannerScreen extends Component {
 
-  render() {
-    return (
-        <Scanner nav={this.props.navigation}/>
-    );
-  }
+	render() {
+		return (
+			<>
+				<StatusBar barStyle={'light-content'} />
+				<Scanner nav={this.props.navigation} />
+			</>
+		);
+	}
 }
 
 

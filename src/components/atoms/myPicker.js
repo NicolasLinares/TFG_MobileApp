@@ -71,6 +71,8 @@ class myPicker extends Component {
                     }}
                     useNativeAndroidPickerStyle={false}
                     fixAndroidTouchableBug={true}
+                    doneText={'Hecho'}
+                    
                 />
             </View>
         )

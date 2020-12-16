@@ -97,8 +97,8 @@ class recorderModule extends Component {
 			AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
 			AudioSourceAndroid: AudioSourceAndroidType.MIC,
 	
-			AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-			AVNumberOfChannelsKeyIOS: 2,
+			AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.low,
+			AVNumberOfChannelsKeyIOS: 1,
 			AVFormatIDKeyIOS: AVEncodingOption.lpcm,
 		};
 
@@ -110,7 +110,6 @@ class recorderModule extends Component {
 
 		let file_path = await this.state.recorder.startRecorder(path, audioSet, true); // devuelve en formato file://path
 		let ctime = await this.getCreatedTime(file_path);
-
 		let audio = {
 			name: name,
 			extension: extension,

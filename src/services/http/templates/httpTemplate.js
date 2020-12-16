@@ -1,4 +1,5 @@
 import RNFetchBlob from 'rn-fetch-blob';
+
 import { showMessage } from "react-native-flash-message";
 import { COLORS } from '_styles';
 
@@ -20,7 +21,6 @@ export async function httpRequest(configProps, method, url, headers, body) {
 			let body = response.info().respType === 'blob' ? null : response.json();
 
 			return { status, body };
-
 		})
 		.catch((errorMessage) => {
 			console.log(errorMessage);
