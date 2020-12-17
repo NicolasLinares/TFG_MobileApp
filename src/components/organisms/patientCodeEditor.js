@@ -14,13 +14,13 @@ import { HeaderButtons } from '_atoms';
 
 import { connect } from 'react-redux';
 import { setPatientTag } from '_redux_actions';
+
 import { FilterList } from '_molecules';
 
-import { permissionsService } from '_services';
-import { checkInputService } from '_services';
+import { permissionsService, checkInputService } from '_services';
 
 
-class PatientCodeEditor extends Component {
+class patientCodeEditor extends Component {
 
     constructor(props) {
         super(props);
@@ -219,7 +219,6 @@ const mapStateToProps = (state) => {
     return {
         patientTag: state.patientCodeReducer.patientCode,
         tags: state.tagsReducer.tags,
-        isEditorVisible: state.patientCodeReducer.isEditorVisible,
     }
 }
 
@@ -230,4 +229,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(PatientCodeEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(patientCodeEditor);

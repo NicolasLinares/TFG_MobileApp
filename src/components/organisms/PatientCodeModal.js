@@ -1,26 +1,16 @@
 import React, { Component } from 'react';
-import {
-    StatusBar,
-} from 'react-native';
-
-import { connect } from 'react-redux';
-import { setPatientTag } from '_redux_actions';
-import { openTagEditor } from '_redux_actions';
+import { StatusBar } from 'react-native';
 
 import PatientCodeEditor from './patientCodeEditor';
 import { Modalize } from 'react-native-modalize';
 import { EditCodeButton } from '_atoms';
 
 
-class PatientCodeModal extends Component {
+class patientCodeModal extends Component {
 
     constructor(props) {
         super(props);
         this.ref_modal = React.createRef();
-    }
-
-    componentDidMount = () => {
-        this.props.setPatientTag('');
     }
 
     onOpen = () => {
@@ -51,10 +41,7 @@ class PatientCodeModal extends Component {
     render() {
         return (
             <>
-                <EditCodeButton 
-                    onPress={() => this.onOpen()}
-                    code={this.props.patientTag}
-                />
+                <EditCodeButton onPress={() => this.onOpen()} />
 
                 { this._renderModal()}
             </>
@@ -63,19 +50,4 @@ class PatientCodeModal extends Component {
 }
 
 
-
-const mapStateToProps = (state) => {
-    return {
-        tags: state.tagsReducer.tags,
-        patientTag: state.patientCodeReducer.patientCode,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setPatientTag: (tag) => dispatch(setPatientTag(tag)),
-        openTagEditor: () => dispatch(openTagEditor()),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PatientCodeModal);
+export default patientCodeModal;

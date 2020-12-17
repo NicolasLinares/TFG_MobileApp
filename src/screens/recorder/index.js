@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Recorder, AudioList, PatientCode } from '_organisms';
 
 import {
 	View,
@@ -9,6 +8,7 @@ import {
 
 import { Header } from 'react-native-elements';
 import { HeaderButtons, SendAudiosButton } from '_atoms';
+import { Recorder, RecordedList, PatientCode } from '_organisms';
 
 import moment from 'moment';
 
@@ -27,7 +27,7 @@ class RecorderScreen extends Component {
 				/>
 				<PatientCode nav={this.props.navigation} />
 				<Text style={{ marginVertical: 10 }}>{moment().format('LL')}</Text>
-				<AudioList />
+				<RecordedList />
 				<Recorder />
 			</View>
 		);

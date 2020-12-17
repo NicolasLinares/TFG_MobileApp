@@ -5,11 +5,14 @@ import {
     StyleSheet
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 class editCodeButton extends Component {
+
     render() {
         return (
             <TouchableWithoutFeedback
@@ -22,8 +25,8 @@ class editCodeButton extends Component {
                     <IconII style={[styles.icon, { marginLeft: -3 }]} name={"list"} />
                 </View>
 
-                <Text style={[styles.code, { color: this.props.code !== '' ? COLORS.electric_blue : 'grey' }]}>
-                    {this.props.code !== '' ? this.props.code : 'Añadir código de paciente'}
+                <Text style={[styles.code, { color: this.props.patientCode !== '' ? COLORS.electric_blue : 'grey' }]}>
+                    {this.props.patientCode !== '' ? this.props.patientCode : 'Añadir código de paciente'}
                 </Text>
             </TouchableWithoutFeedback>
         )
@@ -66,5 +69,10 @@ const styles = StyleSheet.create({
 });
 
 
+const mapStateToProps = (state) => {
+    return {
+        patientCode: state.patientCodeReducer.patientCode,
+    }
+}
 
-export default editCodeButton;
+export default connect(mapStateToProps, null)(editCodeButton);

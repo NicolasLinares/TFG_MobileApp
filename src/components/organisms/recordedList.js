@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
-import {
-    StyleSheet,
-    TouchableOpacity
-} from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { ComplexAudioItem, AnimatedItem } from '_atoms';
 
 import IconII from "react-native-vector-icons/Ionicons";
 import { CONSTANTS } from '_styles';
 
-import { ComplexAudioItem, AnimatedItem } from '_atoms';
 
-class myBasicList extends Component {
+import { connect } from 'react-redux';
+import { deleteAudio } from '_redux_actions';
 
-    constructor(props) {
-        super(props);
-    }
+import * as FS from '_constants';
+import { storageService } from '_services';
+
+
+class recordedList extends Component {
+
 
     _renderItem = data => (
         <ComplexAudioItem item={data.item} />
@@ -28,7 +29,7 @@ class myBasicList extends Component {
     };
 
     deleteRow = async (rowMap, item) => {
-        await this.props.handleAudioDelete(item, () => this.closeRow(rowMap, item.key));
+        await this.handleAudioDelete(item, rowMap);
     };
 
     _renderHideButtons = (data, rowMap) => (
@@ -43,9 +44,35 @@ class myBasicList extends Component {
         </AnimatedItem>
     )
 
-    render = () => (
+	handleAudioDelete = (item, rowMap) => {
+		Alert.alert(
+			'Eliminar nota de voz',
+			'La nota de voz "' + item.name + '.' + item.extension + '" se va a eliminar de forma permanente',
+			[
+				{
+					text: 'Cancelar',
+					style: 'cancel',
+					onPress: () => this.closeRow(rowMap, item.key)
+				},
+				{
+					text: 'Eliminar',
+					onPress: () => {
 
-        <SwipeListView
+						// Se borra en el filesystem porque el recorder
+						// crea un fichero por cada grabación
+						let localpath = FS.DIRECTORY + '/' + item.localpath;
+
+						storageService.deleteFile(localpath);
+						this.props.delete(item.key);
+					}
+				}
+			]
+		);
+	}
+
+	render() {
+		return (
+			<SwipeListView
             overScrollMode={"never"}
             contentContainerStyle={{ paddingBottom: 20 }}
             showsVerticalScrollIndicator={false}
@@ -60,10 +87,9 @@ class myBasicList extends Component {
             previewOpenValue={-40}
             previewOpenDelay={3000}
         />
-    )
-
+		)
+	}
 }
-
 
 const styles = StyleSheet.create({
     audiolist: {
@@ -97,5 +123,16 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapStateToProps = (state) => {
+	return {
+		list: state.audioListReducer.audiolist,
+	}
+}
 
-export default myBasicList;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		delete: (key) => dispatch(deleteAudio(key)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(recordedList);

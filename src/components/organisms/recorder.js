@@ -21,7 +21,7 @@ import { addAudio } from '_redux_actions';
 import { storageService } from '_services';
 
 
-class recorderModule extends Component {
+class recorder extends Component {
 
 	constructor(props) {
 		super(props);
@@ -174,4 +174,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(null, mapDispatchToProps)(recorderModule);
+export default connect(null, mapDispatchToProps)(recorder);
