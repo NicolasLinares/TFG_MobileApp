@@ -4,17 +4,16 @@ import { View } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import HomeScreen from '_screens/home';
-import AudioScreen from '_screens/home/audio';
-
+import AudioScreen from '_screens/audio';
 import RecorderScreen from '_screens/recorder';
-import ScannerScreen from '_screens/recorder/scanner';
+import ScannerScreen from '_screens/scanner';
 
 import SettingsScreen from '_screens/settings';
 import ProfileScreen from '_screens/settings/profile';
 import SecurityScreen from '_screens/settings/security';
 import PasswordSettingScreen from '_screens/settings/security/password';
 
-import {HeaderButtons} from '_atoms';
+import { HeaderButtons } from '_atoms';
 
 const StackNavigatorConfig = {
 	initialRouteName: 'Home',
