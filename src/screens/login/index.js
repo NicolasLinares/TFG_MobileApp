@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import { authUser } from '_redux_actions';
 import { showMessage } from "react-native-flash-message";
 
-import { authRequestService } from '_services';
+import { httpService } from '_services';
 import * as Keychain from 'react-native-keychain';
 
 class LoginScreen extends Component {
@@ -89,7 +89,7 @@ class LoginScreen extends Component {
 		}
 
 		// Petición al servidor
-		let response = await authRequestService.login(this.state.email, this.state.password);
+		let response = await httpService.login(this.state.email, this.state.password);
 
 		if (response !== null) {
 			this.props.setUser(

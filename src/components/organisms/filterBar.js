@@ -12,11 +12,11 @@ import { connect } from 'react-redux';
 import { setHistory, cleanHistory, addFilterTag, cleanTags, setCurrentTagApplied } from '_redux_actions';
 import IconII from "react-native-vector-icons/Ionicons";
 
-import { audioRequestService } from '_services';
+import { httpService } from '_services';
 import { FilterList } from '_molecules';
 
 
-class filterListController extends Component {
+class filterBar extends Component {
 
     constructor(props) {
         super(props);
@@ -43,7 +43,7 @@ class filterListController extends Component {
         this.props.cleanTags();
 
         // Petición de los códigos de pacientes usados
-        let list = await audioRequestService.getTags();
+        let list = await httpService.getTags();
 
         if (list !== null) {
             N = list.length;
@@ -64,7 +64,7 @@ class filterListController extends Component {
 
         // Para el resto de peticiones ya se almacena la URL
         // con la siguiente página
-        let response = await audioRequestService.filterByTag(tag);
+        let response = await httpService.filterByTag(tag);
 
         if (response !== null) {
 
@@ -172,4 +172,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(filterListController);
+export default connect(mapStateToProps, mapDispatchToProps)(filterBar);

@@ -4,14 +4,14 @@ import {
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
-import { audioRequestService, checkInputService } from '_services';
+import { httpService, checkInputService } from '_services';
 
 import { connect } from 'react-redux';
 import { setHistory, cleanHistory} from '_redux_actions';
 import { COLORS } from '_styles';
 
 
-class searchController extends Component {
+class searchBar extends Component {
 
     constructor(props) {
         super(props);
@@ -29,7 +29,7 @@ class searchController extends Component {
                 this.setState({ loading: true });
 
                 // Se borra de la base de datos del servidor
-                let response = await audioRequestService.searchAudio(this.state.searchText);
+                let response = await httpService.searchAudio(this.state.searchText);
                 if (response !== null && response.data.length > 0) {
                     this.setState({ showNullResponse: false, loading: false });
 
@@ -98,4 +98,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(searchController);
+export default connect(null, mapDispatchToProps)(searchBar);

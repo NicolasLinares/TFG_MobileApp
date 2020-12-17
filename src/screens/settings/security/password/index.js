@@ -18,7 +18,7 @@ import { showMessage } from "react-native-flash-message";
 
 import {connect} from 'react-redux';
 
-import { authRequestService } from '_services';
+import { httpService } from '_services';
 import * as Keychain from 'react-native-keychain';
 
 
@@ -93,7 +93,7 @@ class PasswordSettingScreen extends Component {
         //TODO comprobar que la contraseña cumple ciertos requisitos
 
 
-        let status = await authRequestService.changePassword(this.state.currentPassword, this.state.newPassword);
+        let status = await httpService.changePassword(this.state.currentPassword, this.state.newPassword);
 
         if (status !== null) {
 

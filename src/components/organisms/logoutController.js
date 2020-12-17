@@ -11,7 +11,7 @@ import IconII from "react-native-vector-icons/Ionicons";
 import { connect } from 'react-redux';
 import { logoutUser, cleanHistory } from '_redux_actions';
 
-import { authRequestService } from '_services';
+import { httpService } from '_services';
 
 class LogoutController extends Component {
 
@@ -30,7 +30,7 @@ class LogoutController extends Component {
                     onPress: async () => {
                         await this.props.nav.closeDrawer();
 
-                        let response = await authRequestService.logout();
+                        let response = await httpService.logout();
 
                         if (response !== null) {
                             //Se limpian los datos del usuario en Redux

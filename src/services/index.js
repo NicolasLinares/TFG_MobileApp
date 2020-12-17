@@ -1,14 +1,21 @@
+
+// PERMISSIONS
 import * as permissionsService from './permissions';
 
+// REGEX (CHECKS)
 import * as checkInputService from './checkInputs';
 
+// HTTP REQUESTS
+import * as httpService from './http';
 
-import * as audioRequestService from './http/audioRequests';
-import * as authRequestService from './http/authRequests';
+// FILESYSTEM (DELETES)
+import * as storageService from './storage';
+
 
 export {
     permissionsService,
     checkInputService,
-    audioRequestService, 
-    authRequestService, 
+
+    httpService,
+    storageService
 };

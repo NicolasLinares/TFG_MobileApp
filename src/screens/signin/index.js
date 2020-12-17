@@ -17,7 +17,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import { showMessage } from "react-native-flash-message";
 
-import { authRequestService, checkInputService } from '_services';
+import { httpService, checkInputService } from '_services';
 
 import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 
@@ -63,7 +63,7 @@ class SignInScreen extends Component {
 			return;
 
 		// Petición al servidor
-		let response = await authRequestService.signin(
+		let response = await httpService.signin(
 			this.state.name,
 			this.state.surname,
 			this.state.email,

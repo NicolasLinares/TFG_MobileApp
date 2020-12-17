@@ -15,11 +15,9 @@ import {
 import { URL } from '_constants';
 import * as FS from '_constants';
 
-import RNFetchBlob from 'rn-fetch-blob';
-
 import moment from 'moment';
 
-import { audioRequestService } from '_services';
+import { httpService, storageService } from '_services';
 
 class historyController extends Component {
     constructor(props) {
@@ -54,18 +52,10 @@ class historyController extends Component {
         // Se borra en el filesystem porque el recorder
         // crea un fichero por cada grabación
         let localpath = FS.DIRECTORY + '/' + item.localpath;
-
-        RNFetchBlob.fs.exists(localpath).then((exist) => {
-                if (exist)
-                    RNFetchBlob.fs.unlink(localpath).catch((err) => {
-                        alert("Error al borrar el audio" + err);
-                    });
-            }
-        )
-
+        storageService.deleteFile(localpath);
         
         // Se borra de la base de datos del servidor
-        let response = await audioRequestService.deleteAudioHistory(item.uid);
+        let response = await httpService.deleteAudioHistory(item.uid);
         if (response !== null) {
 
             // Se actualiza el historial
@@ -80,7 +70,7 @@ class historyController extends Component {
                 this.props.deleteFilter(response.tag);
             }
         }
-        
+
     };
 
     async handleGetHistory() {
@@ -91,7 +81,7 @@ class historyController extends Component {
             loading: true,
         });
 
-        let response = await audioRequestService.getHistory(this.state.next_page_URL);
+        let response = await httpService.getHistory(this.state.next_page_URL);
 
         if (response !== null) {
 

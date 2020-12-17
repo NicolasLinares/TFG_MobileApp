@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-import { RecorderButton } from '_atoms';
+import { Platform } from 'react-native';
 
 import AudioRecorderPlayer, {
 	AVEncoderAudioQualityIOSType,
@@ -13,11 +12,13 @@ import * as FS from '_constants';
 
 import moment from 'moment';
 import 'moment/locale/es';
-import RNFetchBlob from 'rn-fetch-blob';
+
+import { RecorderButton } from '_atoms';
 
 import { connect } from 'react-redux';
 import { addAudio } from '_redux_actions';
-import { Platform } from 'react-native';
+
+import { storageService } from '_services';
 
 
 class recorderModule extends Component {
@@ -70,11 +71,7 @@ class recorderModule extends Component {
 	setAudioPath() {
 
 		let name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
-
-		let extension = Platform.select({
-			ios: 'wav',
-			android: 'wav',
-		});
+		let extension = 'wav'
 
 		let path = Platform.select({
 			ios: name + '.' + extension,
@@ -86,7 +83,7 @@ class recorderModule extends Component {
 
 	async getCreatedTime(file_path) {
 		let path = file_path.replace('file://', '');
-		let timestamp = (await RNFetchBlob.fs.stat(path)).lastModified;
+		let timestamp = (await storageService.getFileInfo(path)).lastModified;
 		let m = moment(timestamp);
 		return m.format('HH:mm');
 	}

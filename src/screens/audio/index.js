@@ -31,7 +31,7 @@ import * as FS from '_constants';
 import { connect } from 'react-redux';
 import { deleteAudioHistory, updateDescription, updateName } from '_redux_actions';
 
-import { audioRequestService, checkInputService } from '_services';
+import { httpService, checkInputService } from '_services';
 
 
 import Share from 'react-native-share';
@@ -93,7 +93,7 @@ class AudioScreen extends Component {
 		if (name == "" || checkInputService.withBlankSpaces(name)) {
 			this.setState({ errorDialog: true });
 		} else {
-			let response = await audioRequestService.updateName(this.state.uid, name);
+			let response = await httpService.updateName(this.state.uid, name);
 
 			if (response !== null) {
 				// Se actualiza el nombre del audio en todas sus referencias
@@ -109,7 +109,7 @@ class AudioScreen extends Component {
 	handleUpdateDescription = async () => {
 		Keyboard.dismiss();
 
-		let response = await audioRequestService.updateDescription(this.state.uid, this.state.description);
+		let response = await httpService.updateDescription(this.state.uid, this.state.description);
 
 		if (response !== null) {
 			this.setState({ editing: false });

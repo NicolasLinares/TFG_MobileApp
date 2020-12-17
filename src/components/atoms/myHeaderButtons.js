@@ -9,19 +9,11 @@ import {
     MenuTrigger,
 } from 'react-native-popup-menu';
 
-import RNFetchBlob from 'rn-fetch-blob';
-import { audioRequestService } from '_services';
 import store from '_redux_store';
 
 import { COLORS } from '_styles';
 
-import {
-    cleanHistory,
-    cleanTags,
-    deleteAudio
-} from '_redux_actions';
-
-import * as FS from '_constants';
+import { storageService } from '_services';
 
 
 export function BackButton(navigation) {
@@ -44,17 +36,9 @@ export function BackButton(navigation) {
                     {
                         text: 'Eliminar',
                         onPress: async () => {
-                            // Eliminar del filesystem
-                            for (i in audiolist) {
-                                await RNFetchBlob.fs.unlink(FS.DIRECTORY + '/' + audiolist[i].localpath)
-                                    .then(() => {
-                                        // Eliminar del estado global
-                                        store.dispatch(deleteAudio(audiolist[i].key));
-                                        console.log(audiolist[i].localpath + ' borrado correctamente')
-                                    })
-                                    .catch((err) => { console.log(err) });
-                            }
 
+                            // Elimina cada audio del filesystem
+                            await storageService.deleteListFiles(audiolist);
                             navigation.goBack()
                         },
                     },
@@ -89,35 +73,8 @@ export function MenuButton(navigation) {
 
 export function OptionsButton() {
 
-    const deleteAll = async () => {
-
-        await RNFetchBlob.fs.lstat(FS.DIRECTORY)
-            .then(async (stats) => {
-
-                // Se borran los audios que se encuentren localmente
-                for (i in stats) {
-                    if (stats[i].type === 'file') {
-                        await RNFetchBlob.fs.unlink(FS.DIRECTORY + '/' + stats[i].filename)
-                            .then(() => console.log(stats[i].filename + ' borrado correctamente'))
-                            .catch((err) => { console.log(err) });
-                    }
-                }
-
-                // Se borra de la base de datos del servidor
-                let response = await audioRequestService.deleteAllHistory();
-                if (response !== null) {
-                    // Se limpia el historial y los filtros
-                    store.dispatch(cleanHistory());
-                    store.dispatch(cleanTags());
-                }
-
-            })
-            .catch((err) => { console.log(err) });
-
-    };
-
-    const handleDelete = () => {
-        Alert.alert(
+    const handleDelete = async () => {
+        await Alert.alert(
             'Eliminar todo',
             'Se van a eliminar todas las notas de voz de forma permamente',
             [
@@ -127,8 +84,8 @@ export function OptionsButton() {
                 },
                 {
                     text: 'Eliminar',
-                    onPress: () => {
-                        deleteAll();
+                    onPress: async () => {
+                        await storageService.deleteAllFiles();
                     },
                 },
             ],

@@ -13,7 +13,7 @@ import IconII from "react-native-vector-icons/Ionicons";
 import { connect } from 'react-redux';
 import { logoutUser, cleanHistory } from '_redux_actions';
 
-import { authRequestService } from '_services';
+import { httpService } from '_services';
 
 
 class SettingsScreen extends Component {

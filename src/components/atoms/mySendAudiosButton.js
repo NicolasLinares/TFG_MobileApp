@@ -11,7 +11,7 @@ import { COLORS } from '_styles';
 import { connect } from 'react-redux';
 import { deleteAudio, addAudioTag, addFilterTag, addAudioHistory } from '_redux_actions';
 
-import { audioRequestService } from '_services';
+import { httpService } from '_services';
 
 class mySendAudiosButton extends Component {
 
@@ -35,7 +35,7 @@ class mySendAudiosButton extends Component {
             for (let i = 0; i < N; i++) {
                 let audio = list[i];
                 console.log(audio.name + ' - Procesando audio...');
-                let audio_resp = await audioRequestService.uploadAudio(audio);
+                let audio_resp = await httpService.uploadAudio(audio);
 
                 if (audio_resp !== null) {
                     console.log(audio.name + ' - Audio almacenado en el servidor...');

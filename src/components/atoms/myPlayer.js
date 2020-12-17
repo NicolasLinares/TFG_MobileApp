@@ -20,8 +20,7 @@ import Sound from 'react-native-sound';
 import { connect } from 'react-redux';
 import { setPlayerState } from '_redux_actions';
 
-import RNFetchBlob from 'rn-fetch-blob';
-import { audioRequestService } from '_services';
+import { httpService, storageService } from '_services';
 
 import * as FS from '_constants';
 
@@ -53,20 +52,13 @@ class myPlayer extends Component {
             let localpath = FS.DIRECTORY + '/' + this.state.localpath;
 
             // Comprobamos si el audio se encuentra ya localmente
-            let exists = await RNFetchBlob.fs.exists(localpath)
-                .then((exist) => {
-                    return exist;
-                })
-                .catch(() => {
-                    alert('Error al comprobar si el archivo existe')
-                    return null;
-                });
+            let exists = storageService.existsLocally(localpath);
 
             // Si no se encuentra localmente lo descargamos del servidor
             if (exists !== null && !exists) {
                 console.log('El archivo de audio no se encuentra localmente')
                 // Se descarga de la base de datos
-                await audioRequestService.downloadAudioFile(this.state.uid, localpath);
+                await httpService.downloadAudioFile(this.state.uid, localpath);
             } else {
                 console.log('El archivo de audio se encuentra localmente')
             }

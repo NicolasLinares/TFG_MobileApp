@@ -9,9 +9,8 @@ import { BasicList } from '_molecules';
 import { connect } from 'react-redux';
 import { deleteAudio, addAudioTag } from '_redux_actions';
 
-import RNFetchBlob from 'rn-fetch-blob';
-
 import * as FS from '_constants';
+import { storageService } from '_services';
 
 
 class audioListModule extends Component {
@@ -32,16 +31,10 @@ class audioListModule extends Component {
 
 						// Se borra en el filesystem porque el recorder
 						// crea un fichero por cada grabación
-
 						let localpath = FS.DIRECTORY + '/' + item.localpath;
 
-						RNFetchBlob.fs.unlink(localpath).then(() => {
-							// Se actualiza el estado
-							this.props.delete(item.key);
-						}).catch((err) => {
-							alert("Error al borrar el audio");
-						});
-
+						storageService.deleteFile(localpath);
+						this.props.delete(item.key);
 					}
 				}
 			]
