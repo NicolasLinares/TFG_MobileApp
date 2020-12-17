@@ -6,6 +6,7 @@ export {
 };
 
 export {default as DialogPrompt} from './myDialogPrompt';
+export {default as EditCodeButton} from './editCodeButton';
 
 // Botones de inicio de sesión y registro
 export {default as ButtonAuth} from './myAuthButton';

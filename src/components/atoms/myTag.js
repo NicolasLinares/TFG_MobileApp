@@ -12,8 +12,6 @@ import { TouchableOpacity as guesterTouchableOpacity } from 'react-native-gestur
 const TouchableOpacity = Platform.OS ==='ios' ? reactTouchableOpacity : guesterTouchableOpacity;
 
 
-
-
 class myTag extends Component {
 
     render() {

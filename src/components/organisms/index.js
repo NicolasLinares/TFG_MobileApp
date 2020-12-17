@@ -3,7 +3,7 @@ export {default as HistoryList} from './historyController';
 export {default as FilterBar} from './filterController';
 export {default as SearchBar} from './searchController';
 
-export {default as PatientCode} from './patientCodeModule';
+export {default as PatientCode} from './PatientCodeModal';
 export {default as PatientCodeEditor} from './patientCodeEditor';
 export {default as Recorder} from './recorderModule';
 export {default as Scanner} from './scannerModule';

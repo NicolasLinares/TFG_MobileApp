@@ -87,17 +87,6 @@ export function MenuButton(navigation) {
     )
 };
 
-export function SearchButton(navigation) {
-    return (
-        <TouchableOpacity
-            style={{ height: 40, width: 60, justifyContent: 'center', alignItems: 'center' }}
-            onPress={() => navigation.navigate('Search')}
-        >
-            <IconMI style={{ color: COLORS.electric_blue, fontSize: 30 }} name={'search'} />
-        </TouchableOpacity>
-    )
-};
-
 export function OptionsButton() {
 
     const deleteAll = async () => {
