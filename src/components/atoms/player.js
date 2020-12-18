@@ -25,7 +25,7 @@ import { httpService, storageService } from '_services';
 import * as FS from '_constants';
 
 
-class myPlayer extends Component {
+class player extends Component {
 
     constructor(props) {
         super(props);
@@ -306,7 +306,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(myPlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(player);
 
 
 

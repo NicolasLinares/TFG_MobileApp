@@ -43,7 +43,6 @@ class SideMenu extends Component {
                     {this._renderLinkItem('Perfil', 'person-outline', () => this.props.navigation.navigate('Profile'))}
                     {this._renderLinkItem('Ajustes', 'settings-outline', () => this.props.navigation.navigate('Settings'))}
                     {this._renderLinkItem('Ayuda', 'help-circle-outline', () => { })}
-
                 </ScrollView>
 
                 <LogoutButton nav={this.props.navigation} />

@@ -21,10 +21,12 @@ export {default as ButtonCancel} from './myCancelButton';
 
 
 // Componentes del historial de audios
-export {default as Player} from './myPlayer';
-export {default as SimpleAudioItem} from './mySimpleAudioItem';
-export {default as ComplexAudioItem} from './myComplexAudioItem';
+export {default as Player} from './player';
+export {default as HistoryItem} from './historyItem';
+export {default as RecordedItem} from './recordedItem';
+export {default as HiddenButtons} from './hiddenItemButtons';
+
 export {default as Tag} from './myTag';
 
 // Animación de los items de la lista
-export {default as AnimatedItem} from './myAnimatedItemList';
+export {default as FadeInAnimation} from './fadeInAnimation';

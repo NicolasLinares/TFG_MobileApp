@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { ComplexAudioItem, AnimatedItem } from '_atoms';
+import { RecordedItem, HiddenButtons } from '_atoms';
 
-import IconII from "react-native-vector-icons/Ionicons";
 import { CONSTANTS } from '_styles';
-
 
 import { connect } from 'react-redux';
 import { deleteAudio } from '_redux_actions';
@@ -19,7 +17,7 @@ class recordedList extends Component {
 
 
     _renderItem = data => (
-        <ComplexAudioItem item={data.item} />
+        <RecordedItem item={data.item} />
     )
 
     closeRow = (rowMap, rowKey) => {
@@ -33,15 +31,10 @@ class recordedList extends Component {
     };
 
     _renderHideButtons = (data, rowMap) => (
-
-        <AnimatedItem style={styles.actionsContainer}>
-            <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => this.deleteRow(rowMap, data.item)}
-            >
-                <IconII name={"trash"} size={25} color='white' />
-            </TouchableOpacity>
-        </AnimatedItem>
+        <HiddenButtons
+            buttonWidth={85}
+            onPressDelete={() => this.deleteRow(rowMap, data.item)}
+        />
     )
 
 	handleAudioDelete = (item, rowMap) => {
@@ -104,22 +97,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         paddingHorizontal: CONSTANTS.marginHorizontalItemList,
         marginVertical: CONSTANTS.marginVerticalItemList,
-    },
-    descriptionButton: {
-        height: 85,
-        width: 85,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgb(150,220,150)',
-        borderRadius: 10,
-    },
-    deleteButton: {
-        height: 85,
-        width: 85,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'red',
-        borderRadius: 10,
     },
 });
 

@@ -6,19 +6,19 @@ import {
 
 import {Tag} from '_atoms';
 
-class myFilterList extends Component {
+class filterList extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            lastTagUsed: null
+            currentTag: null
         } 
     }
 
     removeTagUsed() {
         this.setState({
-            lastTagUsed: null
+            currentTag: null
         });
     }
 
@@ -26,7 +26,7 @@ class myFilterList extends Component {
         this.props.onPressTag(tag);
 
         this.setState({
-            lastTagUsed: tag
+            currentTag: tag
         });
     }
 
@@ -35,7 +35,7 @@ class myFilterList extends Component {
             pressed={true}
             onPress={() => this.onPress(item.tag)}
             tag={item.tag}
-            lastTagUsed={this.state.lastTagUsed}
+            currentTag={this.state.currentTag}
         />
     )
 
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default myFilterList;
+export default filterList;
 
 

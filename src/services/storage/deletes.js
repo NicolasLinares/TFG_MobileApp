@@ -78,7 +78,7 @@ export async function deleteAllFiles(audiolist) {
 */
 export function existsLocally(localpath) {
 
-    RNFetchBlob.fs.exists(localpath)
+    return RNFetchBlob.fs.exists(localpath)
                 .then((exist) => {
                     return exist;
                 })

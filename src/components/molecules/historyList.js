@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
     Text,
     View,
     ActivityIndicator
@@ -9,15 +8,14 @@ import {
 
 import AlertAsync from "react-native-alert-async";
 
-import IconII from "react-native-vector-icons/Ionicons";
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { SimpleAudioItem } from '_atoms';
+import { HistoryItem, HiddenButtons } from '_atoms';
 import { COLORS, CONSTANTS } from '_styles';
 
 import moment from 'moment';
 
 
-class mySectionList extends Component {
+class historyList extends Component {
 
     constructor(props) {
         super(props);
@@ -25,10 +23,10 @@ class mySectionList extends Component {
 
     _renderItem = (data, rowMap) => {
         return (
-            <SimpleAudioItem 
-                item={data.item} 
-                handleAudioDelete={() => this.handleDeleteRow(rowMap, data.item)} 
-                nav={this.props.nav}     
+            <HistoryItem
+                item={data.item}
+                handleAudioDelete={() => this.handleDeleteRow(rowMap, data.item)}
+                nav={this.props.nav}
             />
         );
     }
@@ -50,27 +48,25 @@ class mySectionList extends Component {
                     onPress: () => {
                         this.closeRow(rowMap, item.uid);
                         return Promise.resolve(false);
-                    } 
+                    }
                 },
                 {
                     text: 'Eliminar',
-                    onPress:  () => {
+                    onPress: () => {
                         this.props.handleAudioDelete(item);
                         return Promise.resolve(true);
                     },
                 },
             ],
         );
-    } 
+    }
 
-    _renderHideButtons = (data, rowMap) => {
+    _renderHiddenButtons = (data, rowMap) => {
         return (
-            <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => this.handleDeleteRow(rowMap, data.item)}
-            >
-                <IconII name={"trash"} size={25} color='white' />
-            </TouchableOpacity>
+            <HiddenButtons
+                buttonWidth={65}
+                onPressDelete={() => this.handleDeleteRow(rowMap, data.item)}
+            />
         );
     }
 
@@ -109,7 +105,7 @@ class mySectionList extends Component {
                 stickySectionHeadersEnabled
                 renderSectionHeader={this._renderSection}
                 renderItem={this._renderItem}
-                renderHiddenItem={this._renderHideButtons}
+                renderHiddenItem={this._renderHiddenButtons}
                 rightOpenValue={-65}
                 disableRightSwipe={true}
                 closeOnScroll={true}
@@ -156,4 +152,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default mySectionList;
+export default historyList;

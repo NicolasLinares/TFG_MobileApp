@@ -9,18 +9,18 @@ import {
 
 import { CONSTANTS } from '_styles';
 
-import { default as Player } from './myPlayer';
+import { default as Player } from './player';
 
 import { connect } from 'react-redux';
 import { updateNameNewAudio } from '_redux_actions';
 
-import AnimatedItem from './myAnimatedItemList';
+import FadeInAnimation from './fadeInAnimation';
 import DialogPrompt from './myDialogPrompt';
 
 import { checkInputService } from '_services';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-class myComplexAudioItem extends Component {
+class recordedItem extends Component {
 
     constructor(props) {
         super(props);
@@ -69,7 +69,7 @@ class myComplexAudioItem extends Component {
         <>
             {this._renderDialogPrompt()}
 
-            <AnimatedItem style={styles.item}>
+            <FadeInAnimation style={styles.item} duration={400}>
                 <View style={styles.info}>
                     <View style={styles.nameInput}>
                         <TouchableOpacity
@@ -88,7 +88,7 @@ class myComplexAudioItem extends Component {
                     </Text>
                 </View>
                 <Player item={this.props.item} />
-            </AnimatedItem>
+            </FadeInAnimation>
 
         </>
     )
@@ -150,7 +150,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(myComplexAudioItem);
+export default connect(null, mapDispatchToProps)(recordedItem);
 
 
 

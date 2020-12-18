@@ -9,11 +9,11 @@ import {
 
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
-import { Tag } from '_atoms';
+import { Tag, FadeInAnimation } from '_atoms';
 
 import moment from 'moment';
 
-class mySimpleAudioItem extends Component {
+class historyItem extends Component {
 
     constructor(props) {
         super(props);
@@ -34,39 +34,40 @@ class mySimpleAudioItem extends Component {
     render() {
 
         return (
-
-            <TouchableWithoutFeedback
-                onPress={() => this.props.nav.navigate('Audio',
+            <FadeInAnimation duration={400}>
+                <TouchableWithoutFeedback
+                    onPress={() => this.props.nav.navigate('Audio',
                         {
                             item: this.props.item,
                             updateHistoryItem: (name) => this.setState({ name: name }),
                             handleAudioDelete: this.props.handleAudioDelete
                         }
-                    )
-                }
-            >
+                    )}
+                >
 
-                <View style={styles.item}>
-                    <View style={styles.info}>
-                        <Text style={styles.name}>{this.state.name}</Text>
+                    <View style={styles.item}>
+                        <View style={styles.info}>
+                            <Text style={styles.name}>{this.state.name}</Text>
 
-                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                            <Text style={styles.date} numberOfLines={1}>
-                                {this.state.created_time}
-                            </Text>
+                            <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                                <Text style={styles.date} numberOfLines={1}>
+                                    {this.state.created_time}
+                                </Text>
 
-                            <Tag
-                                pressed={false}
-                                style={{ height: 20, borderRadius: 7 }}
-                                textStyle={{ fontSize: 11 }}
-                                tag={this.state.tag}
-                            />
+                                <Tag
+                                    pressed={false}
+                                    style={{ height: 20, borderRadius: 7 }}
+                                    textStyle={{ fontSize: 11 }}
+                                    tag={this.state.tag}
+                                />
+                            </View>
                         </View>
-                    </View>
 
-                    <IconII style={styles.icon} name={'chevron-forward'} />
-                </View>
-            </TouchableWithoutFeedback>
+                        <IconII style={styles.icon} name={'chevron-forward'} />
+                    </View>
+                </TouchableWithoutFeedback>
+            </FadeInAnimation>
+
         )
     }
 }
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default mySimpleAudioItem;
+export default historyItem;
 
 
 

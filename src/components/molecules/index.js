@@ -1,3 +1,3 @@
-export {default as SectionList} from './mySectionList';
-export {default as FilterList} from './myFilterList';
+export {default as HistoryList} from './historyList';
+export {default as FilterList} from './filterList';
 
