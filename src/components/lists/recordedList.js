@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Alert, StyleSheet } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { RecordedItem, HiddenButtons } from '_atoms';
+import { RecordedItem, HiddenButtons } from '_buttons';
 
 import { CONSTANTS } from '_styles';
 
@@ -30,7 +30,7 @@ class recordedList extends Component {
         await this.handleAudioDelete(item, rowMap);
     };
 
-    _renderHideButtons = (data, rowMap) => (
+    _renderHiddenButtons = (data, rowMap) => (
         <HiddenButtons
             buttonWidth={85}
             onPressDelete={() => this.deleteRow(rowMap, data.item)}
@@ -73,7 +73,7 @@ class recordedList extends Component {
             keyExtractor={(item) => item.key.toString()}
             style={styles.audiolist}
             renderItem={this._renderItem}
-            renderHiddenItem={this._renderHideButtons}
+            renderHiddenItem={this._renderHiddenButtons}
             rightOpenValue={-85}
             disableRightSwipe={true}
             closeOnScroll={true}

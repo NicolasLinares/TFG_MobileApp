@@ -9,7 +9,7 @@ import {
 import AlertAsync from "react-native-alert-async";
 
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { HistoryItem, HiddenButtons } from '_atoms';
+import { HistoryItem, HiddenButtons } from '_buttons';
 import { COLORS, CONSTANTS } from '_styles';
 
 import moment from 'moment';

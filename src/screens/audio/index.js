@@ -19,7 +19,10 @@ import {
 	MenuTrigger,
 } from 'react-native-popup-menu';
 
-import { Player, Tag, DialogPrompt } from '_atoms';
+import { Tag } from '_buttons';
+import { DialogPrompt } from '_alerts';
+import { Player } from '_controllers';
+
 
 import { COLORS } from '_styles';
 import IconII from 'react-native-vector-icons/Ionicons';

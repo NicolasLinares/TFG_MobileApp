@@ -4,7 +4,7 @@ import {
     FlatList
 } from 'react-native';
 
-import {Tag} from '_atoms';
+import {Tag} from '_buttons';
 
 class filterList extends Component {
 

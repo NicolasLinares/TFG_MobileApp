@@ -9,7 +9,9 @@ import {
 
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
-import { Tag, FadeInAnimation } from '_atoms';
+
+import { Tag } from '_buttons';
+import { FadeInAnimation } from '_animations';
 
 import moment from 'moment';
 

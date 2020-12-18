@@ -9,13 +9,13 @@ import {
 
 import { CONSTANTS } from '_styles';
 
-import { default as Player } from './player';
+import { Player } from '_controllers';
 
 import { connect } from 'react-redux';
 import { updateNameNewAudio } from '_redux_actions';
 
-import FadeInAnimation from './fadeInAnimation';
-import DialogPrompt from './myDialogPrompt';
+import { FadeInAnimation } from '_animations';
+import { DialogPrompt } from '_alerts';
 
 import { checkInputService } from '_services';
 import { TouchableOpacity } from 'react-native-gesture-handler';

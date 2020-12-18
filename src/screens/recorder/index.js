@@ -7,8 +7,11 @@ import {
 } from 'react-native';
 
 import { Header } from 'react-native-elements';
-import { HeaderButtons, SendAudiosButton } from '_atoms';
-import { Recorder, RecordedList, PatientCode } from '_organisms';
+import { HeaderButtons, SendAudiosButton } from '_buttons';
+import { Recorder } from '_controllers';
+import { PatientCode } from '_modals';
+
+import { RecordedList } from '_lists';
 
 import moment from 'moment';
 

@@ -13,7 +13,7 @@ import ProfileScreen from '_screens/settings/profile';
 import SecurityScreen from '_screens/settings/security';
 import PasswordSettingScreen from '_screens/settings/security/password';
 
-import { HeaderButtons } from '_atoms';
+import { HeaderButtons } from '_buttons';
 
 const StackNavigatorConfig = {
 	initialRouteName: 'Home',

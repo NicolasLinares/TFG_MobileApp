@@ -5,7 +5,7 @@ import {
 	View
 } from 'react-native';
 
-import { ButtonCancel } from '_atoms';
+import { ButtonCancel } from '_buttons';
 import { COLORS } from '_styles';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
-import FadeInAnimation from './fadeInAnimation';
+import { FadeInAnimation } from '_animations';
 import { CONSTANTS } from '_styles';
 
 import IconII from "react-native-vector-icons/Ionicons";

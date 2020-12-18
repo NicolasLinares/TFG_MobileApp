@@ -10,12 +10,12 @@ import {
 
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
-import { HeaderButtons } from '_atoms';
+import { HeaderButtons } from '_buttons';
 
 import { connect } from 'react-redux';
 import { setPatientTag } from '_redux_actions';
 
-import { FilterList } from '_molecules';
+import { FilterList } from '_lists';
 
 import { permissionsService, checkInputService } from '_services';
 

@@ -10,7 +10,9 @@ import {
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import StackNavigator from './app-navigator-stack';
 
-import { BasicUserInfo, LogoutButton } from '_organisms';
+import { BasicUserInfo } from '_sidemenu';
+import { LogoutButton } from '_buttons';
+
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 

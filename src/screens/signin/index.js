@@ -9,7 +9,9 @@ import {
 	Dimensions
 } from 'react-native';
 
-import { ButtonAuth, Picker, TextInput } from '_atoms';
+import { ButtonAuth } from '_buttons';
+import { Picker, TextInput } from '_forms';
+
 import { COLORS } from '_styles';
 import * as FORMDATA from '_constants';
 

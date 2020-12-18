@@ -5,9 +5,9 @@ import {
 } from 'react-native';
 
 
-import { FilterBar, SearchBar } from '_organisms';
-import { HistoryList } from '_molecules';
-import { ButtonNewRecord } from '_atoms';
+import { FilterBar, SearchBar } from '_searcher';
+import { HistoryList } from '_lists';
+import { ButtonNewRecord } from '_buttons';
 
 
 import { connect } from 'react-redux';

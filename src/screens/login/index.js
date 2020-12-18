@@ -11,7 +11,9 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { ButtonAuth, TextInput } from '_atoms';
+import { ButtonAuth } from '_buttons';
+import { TextInput } from '_forms';
+
 import { COLORS } from '_styles';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'

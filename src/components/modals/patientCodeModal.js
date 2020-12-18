@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 
 import PatientCodeEditor from './patientCodeEditor';
 import { Modalize } from 'react-native-modalize';
-import { EditCodeButton } from '_atoms';
+import { EditCodeButton } from '_buttons';
 
 
 class patientCodeModal extends Component {

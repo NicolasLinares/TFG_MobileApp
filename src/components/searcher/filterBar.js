@@ -13,7 +13,7 @@ import { setHistory, cleanHistory, addFilterTag, cleanTags, setCurrentTagApplied
 import IconII from "react-native-vector-icons/Ionicons";
 
 import { httpService } from '_services';
-import { FilterList } from '_molecules';
+import { FilterList } from '_lists';
 
 
 class filterBar extends Component {

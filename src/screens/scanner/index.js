@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
 	StatusBar
 } from 'react-native';
-import { Scanner } from '_organisms';
+import { Scanner } from '_controllers';
 
 class ScannerScreen extends Component {
 

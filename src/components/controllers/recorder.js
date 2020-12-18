@@ -13,7 +13,7 @@ import * as FS from '_constants';
 import moment from 'moment';
 import 'moment/locale/es';
 
-import { RecorderButton } from '_atoms';
+import { RecorderButton } from '_buttons';
 
 import { connect } from 'react-redux';
 import { addAudio } from '_redux_actions';
