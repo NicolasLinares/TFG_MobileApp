@@ -1,1 +1,2 @@
-export {default as BasicUserInfo} from './basicUserInfo';
+export { default as ProfileView } from './profileView';
+export { default as MenuLinks } from './menuLinks';

@@ -9,8 +9,8 @@ import {
 	Dimensions
 } from 'react-native';
 
-import { ButtonAuth } from '_buttons';
-import { Picker, TextInput } from '_forms';
+import { AuthButton as SigninButton} from '_buttons';
+import { PickerForm, TextInputForm } from '_forms';
 
 import { COLORS } from '_styles';
 import * as FORMDATA from '_constants';
@@ -87,14 +87,14 @@ class SignInScreen extends Component {
 	_renderInputs() {
 		return (
 			<>
-				<TextInput
+				<TextInputForm
 					onChangeText={(value) => this.setState({ name: value })}
 					autoCapitalize={'words'}
 					icon='person'
 					placeholder='Nombre'
 				/>
 
-				<TextInput
+				<TextInputForm
 					onChangeText={(value) => this.setState({ surname: value })}
 					autoCapitalize={'words'}
 					marginTop={5}
@@ -104,7 +104,7 @@ class SignInScreen extends Component {
 
 				{/* zIndex (altura) para superponer un Picker sobre otro y sobre los demás componentes*/}
 				<View style={{ ...(Platform.OS !== 'android' && { zIndex: 2 }) }}>
-					<Picker
+					<PickerForm
 						onValueChange={(value) => this.setState({ specialty: value })}
 						data={FORMDATA.SPECIALTIES}
 						marginTop={5}
@@ -116,7 +116,7 @@ class SignInScreen extends Component {
 
 				{/* se pone a una altura menor que el picker de arriba pero por encima del resto de componentes*/}
 				<View style={{ ...(Platform.OS !== 'android' && { zIndex: 1 }) }}>
-					<Picker
+					<PickerForm
 						onValueChange={(value) => this.setState({ country: value })}
 						data={FORMDATA.COUNTRIES}
 						marginTop={5}
@@ -125,7 +125,7 @@ class SignInScreen extends Component {
 					/>
 				</View>
 
-				<TextInput
+				<TextInputForm
 					onChangeText={(value) => this.setState({ email: value })}
 					autoCapitalize={'none'}
 					keyboardType={'email-address'}
@@ -135,7 +135,7 @@ class SignInScreen extends Component {
 					placeholder='Correo electrónico'
 				/>
 
-				<TextInput
+				<TextInputForm
 					value={this.state.password}
 					onChangeText={(value) => this.setState({ password: value })}
 					autoCapitalize={'none'}
@@ -173,7 +173,7 @@ class SignInScreen extends Component {
 					</TouchableOpacity>
 				</View>
 
-				<ButtonAuth
+				<SigninButton
 					onPress={() => this.handleRegister()}
 					text='Registrarse'
 					color={COLORS.green}

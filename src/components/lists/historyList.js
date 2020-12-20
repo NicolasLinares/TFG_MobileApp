@@ -10,12 +10,14 @@ import AlertAsync from "react-native-alert-async";
 
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { HistoryItem, HiddenButtons } from '_buttons';
+import { FadeInAnimation } from '_animations';
+
 import { COLORS, CONSTANTS } from '_styles';
 
 import moment from 'moment';
 
 
-class historyList extends Component {
+class HistoryList extends Component {
 
     constructor(props) {
         super(props);
@@ -86,9 +88,11 @@ class historyList extends Component {
         }
 
         return (
-            <View style={styles.dateContainer}>
-                <Text style={styles.dateText}>{date}</Text>
-            </View>
+            <FadeInAnimation style={{ flex: 1 }} duration={400}>
+                <View style={styles.dateContainer}>
+                    <Text style={styles.dateText}>{date}</Text>
+                </View>
+            </FadeInAnimation>
         );
     };
 
@@ -152,4 +156,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default historyList;
+export default HistoryList;

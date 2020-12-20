@@ -13,7 +13,7 @@ import { logoutUser, cleanHistory } from '_redux_actions';
 
 import { httpService } from '_services';
 
-class logoutButton extends Component {
+class LogoutButton extends Component {
 
 
     handleLogout = async () => {
@@ -98,4 +98,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(logoutButton);
+export default connect(mapStateToProps, mapDispatchToProps)(LogoutButton);

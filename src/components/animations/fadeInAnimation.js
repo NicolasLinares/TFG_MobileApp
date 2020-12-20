@@ -4,7 +4,7 @@ import {
     Easing,
 } from 'react-native';
 
-class fadeInAnimation extends Component {
+class FadeInAnimation extends Component {
 
     constructor(props) {
         super(props);
@@ -23,19 +23,12 @@ class fadeInAnimation extends Component {
     }
 
     render() {
-
         return (
-
-            <Animated.View style={
-                {
-                    ...this.props.style,
-                    opacity: this.state.fadeIn
-                }
-            }>
+            <Animated.View style={{ ...this.props.style, opacity: this.state.fadeIn }}>
                 {this.props.children}
             </Animated.View>
         )
     }
 }
 
-export default fadeInAnimation;
+export default FadeInAnimation;

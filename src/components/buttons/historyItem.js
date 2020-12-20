@@ -10,12 +10,12 @@ import {
 import { COLORS, CONSTANTS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
-import { Tag } from '_buttons';
+import { TagButton as TagView } from '_buttons';
 import { FadeInAnimation } from '_animations';
 
 import moment from 'moment';
 
-class historyItem extends Component {
+class HistoryItem extends Component {
 
     constructor(props) {
         super(props);
@@ -56,7 +56,7 @@ class historyItem extends Component {
                                     {this.state.created_time}
                                 </Text>
 
-                                <Tag
+                                <TagView
                                     pressed={false}
                                     style={{ height: 20, borderRadius: 7 }}
                                     textStyle={{ fontSize: 11 }}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default historyItem;
+export default HistoryItem;
 
 
 

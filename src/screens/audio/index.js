@@ -19,7 +19,7 @@ import {
 	MenuTrigger,
 } from 'react-native-popup-menu';
 
-import { Tag } from '_buttons';
+import { TagButton as TagView } from '_buttons';
 import { DialogPrompt } from '_alerts';
 import { Player } from '_controllers';
 
@@ -319,7 +319,7 @@ class AudioScreen extends Component {
 				<Text style={styles.date}> {this.state.date + ', ' + this.state.hour}</Text>
 
 
-				<Tag
+				<TagView
 					pressed={false}
 					style={styles.tag}
 					textStyle={styles.tagText}

@@ -13,7 +13,7 @@ import * as FS from '_constants';
 import moment from 'moment';
 import 'moment/locale/es';
 
-import { RecorderButton } from '_buttons';
+import { RecordButton } from '_buttons';
 
 import { connect } from 'react-redux';
 import { addAudio } from '_redux_actions';
@@ -21,7 +21,7 @@ import { addAudio } from '_redux_actions';
 import { storageService } from '_services';
 
 
-class recorder extends Component {
+class Recorder extends Component {
 
 	constructor(props) {
 		super(props);
@@ -157,7 +157,7 @@ class recorder extends Component {
 
 	render() {
 		return (
-			<RecorderButton
+			<RecordButton
 				onPress={() => this.handleRecorder()}
 				time={this.state.minutes_Counter + ' : ' + this.state.seconds_Counter}
 			/>
@@ -174,4 +174,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(null, mapDispatchToProps)(recorder);
+export default connect(null, mapDispatchToProps)(Recorder);

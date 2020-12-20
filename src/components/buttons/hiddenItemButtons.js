@@ -6,7 +6,7 @@ import { CONSTANTS } from '_styles';
 
 import IconII from "react-native-vector-icons/Ionicons";
 
-class hiddenItemButtons extends Component {
+class HiddenItemButtons extends Component {
     render() {
         return (
             <FadeInAnimation style={{ flex: 1 }} duration={1200}>
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default hiddenItemButtons;
+export default HiddenItemButtons;

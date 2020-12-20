@@ -7,7 +7,7 @@ import {
 
 import { FilterBar, SearchBar } from '_searcher';
 import { HistoryList } from '_lists';
-import { ButtonNewRecord } from '_buttons';
+import { FloatingButton } from '_buttons';
 
 
 import { connect } from 'react-redux';
@@ -151,7 +151,7 @@ class HomeScreen extends Component {
 					loading={this.state.loading}
 				/>
 
-				<ButtonNewRecord onPress={() => this.checkPerms()} />
+				<FloatingButton onPress={() => this.checkPerms()} />
 			</View>
 		);
 	}

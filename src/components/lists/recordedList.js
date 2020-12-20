@@ -13,7 +13,7 @@ import * as FS from '_constants';
 import { storageService } from '_services';
 
 
-class recordedList extends Component {
+class RecordedList extends Component {
 
 
     _renderItem = data => (
@@ -112,4 +112,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(recordedList);
+export default connect(mapStateToProps, mapDispatchToProps)(RecordedList);

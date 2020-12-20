@@ -11,8 +11,8 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { ButtonAuth } from '_buttons';
-import { TextInput } from '_forms';
+import { AuthButton as LoginButton} from '_buttons';
+import { TextInputForm } from '_forms';
 
 import { COLORS } from '_styles';
 
@@ -116,7 +116,7 @@ class LoginScreen extends Component {
 	_renderInputs() {
 		return (
 			<>
-				<TextInput
+				<TextInputForm
 					value={this.state.email}
 					onChangeText={(value) => this.setState({ email: value })}
 					autoCapitalize={'none'}
@@ -127,7 +127,7 @@ class LoginScreen extends Component {
 					placeholder='Correo electrónico'
 				/>
 
-				<TextInput
+				<TextInputForm
 					value={this.state.password}
 					onChangeText={(value) => this.setState({ password: value })}
 					autoCapitalize={'none'}
@@ -168,7 +168,7 @@ class LoginScreen extends Component {
           			</Text>
 				</TouchableOpacity>
 
-				<ButtonAuth
+				<LoginButton
 					onPress={() => this.handleLogin()} //this.props.navigation.navigate('App')} 
 					text='Iniciar sesión'
 					color={COLORS.blue}

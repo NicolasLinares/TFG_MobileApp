@@ -4,9 +4,9 @@ import {
     FlatList
 } from 'react-native';
 
-import {Tag} from '_buttons';
+import { TagButton } from '_buttons';
 
-class filterList extends Component {
+class FilterList extends Component {
 
     constructor(props) {
         super(props);
@@ -31,7 +31,7 @@ class filterList extends Component {
     }
 
     _renderItem = ({ item }) => (
-        <Tag 
+        <TagButton 
             pressed={true}
             onPress={() => this.onPress(item.tag)}
             tag={item.tag}
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default filterList;
+export default FilterList;
 
 

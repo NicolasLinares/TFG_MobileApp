@@ -11,7 +11,7 @@ import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-class editCodeButton extends Component {
+class EditCodeButton extends Component {
 
     render() {
         return (
@@ -75,4 +75,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(editCodeButton);
+export default connect(mapStateToProps, null)(EditCodeButton);

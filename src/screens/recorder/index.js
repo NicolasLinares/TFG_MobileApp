@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Header } from 'react-native-elements';
-import { HeaderButtons, SendAudiosButton } from '_buttons';
+import { HeaderButtons, DoneButton } from '_buttons';
 import { Recorder } from '_controllers';
 import { PatientCode } from '_modals';
 
@@ -25,7 +25,7 @@ class RecorderScreen extends Component {
 					// por encima, si no el modal quedaba por debajo del header del navigator 
 					leftComponent={() => HeaderButtons.BackButton(this.props.navigation)}
 					centerComponent={() => <Text style={styles.headerTitle}>Notas de voz</Text>}
-					rightComponent={() => <SendAudiosButton />}
+					rightComponent={() => <DoneButton />}
 					containerStyle={{borderBottomWidth: 0, backgroundColor: 'transparent'}}
 				/>
 				<PatientCode nav={this.props.navigation} />

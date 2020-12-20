@@ -12,14 +12,14 @@ import { TouchableOpacity as guesterTouchableOpacity } from 'react-native-gestur
 const TouchableOpacity = Platform.OS ==='ios' ? reactTouchableOpacity : guesterTouchableOpacity;
 
 
-class myTag extends Component {
+class TagButton extends Component {
 
     render() {
         return (
             <TouchableOpacity
                 activeOpacity={this.props.pressed ? 0.2 : 1}
                 onPress={() => this.props.pressed ? this.props.onPress(this.props.tag) : {}}
-                style={[styles.item, {...this.props.style, backgroundColor: this.props.lastTagUsed === this.props.tag ? COLORS.green : COLORS.light_green }]}
+                style={[styles.item, {...this.props.style, backgroundColor: this.props.currentTag === this.props.tag ? COLORS.green : COLORS.light_green }]}
             >
                 <Text style={[styles.name, {...this.props.textStyle}]}> {this.props.tag}</Text>
             </TouchableOpacity>
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default myTag;
+export default TagButton;

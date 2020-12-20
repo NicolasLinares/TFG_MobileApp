@@ -5,7 +5,7 @@ import {
 	View
 } from 'react-native';
 
-import { ButtonCancel } from '_buttons';
+import { CancelButton } from '_buttons';
 import { COLORS } from '_styles';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
@@ -39,7 +39,7 @@ class Scanner extends Component {
 
 				{this._renderMessage()}
 
-				<ButtonCancel onPress={() => {
+				<CancelButton onPress={() => {
 					this.props.nav.goBack();
 				}} />
 			</>

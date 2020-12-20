@@ -8,7 +8,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import IconII from "react-native-vector-icons/Ionicons";
 import { COLORS } from '_styles';
 
-class myTextInput extends Component {
+class TextInputForm extends Component {
 
     constructor(props) {
         super(props);
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default myTextInput;
+export default TextInputForm;

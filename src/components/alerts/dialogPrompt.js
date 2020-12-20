@@ -6,7 +6,7 @@ import Dialog from "react-native-dialog";
 import { COLORS } from '_styles';
 
 
-class myDialogPrompt extends Component {
+class DialogPrompt extends Component {
 
 
     errorMessage = () => {
@@ -43,4 +43,4 @@ class myDialogPrompt extends Component {
 }
 
 
-export default myDialogPrompt;
+export default DialogPrompt;

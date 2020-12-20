@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import IconMI from "react-native-vector-icons/MaterialIcons";
 
-class myNewRecordButton extends Component {
+class FloatingButton extends Component {
 
     render() {
         return (
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default myNewRecordButton;
+export default FloatingButton;

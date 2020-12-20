@@ -16,7 +16,7 @@ import { httpService } from '_services';
 import { FilterList } from '_lists';
 
 
-class filterBar extends Component {
+class Filter extends Component {
 
     constructor(props) {
         super(props);
@@ -172,4 +172,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(filterBar);
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

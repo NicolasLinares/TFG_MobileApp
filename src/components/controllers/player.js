@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { 
+import {
     View,
     Text,
     StyleSheet,
@@ -8,11 +8,10 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import {default as Slider} from 'react-native-scrubber';
+import { default as Slider } from 'react-native-scrubber';
 
 import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
-
 
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import Sound from 'react-native-sound';
@@ -25,7 +24,7 @@ import { httpService, storageService } from '_services';
 import * as FS from '_constants';
 
 
-class player extends Component {
+class Player extends Component {
 
     constructor(props) {
         super(props);
@@ -52,16 +51,19 @@ class player extends Component {
             let localpath = FS.DIRECTORY + '/' + this.state.localpath;
 
             // Comprobamos si el audio se encuentra ya localmente
-            let exists = storageService.existsLocally(localpath);
+            let exists = await storageService.existsLocally(localpath);
 
             // Si no se encuentra localmente lo descargamos del servidor
-            if (exists !== null && !exists) {
-                console.log('El archivo de audio no se encuentra localmente')
-                // Se descarga de la base de datos
-                await httpService.downloadAudioFile(this.state.uid, localpath);
-            } else {
-                console.log('El archivo de audio se encuentra localmente')
+            if (exists !== null) {
+                if (!exists) {
+                    console.log('El archivo de audio no se encuentra localmente')
+                    // Se descarga de la base de datos
+                    await httpService.downloadAudioFile(this.state.uid, localpath);
+                } else {
+                    console.log('El archivo de audio se encuentra localmente')
+                }
             }
+
         }
         // Se inicializan los datos
         this.setAudioDuration();
@@ -74,17 +76,17 @@ class player extends Component {
 
     setAudioDuration() {
 
-        var audio = new Sound(this.state.localpath, FS.DIRECTORY,  (error) => {
-          if (error) {
-            alert('Error al obtener la duración de la nota de voz');
+        var audio = new Sound(this.state.localpath, FS.DIRECTORY, (error) => {
+            if (error) {
+                alert('Error al obtener la duración de la nota de voz ');
+                return;
+            }
+
+            this.setState({
+                duration: audio.getDuration()
+            });
+
             return;
-          }
-
-          this.setState({
-              duration: audio.getDuration()
-          });
-
-          return;
         });
 
         audio.release();
@@ -92,46 +94,46 @@ class player extends Component {
 
     async handlePlayer() {
 
-        switch(this.props.state) {
+        switch (this.props.state) {
             case 'stop': {
 
                 // Inicializa el player
                 this.props.setPlayerState('play');
-                this.setState({state: 'play'});
-                var msg = await this.state.player.startPlayer('file://'+ FS.DIRECTORY +'/'+ this.state.localpath);
-                
+                this.setState({ state: 'play' });
+                var msg = await this.state.player.startPlayer('file://' + FS.DIRECTORY + '/' + this.state.localpath);
+
                 // Si antes de darle al botón se ha movido el slider, entonces
                 // se sitúa en el segundo exacto donde se ha indicado
                 if (this.state.sliderValue > 0) {
                     var value = this.state.sliderValue;
                     this.state.player.seekToPlayer(
-                        Platform.OS === 'ios' ? value*1000 : value
+                        Platform.OS === 'ios' ? value * 1000 : value
                     );
                 }
-    
+
                 await this.state.player.addPlayBackListener((e) => {
-    
+
                     if (e.current_position === e.duration) {
                         this.resetPlayer();
                     } else
-                        this.setState({ sliderValue: e.current_position/1000});
-                
+                        this.setState({ sliderValue: e.current_position / 1000 });
+
                     if (this.props.state === 'pause') {
                         this.state.player.pausePlayer();
                     }
-    
+
                 });
                 return;
             }
             case 'play': {
                 this.props.setPlayerState('pause');
-                this.setState({state: 'pause'});
+                this.setState({ state: 'pause' });
                 return;
             }
             case 'pause': {
                 this.state.player.resumePlayer();
                 this.props.setPlayerState('play');
-                this.setState({state: 'play'});
+                this.setState({ state: 'play' });
                 return;
             }
         }
@@ -158,27 +160,27 @@ class player extends Component {
         this.state.player.stopPlayer().catch(err => console.log(err.message));
         this.state.player.removePlayBackListener();
         this.props.setPlayerState('stop');
-        this.setState({ 
+        this.setState({
             sliderValue: 0,
             state: 'stop'
         });
     }
 
     slideValueChange(value) {
-        
+
         if (value === 0) {
             // Necesario para poder iniciar otros audios
             this.resetPlayer();
         } else {
 
-            this.setState({ 
+            this.setState({
                 sliderValue: value,
             });
 
             // Para el caso de mover el slider sin haber iniciado
             if (this.props.state !== 'stop')
                 this.state.player.seekToPlayer(
-                    Platform.OS === 'ios' ? value*1000 : value
+                    Platform.OS === 'ios' ? value * 1000 : value
                 );
         }
 
@@ -190,7 +192,7 @@ class player extends Component {
                 style={styles.button}
                 onPress={() => this.handlePlayer()}
             >
-                <IconII name={this.state.state !== 'play' ? 'play' : 'pause'} size={this.state.complexStyle ? 35 : 30} color={COLORS.grey}/>
+                <IconII name={this.state.state !== 'play' ? 'play' : 'pause'} size={this.state.complexStyle ? 35 : 30} color={COLORS.grey} />
             </TouchableOpacity>
         );
     }
@@ -198,7 +200,7 @@ class player extends Component {
     _renderSkipButton(value) {
 
         const rotate = value > 0 ? '0deg' : '180deg';
-        const skipText = value < 0 ? -1*value : value;
+        const skipText = value < 0 ? -1 * value : value;
         const margRight = value > 0 ? 0 : 4;
         const margLeft = value > 0 ? 4 : 0;
 
@@ -207,7 +209,7 @@ class player extends Component {
                 style={styles.button}
                 onPress={() => this.skip(value)}
             >
-                <IconII style={{transform: [{rotateY: rotate}], marginRight: margRight, marginLeft: margLeft}}  name='reload' size={35} color={COLORS.grey}/>
+                <IconII style={{ transform: [{ rotateY: rotate }], marginRight: margRight, marginLeft: margLeft }} name='reload' size={35} color={COLORS.grey} />
                 <Text style={styles.skipTextValue}>{skipText}</Text>
             </TouchableOpacity>
         );
@@ -217,8 +219,8 @@ class player extends Component {
 
     _renderSimplePlayer() {
         return (
-            <View style={[styles.player, {justifyContent: 'space-between', flexDirection: 'row'}]}>
-                <View style={{marginLeft: 15, width: '80%'}}>
+            <View style={[styles.player, { justifyContent: 'space-between', flexDirection: 'row' }]}>
+                <View style={{ marginLeft: 15, width: '80%' }}>
                     <Slider
                         value={this.state.sliderValue}
                         onSlidingComplete={value => this.slideValueChange(value)}
@@ -236,15 +238,15 @@ class player extends Component {
 
     _renderComplexPlayer() {
         return (
-            <View style={[styles.player, {justifyContent: 'center', flexDirection: 'column', marginTop: 10}]}>
-                    
+            <View style={[styles.player, { justifyContent: 'center', flexDirection: 'column', marginTop: 10 }]}>
+
                 <View style={styles.actionButtons}>
                     {this._renderSkipButton(-5)}
                     {this._renderPlayStopButton()}
                     {this._renderSkipButton(5)}
                 </View>
 
-                <View style={{marginLeft: 0, width: '80%'}}>
+                <View style={{ marginLeft: 0, width: '80%' }}>
                     <Slider
                         value={this.state.sliderValue}
                         onSlidingComplete={value => this.slideValueChange(value)}
@@ -261,7 +263,7 @@ class player extends Component {
 
         if (this.state.complexStyle)
             return this._renderComplexPlayer();
-        else 
+        else
             return this._renderSimplePlayer();
     }
 }
@@ -292,7 +294,7 @@ const styles = StyleSheet.create({
     }
 });
 
-  
+
 const mapStateToProps = (state) => {
     return {
         state: state.playerReducer.playerState,
@@ -306,7 +308,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(player);
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
 
 
 

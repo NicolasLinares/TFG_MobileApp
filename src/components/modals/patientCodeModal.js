@@ -6,7 +6,7 @@ import { Modalize } from 'react-native-modalize';
 import { EditCodeButton } from '_buttons';
 
 
-class patientCodeModal extends Component {
+class PatientCodeModal extends Component {
 
     constructor(props) {
         super(props);
@@ -50,4 +50,4 @@ class patientCodeModal extends Component {
 }
 
 
-export default patientCodeModal;
+export default PatientCodeModal;

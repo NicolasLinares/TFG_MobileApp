@@ -4,9 +4,9 @@ import store from '_redux_store';
 import { deleteAudio, cleanTags, cleanHistory } from '_redux_actions';
 
 import { httpService } from '_services';
+import { existsLocally } from './stat';
 
 import RNFetchBlob from 'rn-fetch-blob';
-
 
 /*
     Elimina el fichero si existe
@@ -71,26 +71,4 @@ export async function deleteAllFiles(audiolist) {
 
         })
         .catch((err) => { console.log(err) });
-}
-
-/*
-    Comprueba si el fichero existe en la ruta pasada como parámetro
-*/
-export function existsLocally(localpath) {
-
-    return RNFetchBlob.fs.exists(localpath)
-                .then((exist) => {
-                    return exist;
-                })
-                .catch(() => {
-                    alert('Error al comprobar si el archivo existe')
-                    return null;
-                });
-}
-
-/*
-    Devuelve la información del archivo
-*/
-export async function getFileInfo(localpath) {
-    return await RNFetchBlob.fs.stat(localpath);
 }

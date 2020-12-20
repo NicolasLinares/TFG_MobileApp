@@ -9,7 +9,7 @@ import {
 import { COLORS } from '_styles';
 
 
-class myAuthButton extends Component {
+class AuthButton extends Component {
 
     render() {
         return (
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default myAuthButton;
+export default AuthButton;

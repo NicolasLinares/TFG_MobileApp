@@ -9,7 +9,7 @@ import {
 import { COLORS } from '_styles';
 import {connect} from 'react-redux';
 
-class basicUserInfo extends Component {
+class ProfileView extends Component {
 
     _renderProfilePicture = () => {
         return (
@@ -83,4 +83,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, null)(basicUserInfo);
+export default connect(mapStateToProps, null)(ProfileView);

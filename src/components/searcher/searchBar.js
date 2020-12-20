@@ -11,7 +11,7 @@ import { setHistory, cleanHistory} from '_redux_actions';
 import { COLORS } from '_styles';
 
 
-class searchBar extends Component {
+class Search extends Component {
 
     constructor(props) {
         super(props);
@@ -98,4 +98,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(searchBar);
+export default connect(null, mapDispatchToProps)(Search);

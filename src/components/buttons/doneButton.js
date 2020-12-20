@@ -13,7 +13,7 @@ import { deleteAudio, addAudioTag, addFilterTag, addAudioHistory } from '_redux_
 
 import { httpService } from '_services';
 
-class mySendAudiosButton extends Component {
+class DoneButton extends Component {
 
     constructor(props) {
         super(props);
@@ -38,7 +38,6 @@ class mySendAudiosButton extends Component {
                 let audio_resp = await httpService.uploadAudio(audio);
 
                 if (audio_resp !== null) {
-                    console.log(audio.name + ' - Audio almacenado en el servidor...');
 
                     // Se elimina de la lista de grabaciones para que no se vuelva a enviar
                     this.props.delete(audio.key);
@@ -54,7 +53,8 @@ class mySendAudiosButton extends Component {
 
                     // Se añade la nueva etiqueta si no existe ya
                     this.props.addFilterTag(audio_resp.tag);
-                    console.log(audio.name + ' - Audio actualizado localmente...');
+
+                    console.log(audio.name + ' - Audio almacenado en el servidor...');
 
                 } else {
                     console.log(audio.name + ' - Audio no guardado correctamente en el servidor...');
@@ -69,7 +69,6 @@ class mySendAudiosButton extends Component {
                     );
                 }
             }
-
 
         } else {
             Alert.alert(
@@ -122,4 +121,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(mySendAudiosButton);
+export default connect(mapStateToProps, mapDispatchToProps)(DoneButton);

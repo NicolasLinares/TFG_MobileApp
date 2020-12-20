@@ -11,7 +11,7 @@ import { COLORS } from '_styles';
 
 
 
-class myCancelButton extends Component {
+class CancelButton extends Component {
 
     render() {
         return (
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default myCancelButton;
+export default CancelButton;

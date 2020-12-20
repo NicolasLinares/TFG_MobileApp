@@ -20,7 +20,7 @@ import { FilterList } from '_lists';
 import { permissionsService, checkInputService } from '_services';
 
 
-class patientCodeEditor extends Component {
+class PatientCodeEditor extends Component {
 
     constructor(props) {
         super(props);
@@ -229,4 +229,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(patientCodeEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(PatientCodeEditor);

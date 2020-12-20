@@ -1,2 +1,2 @@
-export {default as Picker} from './myPicker';
-export {default as TextInput} from './myTextInput';
+export {default as PickerForm} from './pickerForm';
+export {default as TextInputForm} from './textInputForm';
