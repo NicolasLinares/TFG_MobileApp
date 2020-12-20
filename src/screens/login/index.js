@@ -5,18 +5,19 @@ import {
 	View,
 	Image,
 	TouchableOpacity,
-	Switch,
 	Linking,
 	Dimensions,
 	StyleSheet
 } from 'react-native';
 
-import { AuthButton as LoginButton} from '_buttons';
+import { AuthButton as LoginButton } from '_buttons';
 import { TextInputForm } from '_forms';
 
-import { COLORS } from '_styles';
-
+import { Switch } from 'react-native-switch';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
+import { COLORS } from '_styles';
 
 import { connect } from 'react-redux';
 import { authUser } from '_redux_actions';
@@ -57,6 +58,10 @@ class LoginScreen extends Component {
 	}
 
 	rememberMe = async (remember) => {
+
+		const options = { enableVibrateFallback: true, ignoreAndroidSystemSettings: false };
+		ReactNativeHapticFeedback.trigger('impactMedium', options);
+
 		this.setState({
 			savePssw: remember,
 		});
@@ -123,8 +128,8 @@ class LoginScreen extends Component {
 					marginTop={10}
 					keyboardType={'email-address'}
 					textContentType={'emailAddress'}
-					icon='mail'
-					placeholder='Correo electrónico'
+					icon={'mail'}
+					placeholder={'Correo electrónico'}
 				/>
 
 				<TextInputForm
@@ -139,15 +144,23 @@ class LoginScreen extends Component {
 					placeholder={'Contraseña'}
 				/>
 
-				<View style={{ flexDirection: "row", alignSelf: 'flex-start', marginTop: 20 }}>
+				<View style={{ flexDirection: "row", alignSelf: 'flex-start', marginTop: 20, marginLeft: 10 }}>
 					<Switch
+						renderActiveText={false}
+						renderInActiveText={false}
+						backgroundActive={'#6dcf9b'}
+						circleActiveBorderColor={'#6dcf9b'}
+						backgroundInactive={COLORS.grey}
+						circleInactiveBorderColor={COLORS.grey}
+						circleBorderWidth={1.5}
+						circleSize={20}
 						onValueChange={(value) => this.rememberMe(value)}
 						value={this.state.savePssw}
 					/>
 					<Text style={{
-						fontSize: 15,
-						marginLeft: Platform.OS === 'ios' ? 10 : 8, // Tienen distinto desplazamiento y es necesario ajustarlos por separado
-						marginTop: Platform.OS === 'ios' ? 5 : 3
+						fontSize: 13,
+						marginLeft: Platform.OS === 'ios' ? 10 : 8,
+						marginTop: 3
 					}}
 					>
 						Recordar contraseña

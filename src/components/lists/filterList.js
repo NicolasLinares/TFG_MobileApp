@@ -25,9 +25,7 @@ class FilterList extends Component {
     onPress(tag) {
         this.props.onPressTag(tag);
 
-        this.setState({
-            currentTag: tag
-        });
+        this.setState({ currentTag: tag });
     }
 
     _renderItem = ({ item }) => (

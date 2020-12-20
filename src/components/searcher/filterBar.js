@@ -6,14 +6,15 @@ import {
 } from 'react-native';
 
 import { COLORS } from '_styles';
+import { FilterList } from '_lists';
 import LinearGradient from 'react-native-linear-gradient';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
 import { connect } from 'react-redux';
 import { setHistory, cleanHistory, addFilterTag, cleanTags, setCurrentTagApplied } from '_redux_actions';
 import IconII from "react-native-vector-icons/Ionicons";
 
 import { httpService } from '_services';
-import { FilterList } from '_lists';
 
 
 class Filter extends Component {
@@ -101,6 +102,9 @@ class Filter extends Component {
                             this.props.setCurrentTagApplied('');
                             this.props.resetHistory();
                             this.ref_filterList.current.removeTagUsed();
+
+                            const options = { enableVibrateFallback: true, ignoreAndroidSystemSettings: false };
+                            ReactNativeHapticFeedback.trigger('impactMedium', options);
                         }}
                     >
                         <IconII style={{ fontSize: 22, color: COLORS.electric_blue }} name={'close'} />

@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
 import { COLORS } from '_styles';
 
-import { 
-    Text, 
+import {
+    Text,
     StyleSheet,
     TouchableOpacity as reactTouchableOpacity
 } from 'react-native';
 
 import { TouchableOpacity as guesterTouchableOpacity } from 'react-native-gesture-handler';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
-const TouchableOpacity = Platform.OS ==='ios' ? reactTouchableOpacity : guesterTouchableOpacity;
+const TouchableOpacity = Platform.OS === 'ios' ? reactTouchableOpacity : guesterTouchableOpacity;
 
 
 class TagButton extends Component {
+
+    onPress() {
+        if (this.props.currentTag !== this.props.tag) {
+            const options = { enableVibrateFallback: true, ignoreAndroidSystemSettings: false };
+            ReactNativeHapticFeedback.trigger('impactMedium', options);
+            this.props.onPress(this.props.tag);
+        }
+    }
 
     render() {
         return (
             <TouchableOpacity
                 activeOpacity={this.props.pressed ? 0.2 : 1}
-                onPress={() => this.props.pressed ? this.props.onPress(this.props.tag) : {}}
-                style={[styles.item, {...this.props.style, backgroundColor: this.props.currentTag === this.props.tag ? COLORS.green : COLORS.light_green }]}
+                onPress={() => this.props.pressed ? this.onPress() : {}}
+                style={[styles.item, { ...this.props.style, backgroundColor: this.props.currentTag === this.props.tag ? COLORS.green : COLORS.light_green }]}
             >
-                <Text style={[styles.name, {...this.props.textStyle}]}> {this.props.tag}</Text>
+                <Text style={[styles.name, { ...this.props.textStyle }]}> {this.props.tag}</Text>
             </TouchableOpacity>
         )
     }

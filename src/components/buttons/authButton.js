@@ -2,14 +2,23 @@ import React, { Component } from 'react'
 import {
     Text,
     TouchableOpacity,
-    View,
     StyleSheet
 } from 'react-native';
 
 import { COLORS } from '_styles';
 
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+ 
 
 class AuthButton extends Component {
+
+
+    onPress () {
+        const options = { enableVibrateFallback: true, ignoreAndroidSystemSettings: false };
+        ReactNativeHapticFeedback.trigger('impactMedium', options);
+        
+        this.props.onPress();
+    }
 
     render() {
         return (
@@ -19,7 +28,7 @@ class AuthButton extends Component {
                     marginTop: this.props.marginTop, 
                     marginBottom: this.props.marginBottom
                 }]}
-                onPress={this.props.onPress}
+                onPress={() => this.onPress()}
             >
                 <Text style={{ fontSize: 20 }}>{this.props.text}</Text>
             </TouchableOpacity>
