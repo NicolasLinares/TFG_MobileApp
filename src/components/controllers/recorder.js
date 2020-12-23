@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import AudioRecorderPlayer, {
 	AVEncoderAudioQualityIOSType,
 	AVEncodingOption,
+	AVSampleRateKeyIOS,
 	AudioEncoderAndroidType,
 	AudioSourceAndroidType
 } from 'react-native-audio-recorder-player';
@@ -93,9 +94,11 @@ class Recorder extends Component {
 		const audioSet = {
 			AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
 			AudioSourceAndroid: AudioSourceAndroidType.MIC,
-	
-			AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.low,
+			AudioSamplingRateAndroid: 16000,
+
 			AVNumberOfChannelsKeyIOS: 1,
+			AVSampleRateKeyIOS: 16000,
+			AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.min,
 			AVFormatIDKeyIOS: AVEncodingOption.lpcm,
 		};
 
