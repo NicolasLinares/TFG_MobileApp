@@ -95,8 +95,6 @@ export async function uploadAudio(audio) {
 
     let absolute_path = FS.DIRECTORY + '/' + audio.localpath;
 
-    console.log(JSON.stringify(audio));
-
     let body = [
         {
             name: 'file',

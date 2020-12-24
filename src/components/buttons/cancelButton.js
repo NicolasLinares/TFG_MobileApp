@@ -36,15 +36,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: 'rgba(100,100,100,0.7)',
         alignItems: 'center',
-        justifyContent: 'center',
-        shadowRadius: 5,
-        shadowColor: 'grey',
-        shadowOpacity: 0.5,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        elevation: 5, // Android solo funciona con elevation
+        justifyContent: 'center'
     },
     text: {
         fontSize: 20,
