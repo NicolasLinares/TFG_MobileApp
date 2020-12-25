@@ -1,3 +1,10 @@
+/**
+* @fileoverview Contenido de patientCodeModal, permite añadir un código de paciente mediante textinput, escáner o seleccionándolo de la lista de filtros usados
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import {
     View,
@@ -54,7 +61,7 @@ class PatientCodeEditor extends Component {
         if (granted) {
             this.props.nav.navigate('Scanner',
                 {
-                    setTag: (value) => this.setState({ tag: value })
+                    setTag: (value) => {this.setState({ tag: value.slice(0, 32) })} // se acorta en caso de leer un código que supere los 32 caracteres
                 }
             );
         }

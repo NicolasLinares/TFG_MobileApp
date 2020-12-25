@@ -1,3 +1,10 @@
+/**
+* @fileoverview Lista de notas de audio almacenadas en la base de datos del servidor (historial de audios grabados)
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import {
     StyleSheet,

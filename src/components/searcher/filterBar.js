@@ -1,3 +1,11 @@
+/**
+* @fileoverview Contenedor de la lista de filtros de código de pacientes
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
+
 import React, { Component } from 'react'
 import {
     StyleSheet,

@@ -1,3 +1,10 @@
+/**
+* @fileoverview Controles de la reproducción de un audio (play, pause, skip, slide to X )
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 
 import {

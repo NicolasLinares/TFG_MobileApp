@@ -1,3 +1,10 @@
+/**
+* @fileoverview Lista de notas de audio grabadas recientemente y pendientes de ser registradas en el servidor
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react'
 import { Alert, StyleSheet } from 'react-native';
 

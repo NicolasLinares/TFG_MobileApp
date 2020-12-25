@@ -1,3 +1,11 @@
+/**
+* @fileoverview Escáner de códigos QR y de barras
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
+
 import React, { Component } from 'react';
 import {
 	Text,
@@ -8,6 +16,8 @@ import {
 import { CancelButton } from '_buttons';
 import { COLORS } from '_styles';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
 class Scanner extends Component {
 
@@ -20,6 +30,10 @@ class Scanner extends Component {
 
 
 	onScanSuccess = scan => {
+		// Haptic feedback
+		const options = { enableVibrateFallback: true, ignoreAndroidSystemSettings: false };
+        ReactNativeHapticFeedback.trigger('impactMedium', options);
+
 		// Se muestra el código leido en el input
 		this.props.nav.state.params.setTag(scan.data);
 		// Se abre de nuevo el Editor con ese valor en el input
@@ -52,7 +66,7 @@ class Scanner extends Component {
 			<View style={styles.card}>
 				<Text style={styles.message}>
 					Encuentra un código para escanearlo
-          </Text>
+          		</Text>
 			</View>
 		);
 	}

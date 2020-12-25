@@ -1,3 +1,10 @@
+/**
+* @fileoverview Aquí se definen los botones usados en las cabeceras de cada pantalla
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React from 'react';
 import { Alert, Text, TouchableOpacity } from 'react-native';
 import IconMI from "react-native-vector-icons/MaterialIcons";

@@ -1,3 +1,11 @@
+/**
+* @fileoverview Controles de grabación de audio (start record, stop record)
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
+
 import React, { Component } from 'react';
 import { Platform } from 'react-native';
 

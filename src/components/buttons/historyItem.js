@@ -1,3 +1,10 @@
+/**
+* @fileoverview Diseño de los items usados en la lista del historial de notas de voz grabadas
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 
 import {

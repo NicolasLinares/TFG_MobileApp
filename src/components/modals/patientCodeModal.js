@@ -1,3 +1,10 @@
+/**
+* @fileoverview Define el contenedor del editor de código de paciente. Es un modal que se superpone con un efecto de sombreado y animación ascendente
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
 

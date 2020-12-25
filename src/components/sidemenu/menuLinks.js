@@ -1,3 +1,11 @@
+/**
+* @fileoverview Contenedor de los links a otras pantallas, usado en el menú desplegable
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
+
 import React, { Component } from 'react';
 import {
     ScrollView,

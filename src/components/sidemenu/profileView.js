@@ -1,3 +1,11 @@
+/**
+* @fileoverview Vista con la inicial del nombre del usuario, su nombre y especialidad
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
+
 import React, { Component } from 'react';
 import { 
     View,

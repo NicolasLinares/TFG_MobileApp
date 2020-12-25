@@ -1,3 +1,10 @@
+/**
+* @fileoverview Diseño de los botones usados en el menú desplegable
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import {
     Text,

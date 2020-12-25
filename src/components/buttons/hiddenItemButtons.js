@@ -1,3 +1,10 @@
+/**
+* @fileoverview Diseño de los botones de acción ocultos tras cada item de la lista
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 

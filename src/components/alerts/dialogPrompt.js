@@ -1,3 +1,10 @@
+/**
+* @fileoverview Alert con un prompt, usado para introducir el nuevo nombre de la nota de voz 
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import {
     Platform

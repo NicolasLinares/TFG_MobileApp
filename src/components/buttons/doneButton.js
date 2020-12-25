@@ -1,3 +1,11 @@
+/**
+* @fileoverview Diseño de botón usado en la pantalla de grabación para confirmar las notas de voz grabadas
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
+
 import React, { Component } from 'react'
 import {
     Alert,

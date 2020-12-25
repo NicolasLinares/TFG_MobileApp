@@ -1,3 +1,10 @@
+/**
+* @fileoverview Animación con efecto fade-in, usado en el los items de la lista al aparecer
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react'
 import {
     Animated,

@@ -1,3 +1,10 @@
+/**
+* @fileoverview Aminación con efecto de fade-in + movimiento en eje Y, usado en los botones de acción de los items
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import { StyleSheet, Animated, Easing } from 'react-native';
 import { COLORS } from '_styles';
@@ -7,7 +14,7 @@ class HiddenViewAnimation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            heightAnimated: new Animated.Value(0),
+            translateY: new Animated.Value(0),
             fadeAnim: new Animated.Value(0),
         };
     }
@@ -31,7 +38,7 @@ class HiddenViewAnimation extends Component {
 
 
         Animated.parallel([
-            Animated.timing(this.state.heightAnimated, {
+            Animated.timing(this.state.translateY, {
                 toValue: positionContainer,
                 duration: 200,
                 useNativeDriver: true,
@@ -49,7 +56,7 @@ class HiddenViewAnimation extends Component {
     render() {
         return (
             <Animated.View style={[styles.container,
-            { transform: [{ translateY: this.state.heightAnimated }] }]} >
+            { transform: [{ translateY: this.state.translateY }] }]} >
                 <Animated.View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', opacity: this.state.fadeAnim }}>
                     {this.props.children}
                 </Animated.View>

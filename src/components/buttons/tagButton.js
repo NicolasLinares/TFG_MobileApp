@@ -1,3 +1,10 @@
+/**
+* @fileoverview Diseño del botón que muestra el código de paciente, usado principalmente en la lista de filtros
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import { COLORS } from '_styles';
 

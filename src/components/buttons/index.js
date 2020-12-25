@@ -1,3 +1,11 @@
+/**
+* @fileoverview Componentes de botones
+* @description Aquí se exportan los componentes para su uso
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import * as HeaderButtons from './headerButtons';
 export { HeaderButtons };
 

@@ -1,3 +1,10 @@
+/**
+* @fileoverview Diseño de botón usado en la pantalla de grabación que muestra y permite modificar el código de paciente
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import {
     View,

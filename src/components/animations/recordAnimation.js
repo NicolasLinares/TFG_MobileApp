@@ -1,3 +1,10 @@
+/**
+* @fileoverview Animación del botón de grabación
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import { Animated } from 'react-native';
 

@@ -1,3 +1,10 @@
+/**
+* @fileoverview Lista de strings que permite seleccionar un elemento, usado en signin con la lista de especialidades y paises
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import IconII from "react-native-vector-icons/Ionicons";

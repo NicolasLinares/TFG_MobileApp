@@ -1,3 +1,10 @@
+/**
+* @fileoverview Diseño de botón usado en la pantalla principal (home) como botón de añadir más audios
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react'
 import {
     TouchableOpacity,
