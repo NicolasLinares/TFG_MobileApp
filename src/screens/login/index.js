@@ -156,6 +156,7 @@ class LoginScreen extends Component {
 						circleSize={20}
 						onValueChange={(value) => this.rememberMe(value)}
 						value={this.state.savePssw}
+						
 					/>
 					<Text style={{
 						fontSize: 13,

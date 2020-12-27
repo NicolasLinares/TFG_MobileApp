@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/buttons/headerButtons.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/buttons/headerButtons.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+* @fileoverview Aquí se definen los botones usados en las cabeceras de cada pantalla
+*
+* @version 1
+* @author Nicolás Linares La Barba &lt;nlbarba97@gmail.com>
+*/
+
+import React from 'react';
+import { Alert, Text, TouchableOpacity } from 'react-native';
+import IconMI from "react-native-vector-icons/MaterialIcons";
+import IconII from "react-native-vector-icons/Ionicons";
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from 'react-native-popup-menu';
+
+import store from '_redux_store';
+
+import { COLORS } from '_styles';
+
+import { storageService } from '_services';
+
+
+export function BackButton(navigation) {
+
+
+    const handleGoBack = async () => {
+
+        const state = store.getState();
+        let audiolist = state.audioListReducer.audiolist;
+
+        if (audiolist.length > 0) {
+            await Alert.alert(
+                'Cancelar grabación',
+                'Se eliminarán las notas de voz de forma permanente',
+                [
+                    {
+                        text: 'Cancelar',
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Eliminar',
+                        onPress: async () => {
+
+                            // Elimina cada audio del filesystem
+                            await storageService.deleteListFiles(audiolist);
+                            navigation.goBack()
+                        },
+                    },
+                ],
+            );
+        } else {
+            navigation.goBack()
+        }
+
+    }
+
+    return (
+        &lt;TouchableOpacity
+            style={{ height: 40, width: 50, justifyContent: 'center', alignItems: 'center' }}
+            onPress={() => handleGoBack()}
+        >
+            &lt;IconII style={{ marginRight: 20, fontSize: 30, color: COLORS.electric_blue }} name={'chevron-back'} />
+        &lt;/TouchableOpacity>
+    )
+};
+
+export function MenuButton(navigation) {
+    return (
+        &lt;TouchableOpacity
+            style={{ height: 40, width: 60, justifyContent: 'center', alignItems: 'center' }}
+            onPress={() => navigation.openDrawer()}
+        >
+            &lt;IconMI style={{ marginRight: 10, fontSize: 25, color: COLORS.electric_blue }} name={"menu"} />
+        &lt;/TouchableOpacity>
+    )
+};
+
+export function OptionsButton() {
+
+    const handleDelete = async () => {
+        await Alert.alert(
+            'Eliminar todo',
+            'Se van a eliminar todas las notas de voz de forma permamente',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Eliminar',
+                    onPress: async () => {
+                        await storageService.deleteAllFiles();
+                    },
+                },
+            ],
+        );
+    }
+
+    return (
+        &lt;Menu>
+            &lt;MenuTrigger>
+                &lt;IconII style={{ marginRight: 10 }} name={"ios-ellipsis-vertical"} size={25} color={COLORS.electric_blue} />
+            &lt;/MenuTrigger>
+
+            &lt;MenuOptions optionsContainerStyle={{ borderRadius: 10, width: 280, marginTop: 30 }} >
+
+                &lt;MenuOption style={{
+                    height: 50,
+                    width: '95%',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                }} onSelect={() => handleDelete()}>
+                    &lt;Text style={{ marginLeft: 15, fontSize: 16, color: 'red' }}>Eliminar todo&lt;/Text>
+                    &lt;IconII style={{ fontSize: 25, color: 'red' }} name={'trash-outline'} />
+                &lt;/MenuOption>
+
+            &lt;/MenuOptions>
+        &lt;/Menu>
+    )
+};
+
+export function CloseButton(onClose) {
+    return (
+        &lt;TouchableOpacity
+            style={{ height: 40, width: 50, alignItems: 'flex-start', justifyContent: 'center' }}
+            onPress={() => onClose()}
+        >
+            &lt;IconII style={{ fontSize: 30, color: COLORS.electric_blue }} name={'close-outline'} />
+        &lt;/TouchableOpacity>
+    )
+};
+
+export function AcceptButton(onAccept) {
+    return (
+        &lt;TouchableOpacity
+            style={{ height: 40, width: 50, alignItems: 'flex-end', justifyContent: 'center' }}
+            onPress={() => onAccept()}
+        >
+            &lt;IconII style={{ fontSize: 30, color: COLORS.electric_blue }} name={'checkmark'} />
+        &lt;/TouchableOpacity>
+    )
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ContentMenu.html">ContentMenu</a></li><li><a href="DialogPrompt.html">DialogPrompt</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Dec 27 2020 10:53:23 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,3 +1,10 @@
+/**
+* @fileoverview Aquí se define el menú desplegable de navegación accesible desde home
+*
+* @version 1
+* @author Nicolás Linares La Barba <nlbarba97@gmail.com>
+*/
+
 import React, { Component } from 'react';
 import {
     View,
@@ -9,7 +16,10 @@ import StackNavigator from './app-navigator-stack';
 import { ProfileView, MenuLinks } from '_sidemenu';
 import { LogoutButton } from '_buttons';
 
-class Content extends Component {
+/**
+ * @class La clase ContentMenu define el contenido del menú desplegable
+ */
+class ContentMenu extends Component {
     render() {
         return (
             <View style={{
@@ -31,7 +41,7 @@ const AppNavigator = createDrawerNavigator(
         Home: StackNavigator,
     },
     {
-        contentComponent: Content
+        contentComponent: ContentMenu
     }
 );
 
