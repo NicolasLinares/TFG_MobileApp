@@ -12,7 +12,7 @@
       "excludePattern": "(^|\\/|\\\\)_"
     },
     "plugins": [
-      "plugins/markdown", 
+      "plugins/markdown",
       "better-docs/component"
     ],
     "templates": {

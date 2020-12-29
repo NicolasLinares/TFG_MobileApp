@@ -17,7 +17,6 @@ const maxRadius = 30;
 const minSize = 30;
 const minRadius = 10;
 
-
 /**
  * @memberof Animations
  *
