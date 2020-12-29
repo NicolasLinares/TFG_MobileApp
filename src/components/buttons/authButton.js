@@ -16,7 +16,16 @@ import { COLORS } from '_styles';
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
  
-
+/**
+ * @class La clase AuthButton define un componente botón
+ * @description Este componente es usado en el login y signin para confirmar ambos procesos
+ * 
+ *  @prop color {colorValue} - Color del botón
+ *  @prop marginTop {number} - Margen situado encima del componente
+ *  @prop marginBottom {number} - Margen situado debajo del componente
+ *  @prop text {string} - Texto que se muestra dentro del botón
+ *  @prop onPress {function} - Función que se ejecuta al hacer click
+ */
 class AuthButton extends Component {
 
 

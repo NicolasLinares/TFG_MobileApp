@@ -11,6 +11,14 @@ import {
     Easing,
 } from 'react-native';
 
+/**
+ * @memberof Animations
+ * @class La clase FadeInAnimation define el componente que proporciona una animación con efecto fade-in 
+ * @description Este componente es usado en los items de la lista al aparecer
+ * 
+ *  @prop duration {number} - Duración de la animación en milisegundos
+ *  @prop style {styleValue} - Diseño visual del componente pasado como un style
+ */
 class FadeInAnimation extends Component {
 
     constructor(props) {

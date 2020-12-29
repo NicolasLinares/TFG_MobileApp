@@ -18,6 +18,12 @@ import { COLORS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
+/**
+ * @class La clase EditCodeButton define un componente botón
+ * @description Este componente es usado en la pantalla de grabación que muestra y permite modificar el código de paciente
+ *
+ *  @prop onPress {function} - Función que se ejecuta al hacer click
+ */
 class EditCodeButton extends Component {
 
     render() {

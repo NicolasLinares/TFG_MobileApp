@@ -12,10 +12,12 @@ import {
 import Dialog from "react-native-dialog";
 import { COLORS } from '_styles';
 
-
+ 
 
 /**
  * @class La clase DialogPrompt define el componente que crea un dialog con un textinput
+ * @memberof Alerts
+ * @extends {Component}
  * @description Este componente permite introducir el nuevo nombre para una nota de voz
  * @example
  * 
@@ -47,7 +49,6 @@ class DialogPrompt extends Component {
 
     /**
     * Esta función renderiza el error por haber introducido un nombre no válido
-    * @methods
     */
     errorMessage = () => {
         return (
@@ -59,7 +60,6 @@ class DialogPrompt extends Component {
 
     /**
     * Renderiza el componente
-    * @methods
     */
     render() {
         return (

@@ -17,7 +17,12 @@ import IconII from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '_styles';
 
 
-
+/**
+ * @class La clase CancelButton define un componente botón
+ * @description Este componente es usado en la pantalla escáner para volver atrás
+ * 
+ *  @prop onPress {function} - Función que se ejecuta al hacer click
+ */
 class CancelButton extends Component {
 
     render() {

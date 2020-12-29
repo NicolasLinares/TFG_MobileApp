@@ -17,6 +17,13 @@ const maxRadius = 30;
 const minSize = 30;
 const minRadius = 10;
 
+
+/**
+ * @memberof Animations
+ *
+ * @class La clase RecordAnimation define el componente que proporciona la animación que transiciona entre un círculo y un cuadrado, y viceversa
+ * @description Este componente es usado en el botón de grabación de audios
+ */
 class RecordAnimation extends Component {
 
     constructor(props) {

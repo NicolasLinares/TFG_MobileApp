@@ -6,6 +6,11 @@
 * @author Nicolás Linares La Barba <nlbarba97@gmail.com>
 */
 
+
+/**
+ * @namespace Animations
+ */
+
 export {default as FadeInAnimation} from './fadeInAnimation';
 export {default as RecordAnimation} from './recordAnimation';
 export {default as HiddenViewAnimation} from './hiddenViewAnimation';

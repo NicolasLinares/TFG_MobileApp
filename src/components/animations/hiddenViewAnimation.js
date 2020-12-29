@@ -9,6 +9,12 @@ import React, { Component } from 'react';
 import { StyleSheet, Animated, Easing } from 'react-native';
 import { COLORS } from '_styles';
 
+
+/**
+ * @memberof Animations
+ * @class La clase HiddenViewAnimation define el componente que proporciona una animación con efecto de fade-in y desplazamiento en el eje Y
+ * @description Este componente es usado en los botones de acción de los items
+ */
 class HiddenViewAnimation extends Component {
 
     constructor(props) {

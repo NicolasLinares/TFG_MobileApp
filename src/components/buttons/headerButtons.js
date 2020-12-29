@@ -23,6 +23,11 @@ import { COLORS } from '_styles';
 import { storageService } from '_services';
 
 
+/**
+ * @method BackButton
+ * @description La clase FloatingButton define un componente botón
+ * @param navigation {Prop} Propiedad de navegación que provee de distintas funciones como moverse entre las distintas pantallas
+ */
 export function BackButton(navigation) {
 
 

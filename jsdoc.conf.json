@@ -4,18 +4,64 @@
       "dictionaries": ["jsdoc", "closure"]
     },
     "source": {
-      "include": ["src"],
+      "include": [
+        "src", 
+        "./README.md"
+      ],
       "includePattern": ".+\\.js(doc|x)?$",
       "excludePattern": "(^|\\/|\\\\)_"
     },
-    "plugins": ["plugins/markdown", "better-docs/component"],
+    "plugins": [
+      "plugins/markdown", 
+      "better-docs/component"
+    ],
     "templates": {
-      "better-docs": {
-        "name": "My React components"
+      "cleverLinks": false,
+      "monospaceLinks": false,
+      "default": {
+          "outputSourceFiles": true,
+          "includeDate": false,
+          "useLongnameInNav": true
       }
     },
     "opts": {
-      "destination": "docs",
-      "recurse": true
+      "template": "node_modules/docdash",
+      "destination": "jsdoc",
+      "recurse": true,
+      "readme": "README.md"
+    },
+    "markdown": {
+      "parser": "gfm",
+      "hardwrap": true,
+      "idInHeadings": true
+    },
+    "docdash": {
+      "search": true,
+      "collapse": true,
+      "typedefs": true,
+      "static": true,
+      "disqus": "",
+      "removeQuotes": "none",
+      "scripts": [],
+      "sectionOrder": [
+           "Namespaces",
+           "Modules",
+           "Externals",
+           "Events",
+           "Mixins",
+           "Tutorials",
+           "Interfaces"
+      ],
+      "menu": {
+        "Github": {
+            "href":"https://github.com/NicolasLinares/TFG_MobileApp",
+            "target":"_blank",
+            "class":"menu-item",
+            "id":"github_link"
+        }
+      }
     }
-}
+  }
+
+
+

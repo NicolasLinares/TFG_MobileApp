@@ -12,6 +12,13 @@ import {
 } from 'react-native';
 import IconMI from "react-native-vector-icons/MaterialIcons";
 
+
+/**
+ * @class La clase FloatingButton define un componente botón
+ * @description Este componente es usado en la pantalla principal (home) como botón de añadir más audios
+ * 
+ *  @prop onPress {function} - Función que se ejecuta al hacer click
+ */
 class FloatingButton extends Component {
 
     render() {

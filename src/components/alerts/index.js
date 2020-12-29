@@ -7,4 +7,8 @@
 */
 
 
+/**
+ * @namespace Alerts
+ */
+
 export { default as DialogPrompt } from './dialogPrompt';

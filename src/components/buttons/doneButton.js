@@ -21,6 +21,11 @@ import { deleteAudio, addAudioTag, addFilterTag, addAudioHistory } from '_redux_
 
 import { httpService } from '_services';
 
+
+/**
+ * @class La clase DoneButton define un componente botón
+ * @description Este componente es usado en la pantalla de grabación para confirmar y enviar las notas de voz grabadas a la base de datos
+ */
 class DoneButton extends Component {
 
     constructor(props) {
