@@ -353,6 +353,32 @@ export function historyReducer(state = initialState, action) {
                 )
             };
 
+            case types.UPDATE_TRANSCRIPTION_AUDIO:
+
+                return {
+                    ...state,
+                    history: state.history.map(
+                        (section) => (
+    
+                            section.date === action.date
+                                ?
+                                {
+                                    ...section,
+                                    data: section.data.map(
+                                        (item) => (
+                                            item.uid === action.uid
+                                                ?
+                                                { ...item, transcription: action.transcription, status: 'Completada' }
+                                                :
+                                                { ...item }
+                                        )
+                                    )
+                                }
+                                :
+                                { ...section }
+                        )
+                    )
+                };
 
         default:
             return state;

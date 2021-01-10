@@ -32,7 +32,7 @@ import moment from 'moment';
 import * as FS from '_constants';
 
 import { connect } from 'react-redux';
-import { deleteAudioHistory, updateDescription, updateName } from '_redux_actions';
+import { deleteAudioHistory, updateDescription, updateName, updateTranscription} from '_redux_actions';
 
 import { httpService, checkInputService } from '_services';
 
@@ -53,16 +53,16 @@ class AudioScreen extends Component {
 			hour: this.getHour(this.props.navigation.state.params.item.created_at),
 			localpath: this.props.navigation.state.params.item.localpath,
 			description: this.props.navigation.state.params.item.description,
-
-
-			transcription: null, //this.props.navigation.state.params.item.transcription, 
-			status: '',
+			transcription: this.props.navigation.state.params.item.transcription, 
+			status: this.props.navigation.state.params.item.status,
 
 			editing: false,
 			showDialog: false,
 			errorDialog: false,
 			// Función del componente HistoryItem para actualizar la lista después de borrar el audio
-			updateHistoryItem: this.props.navigation.state.params.updateHistoryItem
+			updateNameHistoryItem: this.props.navigation.state.params.updateNameHistoryItem,
+			updateStatusHistoryItem: this.props.navigation.state.params.updateStatusHistoryItem
+
 		};
 
 		this.interval = null;
@@ -78,7 +78,13 @@ class AudioScreen extends Component {
 			headerRight: () => this._renderOptionsButton(),
 		});
 
-		this.interval = setInterval(() => this.checkTranscript(), 3000);
+		
+		if (this.state.status !== 'Completada')
+			this.interval = setInterval(() => this.checkTranscript(), 3000);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.interval);
 	}
 
 	async checkTranscript() {
@@ -89,10 +95,14 @@ class AudioScreen extends Component {
 			console.log('Progreso: ' + response.progress);
 
 			if (response.status === 'Completada') {
+				clearInterval(this.interval);
+
 				// Se actualiza la transcripción
 				this.setState({ transcription: response.text, status: response.status });
 				// añadir a redux para no volver a hacer la petición si ya está
-				clearInterval(this.interval);
+				this.props.updateTranscription(this.state.date, this.state.uid, response.text); 
+				// Se actualiza en la vista del historial
+				this.state.updateStatusHistoryItem(response.status); // en la vista del historial
 			}
 		}
 	}
@@ -123,7 +133,7 @@ class AudioScreen extends Component {
 			if (response !== null) {
 				// Se actualiza el nombre del audio en todas sus referencias
 				this.props.navigation.setParams({ title: name }); // en la cabecera del screen
-				this.state.updateHistoryItem(name); // en la vista del historial
+				this.state.updateNameHistoryItem(name); // en la vista del historial
 				this.props.updateName(this.state.date, this.state.uid, name); // Se actualiza localmente en el historial
 				this.setState({ showDialog: false });
 			}
@@ -288,7 +298,7 @@ class AudioScreen extends Component {
 			<View style={styles.line} />
 
 			<View style={{ width: '90%' }}>
-				<Text style={[styles.text, { color: this.state.transcription === null ? COLORS.grey : 'black', marginTop: 8, marginBottom: 8 }]}>
+				<Text style={[styles.text, { color: this.state.status !== 'Completada' ? COLORS.grey : 'black', marginTop: 8, marginBottom: 8 }]}>
 					{this.state.status !== 'Completada' ? 'Transcribiendo informe...' : this.state.transcription}
 				</Text>
 			</View>
@@ -467,6 +477,7 @@ const mapDispatchToProps = (dispatch) => {
 		delete: (date, uid) => dispatch(deleteAudioHistory(date, uid)),
 		updateDescription: (date, uid, description) => dispatch(updateDescription(date, uid, description)),
 		updateName: (date, uid, name) => dispatch(updateName(date, uid, name)),
+		updateTranscription: (date, uid, transcription) => dispatch(updateTranscription(date, uid, transcription)),
 	}
 }
 

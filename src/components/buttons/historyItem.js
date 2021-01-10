@@ -30,6 +30,7 @@ class HistoryItem extends Component {
             name: this.props.item.name,
             created_time: this.getCreatedTime(this.props.item.created_at),
             tag: this.props.item.tag,
+            status: this.props.item.status,
         }
     }
 
@@ -48,8 +49,9 @@ class HistoryItem extends Component {
                     onPress={() => this.props.nav.navigate('Audio',
                         {
                             item: this.props.item,
-                            updateHistoryItem: (name) => this.setState({ name: name }),
-                            handleAudioDelete: this.props.handleAudioDelete
+                            updateNameHistoryItem: (name) => this.setState({ name: name }),
+                            updateStatusHistoryItem: (status) => this.setState({ status: status }),
+                            handleAudioDelete: this.props.handleAudioDelete,
                         }
                     )}
                 >
@@ -59,7 +61,7 @@ class HistoryItem extends Component {
                             <Text style={styles.name}>{this.state.name}</Text>
 
                             <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                                <Text style={styles.date} numberOfLines={1}>
+                                <Text style={styles.date} >
                                     {this.state.created_time}
                                 </Text>
 
@@ -69,10 +71,15 @@ class HistoryItem extends Component {
                                     textStyle={{ fontSize: 11 }}
                                     tag={this.state.tag}
                                 />
+
+                                <Text style={{fontSize: 12, marginTop: 7, marginRight: 10, marginLeft: 25, color: this.state.status !== 'Completada' ? 'red' : 'green'}}>
+                                    {this.state.status}
+                                </Text>
+
                             </View>
                         </View>
 
-                        <IconII style={styles.icon} name={'chevron-forward'} />
+                        <IconII style={{fontSize: 25, color: COLORS.grey}} name={'chevron-forward'} />
                     </View>
                 </TouchableWithoutFeedback>
             </FadeInAnimation>
@@ -114,11 +121,7 @@ const styles = StyleSheet.create({
     date: {
         marginTop: 7,
         fontSize: 12,
-        marginRight: 20,
-    },
-    icon: {
-        fontSize: 25,
-        color: COLORS.grey,
+        marginRight: 25,
     },
     tag: {
         backgroundColor: COLORS.light_green,
