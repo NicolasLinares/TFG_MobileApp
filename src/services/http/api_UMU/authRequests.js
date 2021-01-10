@@ -1,4 +1,4 @@
-import { httpRequest, showError, showSuccess } from './templates/httpTemplate';
+import { httpRequest, showError, showSuccess } from '../templates/httpTemplate';
 import { checkTokenExpired } from './tokenRequest';
 import { URL } from '_constants';
 
@@ -8,7 +8,7 @@ export async function login(email, password) {
 
 	let configProps = { trusty: true };
 	let method = 'POST';
-	let url = URL.login;
+	let url = URL.bd.login;
 	let headers = { 'Content-Type': 'application/json' };
 	let body = JSON.stringify({ email: email, password: password });
 
@@ -32,7 +32,7 @@ export async function signin(name, surname, email, password, specialty, country)
 
 	let configProps = { trusty: true };
 	let method = 'POST';
-	let url = URL.register;
+	let url = URL.bd.register;
 	let headers = { 'Content-Type': 'application/json' };
 	let body = JSON.stringify({
 		name: name,
@@ -66,7 +66,7 @@ export async function logout() {
 
 	let configProps = { trusty: true };
 	let method = 'DELETE';
-	let url = URL.logout;
+	let url = URL.bd.logout;
 	let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
 	let body = null;
 
@@ -93,7 +93,7 @@ export async function changePassword(old_pass, new_pass) {
 
 	let configProps = { trusty: true };
 	let method = 'PUT';
-	let url = URL.changePassword;
+	let url = URL.bd.changePassword;
 	let headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
 	let body = JSON.stringify({
 		old: old_pass,

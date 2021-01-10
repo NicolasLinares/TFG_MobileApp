@@ -1,4 +1,4 @@
-import { httpRequest, showError } from './templates/httpTemplate';
+import { httpRequest, showError } from '../templates/httpTemplate';
 import { checkTokenExpired } from './tokenRequest';
 import { URL } from '_constants';
 import * as FS from '_constants';
@@ -38,7 +38,7 @@ export async function getTags() {
 
     let configProps = { trusty: true };
     let method = 'GET';
-    let url = URL.getTags;
+    let url = URL.bd.getTags;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = null;
 
@@ -64,7 +64,7 @@ export async function filterByTag(tag) {
 
     let configProps = { trusty: true };
     let method = 'GET';
-    let url = URL.filterHistory + tag;
+    let url = URL.bd.filterHistory + tag;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = null;
 
@@ -90,7 +90,7 @@ export async function uploadAudio(audio) {
 
     let configProps = { trusty: true };
     let method = 'POST';
-    let url = URL.uploadAudio;
+    let url = URL.bd.uploadAudio;
     let headers = { 'Content-Type': 'multipart/form-data', Authorization: 'Bearer ' + token };
 
     let absolute_path = FS.DIRECTORY + '/' + audio.localpath;
@@ -117,8 +117,11 @@ export async function uploadAudio(audio) {
 
     switch (response.status) {
         case 201:
+            console.log(JSON.stringify(response.body));
             return response.body;
         default:
+            console.log(JSON.stringify(response.body.error));
+
             showError('Error', response.body.error);
             return null;
     }
@@ -135,7 +138,7 @@ export async function downloadAudioFile(uid, localpath) {
     };
 
     let method = 'GET';
-    let url = URL.downloadAudio + uid;
+    let url = URL.bd.downloadAudio + uid;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = null;
 
@@ -162,7 +165,7 @@ export async function deleteAudioHistory(uid) {
 
     let configProps = { trusty: true };
     let method = 'DELETE';
-    let url = URL.deleteAudio + uid;
+    let url = URL.bd.deleteAudio + uid;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = null;
 
@@ -188,7 +191,7 @@ export async function deleteAllHistory() {
 
     let configProps = { trusty: true };
     let method = 'DELETE';
-    let url = URL.deleteAll;
+    let url = URL.bd.deleteAll;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = null;
 
@@ -214,7 +217,7 @@ export async function updateName(uid, name) {
 
     let configProps = { trusty: true };
     let method = 'PUT';
-    let url = URL.updateAudioName + uid;
+    let url = URL.bd.updateAudioName + uid;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = JSON.stringify({ name: name });
 
@@ -240,7 +243,7 @@ export async function updateDescription(uid, description) {
 
     let configProps = { trusty: true };
     let method = 'PUT';
-    let url = URL.updateDescription + uid;
+    let url = URL.bd.updateDescription + uid;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = JSON.stringify({ description: description });
 
@@ -266,7 +269,7 @@ export async function searchAudio(name) {
 
     let configProps = { trusty: true };
     let method = 'GET';
-    let url = URL.searchAudio + name;
+    let url = URL.bd.searchAudio + name;
     let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
     let body = null;
 

@@ -30,7 +30,7 @@ class HomeScreen extends Component {
 		super(props);
 		this.state = {
 			pressed: false,
-			next_page_URL: URL.getHistory,
+			next_page_URL: URL.bd.getHistory,
 			loading: true,
 		};
 	}
@@ -121,7 +121,7 @@ class HomeScreen extends Component {
         this.props.cleanHistory();
 
         this.setState({
-            next_page_URL: URL.getHistory,
+            next_page_URL: URL.bd.getHistory,
         });
 
         // GET de los audios paginados

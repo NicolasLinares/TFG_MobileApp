@@ -30,12 +30,12 @@ class SignInScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
-			surname: '',
-			email: '',
-			password: '',
-			country: '',
-			specialty: '',
+			name: 'Nicolás',
+			surname: 'Linares',
+			email: 'nlbarba97@gmail.com',
+			password: 'Medcorder1234@',
+			country: 'España',
+			specialty: 'Urgencias',
 		};
 	}
 

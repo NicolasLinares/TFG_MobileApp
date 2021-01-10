@@ -1,4 +1,4 @@
-import { httpRequest, showError } from './templates/httpTemplate';
+import { httpRequest, showError } from '../templates/httpTemplate';
 import { refreshToken } from '_redux_actions';
 import moment from 'moment';
 import store from '_redux_store';
@@ -8,7 +8,7 @@ async function refresh(token) {
 
 	let configProps = { trusty: true };
 	let method = 'PUT';
-	let url = URL.refresh;
+	let url = URL.bd.refresh;
 	let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
 	let body = null;
 
@@ -38,7 +38,7 @@ export async function checkTokenExpired() {
 	// Se descuenta mm minutos al expires_in para dejar un margen de error
 	// Si se ha sobrepasado ese tiempo se renueva el token
 	let mm = 10;
-	if (moment.now() >= expires_in - 1000*mm/*60*/) {
+	if (moment.now() >= expires_in - 1000*mm*60) {
 		return await refresh(token);
 	} else {
 		return token;

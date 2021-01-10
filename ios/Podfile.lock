@@ -340,7 +340,7 @@ PODS:
     - React-Core
   - RNScreens (2.16.1):
     - React-Core
-  - RNShare (4.1.0):
+  - RNShare (4.1.2):
     - React-Core
   - RNSound (0.11.0):
     - React
@@ -598,7 +598,7 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: 653a8c126a0f5e88ce15ffe280b3ff37e1fbb285
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
-  RNShare: 106a76243ac90f43ddb9028dcb78ade406b8adff
+  RNShare: d22507fa5e80c72f236b5622556cf831de5b1e93
   RNSound: c980916b596cc15c8dcd2f6ecd3b13c4881dbe20
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59

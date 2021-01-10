@@ -52,8 +52,11 @@ class AudioScreen extends Component {
 			date: this.getDate(this.props.navigation.state.params.item.created_at),
 			hour: this.getHour(this.props.navigation.state.params.item.created_at),
 			localpath: this.props.navigation.state.params.item.localpath,
-			transcription: this.props.navigation.state.params.item.transcription, 
 			description: this.props.navigation.state.params.item.description,
+
+
+			transcription: null, //this.props.navigation.state.params.item.transcription, 
+			status: '',
 
 			editing: false,
 			showDialog: false,
@@ -61,9 +64,11 @@ class AudioScreen extends Component {
 			// Función del componente HistoryItem para actualizar la lista después de borrar el audio
 			updateHistoryItem: this.props.navigation.state.params.updateHistoryItem
 		};
+
+		this.interval = null;
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		this.props.navigation.setParams({
 			title: this.state.name,
 			headerTitleStyle: {
@@ -72,8 +77,25 @@ class AudioScreen extends Component {
 			},
 			headerRight: () => this._renderOptionsButton(),
 		});
+
+		this.interval = setInterval(() => this.checkTranscript(), 3000);
 	}
 
+	async checkTranscript() {
+		let response = await httpService.getTranscript(this.state.uid);
+
+		if (response !== null) {
+			console.log('Estado: ' + response.status);
+			console.log('Progreso: ' + response.progress);
+
+			if (response.status === 'Completada') {
+				// Se actualiza la transcripción
+				this.setState({ transcription: response.text, status: response.status });
+				// añadir a redux para no volver a hacer la petición si ya está
+				clearInterval(this.interval);
+			}
+		}
+	}
 
 	getDate(timestamp) {
 		m = moment(timestamp);
@@ -87,7 +109,7 @@ class AudioScreen extends Component {
 
 	handleAudioDelete = async () => {
 		const deleted = await this.props.navigation.state.params.handleAudioDelete();
-		if (deleted) 
+		if (deleted)
 			this.props.navigation.goBack();
 	}
 
@@ -166,7 +188,6 @@ class AudioScreen extends Component {
 				[{ text: 'Aceptar' }]
 			)
 		}
-
 	}
 
 
@@ -210,7 +231,7 @@ class AudioScreen extends Component {
 
 
 	_renderActionsInputChanges = () => (
-		<View style={styles.actions}>
+		<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => this.handleCancelUpdateDescription()}
@@ -227,83 +248,66 @@ class AudioScreen extends Component {
 	);
 
 
-	// Si es editable devuelve su respectivo botón, y si es compartible lo mismo
-	_renderSectionActions = (editable) => (
-		<View style={{ flexDirection: 'row' }}>
-			{
-				this.state.editing && editable
-					?
-					this._renderActionsInputChanges()
-					:
-					null
-			}
-		</View>
+	_renderDescription = () => (
 
-	);
-
-	// Si se ha presionado el botón de editar se transforma en un textinput
-	_renderTextOrInput = (editable, text, placeholder) => (
-
-		editable
-
-			?
-
-			<TextInput
-				multiline={true}
-				onFocus={() => this.setState({ editing: true })}
-				underlineColorAndroid={'transparent'}
-				style={[styles.text, { marginBottom: Platform.OS == 'ios' ? 10 : 0 }]}
-				value={this.state.description}
-				placeholder={placeholder}
-				placeholderTextColor={COLORS.grey}
-				onChangeText={(value) => this.setState({ description: value })}
-			/>
-
-			:
-
-			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-
-				<Text style={[styles.text, { color: text === null ? COLORS.grey : 'black', marginTop: 8, marginBottom: 8 }]}>
-					{
-						text === null
-							? placeholder
-							: text
-					}
-				</Text>
-				<ActivityIndicator size="small" color={COLORS.grey} />
-			</View>
-	);
-
-
-	_renderSection = (title, text, placeholder, editable) => (
-		<View style={styles.sectionContainer}>
+		<View style={styles.panelContainer}>
 			<View style={styles.sectionHeader}>
-				<Text style={styles.titleHeader}>{title}</Text>
-				{this._renderSectionActions(editable)}
+				<Text style={[styles.headerMarginText, { fontSize: 20, fontWeight: 'bold' }]}>{'Descripción'}</Text>
+				{this.state.editing ? this._renderActionsInputChanges() : null}
 			</View>
 
 			<View style={styles.line} />
 
-			<View style={styles.textContainer}>
-				{this._renderTextOrInput(editable, text, placeholder)}
+			<View style={{ width: '90%' }}>
+				<TextInput
+					multiline={true}
+					onFocus={() => this.setState({ editing: true })}
+					underlineColorAndroid={'transparent'}
+					style={[styles.text, { marginBottom: Platform.OS == 'ios' ? 10 : 0 }]}
+					value={this.state.description}
+					placeholder={'Escribe una descripción del audio...'}
+					placeholderTextColor={COLORS.grey}
+					onChangeText={(value) => this.setState({ description: value })}
+				/>
 			</View>
 		</View>
 	);
 
+	_renderTranscription = () => (
+		<View style={styles.panelContainer}>
+			<View style={styles.sectionHeader}>
+				<Text style={[styles.headerMarginText, { fontSize: 20, fontWeight: 'bold' }]}>{'Transcripción'}</Text>
+				{
+					this.state.status === 'Completada' ?
+						<Text style={[styles.headerMarginText, { fontSize: 14, color: 'green' }]}>{'Completada'}</Text>
+						:
+						<ActivityIndicator size="small" color={COLORS.grey} />
+				}
+			</View>
 
-    _renderDialogPrompt() {
+			<View style={styles.line} />
 
-        return (
-            <DialogPrompt 
-                value={this.state.name}
-                onChangeText={value => this.setState({ name: value })}
-                visible={this.state.showDialog}
-                showError={this.state.errorDialog}
-                onCancel={() => this.setState({ name: this.props.navigation.state.params.item.name, showDialog: false, errorDialog: false })}
-                onAccept={() => this.handleUpdateName()}
-            />  
-        );
-    }
+			<View style={{ width: '90%' }}>
+				<Text style={[styles.text, { color: this.state.transcription === null ? COLORS.grey : 'black', marginTop: 8, marginBottom: 8 }]}>
+					{this.state.status !== 'Completada' ? 'Transcribiendo informe...' : this.state.transcription}
+				</Text>
+			</View>
+		</View>
+	);
+
+	_renderDialogPrompt() {
+
+		return (
+			<DialogPrompt
+				value={this.state.name}
+				onChangeText={value => this.setState({ name: value })}
+				visible={this.state.showDialog}
+				showError={this.state.errorDialog}
+				onCancel={() => this.setState({ name: this.props.navigation.state.params.item.name, showDialog: false, errorDialog: false })}
+				onAccept={() => this.handleUpdateName()}
+			/>
+		);
+	}
 
 	render = () => (
 		<View style={styles.container}>
@@ -311,13 +315,12 @@ class AudioScreen extends Component {
 			{this._renderDialogPrompt()}
 
 			<ScrollView
-				style={styles.scrollContainer}
+				style={{ width: '100%', alignContent: 'center' }}
 				keyboardDismissMode={'on-drag'}
 				keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
 			>
 
 				<Text style={styles.date}> {this.state.date + ', ' + this.state.hour}</Text>
-
 
 				<TagView
 					pressed={false}
@@ -325,10 +328,9 @@ class AudioScreen extends Component {
 					textStyle={styles.tagText}
 					tag={this.state.tag}
 				/>
-				
 
-				{this._renderSection('Descripción', this.state.description, 'Escribe una descripción del audio...', true)}
-				{this._renderSection('Transcripción', this.state.transcription, 'Transcribiendo nota de voz...', false)}
+				{this._renderDescription()}
+				{this._renderTranscription()}
 			</ScrollView>
 
 			<View style={styles.playerContainer}>
@@ -371,11 +373,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 
-	scrollContainer: {
-		width: '100%',
-		alignContent: 'center',
-	},
-	sectionContainer: {
+	panelContainer: {
 		width: '95%',
 		alignSelf: 'center',
 		alignItems: 'center',
@@ -402,23 +400,15 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 
-	actions: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-	},
 	line: {
 		borderWidth: 0.5,
 		borderColor: COLORS.light_grey,
 		width: '100%',
 	},
-	textContainer: {
-		width: '90%',
-	},
-	titleHeader: {
+
+	headerMarginText: {
 		marginVertical: 5,
-		marginHorizontal: 10,
-		fontSize: 20,
-		fontWeight: 'bold'
+		marginHorizontal: 10
 	},
 	text: {
 		fontSize: 17,
