@@ -4,11 +4,11 @@ import {
 	StyleSheet
 } from 'react-native';
 
-
 import { FilterBar, SearchBar } from '_searcher';
 import { HistoryList } from '_lists';
 import { FloatingButton } from '_buttons';
 
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
 import { connect } from 'react-redux';
 import {
@@ -31,7 +31,7 @@ class HomeScreen extends Component {
 		this.state = {
 			pressed: false,
 			next_page_URL: URL.bd.getHistory,
-			loading: true,
+			refreshing: true
 		};
 	}
 
@@ -46,7 +46,7 @@ class HomeScreen extends Component {
 		// GET de los audios paginados
 		await setTimeout(() => this.handleGetHistory(), 50);
 
-		this.state.loading = false;
+		this.state.refreshing = false;
 	}
 
 	async checkPerms() {
@@ -85,11 +85,10 @@ class HomeScreen extends Component {
     };
 
     async handleGetHistory() {
-
         // Con esta variable se controla tanto la animación del ActivityIndicator
         // así como evitar que se realicen nuevas llamadas mientras se procesa esta
         this.setState({
-            loading: true,
+            refreshing: true,
         });
 
         let response = await httpService.getHistory(this.state.next_page_URL);
@@ -97,7 +96,9 @@ class HomeScreen extends Component {
         if (response !== null) {
 
             let list = response.data;
-            let N = list.length;
+			let N = list.length;
+			console.log('Total: ' + N);
+
             for (let i = 0; i < N; i++) {
                 // Se añade cada audio al historial de audios
                 // grabados por el médico
@@ -108,25 +109,31 @@ class HomeScreen extends Component {
             // con la siguiente página
             this.setState({
                 next_page_URL: response.next_page_url,
-                loading: false
+				refreshing: false
             });
         }
     }
 
 
     async handleResetHistory() {
+		
+		const options = { enableVibrateFallback: true, ignoreAndroidSystemSettings: false };
+		ReactNativeHapticFeedback.trigger('impactMedium', options);
+		
         // Se vacía el historial de audios grabados
         // para que no se dupliquen en caso de haber
         // hecho la consulta antes
         this.props.cleanHistory();
-
-        this.setState({
-            next_page_URL: URL.bd.getHistory,
-        });
+		
+		this.setState({
+			next_page_URL: URL.bd.getHistory,
+		});
 
         // GET de los audios paginados
-		await setTimeout(() => this.handleGetHistory(), 50);
+		await setTimeout(() => this.handleGetHistory(), 100);
+
     }
+
 
 	render() {
 		return (
@@ -143,12 +150,13 @@ class HomeScreen extends Component {
 
 				<HistoryList
 					list={this.props.history}
-					refresh={() => {
-						this.state.next_page_URL != null && !this.state.loading ? this.handleGetHistory() : {};
+					getMoreItems={() => {
+						this.state.next_page_URL != null && !this.state.refreshing ? this.handleGetHistory() : {};
 					}}
 					nav={this.props.navigation}
 					handleAudioDelete={this.handleAudioDelete}
-					loading={this.state.loading}
+					refreshing={this.state.refreshing}
+					onRefresh={() => this.handleResetHistory()}
 				/>
 
 				<FloatingButton onPress={() => this.checkPerms()} />

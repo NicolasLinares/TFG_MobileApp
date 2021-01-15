@@ -16,12 +16,13 @@ import {
 import AlertAsync from "react-native-alert-async";
 
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { HistoryItem, HiddenButtons } from '_buttons';
+import { HistoryItem, HiddenButtons } from '_listsItems';
 import { FadeInAnimation } from '_animations';
 
-import { COLORS, CONSTANTS } from '_styles';
+import { CONSTANTS } from '_styles';
 
 import moment from 'moment';
+
 
 
 class HistoryList extends Component {
@@ -79,19 +80,22 @@ class HistoryList extends Component {
         );
     }
 
+
     _renderSection = ({ section }) => {
 
+        let sec_date = moment((section.date)).format('LL'); // Se queda en formato '23 de Noviembre de 2020'
+
         // Comprobar si la fecha de la sección corresponde a 'hoy'
-        if (section.date === moment().format('LL')) {
-            date = 'Hoy';
+        if ( sec_date === moment().format('LL')) {
+            var date = 'Hoy';
         } else {
             // Comprobar si la fecha de la sección corresponde a 'Ayer'
-            yesterday = moment() - 86400000; // le resto un dia en milisegundos
-            m = moment(yesterday);
-            if (section.date === m.format('LL'))
+            let yesterday = moment() - 86400000; // le resto un dia en milisegundos
+            let m = moment(yesterday);
+            if (sec_date === m.format('LL'))
                 date = 'Ayer';
             else
-                date = section.date;
+                date = sec_date;
         }
 
         return (
@@ -103,7 +107,6 @@ class HistoryList extends Component {
         );
     };
 
-
     render() {
         return (
             <SwipeListView
@@ -111,7 +114,7 @@ class HistoryList extends Component {
                 overScrollMode={"never"}
                 contentContainerStyle={{ paddingBottom: 30 }}
                 showsVerticalScrollIndicator={false}
-                keyExtractor={(item) => item.uid}
+                keyExtractor={(item, index) => item.uid} //item.uid
                 sections={this.props.list}
                 stickySectionHeadersEnabled
                 renderSectionHeader={this._renderSection}
@@ -122,8 +125,9 @@ class HistoryList extends Component {
                 closeOnScroll={true}
                 previewOpenValue={-40}
                 previewOpenDelay={3000}
-                onScrollEndDrag={() => this.props.refresh()} // más fluido con onMomentumScrollBegin pero con swipe up también se activa
-                ListFooterComponent={() => this.props.loading ? <ActivityIndicator size="small" color={COLORS.grey} style={{ marginTop: 20 }} /> : null}
+                refreshing={this.props.refreshing}
+                onRefresh={() => this.props.onRefresh()}
+                onScrollEndDrag={() => this.props.getMoreItems()}
             />
         )
     }

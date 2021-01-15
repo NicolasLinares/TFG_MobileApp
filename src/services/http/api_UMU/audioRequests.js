@@ -117,11 +117,8 @@ export async function uploadAudio(audio) {
 
     switch (response.status) {
         case 201:
-            console.log(JSON.stringify(response.body));
             return response.body;
         default:
-            console.log(JSON.stringify(response.body.error));
-
             showError('Error', response.body.error);
             return null;
     }

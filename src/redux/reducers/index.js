@@ -62,11 +62,11 @@ export function logoutReducer(state = initialState, action) {
                     token: null,
                     expires_in: null
                 },
-                
+
                 audiolist: [],
                 patientCode: '',
                 playerState: 'stop',
-            
+
                 history: [],
                 tags: [],
                 currentTagApplied: '',
@@ -151,15 +151,15 @@ export function historyReducer(state = initialState, action) {
 
             /*
 
-                        LA LISTA ES DE LA SIGUIENTE FORMA
+                LA LISTA ES DE LA SIGUIENTE FORMA
 
                 history: [
                     {
-                        date: '28 de octubre de 2020,
+                        date: '2020-10-14T23:01:28.947Z',
                         data: [audio1, audio2 ...]
                     },
                     {
-                        date: '26 de octubre de 2020,
+                        date: '2020-10-12T23:01:28.947Z',
                         data: [audio1, audio2, audio3 ...]
                     },
                     ...
@@ -171,31 +171,65 @@ export function historyReducer(state = initialState, action) {
             // audios más recientes y agrupados por días. Cuando hablamos de conjunto
             // se habla de conjunto de audios por día.
 
-
             // Se crea un nuevo conjunto si la lista está vacía o si el nuevo audio 
-            // tiene una fecha distinta al último conjunto añadido
+            // tiene una fecha distinta al último conjunto añadido.
 
             // Para obtener el último conjunto añadido calculamos el número de elementos 
             // que tiene la lista
-            index = state.history.length - 1;
-            if (state.history.length == 0 || state.history[index].date !== getDate(action.audio.created_at)) {
+
+
+            let index = state.history.length - 1;
+
+            if (state.history.length === 0) {
                 return {
                     ...state,
                     history: [
                         ...state.history,
                         {
-                            date: getDate(action.audio.created_at),
+                            date: action.audio.created_at, // Formato "2021-01-14T23:01:28.947Z"
                             data: [action.audio]
                         },
                     ]
                 };
-            }
-            else {
+
+            } else if (getDate(state.history[index].date) !== getDate(action.audio.created_at)) {
+
+                let date_lastSection = new Date(state.history[index].date);
+                let date_newAudio = new Date(action.audio.created_at);
+
+                // Esta comprobación evita errores de duplicados
+                // "Warning: Encountered two children with the same key"
+                if (date_lastSection <= date_newAudio) {
+                    return state;
+                } else {
+                    return {
+                        ...state,
+                        history: [
+                            ...state.history,
+                            {
+                                date: action.audio.created_at, // Formato "2021-01-14T23:01:28.947Z"
+                                data: [action.audio]
+                            },
+                        ]
+                    };
+                }
+
+            } else {
 
                 // Se extrae el último conjunto (que es donde se va a añadir el elemento)
                 // y se copian los valores que almacena más el nuevo audio
 
-                last = state.history.pop();
+                let last = state.history.pop();
+
+                // Esta comprobación evita errores de duplicados
+                // "Warning: Encountered two children with the same key"
+                let items = last.data;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].uid === action.audio.uid) {
+                        // Audio ya en la lista devolvemos el estado como estaba
+                        return state;
+                    }
+                }
 
                 return {
                     ...state,
@@ -220,12 +254,12 @@ export function historyReducer(state = initialState, action) {
             // ------------------------------------------------------------------------
 
             // Añadir primer elemento de una nueva fecha:
-            if (state.history.length == 0 || state.history[0].date !== moment().format('LL')) {
+            if (state.history.length === 0 || getDate(state.history[0].date) !== moment().format('LL')) {
                 return {
                     ...state,
                     history: [
                         {
-                            date: moment().format('LL'),
+                            date: moment(), // formato: "2021-01-14T23:01:28.947Z"
                             data: [action.audio]
                         },
                         ...state.history
@@ -267,7 +301,7 @@ export function historyReducer(state = initialState, action) {
             update_list = state.history.map(
                 (section) => (
 
-                    section.date === action.date
+                    getDate(section.date) === action.date
                         ?
                         {
                             ...section,
@@ -306,7 +340,7 @@ export function historyReducer(state = initialState, action) {
                 history: state.history.map(
                     (section) => (
 
-                        section.date === action.date
+                        getDate(section.date) === action.date
                             ?
                             {
                                 ...section,
@@ -333,7 +367,7 @@ export function historyReducer(state = initialState, action) {
                 history: state.history.map(
                     (section) => (
 
-                        section.date === action.date
+                        getDate(section.date) === action.date
                             ?
                             {
                                 ...section,
@@ -353,32 +387,32 @@ export function historyReducer(state = initialState, action) {
                 )
             };
 
-            case types.UPDATE_TRANSCRIPTION_AUDIO:
+        case types.UPDATE_TRANSCRIPTION_AUDIO:
 
-                return {
-                    ...state,
-                    history: state.history.map(
-                        (section) => (
-    
-                            section.date === action.date
-                                ?
-                                {
-                                    ...section,
-                                    data: section.data.map(
-                                        (item) => (
-                                            item.uid === action.uid
-                                                ?
-                                                { ...item, transcription: action.transcription, status: 'Completada' }
-                                                :
-                                                { ...item }
-                                        )
+            return {
+                ...state,
+                history: state.history.map(
+                    (section) => (
+
+                        getDate(section.date) === action.date
+                            ?
+                            {
+                                ...section,
+                                data: section.data.map(
+                                    (item) => (
+                                        item.uid === action.uid
+                                            ?
+                                            { ...item, transcription: action.transcription, status: 'Completada' }
+                                            :
+                                            { ...item }
                                     )
-                                }
-                                :
-                                { ...section }
-                        )
+                                )
+                            }
+                            :
+                            { ...section }
                     )
-                };
+                )
+            };
 
         default:
             return state;

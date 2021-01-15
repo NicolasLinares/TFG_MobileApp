@@ -9,6 +9,8 @@
         "_buttons": ["src/components/buttons/*"],
         "_forms": ["src/components/forms/*"],
         "_lists": ["src/components/lists/*"],
+        "_listsItems": ["src/components/listsItems/*"],
+
         "_searcher": ["src/components/searcher/*"],
         "_modals": ["src/components/modals/*"],
         "_sidemenu": ["src/components/sidemenu/*"],

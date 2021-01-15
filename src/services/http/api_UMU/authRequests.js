@@ -79,7 +79,7 @@ export async function logout() {
 
 	switch (response.status) {
 		case 200:
-			console.log('Token invalidado')
+			console.log('Token invalidado');
 			return response.body;
 		default:
 			showError('Error', response.body.error);

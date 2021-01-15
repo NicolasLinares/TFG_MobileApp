@@ -19,6 +19,8 @@ import IconII from "react-native-vector-icons/Ionicons";
 
 import { TagButton as TagView } from '_buttons';
 import { FadeInAnimation } from '_animations';
+import { UIActivityIndicator } from 'react-native-indicators';
+
 
 import moment from 'moment';
 
@@ -40,6 +42,16 @@ class HistoryItem extends Component {
     }
 
 
+    _renderStatus() {
+        return (
+            this.state.status === 'Completada' ?
+                <IconII style={{ fontSize: 16, color: COLORS.green_Complete, marginTop: 4 }} name={'checkmark-circle'} />
+            :
+                <View style={{ height: 10, width: 10, alignSelf: 'center' }}>
+                   <UIActivityIndicator animationDuration={1000} color={COLORS.grey} size={15} />
+                </View>
+        );
+    }
 
     render() {
 
@@ -58,9 +70,13 @@ class HistoryItem extends Component {
 
                     <View style={styles.item}>
                         <View style={styles.info}>
+
                             <Text style={styles.name}>{this.state.name}</Text>
 
                             <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+
+                                {this._renderStatus()}
+
                                 <Text style={styles.date} >
                                     {this.state.created_time}
                                 </Text>
@@ -72,14 +88,10 @@ class HistoryItem extends Component {
                                     tag={this.state.tag}
                                 />
 
-                                <Text style={{fontSize: 12, marginTop: 7, marginRight: 10, marginLeft: 25, color: this.state.status !== 'Completada' ? 'red' : 'green'}}>
-                                    {this.state.status}
-                                </Text>
-
                             </View>
                         </View>
 
-                        <IconII style={{fontSize: 25, color: COLORS.grey}} name={'chevron-forward'} />
+                        <IconII style={{ fontSize: 25, color: COLORS.grey }} name={'chevron-forward'} />
                     </View>
                 </TouchableWithoutFeedback>
             </FadeInAnimation>
@@ -112,7 +124,7 @@ const styles = StyleSheet.create({
     info: {
         flexDirection: 'column',
         width: '80%',
-        marginLeft: 20,
+        marginLeft: 10,
     },
     name: {
         marginVertical: 5,
@@ -121,7 +133,7 @@ const styles = StyleSheet.create({
     date: {
         marginTop: 7,
         fontSize: 12,
-        marginRight: 25,
+        marginHorizontal: 25,
     },
     tag: {
         backgroundColor: COLORS.light_green,

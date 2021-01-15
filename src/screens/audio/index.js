@@ -8,9 +8,10 @@ import {
 	ScrollView,
 	TextInput,
 	Keyboard,
-	Platform,
-	ActivityIndicator
+	Platform
 } from 'react-native';
+
+import { UIActivityIndicator } from 'react-native-indicators';
 
 import {
 	Menu,
@@ -92,7 +93,6 @@ class AudioScreen extends Component {
 
 		if (response !== null) {
 			console.log('Estado: ' + response.status);
-			console.log('Progreso: ' + response.progress);
 
 			if (response.status === 'Completada') {
 				clearInterval(this.interval);
@@ -262,7 +262,7 @@ class AudioScreen extends Component {
 
 		<View style={styles.panelContainer}>
 			<View style={styles.sectionHeader}>
-				<Text style={[styles.headerMarginText, { fontSize: 20, fontWeight: 'bold' }]}>{'Descripción'}</Text>
+				<Text style={{marginVertical: 5, fontSize: 20, fontWeight: 'bold' }}>{'Descripción'}</Text>
 				{this.state.editing ? this._renderActionsInputChanges() : null}
 			</View>
 
@@ -283,16 +283,26 @@ class AudioScreen extends Component {
 		</View>
 	);
 
+
+    _renderStatus() {
+        return (
+			this.state.status === 'Completada' ?
+				<View style={{flexDirection: 'row', marginTop: 3, alignItems: 'center'}}>
+					<Text style={{fontSize: 14, color: COLORS.green_Complete, marginRight: 5 }}>{'Completada'}</Text>
+                	<IconII style={{fontSize: 16, color: COLORS.green_Complete }} name={'checkmark-circle'} />
+				</View>
+			:
+                <View style={{alignSelf: 'center'  }}>
+                   <UIActivityIndicator animationDuration={1000} color={COLORS.grey} size={20} />
+                </View>
+        );
+    }
+
 	_renderTranscription = () => (
 		<View style={styles.panelContainer}>
 			<View style={styles.sectionHeader}>
-				<Text style={[styles.headerMarginText, { fontSize: 20, fontWeight: 'bold' }]}>{'Transcripción'}</Text>
-				{
-					this.state.status === 'Completada' ?
-						<Text style={[styles.headerMarginText, { fontSize: 14, color: 'green' }]}>{'Completada'}</Text>
-						:
-						<ActivityIndicator size="small" color={COLORS.grey} />
-				}
+				<Text style={{fontSize: 20, fontWeight: 'bold' }}>{'Transcripción'}</Text>
+				{this._renderStatus()}
 			</View>
 
 			<View style={styles.line} />
@@ -408,6 +418,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
+		paddingHorizontal: 15
 	},
 
 	line: {
@@ -416,10 +427,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 
-	headerMarginText: {
-		marginVertical: 5,
-		marginHorizontal: 10
-	},
 	text: {
 		fontSize: 17,
 		lineHeight: 25,
@@ -466,11 +473,6 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = (state) => {
-	return {
-		token: state.userReducer.token,
-	}
-}
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -481,4 +483,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AudioScreen);
+export default connect(null, mapDispatchToProps)(AudioScreen);

@@ -21,7 +21,4 @@ export {default as EditCodeButton} from './editCodeButton';
 
 export {default as CancelButton} from './cancelButton';
 
-export {default as HistoryItem} from './historyItem';
-export {default as RecordedItem} from './recordedItem';
-export {default as HiddenButtons} from './hiddenItemButtons';
 export {default as TagButton} from './tagButton';

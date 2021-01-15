@@ -9,6 +9,7 @@ export const COLORS = {
 
     green: '#9bd4c9',
     light_green: '#dcf5f0',
+    green_Complete: 'rgb(98, 204, 137)',
 
     dark_grey: 'rgba(50,50,50, 0.5)',
     grey: '#bebebe',

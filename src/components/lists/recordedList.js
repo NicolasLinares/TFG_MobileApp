@@ -9,7 +9,7 @@ import React, { Component } from 'react'
 import { Alert, StyleSheet } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { RecordedItem, HiddenButtons } from '_buttons';
+import { RecordedItem, HiddenButtons } from '_listsItems';
 
 import { CONSTANTS } from '_styles';
 
