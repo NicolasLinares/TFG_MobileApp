@@ -24,8 +24,8 @@ class RecorderScreen extends Component {
 					// Se ha añadido aquí el header para que el modal de patient code se renderice
 					// por encima, si no el modal quedaba por debajo del header del navigator 
 					leftComponent={() => HeaderButtons.BackButton(this.props.navigation)}
-					centerComponent={() => <Text style={styles.headerTitle}>Notas de voz</Text>}
-					rightComponent={() => <DoneButton />}
+					centerComponent={() => <Text style={styles.headerTitle}>Nuevo informe</Text>}
+					rightComponent={() => <DoneButton nav={this.props.navigation} />}
 					containerStyle={{borderBottomWidth: 0, backgroundColor: 'transparent'}}
 				/>
 				<PatientCode nav={this.props.navigation} />

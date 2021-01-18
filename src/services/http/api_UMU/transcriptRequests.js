@@ -1,15 +1,14 @@
 import { httpRequest, showError } from '../templates/httpTemplate';
-import { checkTokenExpired } from './tokenRequest';
 import { URL } from '_constants';
-import * as FS from '_constants';
+import store from '_redux_store';
 
-import RNFetchBlob from 'rn-fetch-blob';
 
 
 export async function getTranscript(audio_uid) {
 
-    let token = await checkTokenExpired();
-
+	const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'GET';
     let url = URL.bd.getTranscript + audio_uid;

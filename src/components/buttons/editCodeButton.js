@@ -38,8 +38,8 @@ class EditCodeButton extends Component {
                     <IconII style={[styles.icon, { marginLeft: -3 }]} name={"list"} />
                 </View>
 
-                <Text style={[styles.code, { color: this.props.patientCode !== '' ? COLORS.electric_blue : 'grey' }]}>
-                    {this.props.patientCode !== '' ? this.props.patientCode : 'Añadir código de paciente'}
+                <Text style={[styles.code, { color: this.props.patientCode !== null ? COLORS.electric_blue : 'grey' }]}>
+                    {this.props.patientCode !== null ? this.props.patientCode : 'Añadir código de paciente'}
                 </Text>
             </TouchableWithoutFeedback>
         )

@@ -9,19 +9,17 @@ const initialState = {
         specialty: null,
         country: null,
         token: null,                    // Token de autorización para la comunicación con el servidor
-        expires_in: null                // Tiempo en mss en el que expira el token
     },
 
     // Usados en Screen Recorder
     audiolist: [],                      // Lista con los nuevos audios grabados, se borra al enviar para transcribir
-    patientCode: '',                    // Código de paciente usado en la grabación actual, se borra al enviar para transcribir
+    patientCode: null,                    // Código de paciente usado en la grabación actual, se borra al enviar para transcribir
     playerState: 'stop',                // Estado del reproductor de audio, permite que no se reproduzcan dos audios a la vez si está en estado 'play'
 
     // Usados en Screen Home
     history: [],                        // Lista con todos los audios grabados
     tags: [],                           // Lista con los códigos de paciente usados 
-    currentTagApplied: '',              // Filtro usado en el momento actual
-
+    currentTagApplied: null,              // Filtro usado en el momento actual
 }
 
 export function userReducer(state = initialState.user, action) {
@@ -35,13 +33,6 @@ export function userReducer(state = initialState.user, action) {
                 specialty: action.specialty,
                 country: action.country,
                 token: action.token,
-                expires_in: moment.now() + 1000 * 60 * action.expires_in
-            };
-        case types.REFRESH_TOKEN:
-            return {
-                ...state,
-                token: action.refresh_token,
-                expires_in: moment.now() + 1000 * 60 * action.expires_in
             };
         default:
             return state;
@@ -60,16 +51,15 @@ export function logoutReducer(state = initialState, action) {
                     specialty: null,
                     country: null,
                     token: null,
-                    expires_in: null
                 },
 
                 audiolist: [],
-                patientCode: '',
+                patientCode: null,
                 playerState: 'stop',
 
                 history: [],
                 tags: [],
-                currentTagApplied: '',
+                currentTagApplied: null,
             };
 
         default:

@@ -97,7 +97,6 @@ class HomeScreen extends Component {
 
             let list = response.data;
 			let N = list.length;
-			console.log('Total: ' + N);
 
             for (let i = 0; i < N; i++) {
                 // Se añade cada audio al historial de audios

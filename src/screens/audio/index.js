@@ -275,7 +275,7 @@ class AudioScreen extends Component {
 					underlineColorAndroid={'transparent'}
 					style={[styles.text, { marginBottom: Platform.OS == 'ios' ? 10 : 0 }]}
 					value={this.state.description}
-					placeholder={'Escribe una descripción del audio...'}
+					placeholder={'Escribe una descripción...'}
 					placeholderTextColor={COLORS.grey}
 					onChangeText={(value) => this.setState({ description: value })}
 				/>

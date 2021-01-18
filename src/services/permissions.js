@@ -79,7 +79,7 @@ export async function checkMicrophonePermissions() {
         ? PERMISSIONS.IOS.MICROPHONE
         : PERMISSIONS.ANDROID.RECORD_AUDIO;
 
-    return true; //await check(permission);
+    return await check(permission);
 }
 
 export async function checkCameraPermissions() {

@@ -1,14 +1,15 @@
 import { httpRequest, showError } from '../templates/httpTemplate';
-import { checkTokenExpired } from './tokenRequest';
 import { URL } from '_constants';
 import * as FS from '_constants';
+import store from '_redux_store';
 
 import RNFetchBlob from 'rn-fetch-blob';
 
 
 export async function getHistory(next_url) {
 
-    let token = await checkTokenExpired();
+    const state = store.getState();
+	let token = state.userReducer.token;
 
     let configProps = { trusty: true };
     let method = 'GET';
@@ -34,8 +35,9 @@ export async function getHistory(next_url) {
 
 export async function getTags() {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'GET';
     let url = URL.bd.getTags;
@@ -60,8 +62,9 @@ export async function getTags() {
 
 export async function filterByTag(tag) {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'GET';
     let url = URL.bd.filterHistory + tag;
@@ -86,8 +89,9 @@ export async function filterByTag(tag) {
 
 export async function uploadAudio(audio) {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'POST';
     let url = URL.bd.uploadAudio;
@@ -126,8 +130,9 @@ export async function uploadAudio(audio) {
 
 export async function downloadAudioFile(uid, localpath) {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = {
         trusty: true,
         fileCache: true,  // permite que la respuesta se almacene como un fichero
@@ -158,8 +163,9 @@ export async function downloadAudioFile(uid, localpath) {
 
 export async function deleteAudioHistory(uid) {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'DELETE';
     let url = URL.bd.deleteAudio + uid;
@@ -184,8 +190,9 @@ export async function deleteAudioHistory(uid) {
 
 export async function deleteAllHistory() {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'DELETE';
     let url = URL.bd.deleteAll;
@@ -210,8 +217,9 @@ export async function deleteAllHistory() {
 
 export async function updateName(uid, name) {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'PUT';
     let url = URL.bd.updateAudioName + uid;
@@ -236,8 +244,9 @@ export async function updateName(uid, name) {
 
 export async function updateDescription(uid, description) {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'PUT';
     let url = URL.bd.updateDescription + uid;
@@ -262,8 +271,9 @@ export async function updateDescription(uid, description) {
 
 export async function searchAudio(name) {
 
-    let token = await checkTokenExpired();
-
+    const state = store.getState();
+    let token = state.userReducer.token;
+    
     let configProps = { trusty: true };
     let method = 'GET';
     let url = URL.bd.searchAudio + name;

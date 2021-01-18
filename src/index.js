@@ -7,7 +7,6 @@
  */
 
 import React, { Component } from 'react';
-import SplashScreen from 'react-native-splash-screen'
 
 import { Platform, StatusBar } from 'react-native';
 import Navigator from '_navigations';
@@ -23,9 +22,6 @@ import { MenuProvider } from 'react-native-popup-menu';
 class App extends Component {
 
 	componentDidMount() {
-		// Una vez cargado este componente
-		// se esconde la pantalla SplashScreen
-		SplashScreen.hide();
 
 		if (Platform.os === 'android') {
 			StatusBar.setBarStyle('dark-content')

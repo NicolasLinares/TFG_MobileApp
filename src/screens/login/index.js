@@ -26,6 +26,9 @@ import { showMessage } from "react-native-flash-message";
 import { httpService } from '_services';
 import * as Keychain from 'react-native-keychain';
 
+import SplashScreen from 'react-native-splash-screen'
+
+
 class LoginScreen extends Component {
 
 	constructor(props) {
@@ -38,23 +41,51 @@ class LoginScreen extends Component {
 	}
 
 	componentDidMount = async () => {
+		
 		try {
 			// Retrieve the credentials
 			const credentials = await Keychain.getGenericPassword();
 			if (credentials) {
+
+
 				console.log('Credenciales cargadas correctamente');
-				this.setState({
-					savePssw: true,
-					email: credentials.username,
-					password: credentials.password
-				});
+
+				// Petición al servidor para refrescar y obetener los datos del usuario
+				let response = await httpService.refresh(credentials.password);
+
+				if (response !== null) {
+					this.props.setUser(
+						response.user.name,
+						response.user.surname,
+						response.user.email,
+						response.user.specialty,
+						response.user.country,
+						response.access_token,
+					);
+
+					await Keychain.setGenericPassword(response.user.email, response.access_token);
+					console.log('Credenciales guardadas correctamente');
+
+					// Se esconde el splash screen para dejar paso a la pantalla home
+
+					this.props.navigation.navigate('App');
+					SplashScreen.hide();
+
+				}
 
 			} else {
 				console.log('Las credenciales no se encuentran almacenadas');
+				SplashScreen.hide();
+
 			}
 		} catch (error) {
 			console.log("Keychain Error: ", error);
+			SplashScreen.hide();
 		}
+
+		// Se esconde el splash screen para dejar paso a la pantalla de login
+
+
 	}
 
 	rememberMe = async (remember) => {
@@ -63,7 +94,7 @@ class LoginScreen extends Component {
 		ReactNativeHapticFeedback.trigger('impactMedium', options);
 
 		this.setState({
-			savePssw: remember,
+			savePssw: remember
 		});
 
 		if (!remember) {
@@ -71,6 +102,7 @@ class LoginScreen extends Component {
 			console.log('Credenciales eliminadas correctamente');
 		}
 	}
+
 
 	setInputEmail = async (email) => {
 		this.setState({
@@ -84,6 +116,7 @@ class LoginScreen extends Component {
 
 	handleLogin = async () => {
 
+
 		// Comprobación de campos escritos
 		if (this.state.email === '' || this.state.password === '') {
 			showMessage({
@@ -94,6 +127,7 @@ class LoginScreen extends Component {
 			});
 			return;
 		}
+
 
 		// Petición al servidor
 		let response = await httpService.login(this.state.email, this.state.password);
@@ -110,12 +144,13 @@ class LoginScreen extends Component {
 			);
 
 			if (this.state.savePssw) {
-				await Keychain.setGenericPassword(this.state.email, this.state.password);
+				await Keychain.setGenericPassword(this.state.email, response.access_token);
 				console.log('Credenciales guardadas correctamente');
 			}
 
 			this.props.navigation.navigate('App');
 		}
+
 	}
 
 	_renderInputs() {
@@ -156,7 +191,7 @@ class LoginScreen extends Component {
 						circleSize={20}
 						onValueChange={(value) => this.rememberMe(value)}
 						value={this.state.savePssw}
-						
+
 					/>
 					<Text style={{
 						fontSize: 13,
@@ -211,6 +246,7 @@ class LoginScreen extends Component {
 				extraHeight={100}
 				keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
 			>
+
 				<View style={styles.container}>
 					<Image
 						style={styles.logo}
@@ -272,7 +308,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setUser: (name, surname, email, specialty, country, token, expires_in) => dispatch(authUser(name, surname, email, specialty, country, token, expires_in))
+		setUser: (name, surname, email, specialty, country, token) => dispatch(authUser(name, surname, email, specialty, country, token))
 	}
 }
 

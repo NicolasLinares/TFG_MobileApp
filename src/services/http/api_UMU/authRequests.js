@@ -1,7 +1,8 @@
 import { httpRequest, showError, showSuccess } from '../templates/httpTemplate';
-import { checkTokenExpired } from './tokenRequest';
 import { URL } from '_constants';
+import store from '_redux_store';
 
+import { refreshToken } from '_redux_actions';
 
 
 export async function login(email, password) {
@@ -59,11 +60,11 @@ export async function signin(name, surname, email, password, specialty, country)
 	}
 }
 
-
 export async function logout() {
 
-	let token = await checkTokenExpired();
-
+    const state = store.getState();
+	let token = state.userReducer.token;
+	
 	let configProps = { trusty: true };
 	let method = 'DELETE';
 	let url = URL.bd.logout;
@@ -87,10 +88,38 @@ export async function logout() {
 	}
 }
 
+export async function refresh(token) {
+
+	let configProps = { trusty: true };
+	let method = 'PUT';
+	let url = URL.bd.refresh;
+	let headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
+	let body = null;
+
+	let response = await httpRequest(configProps, method, url, headers, body);
+
+	if (response == null) {
+		showError('Error de conexión', 'Compruebe su conexión de red o inténtelo de nuevo más tarde');
+		return null;
+	}
+
+	switch (response.status) {
+		case 200:
+			console.log('Token actualizado. Expira en ' + response.body.expires_in + ' minutos')
+			return response.body;
+		case 401:
+			return null;
+		default:
+			showError('Error de sesión', response.body.error);
+			return null;
+	}
+}
+
 export async function changePassword(old_pass, new_pass) {
 
-	let token = await checkTokenExpired();
-
+    const state = store.getState();
+	let token = state.userReducer.token;
+	
 	let configProps = { trusty: true };
 	let method = 'PUT';
 	let url = URL.bd.changePassword;

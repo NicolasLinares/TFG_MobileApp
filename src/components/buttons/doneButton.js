@@ -33,9 +33,10 @@ class DoneButton extends Component {
         this.uploadingData = false;
     }
 
+
     handleSendAudios = async () => {
 
-        if (this.props.patientTag !== '') {
+        if (this.props.patientTag !== null) {
 
             this.uploadingData = true;
 
@@ -58,7 +59,7 @@ class DoneButton extends Component {
                     // Para evitar que añada el audio a la lista del filtro aplicado
                     // se comprueba que no haya ningún filtro en este momento o que 
                     // el filtro aplicado sea el mismo que el grabado
-                    if (this.props.currentTagApplied === '' ||
+                    if (this.props.currentTagApplied === null ||
                         this.props.currentTagApplied === audio_resp.tag) {
                         // Se añade al historial de audios del médico
                         this.props.addAudioHistory(audio_resp);
@@ -92,6 +93,8 @@ class DoneButton extends Component {
         }
 
         this.uploadingData = false;
+
+        setTimeout(() => this.props.nav.goBack(), 500);
     }
 
     _renderSendButton = () => {

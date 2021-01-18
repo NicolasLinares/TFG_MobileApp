@@ -15,6 +15,14 @@ export async function httpRequest(configProps, method, url, headers, body) {
 		)
 		.then((response) => {
 			let status = response.info().status;
+
+			if (status === 401) { //Unauthorized
+				let body_null = {
+					error: null
+				};
+				return { status, body_null};
+			}
+
 			// Esta comprobación es para evitar que cuando se desargue el audio,
 			// por el método "downloadAudioFile()", aparezca un warning porque el cuerpo
 			// del mensaje no es un json sino un blob

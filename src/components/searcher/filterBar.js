@@ -107,7 +107,7 @@ class Filter extends Component {
                         onPress={() => {
                             this.setState({ hideButton: true, paddingLeft: 0 });
                             // Se limpia el código de paciente usado
-                            this.props.setCurrentTagApplied('');
+                            this.props.setCurrentTagApplied(null);
                             this.props.resetHistory();
                             this.ref_filterList.current.removeTagUsed();
 

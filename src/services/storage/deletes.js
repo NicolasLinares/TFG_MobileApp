@@ -21,7 +21,7 @@ export function deleteFile(localpath) {
             console.log('Audio borrado correctamente del dispositivo')
         })
         .catch((err) => {
-            alert("Error al borrar el audio" + err);
+            alert('No se ha podido eliminar el audio');
         });
     }
 }

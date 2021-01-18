@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { logoutUser, cleanHistory } from '_redux_actions';
 
 import { httpService } from '_services';
+import * as Keychain from 'react-native-keychain';
 
 class LogoutButton extends Component {
 
@@ -44,7 +45,9 @@ class LogoutButton extends Component {
                             this.props.cleanUserInfo();
                             // Se vacía el historial de audios
                             this.props.cleanHistory();
-
+                            // Se eliminan las credenciales almacenadas
+                            await Keychain.resetGenericPassword();
+                            
                             // Se vuelve al espacio de autenticación
                             this.props.nav.navigate('Auth');
                         }

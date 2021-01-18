@@ -30,7 +30,6 @@ class Recorder extends Component {
 			seconds_Counter: '00',
 		};
 
-		this.base64 = '';
 	}
 
 	componentWillUnmount() {
@@ -76,7 +75,6 @@ class Recorder extends Component {
 			let name = 'audio_' + time.format('DDMMYYYY_HHmmss');
 			let extension = 'wav';
 			let filename = name + '.' + extension;
-			this.base64 = '';
 
 			// Configura los parámetros del audio
 			let options = {
@@ -90,7 +88,8 @@ class Recorder extends Component {
 			AudioRecord.init(options);
 			AudioRecord.start();
 			AudioRecord.on('data', data => {
-				// base64-encoded audio data chunks
+				// "base64-encoded audio data chunks" (No funciona correctamente)
+				// No se hace nada con data pero es necesario que esté así para funcionar
 			});
 
 			// Almacena los datos del audio para añadirlos despues a la lista

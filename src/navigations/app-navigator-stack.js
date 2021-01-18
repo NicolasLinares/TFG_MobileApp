@@ -33,7 +33,7 @@ const StackRouteConfigs = {
 		navigationOptions: ({ navigation }) => ({
 			headerLeft: () => HeaderButtons.MenuButton(navigation),
 			headerRight: () => HeaderButtons.OptionsButton(),
-			title: 'Mis notas de voz',
+			title: 'Mis informes',
 			headerStyle: {
 				// para esconder la línea inferior en el header
 				shadowOpacity: 0, // iOS

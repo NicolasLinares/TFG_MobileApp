@@ -1,7 +1,6 @@
 
 // USER ACTIONS
 export const SET_USER_DATA = 'SET_USER_DATA';
-export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 export const LOGOUT = 'LOGOUT';
 
 // AUDIO LIST ACTIONS

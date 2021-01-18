@@ -1,7 +1,7 @@
 
 // USER ACTIONS
 
-export const authUser = (name, surname, email, specialty, country, token, expires_in) => {
+export const authUser = (name, surname, email, specialty, country, token) => {
     return {
         type: 'SET_USER_DATA',
         name: name,
@@ -9,16 +9,7 @@ export const authUser = (name, surname, email, specialty, country, token, expire
         email: email,
         specialty: specialty,
         country: country,
-        token: token,
-        expires_in: expires_in
-    }
-}
-
-export const refreshToken = (token, expires_in) => {
-    return {
-        type: 'REFRESH_TOKEN',
-        refresh_token: token,
-        expires_in: expires_in
+        token: token
     }
 }
 

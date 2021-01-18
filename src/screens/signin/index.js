@@ -30,13 +30,18 @@ class SignInScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: 'Pepe',
-			surname: 'Smolky',
-			email: 'pepe@gmail.com',
-			password: 'Pepe1234@',
-			country: 'España',
-			specialty: 'Urgencias',
+			name: '',
+			surname: '',
+			email: '',
+			password: '',
+			country: '',
+			specialty: '',
 		};
+	}
+
+	componentWillUnmount() {
+		// Se escribe en el input del Login el email para que pueda iniciar sesión en esa cuenta
+		this.props.navigation.state.params.onGoBack(this.state.email);
 	}
 
 	handleRegister = async () => {
@@ -76,9 +81,6 @@ class SignInScreen extends Component {
 
 		if (response !== null) {
 			this.props.navigation.goBack();
-			// Se escribe en el input del Login el email para que pueda iniciar sesión en esa cuenta
-			this.props.navigation.state.params.onGoBack(this.state.email);
-
 		}
 
 	}

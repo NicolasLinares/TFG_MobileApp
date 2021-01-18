@@ -76,7 +76,7 @@ export function validatePassword(password) {
 }
 
 export function validateEmail(email) {
-    var patt = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
+    var patt = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i; 
     if (!patt.test(email)) {
         Alert.alert('Correo no válido', 'Introduce un correo electrónico válido');
         return false;
