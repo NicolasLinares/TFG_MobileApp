@@ -60,7 +60,7 @@ class HomeScreen extends Component {
 
         // Se borra en el filesystem porque el recorder
         // crea un fichero por cada grabación
-        let localpath = FS.DIRECTORY + '/' + item.localpath;
+        let localpath = FS.DIRECTORY + '/' + item.uname;
         storageService.deleteFile(localpath);
         
         // Se borra de la base de datos del servidor

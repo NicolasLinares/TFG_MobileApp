@@ -50,7 +50,7 @@ class HistoryList extends Component {
     handleDeleteRow = async (rowMap, item) => {
         return await AlertAsync(
             'Eliminar nota de voz',
-            'La nota de voz "' + item.localpath + '" y su transcripción se van a eliminar de forma permanente',
+            'La nota de voz "' + item.name + '" y su transcripción se van a eliminar de forma permanente',
             [
                 {
                     text: 'Cancelar',

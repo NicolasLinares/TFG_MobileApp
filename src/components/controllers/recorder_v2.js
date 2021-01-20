@@ -92,11 +92,11 @@ class Recorder extends Component {
 				// No se hace nada con data pero es necesario que esté así para funcionar
 			});
 
-			// Almacena los datos del audio para añadirlos despues a la lista
+			// Almacena los datos del audio para añadirlos después a la lista
 			let newAudio = {
 				name: name,
 				extension: extension,
-				localpath: filename,
+				uname: filename,
 				ctime: time.format('HH:mm'),
 			};
 

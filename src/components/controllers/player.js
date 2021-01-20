@@ -39,7 +39,7 @@ class Player extends Component {
         this.state = {
             uid: this.props.item.uid,
             name: this.props.item.name,
-            localpath: this.props.item.localpath,
+            uname: this.props.item.uname,
 
             complexStyle: this.props.complexStyle === undefined ? false : this.props.complexStyle,
 
@@ -55,7 +55,7 @@ class Player extends Component {
 
         if (this.state.complexStyle) {
 
-            let localpath = FS.DIRECTORY + '/' + this.state.localpath;
+            let localpath = FS.DIRECTORY + '/' + this.state.uname;
 
             // Comprobamos si el audio se encuentra ya localmente
             let exists = await storageService.existsLocally(localpath);
@@ -83,7 +83,7 @@ class Player extends Component {
 
     setAudioDuration() {
 
-        var audio = new Sound(this.state.localpath, FS.DIRECTORY, (error) => {
+        var audio = new Sound(this.state.uname, FS.DIRECTORY, (error) => {
             if (error) {
                 alert('Error al obtener la duración de la nota de voz ');
                 return;
@@ -107,7 +107,7 @@ class Player extends Component {
                 // Inicializa el player
                 this.props.setPlayerState('play');
                 this.setState({ state: 'play' });
-                var msg = await this.state.player.startPlayer('file://' + FS.DIRECTORY + '/' + this.state.localpath);
+                var msg = await this.state.player.startPlayer('file://' + FS.DIRECTORY + '/' + this.state.uname);
 
                 // Si antes de darle al botón se ha movido el slider, entonces
                 // se sitúa en el segundo exacto donde se ha indicado

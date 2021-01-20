@@ -123,7 +123,7 @@ class Recorder extends Component {
 		let audio = {
 			name: name,
 			extension: extension,
-			localpath: name + '.' + extension,
+			uname: name + '.' + extension,
 			ctime: ctime,
 		};
 

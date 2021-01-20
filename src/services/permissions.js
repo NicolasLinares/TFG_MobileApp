@@ -21,12 +21,12 @@ function showMessage(title, perm) {
     switch (perm) {
         case PERMISSIONS.IOS.CAMERA:
         case PERMISSIONS.ANDROID.CAMERA:
-            message = 'El acceso a la cámara es necesario para escanear el código de barras del paciente'
+            message = 'Habilita los permisos de la cámara para escanear el código de barras del paciente'
             break;
 
         case PERMISSIONS.IOS.MICROPHONE:
         case PERMISSIONS.ANDROID.RECORD_AUDIO:
-            message = 'El acceso al micrófono es necesario para grabar las notas de voz';
+            message = 'Habilita los permisos del micrófono para grabar nuevos informes';
             break;
         default:
             break;
@@ -64,8 +64,8 @@ async function check(permission) {
                 console.log('Permiso garantizado: ' + permission);
                 return true;
             case RESULTS.BLOCKED:
-                console.log('Permiso bloqueado: ' + permission);
-                showMessage('Permiso bloqueado', permission);
+                console.log('Acceso bloqueado: ' + permission);
+                showMessage('Acceso bloqueado', permission);
                 return false;
             default:
                 break;
@@ -115,8 +115,8 @@ export async function checkAllPermissions() {
                     console.log('Permiso garantizado: ' + permissions[perm]);
                     break;
                 case RESULTS.BLOCKED:
-                    console.log('Permiso bloqueado: ' + permissions[perm]);
-                    showMessage('Permiso bloqueado', permissions[perm]);
+                    console.log('Acceso bloqueado: ' + permissions[perm]);
+                    showMessage('Acceso bloqueado', permissions[perm]);
                     break;
                 default:
                     break;

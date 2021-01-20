@@ -18,10 +18,12 @@ import FlashMessage from "react-native-flash-message";
 
 import { MenuProvider } from 'react-native-popup-menu';
 
+import SplashScreen from 'react-native-splash-screen';
 
 class App extends Component {
 
 	componentDidMount() {
+		SplashScreen.hide();
 
 		if (Platform.os === 'android') {
 			StatusBar.setBarStyle('dark-content')

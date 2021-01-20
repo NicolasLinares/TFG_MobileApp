@@ -17,7 +17,7 @@ import {
 import { COLORS } from '_styles';
 
 import { connect } from 'react-redux';
-import { deleteAudio, addAudioTag, addFilterTag, addAudioHistory } from '_redux_actions';
+import { deleteAudio, addFilterTag, addAudioHistory } from '_redux_actions';
 
 import { httpService } from '_services';
 
@@ -40,15 +40,18 @@ class DoneButton extends Component {
 
             this.uploadingData = true;
 
-            // Se asigna el código de paciente a todos los audios
-            await this.props.addAudioTag(this.props.patientTag);
-
             // Por cada audio grabado se envía y se elimina de la lista para añadirla
             let N = this.props.list.length;
             let list = this.props.list;
             for (let i = 0; i < N; i++) {
                 let audio = list[i];
+
+                // Se añade el código de paciente a las propiedades del audio
+                audio = {...audio, tag: this.props.patientTag};
+
                 console.log(audio.name + ' - Procesando audio...');
+
+                // SE ENVÍA A LA BASE DE DATOS (dentro de uploadAudio() se carga la instancia del audio para almacenarlo en el servidor)
                 let audio_resp = await httpService.uploadAudio(audio);
 
                 if (audio_resp !== null) {
@@ -78,7 +81,7 @@ class DoneButton extends Component {
                     // o token caducado
                     Alert.alert(
                         'Error',
-                        'El audio ' + audio.localpath + ' no se ha guardado correctamente',
+                        'El audio ' + audio.name + ' no se ha guardado correctamente',
                         [{ text: 'Aceptar' }]
                     );
                 }
@@ -131,7 +134,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         delete: (key) => dispatch(deleteAudio(key)),
-        addAudioTag: (tag) => dispatch(addAudioTag(tag)),
         addFilterTag: (tag) => dispatch(addFilterTag(tag)),
         addAudioHistory: (audio) => dispatch(addAudioHistory(audio)),
     }

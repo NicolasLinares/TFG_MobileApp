@@ -3,7 +3,7 @@ import * as FS from '_constants';
 import store from '_redux_store';
 import { deleteAudio, cleanTags, cleanHistory } from '_redux_actions';
 
-import { httpService } from '_services';
+import { httpService } from '../http/api_UMU/audioRequests';
 import { existsLocally } from './stat';
 
 import RNFetchBlob from 'rn-fetch-blob';
@@ -33,11 +33,11 @@ export function deleteFile(localpath) {
 export async function deleteListFiles(audiolist) {
 
     for (i in audiolist) {
-        await RNFetchBlob.fs.unlink(FS.DIRECTORY + '/' + audiolist[i].localpath)
+        await RNFetchBlob.fs.unlink(FS.DIRECTORY + '/' + audiolist[i].uname)
             .then(() => {
                 // Eliminar del estado global
                 store.dispatch(deleteAudio(audiolist[i].key));
-                console.log(audiolist[i].localpath + ' borrado correctamente del dispositivo')
+                console.log(audiolist[i].uname + ' borrado correctamente del dispositivo')
             })
             .catch((err) => { console.log(err) });
     }

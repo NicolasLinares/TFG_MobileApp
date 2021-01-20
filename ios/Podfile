@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'recorder_cli' do
+target 'InvoxMedcorder' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
@@ -11,7 +11,7 @@ target 'recorder_cli' do
 
 
 
-  target 'recorder_cliTests' do
+  target 'InvoxMedcorderTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -31,10 +31,10 @@ target 'recorder_cli' do
 
 end
 
-target 'recorder_cli-tvOS' do
-  # Pods for recorder_cli-tvOS
+target 'InvoxMedcorder-tvOS' do
+  # Pods for InvoxMedcorder-tvOS
 
-  target 'recorder_cli-tvOSTests' do
+  target 'InvoxMedcorder-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

@@ -97,12 +97,12 @@ export async function uploadAudio(audio) {
     let url = URL.bd.uploadAudio;
     let headers = { 'Content-Type': 'multipart/form-data', Authorization: 'Bearer ' + token };
 
-    let absolute_path = FS.DIRECTORY + '/' + audio.localpath;
+    let absolute_path = FS.DIRECTORY + '/' + audio.uname;
 
     let body = [
         {
             name: 'file',
-            filename: audio.localpath.replace('.' + audio.extension, ''),
+            filename: audio.uname.replace('.' + audio.extension, ''),
             data: RNFetchBlob.wrap(absolute_path),
             type: 'audio/' + audio.extension
         },

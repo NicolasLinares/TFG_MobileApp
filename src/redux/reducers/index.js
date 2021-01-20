@@ -80,7 +80,7 @@ export function audioListReducer(state = initialState, action) {
                         key: Math.random(),
                         name: action.audio.name,
                         extension: action.audio.extension,
-                        localpath: action.audio.localpath,
+                        uname: action.audio.uname,
                         description: '',
                         ctime: action.audio.ctime,
                     },
@@ -90,12 +90,6 @@ export function audioListReducer(state = initialState, action) {
             return {
                 ...state,
                 audiolist: state.audiolist.filter((item) => item.key !== action.key)
-            };
-
-        case types.SET_AUDIOTAG:
-            return {
-                ...state,
-                audiolist: state.audiolist.map((item) => ({ ...item, tag: action.tag }))
             };
 
         case types.UPDATE_NAME_NEW_AUDIO:

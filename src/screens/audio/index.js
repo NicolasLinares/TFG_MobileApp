@@ -52,7 +52,7 @@ class AudioScreen extends Component {
 			tag: this.props.navigation.state.params.item.tag,
 			date: this.getDate(this.props.navigation.state.params.item.created_at),
 			hour: this.getHour(this.props.navigation.state.params.item.created_at),
-			localpath: this.props.navigation.state.params.item.localpath,
+			uname: this.props.navigation.state.params.item.uname,
 			description: this.props.navigation.state.params.item.description,
 			transcription: this.props.navigation.state.params.item.transcription, 
 			status: this.props.navigation.state.params.item.status,
@@ -164,7 +164,7 @@ class AudioScreen extends Component {
 
 	handleShareAudioFile() {
 
-		let localpath = 'file://' + FS.DIRECTORY + '/' + this.state.localpath;
+		let localpath = 'file://' + FS.DIRECTORY + '/' + this.state.uname;
 
 		let options = {
 			title: 'Compartir grabación de audio',

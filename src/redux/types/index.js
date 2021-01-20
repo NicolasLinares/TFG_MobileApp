@@ -6,7 +6,6 @@ export const LOGOUT = 'LOGOUT';
 // AUDIO LIST ACTIONS
 export const ADD_AUDIO = 'ADD_AUDIO';
 export const DELETE_AUDIO = 'DELETE_AUDIO';
-export const SET_AUDIOTAG = 'SET_AUDIOTAG';
 export const UPDATE_NAME_NEW_AUDIO = 'UPDATE_NAME_NEW_AUDIO';
 export const CLEAN_AUDIOLIST = 'CLEAN_AUDIOLIST';
 

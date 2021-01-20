@@ -26,7 +26,6 @@ import { showMessage } from "react-native-flash-message";
 import { httpService } from '_services';
 import * as Keychain from 'react-native-keychain';
 
-import SplashScreen from 'react-native-splash-screen'
 
 
 class LoginScreen extends Component {
@@ -41,7 +40,7 @@ class LoginScreen extends Component {
 	}
 
 	componentDidMount = async () => {
-		
+
 		try {
 			// Retrieve the credentials
 			const credentials = await Keychain.getGenericPassword();
@@ -66,26 +65,15 @@ class LoginScreen extends Component {
 					await Keychain.setGenericPassword(response.user.email, response.access_token);
 					console.log('Credenciales guardadas correctamente');
 
-					// Se esconde el splash screen para dejar paso a la pantalla home
-
 					this.props.navigation.navigate('App');
-					SplashScreen.hide();
-
 				}
 
 			} else {
 				console.log('Las credenciales no se encuentran almacenadas');
-				SplashScreen.hide();
-
 			}
 		} catch (error) {
 			console.log("Keychain Error: ", error);
-			SplashScreen.hide();
 		}
-
-		// Se esconde el splash screen para dejar paso a la pantalla de login
-
-
 	}
 
 	rememberMe = async (remember) => {
