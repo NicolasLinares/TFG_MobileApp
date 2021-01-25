@@ -19,7 +19,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { HistoryItem, HiddenButtons } from '_listsItems';
 import { FadeInAnimation } from '_animations';
 
-import { CONSTANTS } from '_styles';
+import { DIMENSIONS } from '_styles';
 
 import moment from 'moment';
 
@@ -86,7 +86,7 @@ class HistoryList extends Component {
         let sec_date = moment((section.date)).format('LL'); // Se queda en formato '23 de Noviembre de 2020'
 
         // Comprobar si la fecha de la sección corresponde a 'hoy'
-        if ( sec_date === moment().format('LL')) {
+        if (sec_date === moment().format('LL')) {
             var date = 'Hoy';
         } else {
             // Comprobar si la fecha de la sección corresponde a 'Ayer'
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'red',
         borderRadius: 10,
-        marginRight: CONSTANTS.marginHorizontalItemList,
-        marginVertical: CONSTANTS.marginVerticalItemList
+        marginRight: DIMENSIONS.marginHorizontalItemList,
+        marginVertical: DIMENSIONS.marginVerticalItemList
     },
 });
 

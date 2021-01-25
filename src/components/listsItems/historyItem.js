@@ -14,7 +14,7 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native';
 
-import { COLORS, CONSTANTS } from '_styles';
+import { COLORS, DIMENSIONS } from '_styles';
 import IconII from "react-native-vector-icons/Ionicons";
 
 import { TagButton as TagView } from '_buttons';
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         borderRadius: 10,
-        marginHorizontal: CONSTANTS.marginHorizontalItemList,
-        marginVertical: CONSTANTS.marginVerticalItemList,
+        marginHorizontal: DIMENSIONS.marginHorizontalItemList,
+        marginVertical: DIMENSIONS.marginVerticalItemList,
     },
     info: {
         flexDirection: 'column',

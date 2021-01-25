@@ -11,7 +11,7 @@ import { Alert, StyleSheet } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { RecordedItem, HiddenButtons } from '_listsItems';
 
-import { CONSTANTS } from '_styles';
+import { DIMENSIONS } from '_styles';
 
 import { connect } from 'react-redux';
 import { deleteAudio } from '_redux_actions';
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        paddingHorizontal: CONSTANTS.marginHorizontalItemList,
-        marginVertical: CONSTANTS.marginVerticalItemList,
+        paddingHorizontal: DIMENSIONS.marginHorizontalItemList,
+        marginVertical: DIMENSIONS.marginVerticalItemList,
     },
 });
 

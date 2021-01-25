@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { FadeInAnimation } from '_animations';
-import { CONSTANTS } from '_styles';
+import { DIMENSIONS } from '_styles';
 
 import IconII from "react-native-vector-icons/Ionicons";
 
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'red',
         borderRadius: 10,
-        marginRight: CONSTANTS.marginHorizontalItemList,
-        marginVertical: CONSTANTS.marginVerticalItemList
+        marginRight: DIMENSIONS.marginHorizontalItemList,
+        marginVertical: DIMENSIONS.marginVerticalItemList
     },
 });
 

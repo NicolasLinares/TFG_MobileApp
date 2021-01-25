@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
 	View,
-	StyleSheet
+	StyleSheet,
+	Text
 } from 'react-native';
 
 import { FilterBar, SearchBar } from '_searcher';
@@ -58,80 +59,80 @@ class HomeScreen extends Component {
 
 	handleAudioDelete = async (item) => {
 
-        // Se borra en el filesystem porque el recorder
-        // crea un fichero por cada grabación
-        let localpath = FS.DIRECTORY + '/' + item.uname;
-        storageService.deleteFile(localpath);
-        
-        // Se borra de la base de datos del servidor
-        let response = await httpService.deleteAudioHistory(item.uid);
-        if (response !== null) {
+		// Se borra en el filesystem porque el recorder
+		// crea un fichero por cada grabación
+		let localpath = FS.DIRECTORY + '/' + item.uname;
+		storageService.deleteFile(localpath);
 
-            // Se actualiza el historial
-            let m = moment(item.created_at);
-            let date = m.format('LL');
+		// Se borra de la base de datos del servidor
+		let response = await httpService.deleteAudioHistory(item.uid);
+		if (response !== null) {
 
-            this.props.deleteAudio(date, item.uid);
+			// Se actualiza el historial
+			let m = moment(item.created_at);
+			let date = m.format('LL');
 
-            // Response.count contiene el número de audios que todavía hay
-            // para el código de paciente (tag) al que pertenece el audio borrado
-            if (response.count === 0) {
-                // si ya no quedan audios para el identificador Response.tag
-                // entonces lo borramos de la lista de filtros
-                this.props.deleteFilter(response.tag);
-            }
-        }
+			this.props.deleteAudio(date, item.uid);
 
-    };
+			// Response.count contiene el número de audios que todavía hay
+			// para el código de paciente (tag) al que pertenece el audio borrado
+			if (response.count === 0) {
+				// si ya no quedan audios para el identificador Response.tag
+				// entonces lo borramos de la lista de filtros
+				this.props.deleteFilter(response.tag);
+			}
+		}
 
-    async handleGetHistory() {
-        // Con esta variable se controla tanto la animación del ActivityIndicator
-        // así como evitar que se realicen nuevas llamadas mientras se procesa esta
-        this.setState({
-            refreshing: true,
-        });
+	};
 
-        let response = await httpService.getHistory(this.state.next_page_URL);
+	async handleGetHistory() {
+		// Con esta variable se controla tanto la animación del ActivityIndicator
+		// así como evitar que se realicen nuevas llamadas mientras se procesa esta
+		this.setState({
+			refreshing: true,
+		});
 
-        if (response !== null) {
+		let response = await httpService.getHistory(this.state.next_page_URL);
 
-            let list = response.data;
+		if (response !== null) {
+
+			let list = response.data;
 			let N = list.length;
 
-            for (let i = 0; i < N; i++) {
-                // Se añade cada audio al historial de audios
-                // grabados por el médico
-                this.props.setHistory(list[i]);
-            }
+			for (let i = 0; i < N; i++) {
+				// Se añade cada audio al historial de audios
+				// grabados por el médico
+				this.props.setHistory(list[i]);
+			}
 
-            // Para el resto de peticiones ya se almacena la URL
-            // con la siguiente página
-            this.setState({
-                next_page_URL: response.next_page_url,
+			// Para el resto de peticiones ya se almacena la URL
+			// con la siguiente página
+			this.setState({
+				next_page_URL: response.next_page_url,
 				refreshing: false
-            });
-        }
-    }
+			});
+		}
+	}
 
 
-    async handleResetHistory() {
-		
+	async handleResetHistory() {
+
 		const options = { enableVibrateFallback: true, ignoreAndroidSystemSettings: false };
 		ReactNativeHapticFeedback.trigger('impactMedium', options);
-		
-        // Se vacía el historial de audios grabados
-        // para que no se dupliquen en caso de haber
-        // hecho la consulta antes
-        this.props.cleanHistory();
-		
+
+		// Se vacía el historial de audios grabados
+		// para que no se dupliquen en caso de haber
+		// hecho la consulta antes
+		this.props.cleanHistory();
+
 		this.setState({
 			next_page_URL: URL.bd.getHistory,
 		});
 
-        // GET de los audios paginados
+		// GET de los audios paginados
 		await setTimeout(() => this.handleGetHistory(), 100);
 
-    }
+	}
 
 
 	render() {

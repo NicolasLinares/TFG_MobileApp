@@ -1,5 +1,5 @@
 
-export const CONSTANTS = {
+export const DIMENSIONS = {
 
     // AudioList
     marginVerticalItemList: 2,

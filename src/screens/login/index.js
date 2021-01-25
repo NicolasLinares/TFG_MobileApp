@@ -26,6 +26,7 @@ import { showMessage } from "react-native-flash-message";
 import { httpService } from '_services';
 import * as Keychain from 'react-native-keychain';
 
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 class LoginScreen extends Component {
@@ -35,7 +36,9 @@ class LoginScreen extends Component {
 		this.state = {
 			savePssw: false,
 			email: '',
-			password: ''
+			password: '',
+
+			checkCredentials: true
 		};
 	}
 
@@ -70,10 +73,17 @@ class LoginScreen extends Component {
 
 			} else {
 				console.log('Las credenciales no se encuentran almacenadas');
+				this.setState({
+					checkCredentials: false
+				});
 			}
 		} catch (error) {
+			this.setState({
+				checkCredentials: false
+			});
 			console.log("Keychain Error: ", error);
 		}
+
 	}
 
 	rememberMe = async (remember) => {
@@ -228,25 +238,36 @@ class LoginScreen extends Component {
 	render() {
 		return (
 
-			<KeyboardAwareScrollView
-				style={styles.scrollview}
-				enableOnAndroid={true}
-				extraHeight={100}
-				keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
-			>
+			this.state.checkCredentials ?
 
-				<View style={styles.container}>
-					<Image
-						style={styles.logo}
-						source={require('_assets/logo_invox_medical.jpg')}
-					/>
+				<Spinner
+					visible={this.state.checkCredentials}
+					textContent={'Cargando...'}
+					textStyle={{ color: 'grey' }}
+					color={'grey'}
+				/>
 
-					<View width="80%">
-						{this._renderInputs()}
-						{this._renderButtons()}
+				:
+
+				<KeyboardAwareScrollView
+					style={styles.scrollview}
+					enableOnAndroid={true}
+					extraHeight={100}
+					keyboardShouldPersistTaps={'handle'} // Permite mantener el teclado aunque se haga un click fuera de él
+				>
+
+					<View style={styles.container}>
+						<Image
+							style={styles.logo}
+							source={require('_assets/logo_invox_medical.jpg')}
+						/>
+
+						<View width="80%">
+							{this._renderInputs()}
+							{this._renderButtons()}
+						</View>
 					</View>
-				</View>
-			</KeyboardAwareScrollView>
+				</KeyboardAwareScrollView>
 
 		);
 	}

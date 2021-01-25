@@ -14,7 +14,7 @@ import {
     Dimensions
 } from 'react-native';
 
-import { CONSTANTS } from '_styles';
+import { DIMENSIONS } from '_styles';
 
 import { Player } from '_controllers';
 
@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: 10,
         paddingHorizontal: 10,
-        marginHorizontal: CONSTANTS.marginHorizontalItemList,
-        marginVertical: CONSTANTS.marginVerticalItemList,
+        marginHorizontal: DIMENSIONS.marginHorizontalItemList,
+        marginVertical: DIMENSIONS.marginVerticalItemList,
     },
     info: {
         flexDirection: 'row',
