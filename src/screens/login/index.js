@@ -38,8 +38,14 @@ class LoginScreen extends Component {
 			email: '',
 			password: '',
 
-			checkCredentials: true
+			checkCredentials: false
 		};
+	}
+
+	componentWillUnmount() {
+		this.setState({
+			checkCredentials: false
+		});
 	}
 
 	componentDidMount = async () => {
@@ -49,7 +55,9 @@ class LoginScreen extends Component {
 			const credentials = await Keychain.getGenericPassword();
 			if (credentials) {
 
-
+				this.setState({
+					checkCredentials: true
+				});
 				console.log('Credenciales cargadas correctamente');
 
 				// Petición al servidor para refrescar y obetener los datos del usuario
@@ -69,21 +77,19 @@ class LoginScreen extends Component {
 					console.log('Credenciales guardadas correctamente');
 
 					this.props.navigation.navigate('App');
+				} else {
+					this.setState({
+						checkCredentials: false
+					});
 				}
 
 			} else {
 				console.log('Las credenciales no se encuentran almacenadas');
-				this.setState({
-					checkCredentials: false
-				});
+
 			}
 		} catch (error) {
-			this.setState({
-				checkCredentials: false
-			});
 			console.log("Keychain Error: ", error);
 		}
-
 	}
 
 	rememberMe = async (remember) => {
