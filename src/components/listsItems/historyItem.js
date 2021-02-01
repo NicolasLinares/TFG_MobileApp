@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
 });
 
 
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		updateTranscription: (date, uid, transcription) => dispatch(updateTranscription(date, uid, transcription)),

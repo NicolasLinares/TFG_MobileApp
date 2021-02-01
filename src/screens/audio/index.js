@@ -82,6 +82,7 @@ class AudioScreen extends Component {
 		
 		if (this.state.status !== 'Completada')
 			this.interval = setInterval(() => this.checkTranscript(), 3000);
+			
 	}
 
 	componentWillUnmount() {
@@ -106,6 +107,7 @@ class AudioScreen extends Component {
 			}
 		}
 	}
+
 
 	getDate(timestamp) {
 		m = moment(timestamp);
