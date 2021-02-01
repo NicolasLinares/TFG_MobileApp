@@ -5,18 +5,7 @@
 * @author Nicolás Linares La Barba <nlbarba97@gmail.com>
 */
 
-
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
-
-import AudioRecorderPlayer, {
-	AVEncoderAudioQualityIOSType,
-	AVEncodingOption,
-	AudioEncoderAndroidType,
-	AudioSourceAndroidType
-} from 'react-native-audio-recorder-player';
-
-import * as FS from '_constants';
 
 import moment from 'moment';
 import 'moment/locale/es';
@@ -26,18 +15,13 @@ import { RecordButton } from '_buttons';
 import { connect } from 'react-redux';
 import { addAudio } from '_redux_actions';
 
-import { storageService } from '_services';
-
-
 import AudioRecord from 'react-native-audio-record';
-
 
 class Recorder extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			recorder: new AudioRecorderPlayer(),
 			audio: null,
 			isRecording: false,
 
@@ -45,6 +29,7 @@ class Recorder extends Component {
 			minutes_Counter: '00',
 			seconds_Counter: '00',
 		};
+
 	}
 
 	componentWillUnmount() {
@@ -79,71 +64,41 @@ class Recorder extends Component {
 		});
 	}
 
-	setAudioPath() {
-
-		let name = 'audio_' + moment().format('DDMMYYYY_HHmmss');
-		let extension = 'wav'
-
-		let path = Platform.select({
-			ios: name + '.' + extension,
-			android: FS.DIRECTORY + '/' + name + '.' + extension,
-		});
-
-		return [name, extension, path];
-	}
-
-	async getCreatedTime(file_path) {
-		let path = file_path.replace('file://', '');
-		let timestamp = (await storageService.getFileInfo(path)).lastModified;
-		let m = moment(timestamp);
-		return m.format('HH:mm');
-	}
-
-	async startRecorder() {
-
-		const audioSet = {
-			AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-			AudioSourceAndroid: AudioSourceAndroidType.MIC,
-			AudioSamplingRateAndroid: 16000,
-
-			AVNumberOfChannelsKeyIOS: 1,
-			AVSampleRateKeyIOS: 16000,
-			AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.min,
-			AVFormatIDKeyIOS: AVEncodingOption.lpcm,
-		};
-
-
-		let audiofile = this.setAudioPath();
-		let name = audiofile[0];
-		let extension = audiofile[1];
-		let path = audiofile[2];
-
-		let file_path = await this.state.recorder.startRecorder(path, audioSet, true); // devuelve en formato file://path
-		let ctime = await this.getCreatedTime(file_path);
-		let audio = {
-			name: name,
-			extension: extension,
-			uname: name + '.' + extension,
-			ctime: ctime,
-		};
-
-		this.state.recorder.addRecordBackListener();
-		return audio;
-	};
-
-
-	async stopRecorder() {
-		await this.state.recorder.stopRecorder();
-		this.state.recorder.removeRecordBackListener();
-	};
-
-
 	async handleRecorder() {
-		// START recording
 		if (!this.state.isRecording) {
-			let newAudio = await this.startRecorder();
 
+			// Se inicia el contador
 			this.startTimer();
+
+			// Inicializa el nombre y extensión del audio
+			let time = moment(moment.now());
+			let name = 'audio_' + time.format('DDMMYYYY_HHmmss');
+			let extension = 'wav';
+			let filename = name + '.' + extension;
+
+			// Configura los parámetros del audio
+			let options = {
+				sampleRate: 16000,  // default 44100
+				channels: 1,        // 1 or 2, default 1
+				bitsPerSample: 16,  // 8 or 16, default 16
+				wavFile: filename 	// default 'audio.wav'
+			};
+
+			// Comienza la grabación
+			AudioRecord.init(options);
+			AudioRecord.start();
+			AudioRecord.on('data', data => {
+				// "base64-encoded audio data chunks" (No funciona correctamente)
+				// No se hace nada con data pero es necesario que esté así para funcionar
+			});
+
+			// Almacena los datos del audio para añadirlos después a la lista
+			let newAudio = {
+				name: name,
+				extension: extension,
+				uname: filename,
+				ctime: time.format('HH:mm'),
+			};
 
 			this.setState({
 				audio: newAudio,
@@ -152,11 +107,13 @@ class Recorder extends Component {
 
 		} else {
 
-			// STOP recording
-			await this.stopRecorder();
-
+			// Se para el contador
 			this.stopTimer();
 
+			// Finaliza la grabación
+			let path = await AudioRecord.stop();
+			console.log(this.state.audio.name + ' - Almacenado localmente en la ruta: ' + path);
+			// Se añade el nuevo audio a la lista de nuevos audios
 			this.props.addNewAudio(this.state.audio);
 
 			// Reinicia valores
