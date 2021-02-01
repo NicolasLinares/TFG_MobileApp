@@ -23,23 +23,63 @@ import { UIActivityIndicator } from 'react-native-indicators';
 
 
 import moment from 'moment';
+import { httpService } from '_services';
+
+import { connect } from 'react-redux';
+import { updateTranscription} from '_redux_actions';
 
 class HistoryItem extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            uid: this.props.item.uid,
             name: this.props.item.name,
+            date: this.getDate(this.props.item.created_at),
             created_time: this.getCreatedTime(this.props.item.created_at),
             tag: this.props.item.tag,
             status: this.props.item.status,
         }
+
+        this.interval = null;
     }
 
     getCreatedTime(timestamp) {
         m = moment(timestamp);
         return m.format('HH:mm');
     }
+
+    getDate(timestamp) {
+		m = moment(timestamp);
+		return m.format('LL');
+	}
+
+    async componentDidMount() {
+		
+		if (this.state.status !== 'Completada')
+			this.interval = setInterval(() => this.checkTranscript(), 3000);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.interval);
+	}
+
+	async checkTranscript() {
+		let response = await httpService.getTranscript(this.state.uid);
+
+		if (response !== null) {
+
+			if (response.status === 'Completada') {
+				clearInterval(this.interval);
+
+				// Se actualiza la transcripción
+                this.setState({ status: response.status });
+                
+                // añadir a redux para no volver a hacer la petición si ya está
+				this.props.updateTranscription(this.state.date, this.state.uid, response.text); 
+			}
+		}
+	}
 
 
     _renderStatus() {
@@ -155,7 +195,13 @@ const styles = StyleSheet.create({
 });
 
 
-export default HistoryItem;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateTranscription: (date, uid, transcription) => dispatch(updateTranscription(date, uid, transcription)),
+	}
+}
+
+export default connect(null, mapDispatchToProps)(HistoryItem);
 
 
 

@@ -15,7 +15,7 @@ export async function httpRequest(configProps, method, url, headers, body) {
 		)
 		.then((response) => {
 			let status = response.info().status;
-
+			
 			if (status === 401) { //Unauthorized
 				let body_null = {
 					error: null

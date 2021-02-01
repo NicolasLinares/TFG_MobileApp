@@ -3,7 +3,7 @@ import * as FS from '_constants';
 import store from '_redux_store';
 import { deleteAudio, cleanTags, cleanHistory } from '_redux_actions';
 
-import { httpService } from '../http/api_UMU/audioRequests';
+import * as httpService from '../http';
 import { existsLocally } from './stat';
 
 import RNFetchBlob from 'rn-fetch-blob';
@@ -47,7 +47,7 @@ export async function deleteListFiles(audiolist) {
     Elimina la lista pasada como parámetro del almacenamiento local del dispositivo,
     así como del estado global (redux)
 */
-export async function deleteAllFiles(audiolist) {
+export async function deleteAllFiles() {
 
     await RNFetchBlob.fs.lstat(FS.DIRECTORY)
         .then(async (stats) => {
