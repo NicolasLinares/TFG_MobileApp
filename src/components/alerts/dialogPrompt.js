@@ -75,6 +75,7 @@ class DialogPrompt extends Component {
                     value={this.props.value}
                     onChangeText={value => this.props.onChangeText(value)}
                     selectTextOnFocus={true}
+                    maxLength={32}
                     focusable={true}
                     autoFocus={true}
                 />

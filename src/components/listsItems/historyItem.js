@@ -57,7 +57,7 @@ class HistoryItem extends Component {
     async componentDidMount() {
 		
 		if (this.state.status !== 'Completada')
-			this.interval = setInterval(() => this.checkTranscript(), 3000);
+			this.interval = setInterval(() => this.checkTranscript(), 15*1000);
 	}
 
 	componentWillUnmount() {

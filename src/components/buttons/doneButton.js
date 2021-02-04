@@ -87,6 +87,8 @@ class DoneButton extends Component {
                 }
             }
 
+            setTimeout(() => this.props.nav.goBack(), 500);
+
         } else {
             Alert.alert(
                 'Código de paciente',
@@ -97,7 +99,6 @@ class DoneButton extends Component {
 
         this.uploadingData = false;
 
-        setTimeout(() => this.props.nav.goBack(), 500);
     }
 
     _renderSendButton = () => {

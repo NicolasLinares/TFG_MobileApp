@@ -81,7 +81,7 @@ class AudioScreen extends Component {
 
 		
 		if (this.state.status !== 'Completada')
-			this.interval = setInterval(() => this.checkTranscript(), 3000);
+			this.interval = setInterval(() => this.checkTranscript(), 15*1000);
 			
 	}
 
@@ -243,7 +243,7 @@ class AudioScreen extends Component {
 
 
 	_renderActionsInputChanges = () => (
-		<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+		<View style={{flexDirection: 'row', justifyContent: 'center', width: 70 }}>
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => this.handleCancelUpdateDescription()}
@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		paddingHorizontal: 15
+		paddingHorizontal: 10
 	},
 
 	line: {
